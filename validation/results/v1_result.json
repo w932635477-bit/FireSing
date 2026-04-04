@@ -1,0 +1,10 @@
+{
+  "test": "V1_vocal_separation",
+  "status": "PASS",
+  "tool": "demucs_htdemucs",
+  "processing_time_s": 6.8,
+  "vocals_file": "test-data/output/v1_vocals.wav",
+  "instrumental_file": "test-data/output/v1_instrumental.wav",
+  "gpu_used": true,
+  "notes": "人声分离完成, 需要人工听确认质量"
+}

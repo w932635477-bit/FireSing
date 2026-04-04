@@ -1,0 +1,41 @@
+{
+  "test": "rvc_real_inference",
+  "status": "PASS",
+  "model": "real_voice",
+  "f0_method": "harvest",
+  "total_inference_time_s": 22.98,
+  "success_count": 5,
+  "fail_count": 0,
+  "segments": [
+    {
+      "file": "line_001.wav",
+      "time_s": 5.62,
+      "size_kb": 263,
+      "status": "success"
+    },
+    {
+      "file": "line_002.wav",
+      "time_s": 4.03,
+      "size_kb": 544,
+      "status": "success"
+    },
+    {
+      "file": "line_003.wav",
+      "time_s": 7.02,
+      "size_kb": 1178,
+      "status": "success"
+    },
+    {
+      "file": "line_004.wav",
+      "time_s": 4.22,
+      "size_kb": 370,
+      "status": "success"
+    },
+    {
+      "file": "line_005.wav",
+      "time_s": 2.09,
+      "size_kb": 8,
+      "status": "success"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "test": "V7_video_generation",
+  "status": "PASS",
+  "processing_time_s": 4.3,
+  "output_file": "test-data/output/v7_video.mp4",
+  "video_size_mb": 0.5,
+  "resolution": "1080x1920",
+  "codec": "h264+aac",
+  "notes": "视频+字幕生成成功, 请人工确认播放效果"
+}

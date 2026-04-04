@@ -1,0 +1,10 @@
+{
+  "test": "V2_lyrics_alignment",
+  "status": "PASS",
+  "tool": "whisper_large_v3",
+  "processing_time_s": 29.1,
+  "total_segments": 5,
+  "avg_segment_duration_s": 6.07,
+  "segments_file": "validation/results/v2_segments.json",
+  "notes": "歌词对齐完成, 需要人工确认时间戳准确性"
+}

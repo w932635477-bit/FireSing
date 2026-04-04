@@ -1,0 +1,13 @@
+{
+  "test": "V3_voice_conversion",
+  "status": "PASS",
+  "tool": "pitch_shift_simulation",
+  "rvc_real": false,
+  "voice_models_found": [
+    "test_voice"
+  ],
+  "processing_time_s": 1.5,
+  "total_segments": 5,
+  "output_file": "test-data/output/v3_mixed_vocals.wav",
+  "notes": "音色转换完成 (pitch-shift 模拟)"
+}

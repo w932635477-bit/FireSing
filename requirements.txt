@@ -1,0 +1,17 @@
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+sqlalchemy>=2.0.0
+pydantic>=2.5.0
+pydub>=0.25.1
+soundfile>=0.12.1
+httpx>=0.25.0
+python-multipart>=0.0.6
+requests-toolbelt>=1.0.0
+aiofiles>=23.2.0
+edge-tts>=7.0.0
+audioop-lts>=0.2.0
+
+# Dev dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+httpx  # also used for TestClient

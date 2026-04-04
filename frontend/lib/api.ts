@@ -1,0 +1,188 @@
+const API_BASE = "/api";
+
+// --- Types ---
+
+export interface Song {
+  id: string;
+  title: string;
+  status: string;
+  lrc_path?: string | null;
+  vocals_path?: string | null;
+  instrumental_path?: string | null;
+  monologue_text?: string | null;
+  monologue_position?: string | null;
+  error_message?: string | null;
+  created_at?: string | null;
+}
+
+export interface Segment {
+  id: string;
+  line_number: number;
+  text: string;
+  start_time: number;
+  end_time: number;
+  vocal_path?: string | null;
+  voice_model_id?: string | null;
+  converted_vocal_path?: string | null;
+}
+
+export interface VoiceModel {
+  id: string;
+  name: string;
+  is_preset: boolean;
+}
+
+export interface Output {
+  id: string;
+  format: string;
+  file_url: string;
+  file_size?: number | null;
+  duration?: number | null;
+}
+
+export interface PipelineProgress {
+  step: string;
+  pct: number;
+  message: string;
+  step_failed?: string | null;
+  error_detail?: string | null;
+}
+
+export interface VoiceAssignRequest {
+  assignments?: { line_number: number; voice_model_id: string }[];
+  voice_pool?: string[];
+  strategy: "manual" | "round-robin" | "random";
+}
+
+export interface ProcessRequest {
+  voice_pool: string[];
+  strategy: "round-robin" | "random";
+  monologue_text?: string;
+  monologue_position?: "beginning" | "end";
+}
+
+// --- Helpers ---
+
+async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, init);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`API ${res.status}: ${body}`);
+  }
+  return res.json();
+}
+
+// --- Songs ---
+
+export async function listSongs(): Promise<{ songs: Song[] }> {
+  return apiFetch("/songs");
+}
+
+export async function getSong(id: string): Promise<Song> {
+  return apiFetch(`/songs/${id}`);
+}
+
+export async function uploadSong(audio: File, lrc?: File): Promise<Song> {
+  const form = new FormData();
+  form.append("audio", audio);
+  if (lrc) form.append("lrc", lrc);
+  return apiFetch("/songs", { method: "POST", body: form });
+}
+
+export async function deleteSong(id: string): Promise<void> {
+  await apiFetch(`/songs/${id}`, { method: "DELETE" });
+}
+
+export async function uploadLrc(songId: string, lrc: File) {
+  const form = new FormData();
+  form.append("lrc", lrc);
+  return apiFetch(`/songs/${songId}/lrc`, { method: "PUT", body: form });
+}
+
+export async function getSegments(songId: string): Promise<{ segments: Segment[] }> {
+  return apiFetch(`/songs/${songId}/segments`);
+}
+
+export async function assignVoices(songId: string, req: VoiceAssignRequest) {
+  return apiFetch(`/songs/${songId}/voices`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(req),
+  });
+}
+
+// --- Voices ---
+
+export async function listVoices(): Promise<{ voices: VoiceModel[] }> {
+  return apiFetch("/voices");
+}
+
+export async function uploadVoice(pth: File, index: File | null, name: string): Promise<VoiceModel> {
+  const form = new FormData();
+  form.append("pth_file", pth);
+  if (index) form.append("index_file", index);
+  form.append("name", name);
+  return apiFetch("/voices", { method: "POST", body: form });
+}
+
+// --- Pipeline ---
+
+export async function startProcess(songId: string, req: ProcessRequest) {
+  return apiFetch(`/songs/${songId}/process`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(req),
+  });
+}
+
+export function connectProgress(
+  songId: string,
+  onProgress: (p: PipelineProgress) => void,
+  onError?: (e: Event) => void,
+): EventSource {
+  const es = new EventSource(`${API_BASE}/songs/${songId}/progress`);
+  es.onmessage = (e) => {
+    const data: PipelineProgress = JSON.parse(e.data);
+    onProgress(data);
+    if (data.step === "done" || data.step === "error") {
+      es.close();
+    }
+  };
+  es.onerror = (e) => {
+    if (onError) onError(e);
+  };
+  return es;
+}
+
+// --- Outputs ---
+
+export async function getOutputs(songId: string): Promise<{ outputs: Output[] }> {
+  return apiFetch(`/songs/${songId}/outputs`);
+}
+
+// --- Status helpers ---
+
+export function statusLabel(status: string): string {
+  const map: Record<string, string> = {
+    uploaded: "已上传",
+    separating: "分离人声",
+    separated: "已分离",
+    segmented: "已切分",
+    assigning: "分配音色",
+    converting: "RVC 转换",
+    chorus: "合唱检测",
+    monologue: "生成独白",
+    mixing: "混音",
+    video: "生成视频",
+    done: "完成",
+    error: "错误",
+  };
+  return map[status] || status;
+}
+
+export function statusColor(status: string): string {
+  if (status === "done") return "bg-green-100 text-green-800";
+  if (status === "error") return "bg-red-100 text-red-800";
+  if (["uploaded"].includes(status)) return "bg-gray-100 text-gray-800";
+  return "bg-blue-100 text-blue-800";
+}

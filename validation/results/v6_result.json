@@ -1,0 +1,10 @@
+{
+  "test": "V6_monologue",
+  "status": "PASS",
+  "tts_available": true,
+  "tts_voice": "zh-CN-YunxiNeural",
+  "processing_time_s": 1.8,
+  "monologue_duration_s": 7.824,
+  "output_file": "test-data/output/v6_with_monologue_beginning.wav",
+  "notes": "独白已插入开头, 需要人工确认过渡平滑"
+}

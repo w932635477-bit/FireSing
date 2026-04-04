@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Data (runtime, not versioned)
+data/
+*.db
+*.sqlite3
+
+# Models (large files)
+models/
+*.pth
+*.index
+*.pt
+
+# Test data
+test-data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Node
+node_modules/
+.next/
+frontend/node_modules/
+frontend/.next/
+
+# Outputs
+*.wav
+*.mp3
+*.mp4
+!validation/test-data/
+
+# Validation (keep scripts, ignore outputs)
+validation/results_download/
