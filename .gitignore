@@ -53,3 +53,14 @@ frontend/.next/
 # Validation (keep scripts, ignore outputs)
 validation/results_download/
 .gstack/
+
+# Claude Code local config
+.claude/
+
+# Playwright CLI test artifacts
+.playwright-cli/
+
+# Temporary test files
+test_*.mp3
+test_*.lrc
+song-detail-full.yml
