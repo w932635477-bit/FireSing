@@ -13,13 +13,23 @@ import {
   getOutputs,
   startProcess,
   statusLabel,
-  statusColor,
   type Song,
   type Segment,
   type VoiceModel,
   type Output,
   type ProcessRequest,
 } from "@/lib/api";
+
+const VOICE_COLORS = [
+  { chip: "voice-chip-red", dot: "bg-ember", label: "珊瑚红" },
+  { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
+  { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
+  { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
+  { chip: "voice-chip-red", dot: "bg-ember", label: "珊瑚红" },
+  { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
+  { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
+  { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
+];
 
 export default function SongDetailPage() {
   const params = useParams();
@@ -32,13 +42,11 @@ export default function SongDetailPage() {
   const [outputs, setOutputs] = useState<Output[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Monologue settings
   const [monologueText, setMonologueText] = useState("");
   const [monologuePosition, setMonologuePosition] = useState<"beginning" | "end">("beginning");
-
-  // Upload states
   const [voiceUploading, setVoiceUploading] = useState(false);
   const [lrcUploading, setLrcUploading] = useState(false);
+  const [showVoiceUpload, setShowVoiceUpload] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -50,7 +58,6 @@ export default function SongDetailPage() {
       setSong(songData);
       setSegments(segData.segments || []);
       setVoices(voiceData.voices || []);
-
       if (songData.status === "done") {
         const outData = await getOutputs(songId).catch(() => ({ outputs: [] }));
         setOutputs(outData.outputs || []);
@@ -62,9 +69,7 @@ export default function SongDetailPage() {
     }
   }, [songId]);
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  useEffect(() => { load(); }, [load]);
 
   async function handleUploadLrc(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -72,54 +77,22 @@ export default function SongDetailPage() {
     const lrc = fd.get("lrc") as File;
     if (!lrc || lrc.size === 0) return;
     setLrcUploading(true);
-    try {
-      await uploadLrc(songId, lrc);
-      await load();
-    } catch (e) {
-      alert(`LRC 上传失败: ${e instanceof Error ? e.message : e}`);
-    } finally {
-      setLrcUploading(false);
-    }
+    try { await uploadLrc(songId, lrc); await load(); }
+    catch (e) { alert(`LRC 上传失败: ${e instanceof Error ? e.message : e}`); }
+    finally { setLrcUploading(false); }
   }
 
   async function handleAssignRoundRobin() {
     if (voices.length === 0) return alert("请先上传音色模型");
-    try {
-      await assignVoices(songId, {
-        voice_pool: voices.map((v) => v.id),
-        strategy: "round-robin",
-      });
-      await load();
-    } catch (e) {
-      alert(`分配失败: ${e instanceof Error ? e.message : e}`);
-    }
-  }
-
-  async function handleAssignRandom() {
-    if (voices.length === 0) return alert("请先上传音色模型");
-    try {
-      await assignVoices(songId, {
-        voice_pool: voices.map((v) => v.id),
-        strategy: "random",
-      });
-      await load();
-    } catch (e) {
-      alert(`分配失败: ${e instanceof Error ? e.message : e}`);
-    }
+    try { await assignVoices(songId, { voice_pool: voices.map((v) => v.id), strategy: "round-robin" }); await load(); }
+    catch (e) { alert(`分配失败: ${e instanceof Error ? e.message : e}`); }
   }
 
   async function handleManualAssign(segId: string, voiceId: string) {
     const seg = segments.find((s) => s.id === segId);
     if (!seg) return;
-    try {
-      await assignVoices(songId, {
-        assignments: [{ line_number: seg.line_number, voice_model_id: voiceId }],
-        strategy: "manual",
-      });
-      await load();
-    } catch (e) {
-      alert(`分配失败: ${e instanceof Error ? e.message : e}`);
-    }
+    try { await assignVoices(songId, { assignments: [{ line_number: seg.line_number, voice_model_id: voiceId }], strategy: "manual" }); await load(); }
+    catch (e) { alert(`分配失败: ${e instanceof Error ? e.message : e}`); }
   }
 
   async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
@@ -130,20 +103,14 @@ export default function SongDetailPage() {
     const name = fd.get("name") as string;
     if (!pth || !name) return;
     setVoiceUploading(true);
-    try {
-      await uploadVoice(pth, idx?.size > 0 ? idx : null, name);
-      await load();
-    } catch (e) {
-      alert(`音色上传失败: ${e instanceof Error ? e.message : e}`);
-    } finally {
-      setVoiceUploading(false);
-    }
+    try { await uploadVoice(pth, idx?.size > 0 ? idx : null, name); await load(); setShowVoiceUpload(false); }
+    catch (e) { alert(`音色上传失败: ${e instanceof Error ? e.message : e}`); }
+    finally { setVoiceUploading(false); }
   }
 
   async function handleStartProcess() {
     const assigned = segments.filter((s) => s.voice_model_id);
     if (assigned.length === 0) return alert("请先分配音色");
-
     const pool = [...new Set(assigned.map((s) => s.voice_model_id!))];
     const req: ProcessRequest = {
       voice_pool: pool,
@@ -151,201 +118,337 @@ export default function SongDetailPage() {
       monologue_text: monologueText || undefined,
       monologue_position: monologuePosition,
     };
-
-    try {
-      await startProcess(songId, req);
-      router.push(`/songs/${songId}/process`);
-    } catch (e) {
-      alert(`启动失败: ${e instanceof Error ? e.message : e}`);
-    }
+    try { await startProcess(songId, req); router.push(`/songs/${songId}/process`); }
+    catch (e) { alert(`启动失败: ${e instanceof Error ? e.message : e}`); }
   }
 
-  if (loading) return <div className="p-8 text-gray-400">加载中...</div>;
-  if (!song) return <div className="p-8 text-red-500">歌曲不存在</div>;
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <span className="material-symbols-outlined text-5xl text-ember animate-pulse">hourglass_empty</span>
+    </div>
+  );
+  if (!song) return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-error text-lg">歌曲不存在</p>
+    </div>
+  );
 
   const hasSegments = segments.length > 0;
   const allAssigned = segments.length > 0 && segments.every((s) => s.voice_model_id);
   const canProcess = allAssigned && !["separating", "segmenting", "assigning", "converting", "chorus", "monologue", "mixing", "video"].includes(song.status);
+  const isProcessing = ["separating", "segmenting", "assigning", "converting", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isDone = song.status === "done";
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{song.title}</h1>
-          <div className="flex items-center gap-2 mt-1">
-            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColor(song.status)}`}>
+    <div className="bg-surface-container-lowest min-h-screen">
+      {/* Top Nav */}
+      <header className="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-black/60 backdrop-blur-xl z-50 shadow-[0_8px_32px_rgba(255,107,53,0.15)]">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-2xl font-black text-ember tracking-tight">FireSing</Link>
+          <div className="h-6 w-px bg-white/10 mx-2" />
+          <div className="flex items-center gap-3">
+            <h1 className="text-xl font-bold text-white tracking-tight">{song.title}</h1>
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-ember/20 text-ember border border-ember/30 flex items-center gap-1">
+              <span className={`w-1.5 h-1.5 rounded-full ${isDone ? "bg-success" : isProcessing ? "bg-warning animate-pulse" : song.status === "error" ? "bg-error" : "bg-ember"} ${isProcessing ? "animate-pulse" : ""}`} />
               {statusLabel(song.status)}
             </span>
-            {song.error_message && (
-              <span className="text-xs text-red-500">{song.error_message}</span>
-            )}
           </div>
         </div>
-        <Link href="/" className="text-sm text-gray-500 hover:text-gray-700">← 返回列表</Link>
-      </div>
-
-      {/* LRC Upload (if no LRC) */}
-      {song.status === "uploaded" && !song.lrc_path && (
-        <div className="bg-white rounded-xl border p-5">
-          <h2 className="font-semibold mb-3">上传歌词文件</h2>
-          <form onSubmit={handleUploadLrc} className="flex gap-3 items-end">
-            <input name="lrc" type="file" accept=".lrc,.txt" required className="text-sm" />
-            <button type="submit" disabled={lrcUploading} className="px-4 py-1.5 bg-gray-900 text-white rounded-lg text-sm hover:bg-gray-800 disabled:opacity-50">
-              {lrcUploading ? "上传中..." : "上传 LRC"}
-            </button>
-          </form>
-        </div>
-      )}
-
-      {/* Voice Models */}
-      <div className="bg-white rounded-xl border p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="font-semibold">音色模型 ({voices.length})</h2>
-          <details className="group">
-            <summary className="text-sm text-blue-600 cursor-pointer">+ 上传新音色</summary>
-            <form onSubmit={handleUploadVoice} className="mt-3 space-y-2 border-t pt-3">
-              <input name="name" placeholder="音色名称" required className="w-full px-3 py-1.5 border rounded text-sm" />
-              <div className="flex gap-3">
-                <input name="pth_file" type="file" accept=".pth" required className="text-sm flex-1" />
-                <input name="index_file" type="file" accept=".index" className="text-sm flex-1" />
-              </div>
-              <button type="submit" disabled={voiceUploading} className="px-4 py-1.5 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 disabled:opacity-50">
-                {voiceUploading ? "上传中..." : "上传"}
-              </button>
-            </form>
-          </details>
-        </div>
-        {voices.length === 0 ? (
-          <p className="text-sm text-gray-400">还没有音色模型，请上传 .pth 文件</p>
-        ) : (
-          <div className="flex flex-wrap gap-2">
-            {voices.map((v) => (
-              <span key={v.id} className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm">
-                {v.name}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Segment List + Voice Assignment */}
-      {hasSegments && (
-        <div className="bg-white rounded-xl border p-5">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold">歌词段落 ({segments.length})</h2>
-            <div className="flex gap-2">
-              <button onClick={handleAssignRoundRobin} className="px-3 py-1 bg-blue-50 text-blue-700 rounded text-sm hover:bg-blue-100">
-                Round-Robin
-              </button>
-              <button onClick={handleAssignRandom} className="px-3 py-1 bg-blue-50 text-blue-700 rounded text-sm hover:bg-blue-100">
-                随机分配
-              </button>
-            </div>
-          </div>
-          <div className="space-y-1">
-            {segments.map((seg) => (
-              <div key={seg.id} className="flex items-center gap-3 py-2 border-b last:border-0">
-                <span className="w-8 text-xs text-gray-400 font-mono">{seg.line_number}</span>
-                <span className="flex-1 text-sm text-gray-900">{seg.text}</span>
-                <span className="text-xs text-gray-400">
-                  {seg.start_time.toFixed(1)}s - {seg.end_time.toFixed(1)}s
-                </span>
-                <select
-                  value={seg.voice_model_id || ""}
-                  onChange={(e) => handleManualAssign(seg.id, e.target.value)}
-                  className="text-sm border rounded px-2 py-1"
-                >
-                  <option value="">未分配</option>
-                  {voices.map((v) => (
-                    <option key={v.id} value={v.id}>{v.name}</option>
-                  ))}
-                </select>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Process Controls */}
-      {canProcess && (
-        <div className="bg-white rounded-xl border p-5 space-y-4">
-          <h2 className="font-semibold">处理设置</h2>
-          <div className="flex gap-4 items-end">
-            <div className="flex-1">
-              <label className="block text-sm text-gray-600 mb-1">独白文本（可选）</label>
-              <input
-                value={monologueText}
-                onChange={(e) => setMonologueText(e.target.value)}
-                placeholder="大家好，我是..."
-                className="w-full px-3 py-1.5 border rounded text-sm"
-              />
-            </div>
-            <div>
-              <label className="block text-sm text-gray-600 mb-1">位置</label>
-              <select
-                value={monologuePosition}
-                onChange={(e) => setMonologuePosition(e.target.value as "beginning" | "end")}
-                className="border rounded px-2 py-1.5 text-sm"
-              >
-                <option value="beginning">开头</option>
-                <option value="end">结尾</option>
-              </select>
-            </div>
-          </div>
-          <button
-            onClick={handleStartProcess}
-            className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
-          >
-            开始处理
-          </button>
-        </div>
-      )}
-
-      {/* Active processing indicator */}
-      {["separating", "segmenting", "assigning", "converting", "chorus", "monologue", "mixing", "video"].includes(song.status) && (
-        <div className="bg-blue-50 rounded-xl border border-blue-200 p-5 text-center">
-          <p className="text-blue-700 font-medium">正在处理中...</p>
-          <Link href={`/songs/${songId}/process`} className="text-sm text-blue-600 underline mt-1 inline-block">
-            查看进度
+        <div className="flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6">
+            <Link href={`/songs/${songId}`} className="text-ember font-bold border-b-2 border-ember py-1 text-sm">详情</Link>
+            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white transition-colors text-sm">曲库</Link>
+            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white transition-colors text-sm">工作室</Link>
+          </nav>
+          <Link href="/dashboard" className="bg-ember text-on-primary-fixed font-bold px-4 py-2 rounded-lg text-sm hover:scale-[0.98] transition-transform active:brightness-90">
+            上传新歌曲
           </Link>
         </div>
-      )}
+      </header>
 
-      {/* Outputs */}
-      {isDone && outputs.length > 0 && (
-        <div className="bg-white rounded-xl border p-5">
-          <h2 className="font-semibold mb-4">输出文件</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {outputs.map((out) => (
-              <div key={out.id} className="border rounded-lg p-4 flex flex-col items-center gap-3">
-                {out.format === "video" ? (
-                  <video controls className="w-full rounded" src={out.file_url}>
-                    <track kind="captions" />
-                  </video>
-                ) : (
-                  <audio controls className="w-full" src={out.file_url} />
-                )}
-                <div className="flex items-center gap-2 w-full">
-                  <span className="text-sm text-gray-600 flex-1">
-                    {out.format === "video" ? "视频 (MP4)" : "音频 (WAV)"}
-                    {out.duration && ` · ${out.duration.toFixed(0)}s`}
-                    {out.file_size && ` · ${(out.file_size / 1024 / 1024).toFixed(1)}MB`}
-                  </span>
-                  <a
-                    href={out.file_url}
-                    download
-                    className="px-3 py-1 bg-gray-900 text-white rounded text-sm hover:bg-gray-800"
-                  >
-                    下载
-                  </a>
+      <main className="max-w-4xl mx-auto pt-28 pb-20 px-6">
+        {/* 1. LRC File */}
+        {song.status === "uploaded" && !song.lrc_path && (
+          <section className="mb-10">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">description</span>
+              1. 歌词文件
+            </h2>
+            <div className="bg-surface-container-low rounded-xl p-5 flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-ember">
+                  <span className="material-symbols-outlined text-3xl">lyrics</span>
+                </div>
+                <div>
+                  <div className="font-bold text-white">上传 LRC 歌词文件</div>
+                  <div className="text-sm text-on-surface-variant">支持 .lrc 和 .txt 格式</div>
                 </div>
               </div>
-            ))}
+              <form onSubmit={handleUploadLrc} className="flex gap-3 items-center">
+                <input name="lrc" type="file" accept=".lrc,.txt" required className="text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ember/20 file:text-ember" />
+                <button type="submit" disabled={lrcUploading} className="px-4 py-2 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg text-sm font-bold disabled:opacity-50 active:scale-[0.98] transition-transform">
+                  {lrcUploading ? "上传中..." : "上传"}
+                </button>
+              </form>
+            </div>
+          </section>
+        )}
+
+        {/* LRC uploaded confirmation */}
+        {song.lrc_path && (
+          <section className="mb-10">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">description</span>
+              1. 歌词文件
+            </h2>
+            <div className="bg-surface-container-low rounded-xl p-5 flex items-center justify-between group hover:bg-surface-container transition-colors">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-ember">
+                  <span className="material-symbols-outlined text-3xl">lyrics</span>
+                </div>
+                <div>
+                  <div className="font-bold text-white">歌词已上传</div>
+                  <div className="text-sm text-on-surface-variant font-mono">LRC 文件就绪</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-success font-bold text-sm bg-success/10 px-3 py-1.5 rounded-full">
+                <span>已就绪</span>
+                <span className="material-symbols-outlined text-sm">check_circle</span>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 2. Voice Models */}
+        <section className="mb-10">
+          <div className="flex justify-between items-end mb-4">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">record_voice_over</span>
+              2. 音色模型
+            </h2>
+            <button
+              onClick={() => setShowVoiceUpload(!showVoiceUpload)}
+              className="text-xs font-bold text-ember hover:underline flex items-center gap-1"
+            >
+              <span className="material-symbols-outlined text-xs">add</span>
+              上传新音色
+            </button>
           </div>
+
+          {showVoiceUpload && (
+            <form onSubmit={handleUploadVoice} className="bg-surface-container-low rounded-xl p-5 mb-4 space-y-3 border border-ember/20">
+              <input name="name" placeholder="音色名称" required className="w-full bg-surface-container-high text-on-surface px-4 py-2.5 rounded-lg text-sm focus:ring-2 focus:ring-ember/40 transition-all placeholder:text-on-surface-variant/40" />
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <label className="block text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">.pth 模型文件 *</label>
+                  <input name="pth_file" type="file" accept=".pth" required className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-ember/20 file:text-ember" />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">.index 索引文件</label>
+                  <input name="index_file" type="file" accept=".index" className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-container-high file:text-on-surface" />
+                </div>
+              </div>
+              <button type="submit" disabled={voiceUploading} className="px-4 py-2 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg text-sm font-bold disabled:opacity-50 active:scale-[0.98] transition-transform">
+                {voiceUploading ? "上传中..." : "上传音色"}
+              </button>
+            </form>
+          )}
+
+          {voices.length === 0 ? (
+            <div className="bg-surface-container-low rounded-xl p-8 text-center">
+              <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">settings_voice</span>
+              <p className="text-on-surface-variant text-sm">还没有音色模型，请上传 .pth 文件</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {voices.map((v, i) => {
+                const color = VOICE_COLORS[i % VOICE_COLORS.length];
+                return (
+                  <div key={v.id} className="bg-surface-container-low p-4 rounded-xl border border-white/5 flex flex-col items-center gap-3 hover:bg-surface-container-high transition-all cursor-pointer">
+                    <div className={`w-16 h-16 rounded-full flex items-center justify-center bg-surface-container-high border-2 ${color.dot.replace("bg-", "border-")}`}>
+                      <span className="material-symbols-outlined text-2xl text-on-surface-variant">mic</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="font-bold text-sm">{v.name}</div>
+                      <div className={`text-[10px] font-mono mt-1 px-2 py-0.5 rounded-full ${color.chip}`}>{color.label}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
+        {/* 3. Lyrics Segments */}
+        {hasSegments && (
+          <section className="mb-10">
+            <div className="flex justify-between items-end mb-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
+                <span className="material-symbols-outlined text-sm">segment</span>
+                3. 歌词段落
+              </h2>
+              <div className="flex gap-2">
+                <button onClick={handleAssignRoundRobin} className="text-xs font-bold text-ember hover:underline flex items-center gap-1">
+                  <span className="material-symbols-outlined text-xs">autorenew</span>
+                  轮流分配
+                </button>
+              </div>
+            </div>
+            <div className="bg-surface-container-low rounded-xl overflow-hidden border border-white/5">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-surface-container-high text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">
+                    <th className="px-6 py-4">行号</th>
+                    <th className="px-6 py-4">歌词文本</th>
+                    <th className="px-6 py-4">时间范围</th>
+                    <th className="px-6 py-4">音色</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {segments.map((seg, i) => {
+                    const color = VOICE_COLORS[voices.findIndex((v) => v.id === seg.voice_model_id) % VOICE_COLORS.length];
+                    return (
+                      <tr key={seg.id} className="hover:bg-white/[0.02] transition-colors">
+                        <td className="px-6 py-4 text-xs font-mono text-on-surface-variant">
+                          {String(seg.line_number).padStart(2, "0")}
+                        </td>
+                        <td className="px-6 py-4 text-sm font-medium">{seg.text}</td>
+                        <td className="px-6 py-4 text-xs font-mono text-ember">
+                          {seg.start_time.toFixed(1)}-{seg.end_time.toFixed(1)}s
+                        </td>
+                        <td className="px-6 py-4">
+                          <select
+                            value={seg.voice_model_id || ""}
+                            onChange={(e) => handleManualAssign(seg.id, e.target.value)}
+                            className={`text-xs font-bold px-3 py-1.5 rounded-lg border-0 appearance-none cursor-pointer ${seg.voice_model_id ? color.chip : "bg-surface-container-high text-on-surface-variant"}`}
+                          >
+                            <option value="">未分配</option>
+                            {voices.map((v) => (
+                              <option key={v.id} value={v.id}>{v.name}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {/* 4. Processing Settings */}
+        {canProcess && (
+          <section className="mb-12">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">settings_input_component</span>
+              4. 处理设置
+            </h2>
+            <div className="bg-surface-container-low rounded-xl p-6 space-y-6">
+              <div>
+                <label className="block text-xs font-bold text-white mb-2 uppercase tracking-wide opacity-60">旁白文本</label>
+                <textarea
+                  value={monologueText}
+                  onChange={(e) => setMonologueText(e.target.value)}
+                  className="w-full bg-surface-container border-0 focus:ring-1 focus:ring-ember/40 rounded-lg p-4 text-sm font-medium text-white placeholder-white/20 h-24 resize-none"
+                  placeholder="输入旁白内容..."
+                />
+              </div>
+              <div className="flex items-center gap-8">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="radio"
+                    name="monologue"
+                    checked={monologuePosition === "beginning"}
+                    onChange={() => setMonologuePosition("beginning")}
+                    className="w-4 h-4 accent-ember"
+                  />
+                  <span className="text-sm font-bold text-white group-hover:text-ember transition-colors">片头 (Intro)</span>
+                </label>
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="radio"
+                    name="monologue"
+                    checked={monologuePosition === "end"}
+                    onChange={() => setMonologuePosition("end")}
+                    className="w-4 h-4 accent-ember"
+                  />
+                  <span className="text-sm font-bold text-white group-hover:text-ember transition-colors">片尾 (Outro)</span>
+                </label>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Processing indicator */}
+        {isProcessing && (
+          <div className="bg-surface-container-low rounded-xl p-5 text-center border border-warning/20 mb-10">
+            <span className="material-symbols-outlined text-4xl text-warning animate-pulse mb-2 block">progress_activity</span>
+            <p className="text-on-surface font-bold">正在处理中...</p>
+            <Link href={`/songs/${songId}/process`} className="text-sm text-ember underline mt-1 inline-block">
+              查看进度 →
+            </Link>
+          </div>
+        )}
+
+        {/* Start Process Button */}
+        {canProcess && (
+          <div className="flex justify-center pt-6 border-t border-white/5">
+            <button
+              onClick={handleStartProcess}
+              className="w-full md:w-auto min-w-[280px] bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black text-lg px-8 py-5 rounded-xl flex items-center justify-center gap-3 shadow-[0_8px_32px_rgba(255,107,53,0.3)] hover:scale-[0.98] active:scale-[0.96] transition-all"
+            >
+              <span className="material-symbols-outlined font-bold" style={{ fontVariationSettings: '"FILL" 1' }}>play_arrow</span>
+              开始处理
+            </button>
+          </div>
+        )}
+
+        {/* Outputs */}
+        {isDone && outputs.length > 0 && (
+          <section className="mt-10">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">download</span>
+              输出文件
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {outputs.map((out) => (
+                <div key={out.id} className="bg-surface-container-low rounded-xl p-5 border border-white/5">
+                  {out.format === "video" ? (
+                    <video controls className="w-full rounded-lg mb-4" src={out.file_url}>
+                      <track kind="captions" />
+                    </video>
+                  ) : (
+                    <audio controls className="w-full mb-4" src={out.file_url} />
+                  )}
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-on-surface-variant font-mono">
+                      {out.format === "video" ? "视频 (MP4)" : "音频 (WAV)"}
+                      {out.duration && ` · ${out.duration.toFixed(0)}s`}
+                      {out.file_size && ` · ${(out.file_size / 1024 / 1024).toFixed(1)}MB`}
+                    </div>
+                    <a
+                      href={out.file_url}
+                      download
+                      className="px-4 py-2 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg text-sm font-bold active:scale-[0.98] transition-transform flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-sm">download</span>
+                      下载
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </main>
+
+      {/* Side decoration */}
+      <div className="fixed bottom-8 left-8 hidden lg:block">
+        <div className="text-[10px] font-mono text-white/20 rotate-90 origin-left uppercase tracking-[0.4em] whitespace-nowrap">
+          黑曜石工作室 // 详情页
         </div>
-      )}
+      </div>
     </div>
   );
 }

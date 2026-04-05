@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FireSing",
-  description: "AI-powered song modification platform",
+  title: "FireSing - AI 方言翻唱平台",
+  description: "AI 驱动的多人多音色翻唱平台，重新定义您的音乐创作可能。",
 };
 
 export default function RootLayout({
@@ -24,15 +24,17 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      lang="zh-CN"
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-gray-50">
-        <header className="bg-white border-b px-6 py-3 flex items-center gap-3">
-          <a href="/" className="text-xl font-bold text-gray-900">FireSing</a>
-          <span className="text-sm text-gray-500">AI 方言翻唱</span>
-        </header>
-        <main className="flex-1">{children}</main>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="bg-surface-container-lowest text-on-surface min-h-screen font-sans">
+        {children}
       </body>
     </html>
   );
