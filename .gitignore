@@ -42,11 +42,14 @@ node_modules/
 frontend/node_modules/
 frontend/.next/
 
-# Outputs
+# Outputs (generated audio/video)
 *.wav
 *.mp3
+# mp4 excluded except hero background video for landing page
 *.mp4
+!frontend/public/video/
 !validation/test-data/
 
 # Validation (keep scripts, ignore outputs)
 validation/results_download/
+.gstack/

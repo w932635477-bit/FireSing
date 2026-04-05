@@ -63,7 +63,29 @@ export default function SongDetailPage() {
         setOutputs(outData.outputs || []);
       }
     } catch (e) {
-      console.error("Failed to load:", e);
+      // API unavailable — use demo data for UI preview
+      console.warn("API unavailable, showing demo data for song detail");
+      setSong({
+        id: songId,
+        title: "稻香",
+        status: "segmented",
+        lrc_path: "/data/demo.lrc",
+        created_at: "2025-04-04T16:00:00Z",
+      });
+      setVoices([
+        { id: "voice-1", name: "周杰伦音色", is_preset: false },
+        { id: "voice-2", name: "林俊杰音色", is_preset: false },
+        { id: "voice-3", name: "邓紫棋音色", is_preset: true },
+      ]);
+      setSegments([
+        { id: "seg-1", line_number: 1, text: "对这个世界如果你有太多的抱怨", start_time: 12.5, end_time: 16.8, voice_model_id: "voice-1" },
+        { id: "seg-2", line_number: 2, text: "跌倒了就不敢继续往前走", start_time: 17.0, end_time: 20.3, voice_model_id: "voice-2" },
+        { id: "seg-3", line_number: 3, text: "为什么人要这么的脆弱 堕落", start_time: 20.5, end_time: 24.1, voice_model_id: "voice-3" },
+        { id: "seg-4", line_number: 4, text: "请你打开电视看看", start_time: 24.3, end_time: 27.0 },
+        { id: "seg-5", line_number: 5, text: "多少人为生命在努力勇敢的走下去", start_time: 27.2, end_time: 31.5, voice_model_id: "voice-1" },
+        { id: "seg-6", line_number: 6, text: "我们是不是该知足", start_time: 31.7, end_time: 34.2 },
+        { id: "seg-7", line_number: 7, text: "珍惜一切 就算没有拥有", start_time: 34.4, end_time: 38.0, voice_model_id: "voice-2" },
+      ]);
     } finally {
       setLoading(false);
     }

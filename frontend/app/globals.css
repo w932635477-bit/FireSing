@@ -130,6 +130,21 @@ body {
 .voice-chip-blue { background: rgba(95, 158, 255, 0.15); color: #5f9eff; }
 .voice-chip-gray { background: rgba(172, 170, 173, 0.15); color: #acaaad; }
 
+/* Step card glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Step card shimmer */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* Selection color */
 ::selection {
   background-color: rgba(255, 107, 53, 0.3);

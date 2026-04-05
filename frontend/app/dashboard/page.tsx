@@ -2,12 +2,27 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   listSongs,
   uploadSong,
   statusLabel,
   type Song,
 } from "@/lib/api";
+
+const COVER_IMAGES = [
+  "/images/cover-waves.webp",
+  "/images/cover-mic.webp",
+  "/images/cover-headphones.webp",
+  "/images/cover-piano.webp",
+  "/images/cover-vinyl.webp",
+  "/images/cover-equalizer.webp",
+];
+
+function getCover(title: string): string {
+  const hash = title.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  return COVER_IMAGES[hash % COVER_IMAGES.length];
+}
 
 function statusChip(status: string) {
   if (status === "done")
@@ -50,7 +65,16 @@ export default function DashboardPage() {
       const data = await listSongs();
       setSongs(data.songs || []);
     } catch (e) {
-      console.error("Failed to load songs:", e);
+      // API unavailable — use demo data for UI preview
+      console.warn("API unavailable, showing demo data");
+      setSongs([
+        { id: "demo-1", title: "稻香", status: "done", created_at: "2025-04-01T10:00:00Z" },
+        { id: "demo-2", title: "珊瑚海", status: "separating", created_at: "2025-04-02T14:30:00Z" },
+        { id: "demo-3", title: "晴天", status: "uploaded", created_at: "2025-04-03T09:15:00Z" },
+        { id: "demo-4", title: "七里香", status: "error", error_message: "RVC 模型加载超时", created_at: "2025-04-04T16:00:00Z" },
+        { id: "demo-5", title: "简单爱", status: "done", created_at: "2025-04-04T20:00:00Z" },
+        { id: "demo-6", title: "夜曲", status: "converting", created_at: "2025-04-05T08:00:00Z" },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -191,8 +215,16 @@ export default function DashboardPage() {
                   href={`/songs/${song.id}`}
                   className="group relative bg-surface-container-low p-6 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(255,107,53,0.1)] hover:bg-surface-container"
                 >
-                  <div className="aspect-square rounded-lg mb-4 overflow-hidden relative flex items-center justify-center" style={{ background: `linear-gradient(135deg, hsl(${(song.title.length * 37) % 360}, 40%, 15%) 0%, hsl(${(song.title.length * 37 + 60) % 360}, 50%, 20%) 100%)` }}>
-                    <span className="text-5xl font-black text-white/15 select-none">{song.title.charAt(0)}</span>
+                  <div className="aspect-square rounded-lg mb-4 overflow-hidden relative">
+                    <Image
+                      src={getCover(song.title)}
+                      alt={song.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width:100%) 100vw, (max-width:50%) 50vw"
+                    />
+                    {/* Dark gradient overlay for text readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     {song.status !== "uploaded" && song.status !== "done" && song.status !== "error" && (
                       <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
                         <div className="w-12 h-1 rounded-full bg-white/20 mb-2 overflow-hidden">
