@@ -130,25 +130,48 @@ export default function LandingPage() {
         <section className="py-32 px-6 max-w-7xl mx-auto">
           <h2 className="text-5xl font-black mb-20 text-center tracking-tight">创作流程</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { num: "01", title: "上传", desc: "拖拽上传 音频+歌词", icon: "cloud_upload", color: "primary" },
-              { num: "02", title: "分配", desc: "AI 自动分配 或手动选择", icon: "auto_awesome", color: "secondary" },
-              { num: "03", title: "生成", desc: "竖版视频 一键下载", icon: "movie", color: "tertiary" },
-            ].map((step) => (
-              <div key={step.num} className="group relative">
-                <div className={`absolute -inset-4 bg-gradient-to-b from-${step.color}/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl -z-10`} />
-                <div className="aspect-square bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between transition-all group-hover:translate-y-[-8px] group-hover:bg-surface-container border border-white/5">
-                  <div className={`w-20 h-20 bg-${step.color}/10 rounded-2xl flex items-center justify-center text-${step.color} border border-${step.color}/20`}>
-                    <span className="material-symbols-outlined text-5xl">{step.icon}</span>
-                  </div>
-                  <div>
-                    <span className={`text-${step.color} font-black font-mono text-6xl opacity-10 block mb-4`}>{step.num}</span>
-                    <h3 className="text-3xl font-black mb-3 text-white tracking-tight">{step.title}</h3>
-                    <p className="text-on-surface-variant text-lg font-medium">{step.desc}</p>
-                  </div>
+            {/* Step 01: Upload */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-gradient-to-b from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl -z-10" />
+              <div className="aspect-square bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between transition-all group-hover:translate-y-[-8px] group-hover:bg-surface-container border border-white/5">
+                <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20">
+                  <span className="material-symbols-outlined text-5xl">cloud_upload</span>
+                </div>
+                <div>
+                  <span className="text-primary font-black font-mono text-6xl opacity-10 block mb-4">01</span>
+                  <h3 className="text-3xl font-black mb-3 text-white tracking-tight">上传</h3>
+                  <p className="text-on-surface-variant text-lg font-medium">拖拽上传 音频+歌词</p>
                 </div>
               </div>
-            ))}
+            </div>
+            {/* Step 02: Assign */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-gradient-to-b from-secondary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl -z-10" />
+              <div className="aspect-square bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between transition-all group-hover:translate-y-[-8px] group-hover:bg-surface-container border border-white/5">
+                <div className="w-20 h-20 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary border border-secondary/20">
+                  <span className="material-symbols-outlined text-5xl">auto_awesome</span>
+                </div>
+                <div>
+                  <span className="text-secondary font-black font-mono text-6xl opacity-10 block mb-4">02</span>
+                  <h3 className="text-3xl font-black mb-3 text-white tracking-tight">分配</h3>
+                  <p className="text-on-surface-variant text-lg font-medium">AI 自动分配 或手动选择</p>
+                </div>
+              </div>
+            </div>
+            {/* Step 03: Generate */}
+            <div className="group relative">
+              <div className="absolute -inset-4 bg-gradient-to-b from-tertiary-dim/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl -z-10" />
+              <div className="aspect-square bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between transition-all group-hover:translate-y-[-8px] group-hover:bg-surface-container border border-white/5">
+                <div className="w-20 h-20 bg-tertiary-dim/10 rounded-2xl flex items-center justify-center text-tertiary-dim border border-tertiary-dim/20">
+                  <span className="material-symbols-outlined text-5xl">movie</span>
+                </div>
+                <div>
+                  <span className="text-tertiary-dim font-black font-mono text-6xl opacity-10 block mb-4">03</span>
+                  <h3 className="text-3xl font-black mb-3 text-white tracking-tight">生成</h3>
+                  <p className="text-on-surface-variant text-lg font-medium">竖版视频 一键下载</p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
