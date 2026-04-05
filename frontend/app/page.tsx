@@ -7,10 +7,10 @@ export default function LandingPage() {
       <header className="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-black/60 backdrop-blur-xl z-50 shadow-[0_8px_32px_rgba(255,107,53,0.15)]">
         <div className="text-2xl font-black text-ember tracking-tight">FireSing</div>
         <nav className="hidden md:flex gap-8 items-center">
-          <Link href="/" className="text-ember font-bold border-b-2 border-ember">首页</Link>
-          <Link href="/dashboard" className="text-white/60 font-medium hover:bg-white/10 px-3 py-1 rounded transition-colors">工作台</Link>
-          <Link href="/dashboard" className="text-white/60 font-medium hover:bg-white/10 px-3 py-1 rounded transition-colors">曲库</Link>
-          <span className="text-white/60 font-medium hover:bg-white/10 px-3 py-1 rounded transition-colors cursor-pointer">会员方案</span>
+          <Link href="/" className="text-ember font-bold border-b-2 border-ember px-3 py-2">首页</Link>
+          <Link href="/dashboard" className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">工作台</Link>
+          <Link href="/dashboard" className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">曲库</Link>
+          <span className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors cursor-pointer">会员方案</span>
         </nav>
         <div className="flex items-center gap-4">
           <Link

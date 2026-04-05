@@ -87,9 +87,9 @@ export default function DashboardPage() {
           <Link href="/" className="text-2xl font-black text-ember tracking-tight">FireSing</Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/dashboard" className="text-ember font-bold border-b-2 border-ember py-1">主页</Link>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-1 rounded transition-all">音乐库</Link>
-            <span className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-1 rounded transition-all cursor-pointer">语音模型</span>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-1 rounded transition-all">工作站</Link>
+            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all">音乐库</Link>
+            <span className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all cursor-pointer">语音模型</span>
+            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all">工作站</Link>
           </nav>
         </div>
         <div className="flex items-center gap-4">
