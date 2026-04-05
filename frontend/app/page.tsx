@@ -278,7 +278,7 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
               {/* Free Plan */}
-              <div className="bg-surface-container rounded-[32px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
+              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
                 <div className="mb-10">
                   <h3 className="text-2xl font-black mb-4">免费版</h3>
                   <div className="flex items-baseline gap-1">
@@ -300,7 +300,7 @@ export default function LandingPage() {
               </div>
 
               {/* Recommended Plan */}
-              <div className="bg-surface-container rounded-[32px] p-10 flex flex-col relative border-2 border-ember shadow-[0_20px_60px_rgba(255,107,53,0.15)] scale-[1.05] z-10">
+              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col relative border-2 border-ember shadow-[0_20px_60px_rgba(255,107,53,0.15)] scale-[1.05] z-10">
                 <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-ember text-on-primary-fixed px-6 py-1.5 rounded-full text-xs font-black tracking-[0.2em] uppercase">
                   热门推荐
                 </div>
@@ -325,7 +325,7 @@ export default function LandingPage() {
               </div>
 
               {/* Pro Plan */}
-              <div className="bg-surface-container rounded-[32px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
+              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
                 <div className="mb-10">
                   <h3 className="text-2xl font-black mb-4">专业版</h3>
                   <div className="flex items-baseline gap-1">
