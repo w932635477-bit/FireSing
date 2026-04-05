@@ -191,8 +191,8 @@ export default function DashboardPage() {
                   href={`/songs/${song.id}`}
                   className="group relative bg-surface-container-low p-6 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(255,107,53,0.1)] hover:bg-surface-container"
                 >
-                  <div className="aspect-square rounded-lg bg-surface-container-highest mb-4 overflow-hidden relative flex items-center justify-center">
-                    <span className="material-symbols-outlined text-6xl text-white/10">music_note</span>
+                  <div className="aspect-square rounded-lg mb-4 overflow-hidden relative flex items-center justify-center" style={{ background: `linear-gradient(135deg, hsl(${(song.title.length * 37) % 360}, 40%, 15%) 0%, hsl(${(song.title.length * 37 + 60) % 360}, 50%, 20%) 100%)` }}>
+                    <span className="text-5xl font-black text-white/15 select-none">{song.title.charAt(0)}</span>
                     {song.status !== "uploaded" && song.status !== "done" && song.status !== "error" && (
                       <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
                         <div className="w-12 h-1 rounded-full bg-white/20 mb-2 overflow-hidden">

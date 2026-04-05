@@ -19,7 +19,7 @@ export default function LandingPage() {
           >
             上传新歌
           </Link>
-          <Link href="/login" className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-white/10 flex items-center justify-center">
+          <Link href="/login" className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-white/10 flex items-center justify-center hover:bg-surface-variant hover:border-white/20 transition-all active:scale-[0.95]">
             <span className="material-symbols-outlined text-white/60">person</span>
           </Link>
         </div>
