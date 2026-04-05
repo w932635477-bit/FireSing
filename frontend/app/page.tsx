@@ -28,8 +28,22 @@ export default function LandingPage() {
       <main className="pt-0">
         {/* Hero Section */}
         <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-          <div className="absolute inset-0 z-0 bg-gradient-to-b from-ember/5 via-transparent to-black" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black z-[1]" />
+          {/* Background layers */}
+          <div className="absolute inset-0 z-0">
+            {/* Ambient color orbs */}
+            <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-ember/8 rounded-full blur-[150px]" />
+            <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[130px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/3 rounded-full blur-[200px]" />
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,107,53,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,107,53,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black z-[1]" />
+          {/* Decorative sound wave lines (visible on all screens) */}
+          <div className="absolute bottom-[15%] left-0 right-0 z-[2] flex items-end justify-center gap-[3px] h-32 opacity-20">
+            {[40, 65, 90, 55, 80, 45, 70, 95, 60, 50, 85, 35, 75, 60, 90, 45, 70, 55, 80, 65].map((h, i) => (
+              <div key={i} className="w-1.5 bg-gradient-to-t from-ember to-primary rounded-full" style={{ height: `${h}%` }} />
+            ))}
+          </div>
           <div className="relative z-10 max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-8 animate-pulse">
               <span className="relative flex h-2 w-2">
@@ -57,7 +71,25 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Floating Song Preview Cards */}
+          {/* Floating Song Preview Cards - mobile simplified version */}
+          <div className="relative w-full max-w-sm mt-16 h-48 lg:hidden">
+            <div className="w-full bg-surface-container/80 backdrop-blur-xl p-5 rounded-2xl border border-primary/20 shadow-[0_0_40px_rgba(255,107,53,0.15)]">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
+                  <span className="material-symbols-outlined text-primary">equalizer</span>
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-sm">AI 音色处理中</div>
+                  <div className="text-xs text-on-surface-variant font-mono">85%</div>
+                </div>
+              </div>
+              <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden p-[1px]">
+                <div className="bg-gradient-to-r from-ember to-primary-container h-full w-[85%] rounded-full" />
+              </div>
+            </div>
+          </div>
+
+          {/* Floating Song Preview Cards - desktop */}
           <div className="relative w-full max-w-6xl mt-24 h-64 hidden lg:block">
             {/* Card 1 */}
             <div className="absolute top-0 left-0 w-72 bg-surface-container-high/40 backdrop-blur-2xl p-4 rounded-2xl border border-white/10 shadow-2xl -rotate-6 animate-float">
