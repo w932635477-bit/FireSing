@@ -9,7 +9,7 @@ from typing import Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from ..config import SONGS_DIR, MAX_AUDIO_SIZE_MB, ALLOWED_AUDIO_FORMATS
+from ..config import SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR, MAX_AUDIO_SIZE_MB, ALLOWED_AUDIO_FORMATS
 from ..database import get_db
 from ..models import Song, Segment, VoiceModel
 from ..schemas import (
@@ -100,7 +100,7 @@ async def delete_song(song_id: str, db: Session = Depends(get_db)):
         raise HTTPException(404, f"Song {song_id} not found")
 
     # Delete files from all data directories
-    for data_dir in [SONGS_DIR]:
+    for data_dir in [SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR]:
         song_dir = data_dir / song_id
         if song_dir.exists():
             shutil.rmtree(song_dir, ignore_errors=True)

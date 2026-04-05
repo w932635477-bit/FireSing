@@ -206,7 +206,10 @@ export default function ProcessPage() {
               {isDone ? "查看结果" : isError ? "返回重试" : "取消任务"}
             </Link>
             {!isDone && !isError && (
-              <button className="flex-[2] bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black py-4 rounded-lg active:scale-[0.98] transition-all shadow-lg shadow-ember/30">
+              <button
+                onClick={() => router.push(`/songs/${songId}`)}
+                className="flex-[2] bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black py-4 rounded-lg active:scale-[0.98] transition-all shadow-lg shadow-ember/30"
+              >
                 后台运行
               </button>
             )}

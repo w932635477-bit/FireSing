@@ -66,7 +66,8 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
     from ..database import SessionLocal
     from ..services import demucs_service, lyrics_service, rvc_service
     from ..services import chorus_service, tts_service, audio_service, video_service
-    from ..models import Segment
+    from ..services import harmony_service
+    from ..models import Segment, VoiceModel
 
     db = SessionLocal()
     try:
@@ -100,9 +101,41 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             Segment.song_id == song_id
         ).order_by(Segment.line_number).all()
 
-        # Step 5: Chorus detection
+        # Step 4b: Harmony generation (multi-part vocal harmonies)
+        _update_progress(song_id, "harmony", 78, "Generating harmonies...")
+        assigned_seg_ids = [s.id for s in segments if s.voice_model_id]
+        if assigned_seg_ids:
+            await harmony_service.generate_harmonies(
+                song_id=song_id,
+                segment_ids=assigned_seg_ids,
+                db=db,
+            )
+
+        # Refresh after harmony
+        db.expire_all()
+        segments = db.query(Segment).filter(
+            Segment.song_id == song_id
+        ).order_by(Segment.line_number).all()
+
+        # Step 5: Chorus detection + grand chorus synthesis
         _update_progress(song_id, "chorus", 82, "Detecting chorus...")
         chorus_ids = chorus_service.detect(segments)
+
+        # Grand chorus: use all available voice models for the final chorus section
+        if chorus_ids:
+            _update_progress(song_id, "chorus", 83, "Generating grand chorus...")
+            available_voices = db.query(VoiceModel).all()
+            if len(available_voices) >= 2:
+                chorus_seg_ids = [s.id for s in segments if s.id in chorus_ids]
+                last_section_ids = chorus_service.detect_last_section(segments)
+                grand_chorus_ids = last_section_ids if last_section_ids else chorus_seg_ids
+                if grand_chorus_ids:
+                    await chorus_service.generate_grand_chorus(
+                        song_id=song_id,
+                        segment_ids=grand_chorus_ids,
+                        voice_model_ids=[v.id for v in available_voices[:5]],
+                        db=db,
+                    )
 
         # Step 6: Monologue generation
         if params.monologue_text:

@@ -105,10 +105,10 @@ Supersedes: weilei-unknown-design-20260403-211923.md
 输入: 原曲（如《珊瑚海》完整音频）
     │
     ▼
-Step 1: 人声分离 (UVR5)
+Step 1: 人声分离 (Demucs htdemucs)
   - 拆出纯人声 + 纯伴奏
-  - 速度: ~20-60 秒/首
-  - 质量: 优于 Demucs
+  - 速度: ~7 秒/首 (RTX 4090D)
+  - 质量: 高质量混合鼓分离
     │
     ▼
 Step 2: 逐句切分 (Whisper + Silero VAD)
@@ -177,8 +177,8 @@ Step 7: 视频输出
 
 | 组件 | 工具 | 协议 | 说明 |
 |------|------|------|------|
-| 人声分离 | UVR5 | 开源 | 比 Demucs 更快更干净 |
-| 逐句切分 | OpenAI Whisper + Silero VAD | 开源 | 歌词级时间戳 |
+| 人声分离 | Demucs (htdemucs) | 开源 | 高质量混合鼓/人声分离 |
+| 逐句切分 | LRC 解析 (MVP) / Whisper (后期) | 开源 | 歌词级时间戳 |
 | 音色转换 | RVC v2 | MIT 开源 | 50+ 预置音色或自训练 |
 | API 服务 | RVC-FastAPI | 开源 | REST API 封装 |
 | 音频处理 | pydub, librosa | 开源 | 切分、拼接、混音 |
@@ -298,7 +298,7 @@ RVC 转换音色不转换发音。要让歌曲真的用方言唱，需要额外�
 
 自建完整的 RVC 处理管线，Web 界面操作。
 
-- **技术:** UVR5 + Whisper + RVC-FastAPI + FFmpeg + Next.js
+- **技术:** Demucs + LRC/Whisper + RVC-FastAPI + FFmpeg + Next.js
 - **工作量:** M（3-4 周）
 - **风险:** 低
 - **优点:** 完全可控、MIT 开源、1-2 分钟/首、可批量处理

@@ -97,15 +97,19 @@ async def convert_all(song_id: str, db: Session) -> list[Path]:
     return paths
 
 
-async def _call_gpu_rvc(
+async def convert_with_params(
     audio_bytes: bytes,
     model_id: str,
     pth_bytes: bytes,
     index_bytes: bytes | None = None,
+    f0_method: str = "harvest",
+    f0_up_key: int = 0,
+    index_rate: float = 0.5,
+    filter_radius: int = 3,
 ) -> bytes:
-    """Send vocal + model to GPU server, return converted WAV bytes.
+    """Send vocal + model to GPU server with custom RVC parameters.
 
-    Uses model_id to reference cached models (avoid re-upload on subsequent calls).
+    Returns converted WAV bytes.
     """
     url = f"{GPU_SERVER_URL}/infer/rvc"
 
@@ -115,10 +119,10 @@ async def _call_gpu_rvc(
     }
     data = {
         "model_id": model_id,
-        "f0_method": "harvest",
-        "f0up_key": "0",
-        "index_rate": "0.5",
-        "filter_radius": "3",
+        "f0_method": f0_method,
+        "f0up_key": str(f0_up_key),
+        "index_rate": str(index_rate),
+        "filter_radius": str(filter_radius),
     }
     if index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
@@ -140,3 +144,26 @@ async def _call_gpu_rvc(
             )
 
     raise ConnectionError(f"GPU server unreachable after 3 attempts: {last_error}")
+
+
+async def _call_gpu_rvc(
+    audio_bytes: bytes,
+    model_id: str,
+    pth_bytes: bytes,
+    index_bytes: bytes | None = None,
+) -> bytes:
+    """Send vocal + model to GPU server, return converted WAV bytes.
+
+    Uses model_id to reference cached models (avoid re-upload on subsequent calls).
+    Default parameters: harvest f0, no pitch shift, index_rate 0.5.
+    """
+    return await convert_with_params(
+        audio_bytes=audio_bytes,
+        model_id=model_id,
+        pth_bytes=pth_bytes,
+        index_bytes=index_bytes,
+        f0_method="harvest",
+        f0_up_key=0,
+        index_rate=0.5,
+        filter_radius=3,
+    )
