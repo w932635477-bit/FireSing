@@ -6,8 +6,14 @@ import Image from "next/image";
 import {
   listSongs,
   uploadSong,
+  searchMusic,
+  importMusic,
+  checkMusicExisting,
+  connectImportProgress,
   statusLabel,
   type Song,
+  type MusicSearchSong,
+  type MusicImportProgress,
 } from "@/lib/api";
 
 const COVER_IMAGES = [
@@ -60,6 +66,16 @@ export default function DashboardPage() {
   const [uploading, setUploading] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
+  // Music search state
+  const [dialogTab, setDialogTab] = useState<"search" | "upload">("search");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<MusicSearchSong[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
+  const [importing, setImporting] = useState<string | null>(null); // song name being imported
+  const [importProgress, setImportProgress] = useState<MusicImportProgress | null>(null);
+  const searchTimer = useRef<ReturnType<typeof setTimeout>>(null);
+
   const load = useCallback(async () => {
     try {
       const data = await listSongs();
@@ -103,6 +119,88 @@ export default function DashboardPage() {
     }
   }
 
+  function handleSearchInput(val: string) {
+    setSearchQuery(val);
+    setSearchError(null);
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    if (!val.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    searchTimer.current = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const data = await searchMusic(val.trim());
+        setSearchResults(data.songs || []);
+      } catch (e) {
+        setSearchResults([]);
+        const msg = e instanceof Error ? e.message : "";
+        if (msg.includes("503") || msg.includes("service_unavailable") || msg.includes("unavailable")) {
+          setSearchError("搜索服务暂时不可用，请稍后再试");
+        } else {
+          setSearchError("搜索失败，请重试");
+        }
+      } finally {
+        setSearching(false);
+      }
+    }, 400);
+  }
+
+  async function handleImport(song: MusicSearchSong) {
+    // Dedup check
+    try {
+      const { exists } = await checkMusicExisting(song.source, song.id);
+      if (exists) {
+        alert("这首歌已经导入过了");
+        return;
+      }
+    } catch {
+      // If check fails, proceed anyway
+    }
+
+    setImporting(song.name);
+    setImportProgress({ step: "queued", pct: 0, message: "排队中..." });
+    try {
+      const { task_id } = await importMusic(song.source, song.id, song.name, song.artist);
+      connectImportProgress(
+        task_id,
+        (p) => setImportProgress(p),
+        async () => {
+          setImporting(null);
+          setImportProgress(null);
+          dialogRef.current?.close();
+          await load();
+        },
+        (msg) => {
+          alert(`导入失败: ${msg}`);
+          setImporting(null);
+          setImportProgress(null);
+        },
+      );
+    } catch (e) {
+      alert(`导入失败: ${e instanceof Error ? e.message : e}`);
+      setImporting(null);
+      setImportProgress(null);
+    }
+  }
+
+  function handleDialogClose() {
+    if (importing) {
+      if (!confirm("导入正在进行中，关闭将丢失进度。确定关闭？")) return;
+    }
+    dialogRef.current?.close();
+  }
+
+  function openDialog() {
+    setSearchQuery("");
+    setSearchResults([]);
+    setSearchError(null);
+    setImporting(null);
+    setImportProgress(null);
+    setDialogTab("search");
+    dialogRef.current?.showModal();
+  }
+
   return (
     <div className="min-h-screen">
       {/* Top Navigation Bar */}
@@ -118,11 +216,11 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-4">
           <button
-            onClick={() => dialogRef.current?.showModal()}
+            onClick={openDialog}
             className="bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed px-5 py-2 rounded-lg font-bold flex items-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all"
           >
             <span className="material-symbols-outlined text-lg">add_circle</span>
-            上传新歌曲
+            添加新歌曲
           </button>
           <Link href="/login" className="w-10 h-10 rounded-full bg-surface-variant overflow-hidden cursor-pointer active:scale-[0.95] transition-transform flex items-center justify-center">
             <span className="material-symbols-outlined text-white/60">person</span>
@@ -201,7 +299,7 @@ export default function DashboardPage() {
               <h2 className="text-2xl font-bold mb-2">还没有作品</h2>
               <p className="text-on-surface-variant mb-8 max-w-xs">点击右上角上传第一首歌，开始您的创作之旅</p>
               <button
-                onClick={() => dialogRef.current?.showModal()}
+                onClick={openDialog}
                 className="bg-surface-container-high border border-white/10 px-6 py-3 rounded-lg font-bold hover:bg-surface-variant active:scale-[0.98] transition-all"
               >
                 上传新歌
@@ -294,47 +392,179 @@ export default function DashboardPage() {
         </Link>
       </footer>
 
-      {/* Upload Dialog */}
+      {/* Add Song Dialog */}
       <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 bg-surface-container-low border border-white/10 text-on-surface">
-        <div className="p-6 w-[420px]">
+        <div className="p-6 w-[480px] max-h-[80vh] flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">上传新歌</h2>
+            <h2 className="text-lg font-bold">添加新歌</h2>
             <button
-              onClick={() => dialogRef.current?.close()}
+              onClick={handleDialogClose}
               className="text-on-surface-variant hover:text-white transition-colors"
             >
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
-          <form onSubmit={handleUpload} className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">音频文件 *</label>
-              <input
-                name="audio"
-                type="file"
-                accept=".mp3,.wav,.flac"
-                required
-                className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ember/20 file:text-ember hover:file:bg-ember/30 transition-colors"
-              />
-              <p className="text-xs text-on-surface-variant/60 mt-1">支持 MP3/WAV/FLAC，最大 50MB</p>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">LRC 歌词文件（可选）</label>
-              <input
-                name="lrc"
-                type="file"
-                accept=".lrc,.txt"
-                className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-surface-container-high file:text-on-surface hover:file:bg-surface-variant transition-colors"
-              />
-            </div>
+
+          {/* Tabs */}
+          <div className="flex border-b border-white/10 mb-4">
             <button
-              type="submit"
-              disabled={uploading}
-              className="w-full py-3 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg font-bold hover:brightness-110 disabled:opacity-50 active:scale-[0.98] transition-all"
+              onClick={() => setDialogTab("search")}
+              className={`flex-1 pb-2 text-sm font-bold transition-colors ${
+                dialogTab === "search"
+                  ? "text-ember border-b-2 border-ember"
+                  : "text-on-surface-variant hover:text-white"
+              }`}
             >
-              {uploading ? "上传中..." : "上传"}
+              <span className="material-symbols-outlined text-sm align-middle mr-1">search</span>
+              搜索歌曲
             </button>
-          </form>
+            <button
+              onClick={() => setDialogTab("upload")}
+              className={`flex-1 pb-2 text-sm font-bold transition-colors ${
+                dialogTab === "upload"
+                  ? "text-ember border-b-2 border-ember"
+                  : "text-on-surface-variant hover:text-white"
+              }`}
+            >
+              <span className="material-symbols-outlined text-sm align-middle mr-1">upload_file</span>
+              上传文件
+            </button>
+          </div>
+
+          {/* Search Tab */}
+          {dialogTab === "search" && (
+            <div className="flex-1 overflow-y-auto min-h-0">
+              {importing ? (
+                <div className="py-12 flex flex-col items-center gap-4">
+                  <span className="material-symbols-outlined text-4xl text-ember animate-pulse">downloading</span>
+                  <p className="font-bold">{importing}</p>
+                  {importProgress && (
+                    <>
+                      <div className="w-full max-w-xs h-2 rounded-full bg-white/10 overflow-hidden">
+                        <div
+                          className="h-full bg-ember rounded-full transition-all duration-300"
+                          style={{ width: `${importProgress.pct}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-on-surface-variant">{importProgress.message}</p>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <div className="relative mb-4">
+                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                    <input
+                      className="w-full bg-surface-container border-none rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:ring-2 focus:ring-ember/40 transition-all"
+                      placeholder="搜索歌曲名或歌手..."
+                      value={searchQuery}
+                      onChange={(e) => handleSearchInput(e.target.value)}
+                      autoFocus
+                    />
+                  </div>
+                  {searchError && (
+                    <div className="flex items-center gap-2 p-4 rounded-lg bg-error/10 text-error mb-4">
+                      <span className="material-symbols-outlined text-lg">cloud_off</span>
+                      <p className="text-sm font-medium">{searchError}</p>
+                    </div>
+                  )}
+                  {searching && (
+                    <div className="flex justify-center py-8">
+                      <span className="material-symbols-outlined text-3xl text-ember animate-pulse">hourglass_empty</span>
+                    </div>
+                  )}
+                  {!searching && !searchError && searchResults.length === 0 && searchQuery && (
+                    <p className="text-center text-on-surface-variant py-8">没有找到相关歌曲</p>
+                  )}
+                  {!searching && !searchError && searchResults.length === 0 && !searchQuery && (
+                    <p className="text-center text-on-surface-variant py-8">输入关键词搜索歌曲，支持网易云、QQ、酷狗等平台</p>
+                  )}
+                  <div className="space-y-2">
+                    {searchResults.map((song) => (
+                      <div
+                        key={`${song.source}-${song.id}`}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-surface-container hover:bg-surface-variant transition-colors group"
+                      >
+                        {song.cover_url ? (
+                          <img
+                            src={song.cover_url}
+                            alt=""
+                            className="w-10 h-10 rounded object-cover flex-shrink-0"
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0">
+                            <span className="material-symbols-outlined text-lg text-on-surface-variant">music_note</span>
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-sm truncate">{song.name}</p>
+                          <p className="text-xs text-on-surface-variant truncate">{song.artist}</p>
+                        </div>
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          {song.platforms.slice(0, 3).map((p) => (
+                            <span
+                              key={p.source}
+                              className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-on-surface-variant"
+                            >
+                              {p.source}
+                            </span>
+                          ))}
+                          {song.platforms.length > 3 && (
+                            <span className="text-[10px] text-on-surface-variant">+{song.platforms.length - 3}</span>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => handleImport(song)}
+                          disabled={!!importing}
+                          className="bg-ember text-on-primary-fixed px-3 py-1 rounded text-xs font-bold transition-opacity active:scale-95 disabled:opacity-50 md:opacity-0 md:group-hover:opacity-100"
+                        >
+                          导入
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Copyright notice */}
+                  <p className="text-[10px] text-on-surface-variant/60 text-center mt-4 pb-2">
+                    仅供个人翻唱创作使用，请勿用于商业用途
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Upload Tab */}
+          {dialogTab === "upload" && (
+            <form onSubmit={handleUpload} className="space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">音频文件 *</label>
+                <input
+                  name="audio"
+                  type="file"
+                  accept=".mp3,.wav,.flac"
+                  required
+                  className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ember/20 file:text-ember hover:file:bg-ember/30 transition-colors"
+                />
+                <p className="text-xs text-on-surface-variant/60 mt-1">支持 MP3/WAV/FLAC，最大 50MB</p>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">LRC 歌词文件（可选）</label>
+                <input
+                  name="lrc"
+                  type="file"
+                  accept=".lrc,.txt"
+                  className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-surface-container-high file:text-on-surface hover:file:bg-surface-variant transition-colors"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={uploading}
+                className="w-full py-3 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg font-bold hover:brightness-110 disabled:opacity-50 active:scale-[0.98] transition-all"
+              >
+                {uploading ? "上传中..." : "上传"}
+              </button>
+            </form>
+          )}
         </div>
       </dialog>
     </div>
