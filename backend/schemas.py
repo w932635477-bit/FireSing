@@ -17,8 +17,10 @@ class SongResponse(BaseModel):
     instrumental_path: Optional[str] = None
     monologue_text: Optional[str] = None
     monologue_position: Optional[str] = None
+    monologue_audio_path: Optional[str] = None
     error_message: Optional[str] = None
     source: str = "upload"
+    source_id: Optional[str | int] = None
     artist: Optional[str] = None
     created_at: Optional[datetime] = None
 
@@ -88,6 +90,9 @@ class ProcessRequest(BaseModel):
     strategy: str = "round-robin"
     monologue_text: Optional[str] = None
     monologue_position: str = "beginning"  # "beginning" | "end"
+    output_format: str = "video"  # "video" | "audio" | "video_subtitled"
+    enable_chorus: bool = True
+    chorus_voice_count: int = 5
 
 
 class ProcessResponse(BaseModel):

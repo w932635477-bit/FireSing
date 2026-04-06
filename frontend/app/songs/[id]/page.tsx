@@ -12,6 +12,8 @@ import {
   uploadLrc,
   getOutputs,
   startProcess,
+  updateSegmentTimestamps,
+  uploadMonologueAudio,
   statusLabel,
   type Song,
   type Segment,
@@ -46,7 +48,13 @@ export default function SongDetailPage() {
   const [activeTab, setActiveTab] = useState<Tab>("detail");
 
   const [monologueText, setMonologueText] = useState("");
+  const [monologueMode, setMonologueMode] = useState<"text" | "record">("text");
   const [monologuePosition, setMonologuePosition] = useState<"beginning" | "end">("beginning");
+  const [monologueFile, setMonologueFile] = useState<File | null>(null);
+  const [monologueUploading, setMonologueUploading] = useState(false);
+  const [outputFormat, setOutputFormat] = useState<"video" | "audio" | "video_subtitled">("video");
+  const [enableChorus, setEnableChorus] = useState(true);
+  const [chorusVoiceCount, setChorusVoiceCount] = useState(5);
   const [voiceUploading, setVoiceUploading] = useState(false);
   const [lrcUploading, setLrcUploading] = useState(false);
   const [showVoiceUpload, setShowVoiceUpload] = useState(false);
@@ -73,6 +81,8 @@ export default function SongDetailPage() {
         title: "稻香",
         status: "segmented",
         lrc_path: "/data/demo.lrc",
+        source: "netease",
+        artist: "周杰伦",
         created_at: "2025-04-04T16:00:00Z",
       });
       setVoices([
@@ -137,11 +147,23 @@ export default function SongDetailPage() {
     const assigned = segments.filter((s) => s.voice_model_id);
     if (assigned.length === 0) return alert("请先分配音色");
     const pool = [...new Set(assigned.map((s) => s.voice_model_id!))];
+
+    // Upload monologue recording if selected
+    if (monologueMode === "record" && monologueFile) {
+      setMonologueUploading(true);
+      try { await uploadMonologueAudio(songId, monologueFile); }
+      catch (e) { setMonologueUploading(false); return alert(`独白上传失败: ${e instanceof Error ? e.message : e}`); }
+      finally { setMonologueUploading(false); }
+    }
+
     const req: ProcessRequest = {
       voice_pool: pool,
       strategy: "round-robin",
-      monologue_text: monologueText || undefined,
+      monologue_text: monologueMode === "text" && monologueText ? monologueText : undefined,
       monologue_position: monologuePosition,
+      output_format: outputFormat,
+      enable_chorus: enableChorus,
+      chorus_voice_count: chorusVoiceCount,
     };
     try { await startProcess(songId, req); router.push(`/songs/${songId}/process`); }
     catch (e) { alert(`启动失败: ${e instanceof Error ? e.message : e}`); }
@@ -173,6 +195,12 @@ export default function SongDetailPage() {
           <div className="h-6 w-px bg-white/10 mx-2" />
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold text-white tracking-tight">{song.title}</h1>
+            {song.artist && <span className="text-xs text-on-surface-variant">by {song.artist}</span>}
+            {song.source && song.source !== "upload" && (
+              <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 text-white/60">
+                {song.source === "netease" ? "网易云" : song.source === "qq" ? "QQ音乐" : song.source === "kugou" ? "酷狗" : song.source === "kuwo" ? "酷我" : song.source}
+              </span>
+            )}
             <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-ember/20 text-ember border border-ember/30 flex items-center gap-1">
               <span className={`w-1.5 h-1.5 rounded-full ${isDone ? "bg-success" : isProcessing ? "bg-warning animate-pulse" : song.status === "error" ? "bg-error" : "bg-ember"} ${isProcessing ? "animate-pulse" : ""}`} />
               {statusLabel(song.status)}
@@ -280,6 +308,32 @@ export default function SongDetailPage() {
             </form>
           )}
 
+          {/* Preset voices section */}
+          {voices.filter(v => v.is_preset).length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-[10px] text-on-surface-variant uppercase tracking-wider mb-2 flex items-center gap-1">
+                <span className="material-symbols-outlined text-xs">auto_awesome</span>
+                预设音色
+              </h3>
+              <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+                {voices.filter(v => v.is_preset).map((v, i) => {
+                  const color = VOICE_COLORS[i % VOICE_COLORS.length];
+                  return (
+                    <div key={v.id} className="bg-surface-container-low p-3 rounded-lg border border-white/5 flex flex-col items-center gap-2 hover:bg-surface-container-high transition-all cursor-pointer group">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high border-2 ${color.dot.replace("bg-", "border-")} group-hover:scale-110 transition-transform`}>
+                        <span className="material-symbols-outlined text-lg text-on-surface-variant">auto_awesome</span>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-[11px] font-bold truncate max-w-[80px]">{v.name}</div>
+                        <div className="text-[9px] text-on-surface-variant/50">预设</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {voices.length === 0 ? (
             <div className="bg-surface-container-low rounded-xl p-8 text-center">
               <span className="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">settings_voice</span>
@@ -339,8 +393,45 @@ export default function SongDetailPage() {
                           {String(seg.line_number).padStart(2, "0")}
                         </td>
                         <td className="px-6 py-4 text-sm font-medium">{seg.text}</td>
-                        <td className="px-6 py-4 text-xs font-mono text-ember">
-                          {seg.start_time.toFixed(1)}-{seg.end_time.toFixed(1)}s
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-1 text-xs font-mono text-ember">
+                            <input
+                              type="number"
+                              step="0.1"
+                              min="0"
+                              value={seg.start_time.toFixed(1)}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value);
+                                if (!isNaN(val)) {
+                                  setSegments(prev => prev.map(s => s.id === seg.id ? {...s, start_time: val} : s));
+                                }
+                              }}
+                              onBlur={async () => {
+                                try { await updateSegmentTimestamps(songId, seg.id, { start_time: seg.start_time }); }
+                                catch { /* reverted on next load */ }
+                              }}
+                              className="w-14 bg-surface-container-high text-ember rounded px-1.5 py-0.5 text-center focus:ring-1 focus:ring-ember/40 border-0"
+                            />
+                            <span className="text-on-surface-variant/40">-</span>
+                            <input
+                              type="number"
+                              step="0.1"
+                              min="0"
+                              value={seg.end_time.toFixed(1)}
+                              onChange={(e) => {
+                                const val = parseFloat(e.target.value);
+                                if (!isNaN(val)) {
+                                  setSegments(prev => prev.map(s => s.id === seg.id ? {...s, end_time: val} : s));
+                                }
+                              }}
+                              onBlur={async () => {
+                                try { await updateSegmentTimestamps(songId, seg.id, { end_time: seg.end_time }); }
+                                catch { /* reverted on next load */ }
+                              }}
+                              className="w-14 bg-surface-container-high text-ember rounded px-1.5 py-0.5 text-center focus:ring-1 focus:ring-ember/40 border-0"
+                            />
+                            <span className="text-on-surface-variant/40">s</span>
+                          </div>
                         </td>
                         <td className="px-6 py-4">
                           <select
@@ -372,36 +463,118 @@ export default function SongDetailPage() {
               4. 处理设置
             </h2>
             <div className="bg-surface-container-low rounded-xl p-6 space-y-6">
+              {/* Monologue section */}
               <div>
-                <label className="block text-xs font-bold text-white mb-2 uppercase tracking-wide opacity-60">旁白文本</label>
-                <textarea
-                  value={monologueText}
-                  onChange={(e) => setMonologueText(e.target.value)}
-                  className="w-full bg-surface-container border-0 focus:ring-1 focus:ring-ember/40 rounded-lg p-4 text-sm font-medium text-white placeholder-white/20 h-24 resize-none"
-                  placeholder="输入旁白内容..."
-                />
+                <label className="block text-xs font-bold text-white mb-3 uppercase tracking-wide opacity-60">个人独白</label>
+                <div className="flex gap-3 mb-3">
+                  <button
+                    onClick={() => setMonologueMode("text")}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${monologueMode === "text" ? "bg-ember/20 text-ember border border-ember/30" : "bg-surface-container-high text-on-surface-variant"}`}
+                  >
+                    <span className="material-symbols-outlined text-sm align-middle mr-1">edit</span>
+                    文字转语音
+                  </button>
+                  <button
+                    onClick={() => setMonologueMode("record")}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${monologueMode === "record" ? "bg-ember/20 text-ember border border-ember/30" : "bg-surface-container-high text-on-surface-variant"}`}
+                  >
+                    <span className="material-symbols-outlined text-sm align-middle mr-1">mic</span>
+                    上传录音
+                  </button>
+                </div>
+
+                {monologueMode === "text" ? (
+                  <textarea
+                    value={monologueText}
+                    onChange={(e) => setMonologueText(e.target.value)}
+                    className="w-full bg-surface-container border-0 focus:ring-1 focus:ring-ember/40 rounded-lg p-4 text-sm font-medium text-white placeholder-white/20 h-24 resize-none"
+                    placeholder="输入独白内容，如：大家好，我是某某..."
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    <input
+                      type="file"
+                      accept="audio/mp3,audio/wav,audio/ogg,audio/m4a,audio/webm,.mp3,.wav,.ogg,.m4a,.webm"
+                      onChange={(e) => setMonologueFile(e.target.files?.[0] || null)}
+                      className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ember/20 file:text-ember"
+                    />
+                    {monologueFile && (
+                      <p className="text-xs text-success font-medium flex items-center gap-1">
+                        <span className="material-symbols-outlined text-xs">check_circle</span>
+                        已选择: {monologueFile.name} ({(monologueFile.size / 1024 / 1024).toFixed(1)}MB)
+                      </p>
+                    )}
+                    <p className="text-xs text-on-surface-variant/60">支持 mp3, wav, ogg, m4a, webm，最大 10MB</p>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-8 mt-3">
+                  <label className="text-[10px] text-on-surface-variant uppercase tracking-wider mr-2">独白位置</label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="radio" name="monologue_pos" checked={monologuePosition === "beginning"} onChange={() => setMonologuePosition("beginning")} className="w-3.5 h-3.5 accent-ember" />
+                    <span className="text-sm font-medium text-white/80 group-hover:text-ember transition-colors">片头</span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input type="radio" name="monologue_pos" checked={monologuePosition === "end"} onChange={() => setMonologuePosition("end")} className="w-3.5 h-3.5 accent-ember" />
+                    <span className="text-sm font-medium text-white/80 group-hover:text-ember transition-colors">片尾</span>
+                  </label>
+                </div>
               </div>
-              <div className="flex items-center gap-8">
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="monologue"
-                    checked={monologuePosition === "beginning"}
-                    onChange={() => setMonologuePosition("beginning")}
-                    className="w-4 h-4 accent-ember"
-                  />
-                  <span className="text-sm font-bold text-white group-hover:text-ember transition-colors">片头 (Intro)</span>
-                </label>
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="monologue"
-                    checked={monologuePosition === "end"}
-                    onChange={() => setMonologuePosition("end")}
-                    className="w-4 h-4 accent-ember"
-                  />
-                  <span className="text-sm font-bold text-white group-hover:text-ember transition-colors">片尾 (Outro)</span>
-                </label>
+
+              {/* Output format selection */}
+              <div>
+                <label className="block text-xs font-bold text-white mb-3 uppercase tracking-wide opacity-60">输出格式</label>
+                <div className="grid grid-cols-3 gap-3">
+                  {([
+                    { value: "video" as const, icon: "videocam", label: "竖版视频", desc: "9:16 MP4" },
+                    { value: "audio" as const, icon: "headphones", label: "纯音频", desc: "MP3/WAV" },
+                    { value: "video_subtitled" as const, icon: "subtitles", label: "字幕视频", desc: "带歌词字幕" },
+                  ]).map((fmt) => (
+                    <button
+                      key={fmt.value}
+                      onClick={() => setOutputFormat(fmt.value)}
+                      className={`p-4 rounded-xl text-center transition-all border ${
+                        outputFormat === fmt.value
+                          ? "bg-ember/15 border-ember/40 text-ember"
+                          : "bg-surface-container-high border-white/5 text-on-surface-variant hover:border-white/10"
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-2xl mb-2 block">{fmt.icon}</span>
+                      <div className="text-sm font-bold">{fmt.label}</div>
+                      <div className="text-[10px] mt-1 opacity-60">{fmt.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Chorus / harmony configuration */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-xs font-bold text-white uppercase tracking-wide opacity-60">和声 / 大合唱</label>
+                  <button
+                    onClick={() => setEnableChorus(!enableChorus)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${enableChorus ? "bg-ember" : "bg-surface-container-high"}`}
+                  >
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${enableChorus ? "translate-x-6" : "translate-x-1"}`} />
+                  </button>
+                </div>
+                {enableChorus && (
+                  <div className="bg-surface-container rounded-lg p-4 space-y-3">
+                    <p className="text-xs text-on-surface-variant">自动检测歌曲最后一段高潮部分，使用所有音色生成大合唱效果。</p>
+                    <div className="flex items-center gap-3">
+                      <label className="text-xs text-on-surface-variant whitespace-nowrap">合唱声部数</label>
+                      <input
+                        type="range"
+                        min={2}
+                        max={8}
+                        value={chorusVoiceCount}
+                        onChange={(e) => setChorusVoiceCount(Number(e.target.value))}
+                        className="flex-1 accent-ember"
+                      />
+                      <span className="text-sm font-bold text-ember w-8 text-center">{chorusVoiceCount}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </section>

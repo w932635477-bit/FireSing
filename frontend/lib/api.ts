@@ -11,7 +11,11 @@ export interface Song {
   instrumental_path?: string | null;
   monologue_text?: string | null;
   monologue_position?: string | null;
+  monologue_audio_path?: string | null;
   error_message?: string | null;
+  source?: string | null;
+  source_id?: string | null;
+  artist?: string | null;
   created_at?: string | null;
 }
 
@@ -89,6 +93,9 @@ export interface ProcessRequest {
   strategy: "round-robin" | "random";
   monologue_text?: string;
   monologue_position?: "beginning" | "end";
+  output_format?: "video" | "audio" | "video_subtitled";
+  enable_chorus?: boolean;
+  chorus_voice_count?: number;
 }
 
 // --- Helpers ---
@@ -127,6 +134,24 @@ export async function uploadLrc(songId: string, lrc: File) {
   const form = new FormData();
   form.append("lrc", lrc);
   return apiFetch(`/songs/${songId}/lrc`, { method: "PUT", body: form });
+}
+
+export async function uploadMonologueAudio(songId: string, audio: File) {
+  const form = new FormData();
+  form.append("audio", audio);
+  return apiFetch(`/songs/${songId}/monologue-audio`, { method: "PUT", body: form });
+}
+
+export async function updateSegmentTimestamps(
+  songId: string,
+  segmentId: string,
+  data: { start_time?: number; end_time?: number },
+) {
+  return apiFetch(`/songs/${songId}/segments/${segmentId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 }
 
 export async function getSegments(songId: string): Promise<{ segments: Segment[] }> {

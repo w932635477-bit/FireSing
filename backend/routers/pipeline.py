@@ -85,6 +85,10 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
     db = SessionLocal()
     try:
+        song = db.query(Song).filter(Song.id == song_id).first()
+        if not song:
+            raise ValueError(f"Song {song_id} not found")
+
         # Step 1: Demucs vocal separation
         _update_progress(song_id, "separating", 0, "Separating vocals...")
         await demucs_service.separate(song_id, db)
@@ -136,9 +140,10 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         chorus_ids = chorus_service.detect(segments)
 
         # Grand chorus: use all available voice models for the final chorus section
-        if chorus_ids:
+        if chorus_ids and params.enable_chorus:
             _update_progress(song_id, "chorus", 83, "Generating grand chorus...")
             available_voices = db.query(VoiceModel).all()
+            voice_count = params.chorus_voice_count or 5
             if len(available_voices) >= 2:
                 chorus_seg_ids = [s.id for s in segments if s.id in chorus_ids]
                 last_section_ids = chorus_service.detect_last_section(segments)
@@ -147,14 +152,18 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
                     await chorus_service.generate_grand_chorus(
                         song_id=song_id,
                         segment_ids=grand_chorus_ids,
-                        voice_model_ids=[v.id for v in available_voices[:5]],
+                        voice_model_ids=[v.id for v in available_voices[:voice_count]],
                         db=db,
                     )
 
         # Step 6: Monologue generation
-        if params.monologue_text:
+        if params.monologue_text or song.monologue_audio_path:
             _update_progress(song_id, "monologue", 85, "Generating monologue...")
-            await tts_service.generate(song_id, params.monologue_text, db)
+            if song.monologue_audio_path:
+                # Use uploaded recording directly
+                pass  # audio_service.mix_all will pick it up
+            elif params.monologue_text:
+                await tts_service.generate(song_id, params.monologue_text, db)
 
         # Step 7: Audio mixing
         _update_progress(song_id, "mixing", 90, "Mixing audio...")
@@ -163,9 +172,14 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             params.monologue_position or "beginning", db
         )
 
-        # Step 8: Video generation
-        _update_progress(song_id, "video", 95, "Generating video...")
-        await asyncio.to_thread(video_service.generate, song_id, db)
+        # Step 8: Video / audio generation based on output_format
+        output_format = params.output_format or "video"
+        if output_format in ("video", "video_subtitled"):
+            _update_progress(song_id, "video", 95, "Generating video...")
+            await asyncio.to_thread(video_service.generate, song_id, db)
+        else:
+            # Audio only — skip video, just finalize
+            _update_progress(song_id, "video", 95, "Finalizing audio...")
 
         _update_progress(song_id, "done", 100, "Complete!")
 

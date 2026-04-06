@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from ..config import SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR, MAX_AUDIO_SIZE_MB, ALLOWED_AUDIO_FORMATS
@@ -145,6 +146,43 @@ async def upload_lrc(
     return {"song_id": song_id, "lrc_path": str(lrc_path), "segments": segments_data}
 
 
+@router.put("/{song_id}/monologue-audio")
+async def upload_monologue_audio(
+    song_id: str,
+    audio: UploadFile = File(...),
+    db: Session = Depends(get_db),
+):
+    """Upload a recorded monologue audio file for a song."""
+    song = db.query(Song).filter(Song.id == song_id).first()
+    if not song:
+        raise HTTPException(404, f"Song {song_id} not found")
+
+    audio_ext = Path(audio.filename).suffix.lower()
+    if audio_ext not in {".mp3", ".wav", ".ogg", ".m4a", ".webm"}:
+        raise HTTPException(400, "Monologue audio must be mp3, wav, ogg, m4a, or webm")
+
+    song_dir = SONGS_DIR / song_id
+    song_dir.mkdir(parents=True, exist_ok=True)
+    audio_path = song_dir / f"monologue{audio_ext}"
+
+    # Check size from Content-Length header before reading into memory
+    if audio.size is not None and audio.size > 10 * 1024 * 1024:
+        raise HTTPException(400, "Monologue audio too large. Max 10MB")
+
+    content = await audio.read()
+
+    if len(content) > 10 * 1024 * 1024:  # 10MB limit for monologue
+        raise HTTPException(400, "Monologue audio too large. Max 10MB")
+
+    with open(audio_path, "wb") as f:
+        f.write(content)
+
+    song.monologue_audio_path = str(audio_path)
+    db.commit()
+
+    return {"song_id": song_id, "monologue_audio_path": str(audio_path)}
+
+
 @router.get("/{song_id}/segments", response_model=SegmentListResponse)
 async def list_segments(song_id: str, db: Session = Depends(get_db)):
     """List all segments for a song."""
@@ -159,6 +197,46 @@ async def list_segments(song_id: str, db: Session = Depends(get_db)):
         .all()
     )
     return {"segments": segments}
+
+
+class _SegmentUpdateBody(BaseModel):
+    start_time: Optional[float] = None
+    end_time: Optional[float] = None
+
+
+@router.patch("/{song_id}/segments/{segment_id}")
+async def update_segment_timestamps(
+    song_id: str,
+    segment_id: str,
+    body: _SegmentUpdateBody,
+    db: Session = Depends(get_db),
+):
+    """Update a segment's start/end timestamps for manual calibration."""
+    seg = db.query(Segment).filter(
+        Segment.id == segment_id,
+        Segment.song_id == song_id,
+    ).first()
+    if not seg:
+        raise HTTPException(404, f"Segment {segment_id} not found in song {song_id}")
+
+    new_start = body.start_time if body.start_time is not None else seg.start_time
+    new_end = body.end_time if body.end_time is not None else seg.end_time
+
+    if new_start < 0 or new_end < 0:
+        raise HTTPException(400, "Timestamps must be non-negative")
+    if new_start >= new_end:
+        raise HTTPException(400, "start_time must be less than end_time")
+
+    seg.start_time = new_start
+    seg.end_time = new_end
+
+    db.commit()
+    db.refresh(seg)
+    return {
+        "id": seg.id,
+        "start_time": seg.start_time,
+        "end_time": seg.end_time,
+    }
 
 
 @router.put("/{song_id}/voices", response_model=VoiceAssignResponse)
