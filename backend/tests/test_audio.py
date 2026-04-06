@@ -151,14 +151,17 @@ class TestTTSGeneration:
         db_session.add(song)
         db_session.commit()
 
-        # Mock edge_tts.Communicate at the module level
+        # Mock edge_tts at the service import level (edge_tts may not be installed)
         mock_communicate = AsyncMock()
 
         def fake_save(path):
             Path(path).write_bytes(b"fake mp3 data")
         mock_communicate.save = AsyncMock(side_effect=fake_save)
 
-        with patch("edge_tts.Communicate", return_value=mock_communicate):
+        mock_edge_tts = MagicMock()
+        mock_edge_tts.Communicate = MagicMock(return_value=mock_communicate)
+
+        with patch.dict("sys.modules", {"edge_tts": mock_edge_tts}):
             result = await generate("tts_song", "大家好", db_session)
 
         assert result.exists()

@@ -220,6 +220,7 @@ export default function DashboardPage() {
                       src={getCover(song.title)}
                       alt={song.title}
                       fill
+                      loading="eager"
                       className="object-cover"
                       sizes="(max-width:100%) 100vw, (max-width:50%) 50vw"
                     />
