@@ -18,6 +18,8 @@ class SongResponse(BaseModel):
     monologue_text: Optional[str] = None
     monologue_position: Optional[str] = None
     error_message: Optional[str] = None
+    source: str = "upload"
+    artist: Optional[str] = None
     created_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}

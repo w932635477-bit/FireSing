@@ -34,6 +34,10 @@ class Song(Base):
     # converting | chorus | monologue | mixing | video | done | error
     pipeline_step = Column(String)  # sub-step for resume on error
     error_message = Column(Text)
+    source = Column(String, default="upload")   # "upload", "netease", "qq", "kugou", etc.
+    source_id = Column(String)                  # Platform song ID
+    source_url = Column(String)                 # Original platform link
+    artist = Column(String)                     # Artist name (for search imports)
     created_at = Column(DateTime, default=utcnow)
     updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
 

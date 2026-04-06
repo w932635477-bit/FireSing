@@ -45,3 +45,25 @@ def get_db():
 def init_db():
     """Create all tables. Safe to call multiple times."""
     Base.metadata.create_all(bind=engine)
+    _migrate_db()
+
+
+def _migrate_db():
+    """Add columns added after initial schema. Safe to call multiple times."""
+    from sqlalchemy import text
+
+    migrations = [
+        ("songs", "source", "String", "'upload'"),
+        ("songs", "source_id", "String", "NULL"),
+        ("songs", "source_url", "String", "NULL"),
+        ("songs", "artist", "String", "NULL"),
+    ]
+    with engine.connect() as conn:
+        for table, col, col_type, default in migrations:
+            try:
+                conn.execute(
+                    text(f"ALTER TABLE {table} ADD COLUMN {col} {col_type} DEFAULT {default}")
+                )
+            except Exception:
+                pass  # Column already exists
+        conn.commit()
