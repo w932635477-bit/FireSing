@@ -48,6 +48,36 @@ export interface PipelineProgress {
   error_detail?: string | null;
 }
 
+export interface MusicSearchSong {
+  id: string;
+  name: string;
+  artist: string;
+  album: string | null;
+  duration: number;
+  cover_url: string | null;
+  source: string;
+  platforms: {
+    source: string;
+    id: string;
+    name: string;
+    duration: number;
+    cover_url: string;
+  }[];
+  platform_count: number;
+}
+
+export interface MusicSearchResponse {
+  songs: MusicSearchSong[];
+  count: number;
+}
+
+export interface MusicImportProgress {
+  step: string;
+  pct: number;
+  message: string;
+  song_id?: string;
+}
+
 export interface VoiceAssignRequest {
   assignments?: { line_number: number; voice_model_id: string }[];
   voice_pool?: string[];
@@ -165,6 +195,7 @@ export async function getOutputs(songId: string): Promise<{ outputs: Output[] }>
 export function statusLabel(status: string): string {
   const map: Record<string, string> = {
     uploaded: "已上传",
+    importing: "导入中",
     separating: "分离人声",
     separated: "已分离",
     segmented: "已切分",
@@ -185,4 +216,64 @@ export function statusColor(status: string): string {
   if (status === "error") return "bg-red-100 text-red-800";
   if (["uploaded"].includes(status)) return "bg-gray-100 text-gray-800";
   return "bg-blue-100 text-blue-800";
+}
+
+// --- Music Search ---
+
+export async function searchMusic(
+  q: string,
+  sources = ["netease", "qq", "kugou"],
+): Promise<MusicSearchResponse> {
+  const params = new URLSearchParams({ q });
+  sources.forEach((s) => params.append("sources", s));
+  return apiFetch(`/music/search?${params}`);
+}
+
+export async function checkMusicExisting(
+  source: string,
+  sourceId: string,
+): Promise<{ exists: boolean; song_id: string | null }> {
+  const params = new URLSearchParams({ source, source_id: sourceId });
+  return apiFetch(`/music/check-existing?${params}`);
+}
+
+export async function importMusic(
+  source: string,
+  sourceId: string,
+  title: string,
+  artist = "",
+): Promise<{ task_id: string; status: string }> {
+  const params = new URLSearchParams({
+    source,
+    source_id: sourceId,
+    title,
+    artist,
+  });
+  return apiFetch(`/music/import?${params}`, { method: "POST" });
+}
+
+export function connectImportProgress(
+  taskId: string,
+  onProgress: (p: MusicImportProgress) => void,
+  onDone?: (songId: string) => void,
+  onError?: (msg: string) => void,
+): EventSource {
+  const es = new EventSource(`${API_BASE}/music/import/${taskId}/progress`);
+  es.onmessage = (e) => {
+    const data: MusicImportProgress = JSON.parse(e.data);
+    onProgress(data);
+    if (data.step === "done") {
+      es.close();
+      if (onDone && data.song_id) onDone(data.song_id);
+    }
+    if (data.step === "error") {
+      es.close();
+      if (onError) onError(data.message);
+    }
+  };
+  es.onerror = () => {
+    if (onError) onError("连接中断");
+    es.close();
+  };
+  return es;
 }
