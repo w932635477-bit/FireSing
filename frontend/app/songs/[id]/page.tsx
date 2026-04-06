@@ -31,6 +31,8 @@ const VOICE_COLORS = [
   { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
 ];
 
+type Tab = "detail" | "library" | "studio";
+
 export default function SongDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -41,6 +43,7 @@ export default function SongDetailPage() {
   const [voices, setVoices] = useState<VoiceModel[]>([]);
   const [outputs, setOutputs] = useState<Output[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<Tab>("detail");
 
   const [monologueText, setMonologueText] = useState("");
   const [monologuePosition, setMonologuePosition] = useState<"beginning" | "end">("beginning");
@@ -178,9 +181,9 @@ export default function SongDetailPage() {
         </div>
         <div className="flex items-center gap-6">
           <nav className="hidden md:flex items-center gap-6">
-            <Link href={`/songs/${songId}`} className="text-ember font-bold border-b-2 border-ember py-1 text-sm">详情</Link>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white transition-colors text-sm">曲库</Link>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white transition-colors text-sm">工作室</Link>
+            <button onClick={() => setActiveTab("detail")} className={`py-1 text-sm transition-colors ${activeTab === "detail" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>详情</button>
+            <button onClick={() => setActiveTab("library")} className={`py-1 text-sm transition-colors ${activeTab === "library" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>曲库</button>
+            <button onClick={() => setActiveTab("studio")} className={`py-1 text-sm transition-colors ${activeTab === "studio" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>工作室</button>
           </nav>
           <Link href="/dashboard" className="bg-ember text-on-primary-fixed font-bold px-4 py-2 rounded-lg text-sm hover:scale-[0.98] transition-transform active:brightness-90">
             上传新歌曲
@@ -189,8 +192,8 @@ export default function SongDetailPage() {
       </header>
 
       <main className="max-w-4xl mx-auto pt-28 pb-20 px-6">
-        {/* 1. LRC File */}
-        {song.status === "uploaded" && !song.lrc_path && (
+        {/* Tab: Detail — shows LRC upload + LRC status + voice models */}
+        {(activeTab === "detail") && song.status === "uploaded" && !song.lrc_path && (
           <section className="mb-10">
             <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">description</span>
@@ -217,7 +220,7 @@ export default function SongDetailPage() {
         )}
 
         {/* LRC uploaded confirmation */}
-        {song.lrc_path && (
+        {(activeTab === "detail") && song.lrc_path && (
           <section className="mb-10">
             <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">description</span>
@@ -241,7 +244,8 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* 2. Voice Models */}
+        {/* 2. Voice Models — visible on detail tab */}
+        {(activeTab === "detail") && (
         <section className="mb-10">
           <div className="flex justify-between items-end mb-4">
             <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
@@ -300,9 +304,9 @@ export default function SongDetailPage() {
             </div>
           )}
         </section>
-
-        {/* 3. Lyrics Segments */}
-        {hasSegments && (
+        )}
+        {(activeTab === "library") && hasSegments && (
+          <>
           <section className="mb-10">
             <div className="flex justify-between items-end mb-4">
               <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
@@ -357,10 +361,11 @@ export default function SongDetailPage() {
               </table>
             </div>
           </section>
+        </>
         )}
 
-        {/* 4. Processing Settings */}
-        {canProcess && (
+        {/* Tab: Studio — shows processing settings + outputs */}
+        {(activeTab === "studio") && canProcess && (
           <section className="mb-12">
             <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">settings_input_component</span>
@@ -402,8 +407,8 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* Processing indicator */}
-        {isProcessing && (
+        {/* Processing indicator — always visible regardless of tab */}
+        {isProcessing && (activeTab === "studio" || activeTab === "detail") && (
           <div className="bg-surface-container-low rounded-xl p-5 text-center border border-warning/20 mb-10">
             <span className="material-symbols-outlined text-4xl text-warning animate-pulse mb-2 block">progress_activity</span>
             <p className="text-on-surface font-bold">正在处理中...</p>
@@ -413,8 +418,8 @@ export default function SongDetailPage() {
           </div>
         )}
 
-        {/* Start Process Button */}
-        {canProcess && (
+        {/* Start Process Button — studio tab or detail tab */}
+        {(activeTab === "studio" || activeTab === "detail") && canProcess && (
           <div className="flex justify-center pt-6 border-t border-white/5">
             <button
               onClick={handleStartProcess}
@@ -426,8 +431,8 @@ export default function SongDetailPage() {
           </div>
         )}
 
-        {/* Outputs */}
-        {isDone && outputs.length > 0 && (
+        {/* Outputs — visible on studio tab */}
+        {(activeTab === "studio") && isDone && outputs.length > 0 && (
           <section className="mt-10">
             <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">download</span>

@@ -82,9 +82,9 @@ export default function LandingPage() {
                   >
                     立即体验
                   </Link>
-                  <button className="bg-white/5 backdrop-blur-md text-on-surface font-bold text-lg px-10 py-4 rounded-lg border border-white/10 hover:bg-white/10 active:scale-[0.98] transition-all flex items-center gap-2">
+                  <a href="#how-it-works" className="bg-white/5 backdrop-blur-md text-on-surface font-bold text-lg px-10 py-4 rounded-lg border border-white/10 hover:bg-white/10 active:scale-[0.98] transition-all flex items-center gap-2">
                     查看演示 <span className="material-symbols-outlined">play_circle</span>
-                  </button>
+                  </a>
                 </div>
 
                 {/* Stats row */}
@@ -190,7 +190,7 @@ export default function LandingPage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-tertiary-dim/2 rounded-full blur-[200px]" />
           </div>
 
-          <div className="max-w-7xl mx-auto relative z-10">
+          <div id="how-it-works" className="max-w-7xl mx-auto relative z-10">
             <div className="text-center mb-20">
               <span className="text-ember font-bold text-sm uppercase tracking-[0.3em] font-mono mb-4 block">How it works</span>
               <h2 className="text-5xl md:text-6xl font-black tracking-tighter">三步完成创作</h2>
@@ -220,6 +220,7 @@ export default function LandingPage() {
                       src="/images/step-upload.webp"
                       alt=""
                       fill
+                      sizes="400px"
                       className="object-cover opacity-25 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
                     />
                     {/* Dark gradient overlay */}
@@ -276,6 +277,7 @@ export default function LandingPage() {
                       src="/images/step-assign.webp"
                       alt=""
                       fill
+                      sizes="400px"
                       className="object-cover opacity-25 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
                     />
                     {/* Dark gradient overlay */}
@@ -331,6 +333,7 @@ export default function LandingPage() {
                       src="/images/step-generate.webp"
                       alt=""
                       fill
+                      sizes="400px"
                       className="object-cover opacity-25 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
                     />
                     {/* Dark gradient overlay */}
@@ -386,6 +389,7 @@ export default function LandingPage() {
                   src="/images/chorus-feature.webp"
                   alt="AI 多人合唱模式"
                   fill
+                  sizes="(max-width: 768px) 100vw, 66vw"
                   className="object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-700"
                   priority
                 />
@@ -408,6 +412,7 @@ export default function LandingPage() {
                   src="/images/vertical-video-feature.webp"
                   alt="竖版视频生成"
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover opacity-30"
                   priority
                 />
@@ -432,6 +437,7 @@ export default function LandingPage() {
                   src="/images/monologue-feature.webp"
                   alt="个性化独白"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />
@@ -452,6 +458,7 @@ export default function LandingPage() {
                   src="/images/preservation-feature.webp"
                   alt="原声细节保留"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent" />

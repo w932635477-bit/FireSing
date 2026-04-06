@@ -13,6 +13,20 @@ from ..models import Song
 from ..schemas import ProcessRequest, ProcessResponse, PipelineProgress
 
 router = APIRouter()
+
+
+def _friendly_error(exc: Exception) -> str:
+    """Convert raw exceptions to user-friendly error messages."""
+    msg = str(exc).lower()
+    if "502" in msg or "bad gateway" in msg:
+        return "GPU 服务器暂时不可用，请稍后重试"
+    if "503" in msg or "service unavailable" in msg:
+        return "GPU 服务器维护中，请稍后重试"
+    if "timeout" in msg or "timed out" in msg:
+        return "处理超时，请检查文件大小后重试"
+    if "connection" in msg or "refused" in msg:
+        return "无法连接 GPU 服务器，请确认服务已启动"
+    return f"处理失败：{type(exc).__name__}"
 logger = logging.getLogger(__name__)
 
 # In-memory progress store (single-process, no Redis needed)
@@ -168,7 +182,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         song = db.query(Song).filter(Song.id == song_id).first()
         if song:
             song.status = "error"
-            song.error_message = str(e)
+            song.error_message = _friendly_error(e)
             db.commit()
     finally:
         db.close()

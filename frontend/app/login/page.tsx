@@ -63,6 +63,9 @@ export default function LoginPage() {
           </div>
 
           {/* Login Form */}
+          <div className="bg-ember/10 border border-ember/20 rounded-lg px-4 py-3 text-sm text-ember text-center">
+            内测阶段，点击登录即可体验
+          </div>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2 px-1">
