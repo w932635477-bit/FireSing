@@ -83,8 +83,7 @@ def _merge_results(songs: list[dict]) -> list[dict]:
                 "name": e.get("name", ""),
                 "duration": e.get("duration", 0),
                 "cover_url": e.get("cover_url", ""),
-                "source_name": e.get("source_name", e.get("source", "")),
-                "source_name": e.get("source_name", ""),
+                "source_name": e.get("source_name") or {"netease": "网易云", "qq": "QQ音乐", "kugou": "酷狗", "kuwo": "酷我"}.get(e.get("source", ""), e.get("source", "")),
             })
 
         primary["platforms"] = platforms
@@ -288,6 +287,12 @@ async def import_music(
     # Validate source
     if source not in ALLOWED_SOURCES:
         raise HTTPException(400, f"Invalid source: {source}. Allowed: {', '.join(sorted(ALLOWED_SOURCES))}")
+
+    # Validate required fields are non-empty
+    if not source_id.strip():
+        raise HTTPException(422, "source_id must not be empty")
+    if not title.strip():
+        raise HTTPException(422, "title must not be empty")
 
     # Duplicate check — reject if already imported
     existing = db.query(Song).filter(
