@@ -98,4 +98,11 @@ def _migrate_db():
         except Exception:
             pass
 
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN user_id VARCHAR DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
         conn.commit()
