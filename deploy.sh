@@ -34,28 +34,21 @@ CERT_DIR="./certbot/conf/live/$DOMAIN"
 if [ ! -d "$CERT_DIR" ]; then
     echo "📜 申请 Let's Encrypt 证书 ($DOMAIN)..."
 
-    # 先用 HTTP-only nginx 获取证书
-    cat > /tmp/nginx-cert.conf << 'NGINX_CONF'
-events { worker_connections 1024; }
-http {
-    server {
-        listen 80;
-        location /.well-known/acme-challenge/ {
-            root /var/www/certbot;
-        }
-    }
-}
-NGINX_CONF
-
     mkdir -p certbot/www certbot/conf
-    docker run --rm -v "$PWD/certbot/www:/var/www/certbot" \
+
+    # Use standalone mode — certbot runs its own temp web server on port 80
+    # Make sure nothing else is using port 80
+    docker compose stop nginx 2>/dev/null || true
+
+    docker run --rm \
+        -v "$PWD/certbot/www:/var/www/certbot" \
         -v "$PWD/certbot/conf:/etc/letsencrypt" \
+        -p 80:80 \
         certbot/certbot certonly \
-        --webroot --webroot-path /var/www/certbot \
+        --standalone \
         -d "$DOMAIN" --email "admin@$DOMAIN" \
         --agree-tos --no-eff-email
 
-    rm -f /tmp/nginx-cert.conf
     echo "✅ 证书已获取"
 else
     echo "✅ 证书已存在"
