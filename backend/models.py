@@ -105,7 +105,6 @@ class User(Base):
     updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
 
     orders = relationship("Order", back_populates="user")
-    songs = relationship("Song", back_populates="user")
 
     @property
     def has_unlimited(self) -> bool:
