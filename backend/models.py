@@ -41,6 +41,7 @@ class Song(Base):
     created_at = Column(DateTime, default=utcnow)
     updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
 
+    user_id = Column(String, ForeignKey("users.id"))
     segments = relationship("Segment", back_populates="song", cascade="all, delete-orphan")
     outputs = relationship("Output", back_populates="song", cascade="all, delete-orphan")
 
@@ -87,3 +88,47 @@ class Output(Base):
     created_at = Column(DateTime, default=utcnow)
 
     song = relationship("Song", back_populates="outputs")
+
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(String, primary_key=True, default=new_id)
+    wechat_openid = Column(String, unique=True, nullable=False)
+    wechat_unionid = Column(String, index=True)
+    wechat_nickname = Column(String)
+    wechat_avatar_url = Column(String)
+    credits = Column(Integer, default=3)  # 免费额度 3 首
+    subscription_plan = Column(String, default="free")  # free | monthly | yearly
+    subscription_expires_at = Column(DateTime)
+    created_at = Column(DateTime, default=utcnow)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow)
+
+    orders = relationship("Order", back_populates="user")
+    songs = relationship("Song", back_populates="user")
+
+    @property
+    def has_unlimited(self) -> bool:
+        if self.subscription_plan == "free":
+            return False
+        if self.subscription_expires_at and self.subscription_expires_at > utcnow():
+            return True
+        return False
+
+
+class Order(Base):
+    __tablename__ = "orders"
+
+    id = Column(String, primary_key=True, default=new_id)
+    user_id = Column(String, ForeignKey("users.id"), nullable=False)
+    type = Column(String, nullable=False)  # "credits" | "subscription"
+    amount = Column(Integer, nullable=False)  # 金额（分）
+    credits_amount = Column(Integer)  # 购买的积分数量
+    description = Column(String)
+    status = Column(String, default="pending")  # pending | paid | failed | refunded
+    wechat_prepay_id = Column(String)
+    wechat_transaction_id = Column(String)
+    paid_at = Column(DateTime)
+    created_at = Column(DateTime, default=utcnow)
+
+    user = relationship("User", back_populates="orders")

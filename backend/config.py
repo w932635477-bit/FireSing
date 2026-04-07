@@ -35,3 +35,23 @@ PORT = int(os.getenv("PORT", "8000"))
 
 # CORS
 CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+
+# WeChat Open Platform (PC QR scan login)
+WECHAT_OPEN_APP_ID = os.getenv("WECHAT_OPEN_APP_ID", "")
+WECHAT_OPEN_APP_SECRET = os.getenv("WECHAT_OPEN_APP_SECRET", "")
+
+# WeChat Official Account (in-app OAuth)
+WECHAT_MP_APP_ID = os.getenv("WECHAT_MP_APP_ID", "")
+WECHAT_MP_APP_SECRET = os.getenv("WECHAT_MP_APP_SECRET", "")
+
+# WeChat Pay
+WECHAT_PAY_MCH_ID = os.getenv("WECHAT_PAY_MCH_ID", "")
+WECHAT_PAY_API_KEY = os.getenv("WECHAT_PAY_API_KEY", "")
+WECHAT_PAY_NOTIFY_URL = os.getenv(
+    "WECHAT_PAY_NOTIFY_URL", "https://firesing.cn/api/payments/wechat/callback"
+)
+
+# JWT
+JWT_SECRET = os.getenv("JWT_SECRET", "change-this-to-a-random-32-char-string")
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRE_HOURS = int(os.getenv("JWT_EXPIRE_HOURS", "168"))  # 7 days

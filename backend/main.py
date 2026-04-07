@@ -12,7 +12,7 @@ from .config import (
     CORS_ORIGINS,
 )
 from .database import init_db
-from .routers import songs, voices, pipeline, outputs, music
+from .routers import songs, voices, pipeline, outputs, music, auth, orders
 
 
 @asynccontextmanager
@@ -69,6 +69,8 @@ app.include_router(voices.router, prefix="/api/voices", tags=["voices"])
 app.include_router(pipeline.router, prefix="/api/songs", tags=["pipeline"])
 app.include_router(outputs.router, prefix="/api/songs", tags=["outputs"])
 app.include_router(music.router, prefix="/api/music", tags=["music"])
+app.include_router(auth.router, tags=["auth"])
+app.include_router(orders.router, tags=["orders"])
 
 
 @app.get("/api/health")

@@ -298,6 +298,93 @@ export async function importMusic(
   return apiFetch(`/music/import?${params}`, { method: "POST" });
 }
 
+// --- Auth ---
+
+export interface UserInfo {
+  authenticated: boolean;
+  id?: string;
+  nickname?: string;
+  avatar_url?: string;
+  credits?: number;
+  plan?: string;
+  has_unlimited?: boolean;
+}
+
+export interface OrderInfo {
+  id: string;
+  type: string;
+  amount: number;
+  credits_amount?: number | null;
+  description: string;
+  status: string;
+  paid_at?: string | null;
+  created_at?: string | null;
+}
+
+export interface PricingPlan {
+  id: string;
+  credits?: number;
+  price_fen: number;
+  name: string;
+  desc: string;
+}
+
+const TOKEN_KEY = "firesing_token";
+
+export function getToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setToken(token: string) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+async function authFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = {
+    ...(init?.headers as Record<string, string> || {}),
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return apiFetch(path, { ...init, headers });
+}
+
+export async function getMe(): Promise<UserInfo> {
+  return authFetch("/auth/me");
+}
+
+export async function getQrLoginUrl(): Promise<{ url: string; state: string }> {
+  return apiFetch("/auth/wechat/qr-url");
+}
+
+export async function pollLogin(state: string): Promise<{ status: string; token?: string }> {
+  return apiFetch(`/auth/wechat/poll?state=${state}`);
+}
+
+export async function getPlans(): Promise<{ credits: PricingPlan[]; subscriptions: PricingPlan[] }> {
+  return apiFetch("/orders/plans");
+}
+
+export async function createOrder(
+  planId: string,
+): Promise<{ order_id: string; status: string; amount: number; qr_url?: string }> {
+  return authFetch(`/orders/create?plan_id=${planId}`, { method: "POST" });
+}
+
+export async function getOrder(orderId: string): Promise<OrderInfo> {
+  return authFetch(`/orders/${orderId}`);
+}
+
+export async function listOrders(): Promise<{ orders: OrderInfo[] }> {
+  return authFetch("/orders");
+}
+
 export function connectImportProgress(
   taskId: string,
   onProgress: (p: MusicImportProgress) => void,
