@@ -9,9 +9,9 @@ export default function LandingPage() {
         <div className="text-2xl font-black text-ember tracking-tight">FireSing</div>
         <nav className="hidden md:flex gap-8 items-center">
           <Link href="/" className="text-ember font-bold border-b-2 border-ember px-3 py-2">首页</Link>
-          <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">工作台</Link>
-          <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">曲库</Link>
-          <span className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors cursor-pointer">会员方案</span>
+          <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">我的作品</Link>
+          <span className="text-white/40 font-medium px-3 py-2 cursor-not-allowed">音乐库 <span className="text-[9px] text-white/20">即将上线</span></span>
+          <span className="text-white/40 font-medium px-3 py-2 cursor-not-allowed">会员方案 <span className="text-[9px] text-white/20">即将上线</span></span>
         </nav>
         <div className="flex items-center gap-4">
           <Link
@@ -82,75 +82,37 @@ export default function LandingPage() {
                   >
                     立即体验
                   </Link>
-                  <a href="#how-it-works" className="bg-white/5 backdrop-blur-md text-on-surface font-bold text-lg px-10 py-4 rounded-lg border border-white/10 hover:bg-white/10 active:scale-[0.98] transition-all flex items-center gap-2">
-                    查看演示 <span className="material-symbols-outlined">play_circle</span>
-                  </a>
+                  <span className="opacity-40 cursor-not-allowed bg-white/5 backdrop-blur-md text-on-surface font-bold text-lg px-10 py-4 rounded-lg border border-white/5 flex items-center gap-2">
+                    查看演示 <span className="text-[9px] text-on-surface-variant/40">即将上线</span>
+                  </span>
                 </div>
 
-                {/* Stats row */}
+                {/* Status row */}
                 <div className="flex gap-10 mt-14">
-                  {[
-                    { value: "10K+", label: "创作者" },
-                    { value: "50K+", label: "作品" },
-                    { value: "99.2%", label: "满意度" },
-                  ].map((stat) => (
-                    <div key={stat.label}>
-                      <div className="text-2xl md:text-3xl font-black text-ember font-mono">{stat.value}</div>
-                      <div className="text-xs text-on-surface-variant font-medium uppercase tracking-wider">{stat.label}</div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                      <span className="text-sm font-bold text-success">内测中</span>
                     </div>
-                  ))}
+                    <div className="text-xs text-on-surface-variant font-medium uppercase tracking-wider mt-1">Beta</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl md:text-3xl font-black text-ember font-mono">RVC</div>
+                    <div className="text-xs text-on-surface-variant font-medium uppercase tracking-wider">AI 语音引擎</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl md:text-3xl font-black text-ember font-mono">9:16</div>
+                    <div className="text-xs text-on-surface-variant font-medium uppercase tracking-wider">竖版视频</div>
+                  </div>
                 </div>
               </div>
 
-              {/* Right: Featured Works Grid (5 cols) */}
-              <div className="lg:col-span-5 relative hidden lg:block">
-                <div className="absolute -top-4 text-xs font-bold text-ember/60 uppercase tracking-widest mb-3">热门作品</div>
-                <div className="grid grid-cols-2 gap-4 pt-6">
-                  {[
-                    { title: "稻香", artist: "周杰伦", voices: 3, status: "done", cover: "/images/cover-vinyl.webp" },
-                    { title: "珊瑚海", artist: "周杰伦 / Lara", voices: 2, status: "processing", cover: "/images/cover-waves.webp" },
-                    { title: "晴天", artist: "周杰伦", voices: 4, status: "done", cover: "/images/cover-headphones.webp" },
-                    { title: "七里香", artist: "周杰伦", voices: 3, status: "done", cover: "/images/cover-piano.webp" },
-                  ].map((song, i) => (
-                    <div
-                      key={i}
-                      className="group relative rounded-xl overflow-hidden border border-white/5 hover:border-ember/20 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(255,107,53,0.15)] cursor-pointer"
-                    >
-                      <div className="aspect-square relative">
-                        <Image
-                          src={song.cover}
-                          alt={song.title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width:300px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Status badge */}
-                        <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 ${
-                          song.status === "done" ? "bg-success/20 text-success" : "bg-ember/20 text-ember"
-                        }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${song.status === "done" ? "bg-success" : "bg-ember animate-pulse"}`} />
-                          {song.status === "done" ? "完成" : "处理中"}
-                        </div>
-                        {/* Play button on hover */}
-                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <div className="w-10 h-10 rounded-full bg-ember flex items-center justify-center shadow-lg shadow-ember/30">
-                            <span className="material-symbols-outlined text-white text-xl" style={{ fontVariationSettings: '"FILL" 1' }}>play_arrow</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <p className="text-sm font-bold text-white truncate">{song.title}</p>
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] text-on-surface-variant truncate">{song.artist}</span>
-                          <div className="flex items-center gap-1">
-                            <span className="material-symbols-outlined text-ember text-[10px]">mic</span>
-                            <span className="text-[9px] text-on-surface-variant font-mono">{song.voices} 声部</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+              {/* Right: Community works placeholder */}
+              <div className="lg:col-span-5 relative hidden lg:flex items-center justify-center">
+                <div className="text-center opacity-40">
+                  <span className="material-symbols-outlined text-6xl text-ember/40 mb-4 block">queue_music</span>
+                  <p className="text-sm font-bold text-on-surface-variant/60">社区作品即将上线</p>
+                  <p className="text-xs text-on-surface-variant/40 mt-1">内测阶段，敬请期待</p>
                 </div>
               </div>
             </div>
@@ -476,104 +438,39 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Pricing */}
+        {/* Beta CTA - replaces pricing during MVP */}
         <section className="py-32 px-6 bg-surface-container-low/30" id="pricing">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-8">选择适合你的方案</h2>
-              <p className="text-on-surface-variant text-xl max-w-2xl mx-auto font-medium">
-                释放你的创意潜力。从基础创作到专业音频工程，我们为你量身打造了多款灵活的方案。
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-              {/* Free Plan */}
-              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
-                <div className="mb-10">
-                  <h3 className="text-2xl font-black mb-4">免费版</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black tracking-tighter font-mono">¥0</span>
-                    <span className="text-on-surface-variant font-mono font-bold">/月</span>
-                  </div>
-                </div>
-                <ul className="space-y-5 mb-12 flex-grow">
-                  {["每月 3 首歌曲", "3 种可用音色", "基础视频生成", "包含水印"].map((f) => (
-                    <li key={f} className="flex items-center gap-4 text-on-surface-variant font-medium">
-                      <span className="material-symbols-outlined text-ember text-sm">check_circle</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10">
-                  免费开始
-                </button>
-              </div>
-
-              {/* Recommended Plan */}
-              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col relative border-2 border-ember shadow-[0_20px_60px_rgba(255,107,53,0.15)] scale-[1.05] z-10">
-                <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-ember text-on-primary-fixed px-6 py-1.5 rounded-full text-xs font-black tracking-[0.2em] uppercase">
-                  热门推荐
-                </div>
-                <div className="mb-10">
-                  <h3 className="text-2xl font-black mb-4 text-on-surface">创作者版</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black tracking-tighter font-mono text-ember">¥49</span>
-                    <span className="text-on-surface-variant font-mono font-bold">/月</span>
-                  </div>
-                </div>
-                <ul className="space-y-5 mb-12 flex-grow">
-                  {["每月 30 首歌曲", "10 种可用音色", "1080P 高清视频", "无水印限制", "优先生成队列"].map((f) => (
-                    <li key={f} className="flex items-center gap-4 text-on-surface font-bold">
-                      <span className="material-symbols-outlined text-ember text-sm" style={{ fontVariationSettings: '"FILL" 1' }}>check_circle</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-ember/30">
-                  立即订阅
-                </button>
-              </div>
-
-              {/* Pro Plan */}
-              <div className="bg-surface-container rounded-[40px] p-10 flex flex-col hover:bg-surface-bright transition-all duration-500 border border-white/5 hover:scale-[1.02] hover:shadow-2xl">
-                <div className="mb-10">
-                  <h3 className="text-2xl font-black mb-4">专业版</h3>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-5xl font-black tracking-tighter font-mono">¥149</span>
-                    <span className="text-on-surface-variant font-mono font-bold">/月</span>
-                  </div>
-                </div>
-                <ul className="space-y-5 mb-12 flex-grow">
-                  {["无限歌曲/音色", "4K 电影感视频", "API 访问权限", "批量处理模式"].map((f) => (
-                    <li key={f} className="flex items-center gap-4 text-on-surface-variant font-medium">
-                      <span className="material-symbols-outlined text-ember text-sm">check_circle</span>
-                      <span>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className="w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10">
-                  联系销售
-                </button>
-              </div>
-            </div>
-
-            {/* FAQ */}
-            <div className="max-w-3xl mx-auto bg-surface-container-low rounded-[40px] p-12 md:p-16 border border-white/5 shadow-2xl">
-              <h2 className="text-3xl font-black mb-16 tracking-tight text-center">常见问题解答</h2>
-              <div className="space-y-8">
-                {[
-                  { q: "我可以随时取消吗？", a: "是的，您可以随时从您的账户设置中取消订阅。如果您在计费周期中取消，您仍可继续使用付费功能直至周期结束。" },
-                  { q: "支持哪些支付方式？", a: "我们目前支持支付宝 (Alipay)、微信支付 (WeChat Pay) 以及所有主流国际信用卡。" },
-                  { q: "有免费试用吗？", a: "新用户注册即可自动获得免费版权限，无需信用卡绑定。专业功能暂无免费试用，但我们提供针对创作者方案的 7 天无忧退款保证。" },
-                ].map((faq, i) => (
-                  <div key={i} className={`group cursor-pointer ${i > 0 ? "border-t border-white/5 pt-8" : ""}`}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-black text-on-surface group-hover:text-ember transition-colors">{faq.q}</span>
-                      <span className="material-symbols-outlined text-on-surface-variant group-hover:text-ember transition-colors">add</span>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-surface-container rounded-[40px] p-12 md:p-16 border border-ember/20 text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-ember/10 rounded-full blur-[100px]" />
+              <div className="relative z-10">
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ember/10 border border-ember/20 text-ember text-xs font-bold uppercase tracking-widest mb-8">
+                  <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                  内测阶段 · 免费使用
+                </span>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">产品处于内测阶段</h2>
+                <p className="text-on-surface-variant text-lg max-w-xl mx-auto font-medium leading-relaxed mb-10">
+                  目前所有功能免费开放。正式上线后将推出免费版、创作者版和专业版方案。
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left mb-10">
+                  {[
+                    { name: "免费版", features: "3 首歌/月 · 3 种音色 · 含水印" },
+                    { name: "创作者版", features: "30 首/月 · 10 种音色 · 1080P · ¥49/月" },
+                    { name: "专业版", features: "无限量 · 4K 视频 · API · ¥149/月" },
+                  ].map((plan) => (
+                    <div key={plan.name} className="bg-surface-container-high/50 rounded-xl p-4 border border-white/5">
+                      <div className="text-sm font-black text-ember mb-1">{plan.name}</div>
+                      <div className="text-xs text-on-surface-variant">{plan.features}</div>
                     </div>
-                    <div className="mt-4 text-on-surface-variant font-medium leading-relaxed">{faq.a}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <Link
+                  href="/dashboard"
+                  prefetch={false}
+                  className="inline-block bg-ember text-on-primary-fixed font-black px-10 py-4 rounded-xl shadow-[0_8px_40px_rgba(255,107,53,0.3)] active:scale-[0.98] transition-all"
+                >
+                  免费开始使用
+                </Link>
               </div>
             </div>
           </div>
@@ -585,7 +482,7 @@ export default function LandingPage() {
             <div className="relative z-10">
               <h2 className="text-5xl md:text-7xl font-black mb-10 tracking-tighter">开启你的 AI 音乐之旅</h2>
               <p className="text-2xl text-on-surface-variant mb-14 max-w-2xl mx-auto font-medium">
-                加入上万名创作者，让你的每一首歌都拥有千万种可能。
+                AI 驱动的多人多音色翻唱平台，让你的每一首歌都拥有千万种可能。
               </p>
               <Link
                 href="/dashboard"
@@ -613,19 +510,19 @@ export default function LandingPage() {
           <div>
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-sm">产品</h4>
             <ul className="space-y-6 text-on-surface-variant font-bold">
-              <li><span className="hover:text-primary transition-colors cursor-pointer">核心功能</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">价格方案</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">开发者 API</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">曲库展示</span></li>
+              <li><span className="cursor-default">核心功能</span></li>
+              <li><span className="cursor-default">价格方案</span></li>
+              <li><span className="cursor-default">开发者 API</span></li>
+              <li><span className="cursor-default">曲库展示</span></li>
             </ul>
           </div>
           <div>
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-sm">关于我们</h4>
             <ul className="space-y-6 text-on-surface-variant font-bold">
-              <li><span className="hover:text-primary transition-colors cursor-pointer">公司介绍</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">服务条款</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">隐私政策</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">联系我们</span></li>
+              <li><span className="cursor-default">公司介绍</span></li>
+              <li><span className="cursor-default">服务条款</span></li>
+              <li><span className="cursor-default">隐私政策</span></li>
+              <li><span className="cursor-default">联系我们</span></li>
             </ul>
           </div>
         </div>

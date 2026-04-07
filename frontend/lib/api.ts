@@ -215,6 +215,12 @@ export async function getOutputs(songId: string): Promise<{ outputs: Output[] }>
   return apiFetch(`/songs/${songId}/outputs`);
 }
 
+// --- Cancel ---
+
+export async function cancelProcess(songId: string): Promise<void> {
+  await apiFetch(`/songs/${songId}/process`, { method: "DELETE" });
+}
+
 // --- Status helpers ---
 
 export function statusLabel(status: string): string {

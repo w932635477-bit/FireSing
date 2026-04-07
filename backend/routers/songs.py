@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -91,6 +92,20 @@ async def get_song(song_id: str, db: Session = Depends(get_db)):
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
     return song
+
+
+@router.get("/{song_id}/preview")
+async def preview_audio(song_id: str, db: Session = Depends(get_db)):
+    """Serve original audio file for preview playback."""
+    song = db.query(Song).filter(Song.id == song_id).first()
+    if not song:
+        raise HTTPException(404, f"Song {song_id} not found")
+    audio_path = Path(song.original_audio_path)
+    if not audio_path.exists():
+        raise HTTPException(404, "Original audio file not found")
+    ext = audio_path.suffix.lower()
+    media_map = {".mp3": "audio/mpeg", ".wav": "audio/wav", ".flac": "audio/flac", ".ogg": "audio/ogg", ".m4a": "audio/mp4"}
+    return FileResponse(path=str(audio_path), media_type=media_map.get(ext, "audio/mpeg"), filename=audio_path.name)
 
 
 @router.delete("/{song_id}", response_model=SongDeleteResponse)

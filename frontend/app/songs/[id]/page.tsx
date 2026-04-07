@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
   getSong,
@@ -21,6 +21,7 @@ import {
   type Output,
   type ProcessRequest,
 } from "@/lib/api";
+import { useToast } from "@/components/Toast";
 
 const VOICE_COLORS = [
   { chip: "voice-chip-red", dot: "bg-ember", label: "珊瑚红" },
@@ -38,8 +39,9 @@ type Tab = "detail" | "library" | "studio";
 export default function SongDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const songId = params.id as string;
-
+  const { addToast } = useToast();
   const [song, setSong] = useState<Song | null>(null);
   const [segments, setSegments] = useState<Segment[]>([]);
   const [voices, setVoices] = useState<VoiceModel[]>([]);
@@ -106,6 +108,14 @@ export default function SongDetailPage() {
 
   useEffect(() => { load(); }, [load]);
 
+  // Auto-switch tab from URL query param (e.g. ?tab=studio from process page retry)
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "library" || tab === "studio" || tab === "detail") {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
+
   async function handleUploadLrc(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -113,21 +123,21 @@ export default function SongDetailPage() {
     if (!lrc || lrc.size === 0) return;
     setLrcUploading(true);
     try { await uploadLrc(songId, lrc); await load(); }
-    catch (e) { alert(`LRC 上传失败: ${e instanceof Error ? e.message : e}`); }
+    catch (e) { addToast("error", `LRC 上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
     finally { setLrcUploading(false); }
   }
 
   async function handleAssignRoundRobin() {
-    if (voices.length === 0) return alert("请先上传音色模型");
+    if (voices.length === 0) { addToast("warning", "请先上传音色模型"); return; }
     try { await assignVoices(songId, { voice_pool: voices.map((v) => v.id), strategy: "round-robin" }); await load(); }
-    catch (e) { alert(`分配失败: ${e instanceof Error ? e.message : e}`); }
+    catch (e) { addToast("error", `分配失败: ${e instanceof Error ? e.message : "请重试"}`); }
   }
 
   async function handleManualAssign(segId: string, voiceId: string) {
     const seg = segments.find((s) => s.id === segId);
     if (!seg) return;
     try { await assignVoices(songId, { assignments: [{ line_number: seg.line_number, voice_model_id: voiceId }], strategy: "manual" }); await load(); }
-    catch (e) { alert(`分配失败: ${e instanceof Error ? e.message : e}`); }
+    catch (e) { addToast("error", `分配失败: ${e instanceof Error ? e.message : "请重试"}`); }
   }
 
   async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
@@ -139,20 +149,20 @@ export default function SongDetailPage() {
     if (!pth || !name) return;
     setVoiceUploading(true);
     try { await uploadVoice(pth, idx?.size > 0 ? idx : null, name); await load(); setShowVoiceUpload(false); }
-    catch (e) { alert(`音色上传失败: ${e instanceof Error ? e.message : e}`); }
+    catch (e) { addToast("error", `音色上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
     finally { setVoiceUploading(false); }
   }
 
   async function handleStartProcess() {
     const assigned = segments.filter((s) => s.voice_model_id);
-    if (assigned.length === 0) return alert("请先分配音色");
+    if (assigned.length === 0) { addToast("warning", "请先分配音色"); return; }
     const pool = [...new Set(assigned.map((s) => s.voice_model_id!))];
 
     // Upload monologue recording if selected
     if (monologueMode === "record" && monologueFile) {
       setMonologueUploading(true);
       try { await uploadMonologueAudio(songId, monologueFile); }
-      catch (e) { setMonologueUploading(false); return alert(`独白上传失败: ${e instanceof Error ? e.message : e}`); }
+      catch (e) { setMonologueUploading(false); return addToast("error", `独白上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
       finally { setMonologueUploading(false); }
     }
 
@@ -166,7 +176,7 @@ export default function SongDetailPage() {
       chorus_voice_count: chorusVoiceCount,
     };
     try { await startProcess(songId, req); router.push(`/songs/${songId}/process`); }
-    catch (e) { alert(`启动失败: ${e instanceof Error ? e.message : e}`); }
+    catch (e) { addToast("error", `启动失败: ${e instanceof Error ? e.message : "请重试"}`); }
   }
 
   if (loading) return (
@@ -208,18 +218,41 @@ export default function SongDetailPage() {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-2 text-sm">
+            <Link href="/dashboard" className="text-on-surface-variant hover:text-white transition-colors">我的作品</Link>
+            <span className="text-on-surface-variant/30">/</span>
+            <span className="text-white font-bold">{song.title}</span>
+          </nav>
+          <nav className="hidden md:flex items-center gap-4 ml-6">
             <button onClick={() => setActiveTab("detail")} className={`py-1 text-sm transition-colors ${activeTab === "detail" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>详情</button>
             <button onClick={() => setActiveTab("library")} className={`py-1 text-sm transition-colors ${activeTab === "library" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>曲库</button>
             <button onClick={() => setActiveTab("studio")} className={`py-1 text-sm transition-colors ${activeTab === "studio" ? "text-ember font-bold border-b-2 border-ember" : "text-white/60 font-medium hover:text-white"}`}>工作室</button>
           </nav>
-          <Link href="/dashboard" className="bg-ember text-on-primary-fixed font-bold px-4 py-2 rounded-lg text-sm hover:scale-[0.98] transition-transform active:brightness-90">
-            上传新歌曲
-          </Link>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto pt-28 pb-20 px-6">
+        {/* Audio Preview — always visible */}
+        {activeTab === "detail" && (
+          <section className="mb-8">
+            <div className="bg-surface-container-low rounded-xl p-5 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-ember flex-shrink-0">
+                <span className="material-symbols-outlined text-2xl">headphones</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-bold text-white mb-1">原曲预览</div>
+                <audio
+                  controls
+                  className="w-full h-10"
+                  src={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api"}/songs/${songId}/preview`}
+                >
+                  您的浏览器不支持音频播放
+                </audio>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Tab: Detail — shows LRC upload + LRC status + voice models */}
         {(activeTab === "detail") && song.status === "uploaded" && !song.lrc_path && (
           <section className="mb-10">
@@ -234,7 +267,7 @@ export default function SongDetailPage() {
                 </div>
                 <div>
                   <div className="font-bold text-white">上传 LRC 歌词文件</div>
-                  <div className="text-sm text-on-surface-variant">支持 .lrc 和 .txt 格式</div>
+                  <div className="text-sm text-on-surface-variant">支持 .lrc 和 .txt 格式，推荐上传以获得最佳切分效果</div>
                 </div>
               </div>
               <form onSubmit={handleUploadLrc} className="flex gap-3 items-center">
@@ -302,7 +335,8 @@ export default function SongDetailPage() {
                   <input name="index_file" type="file" accept=".index" className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-container-high file:text-on-surface" />
                 </div>
               </div>
-              <button type="submit" disabled={voiceUploading} className="px-4 py-2 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg text-sm font-bold disabled:opacity-50 active:scale-[0.98] transition-transform">
+              <button type="submit" disabled={voiceUploading} className="px-4 py-2 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg text-sm font-bold disabled:opacity-50 active:scale-[0.98] transition-transform flex items-center gap-2">
+                {voiceUploading && <span className="material-symbols-outlined text-sm animate-spin">progress_activity</span>}
                 {voiceUploading ? "上传中..." : "上传音色"}
               </button>
             </form>
@@ -375,7 +409,8 @@ export default function SongDetailPage() {
               </div>
             </div>
             <div className="bg-surface-container-low rounded-xl overflow-hidden border border-white/5">
-              <table className="w-full text-left border-collapse">
+              {/* Desktop table */}
+              <table className="hidden md:table w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-surface-container-high text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">
                     <th className="px-6 py-4">行号</th>
@@ -395,54 +430,26 @@ export default function SongDetailPage() {
                         <td className="px-6 py-4 text-sm font-medium">{seg.text}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-1 text-xs font-mono text-ember">
-                            <input
-                              type="number"
-                              step="0.1"
-                              min="0"
-                              value={seg.start_time.toFixed(1)}
-                              onChange={(e) => {
-                                const val = parseFloat(e.target.value);
-                                if (!isNaN(val)) {
-                                  setSegments(prev => prev.map(s => s.id === seg.id ? {...s, start_time: val} : s));
-                                }
-                              }}
-                              onBlur={async () => {
-                                try { await updateSegmentTimestamps(songId, seg.id, { start_time: seg.start_time }); }
-                                catch { /* reverted on next load */ }
-                              }}
+                            <input type="number" step="0.1" min="0" value={seg.start_time.toFixed(1)}
+                              onChange={(e) => { const val = parseFloat(e.target.value); if (!isNaN(val)) setSegments(prev => prev.map(s => s.id === seg.id ? {...s, start_time: val} : s)); }}
+                              onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { start_time: seg.start_time }); } catch {} }}
                               className="w-14 bg-surface-container-high text-ember rounded px-1.5 py-0.5 text-center focus:ring-1 focus:ring-ember/40 border-0"
                             />
                             <span className="text-on-surface-variant/40">-</span>
-                            <input
-                              type="number"
-                              step="0.1"
-                              min="0"
-                              value={seg.end_time.toFixed(1)}
-                              onChange={(e) => {
-                                const val = parseFloat(e.target.value);
-                                if (!isNaN(val)) {
-                                  setSegments(prev => prev.map(s => s.id === seg.id ? {...s, end_time: val} : s));
-                                }
-                              }}
-                              onBlur={async () => {
-                                try { await updateSegmentTimestamps(songId, seg.id, { end_time: seg.end_time }); }
-                                catch { /* reverted on next load */ }
-                              }}
+                            <input type="number" step="0.1" min="0" value={seg.end_time.toFixed(1)}
+                              onChange={(e) => { const val = parseFloat(e.target.value); if (!isNaN(val)) setSegments(prev => prev.map(s => s.id === seg.id ? {...s, end_time: val} : s)); }}
+                              onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { end_time: seg.end_time }); } catch {} }}
                               className="w-14 bg-surface-container-high text-ember rounded px-1.5 py-0.5 text-center focus:ring-1 focus:ring-ember/40 border-0"
                             />
                             <span className="text-on-surface-variant/40">s</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <select
-                            value={seg.voice_model_id || ""}
-                            onChange={(e) => handleManualAssign(seg.id, e.target.value)}
+                          <select value={seg.voice_model_id || ""} onChange={(e) => handleManualAssign(seg.id, e.target.value)}
                             className={`text-xs font-bold px-3 py-1.5 rounded-lg border-0 appearance-none cursor-pointer ${seg.voice_model_id ? color.chip : "bg-surface-container-high text-on-surface-variant"}`}
                           >
                             <option value="">未分配</option>
-                            {voices.map((v) => (
-                              <option key={v.id} value={v.id}>{v.name}</option>
-                            ))}
+                            {voices.map((v) => (<option key={v.id} value={v.id}>{v.name}</option>))}
                           </select>
                         </td>
                       </tr>
@@ -450,6 +457,43 @@ export default function SongDetailPage() {
                   })}
                 </tbody>
               </table>
+
+              {/* Mobile card layout */}
+              <div className="md:hidden divide-y divide-white/5">
+                {segments.map((seg) => {
+                  const color = VOICE_COLORS[voices.findIndex((v) => v.id === seg.voice_model_id) % VOICE_COLORS.length];
+                  return (
+                    <div key={seg.id} className="p-4 space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[10px] font-mono text-on-surface-variant">{String(seg.line_number).padStart(2, "0")}</span>
+                          <p className="text-sm font-medium mt-0.5">{seg.text}</p>
+                        </div>
+                        <select value={seg.voice_model_id || ""} onChange={(e) => handleManualAssign(seg.id, e.target.value)}
+                          className={`text-xs font-bold px-3 py-1.5 rounded-lg border-0 appearance-none cursor-pointer flex-shrink-0 ${seg.voice_model_id ? color.chip : "bg-surface-container-high text-on-surface-variant"}`}
+                        >
+                          <option value="">未分配</option>
+                          {voices.map((v) => (<option key={v.id} value={v.id}>{v.name}</option>))}
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs font-mono text-ember">
+                        <input type="number" step="0.1" min="0" value={seg.start_time.toFixed(1)}
+                          onChange={(e) => { const val = parseFloat(e.target.value); if (!isNaN(val)) setSegments(prev => prev.map(s => s.id === seg.id ? {...s, start_time: val} : s)); }}
+                          onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { start_time: seg.start_time }); } catch {} }}
+                          className="w-16 bg-surface-container-high text-ember rounded px-2 py-1 text-center focus:ring-1 focus:ring-ember/40 border-0"
+                        />
+                        <span className="text-on-surface-variant/40">-</span>
+                        <input type="number" step="0.1" min="0" value={seg.end_time.toFixed(1)}
+                          onChange={(e) => { const val = parseFloat(e.target.value); if (!isNaN(val)) setSegments(prev => prev.map(s => s.id === seg.id ? {...s, end_time: val} : s)); }}
+                          onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { end_time: seg.end_time }); } catch {} }}
+                          className="w-16 bg-surface-container-high text-ember rounded px-2 py-1 text-center focus:ring-1 focus:ring-ember/40 border-0"
+                        />
+                        <span className="text-on-surface-variant/40 text-[10px]">秒</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </section>
         </>
@@ -592,6 +636,19 @@ export default function SongDetailPage() {
         )}
 
         {/* Start Process Button — studio tab or detail tab */}
+        {(activeTab === "studio" || activeTab === "detail") && !canProcess && !isProcessing && !isDone && (
+          <div className="flex flex-col items-center gap-3 pt-6 border-t border-white/5">
+            <p className="text-sm text-on-surface-variant">
+              {!song.lrc_path ? "请先上传歌词文件" : segments.length === 0 ? "等待歌词切分完成..." : !allAssigned ? "请在「曲库」标签中为每句分配音色" : "准备就绪"}
+            </p>
+            {!allAssigned && segments.length > 0 && (
+              <button onClick={() => setActiveTab("library")} className="text-ember text-sm font-bold hover:underline flex items-center gap-1">
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                前往分配音色
+              </button>
+            )}
+          </div>
+        )}
         {(activeTab === "studio" || activeTab === "detail") && canProcess && (
           <div className="flex justify-center pt-6 border-t border-white/5">
             <button

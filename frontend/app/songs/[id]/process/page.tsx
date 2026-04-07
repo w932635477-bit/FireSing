@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { connectProgress, type PipelineProgress } from "@/lib/api";
+import { connectProgress, cancelProcess, type PipelineProgress } from "@/lib/api";
 
 const STEPS = [
   { key: "separating", label: "人声分离", sub: "Vocal Split" },
@@ -199,12 +199,17 @@ export default function ProcessPage() {
         {/* Action Buttons */}
         <footer className="mt-12 flex flex-col items-center gap-6">
           <div className="flex gap-4 w-full">
-            <Link
-              href={`/songs/${songId}`}
+            <button
+              onClick={async () => {
+                if (!isDone && !isError) {
+                  try { await cancelProcess(songId); } catch { /* already stopped */ }
+                }
+                router.push(`/songs/${songId}${isError ? "?tab=studio" : ""}`);
+              }}
               className="flex-1 bg-surface-container-high hover:bg-surface-variant text-on-surface font-bold py-4 rounded-lg active:scale-[0.98] transition-all border border-white/5 text-center"
             >
               {isDone ? "查看结果" : isError ? "返回重试" : "取消任务"}
-            </Link>
+            </button>
             {!isDone && !isError && (
               <button
                 onClick={() => router.push(`/songs/${songId}`)}

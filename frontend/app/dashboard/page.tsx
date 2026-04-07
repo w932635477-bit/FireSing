@@ -6,6 +6,7 @@ import Image from "next/image";
 import {
   listSongs,
   uploadSong,
+  deleteSong,
   searchMusic,
   importMusic,
   checkMusicExisting,
@@ -15,6 +16,7 @@ import {
   type MusicSearchSong,
   type MusicImportProgress,
 } from "@/lib/api";
+import { useToast } from "@/components/Toast";
 
 const COVER_IMAGES = [
   "/images/cover-waves.webp",
@@ -61,9 +63,12 @@ function statusChip(status: string) {
 }
 
 export default function DashboardPage() {
+  const { addToast } = useToast();
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [filterQuery, setFilterQuery] = useState("");
+  const [deleting, setDeleting] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Music search state
@@ -75,6 +80,16 @@ export default function DashboardPage() {
   const [importing, setImporting] = useState<string | null>(null); // song name being imported
   const [importProgress, setImportProgress] = useState<MusicImportProgress | null>(null);
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(null);
+
+  async function handleDelete(songId: string, songTitle: string, e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm(`确定删除「${songTitle}」？此操作不可恢复。`)) return;
+    setDeleting(songId);
+    try { await deleteSong(songId); await load(); }
+    catch (e) { addToast("error", `删除失败: ${e instanceof Error ? e.message : "请重试"}`); }
+    finally { setDeleting(null); }
+  }
 
   const load = useCallback(async () => {
     try {
@@ -113,7 +128,7 @@ export default function DashboardPage() {
       dialogRef.current?.close();
       await load();
     } catch (e) {
-      alert(`上传失败: ${e instanceof Error ? e.message : e}`);
+      addToast("error", `上传失败: ${e instanceof Error ? e.message : "请重试"}`);
     } finally {
       setUploading(false);
     }
@@ -151,7 +166,7 @@ export default function DashboardPage() {
     try {
       const { exists } = await checkMusicExisting(song.source, song.id);
       if (exists) {
-        alert("这首歌已经导入过了");
+        addToast("warning", "这首歌已经导入过了");
         return;
       }
     } catch {
@@ -172,13 +187,13 @@ export default function DashboardPage() {
           await load();
         },
         (msg) => {
-          alert(`导入失败: ${msg}`);
+          addToast("error", `导入失败: ${msg}`);
           setImporting(null);
           setImportProgress(null);
         },
       );
     } catch (e) {
-      alert(`导入失败: ${e instanceof Error ? e.message : e}`);
+      addToast("error", `导入失败: ${e instanceof Error ? e.message : "请重试"}`);
       setImporting(null);
       setImportProgress(null);
     }
@@ -186,7 +201,8 @@ export default function DashboardPage() {
 
   function handleDialogClose() {
     if (importing) {
-      if (!confirm("导入正在进行中，关闭将丢失进度。确定关闭？")) return;
+      addToast("warning", "导入正在进行中，请等待完成");
+      return;
     }
     dialogRef.current?.close();
   }
@@ -208,10 +224,10 @@ export default function DashboardPage() {
         <div className="flex items-center gap-8">
           <Link href="/" className="text-2xl font-black text-ember tracking-tight">FireSing</Link>
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/dashboard" className="text-ember font-bold border-b-2 border-ember py-1">主页</Link>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all">音乐库</Link>
-            <span className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all cursor-pointer">语音模型</span>
-            <Link href="/dashboard" className="text-white/60 font-medium hover:text-white hover:bg-white/5 px-3 py-2 rounded transition-all">工作站</Link>
+            <Link href="/dashboard" className="text-ember font-bold border-b-2 border-ember py-1">我的作品</Link>
+            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">音乐库 <span className="text-[9px] text-white/15">即将上线</span></span>
+            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">语音模型 <span className="text-[9px] text-white/15">即将上线</span></span>
+            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">工作室 <span className="text-[9px] text-white/15">即将上线</span></span>
           </nav>
         </div>
         <div className="flex items-center gap-4">
@@ -237,14 +253,21 @@ export default function DashboardPage() {
           </div>
           <nav className="flex-1 space-y-2">
             {[
-              { icon: "home", label: "主页", href: "/dashboard", active: true },
-              { icon: "library_music", label: "音乐库", href: "/dashboard", active: false },
-              { icon: "settings_voice", label: "语音模型", href: "/dashboard", active: false },
-              { icon: "mic_external_on", label: "工作室", href: "/dashboard", active: false },
+              { icon: "home", label: "我的作品", href: "/dashboard", active: true, disabled: false },
+              { icon: "library_music", label: "音乐库", disabled: true },
+              { icon: "settings_voice", label: "语音模型", disabled: true },
+              { icon: "mic_external_on", label: "工作室", disabled: true },
             ].map((item) => (
+              item.disabled ? (
+                <div key={item.label} className="flex items-center gap-3 px-4 py-3 rounded-lg text-white/20 cursor-not-allowed">
+                  <span className="material-symbols-outlined">{item.icon}</span>
+                  <span>{item.label}</span>
+                  <span className="text-[9px] ml-auto px-1.5 py-0.5 rounded bg-white/5 text-white/25">即将上线</span>
+                </div>
+              ) : (
               <Link
                 key={item.label}
-                href={item.href}
+                href={item.href!}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all active:scale-[0.98] ${
                   item.active
                     ? "text-ember bg-white/5"
@@ -254,15 +277,16 @@ export default function DashboardPage() {
                 <span className="material-symbols-outlined">{item.icon}</span>
                 <span>{item.label}</span>
               </Link>
+              )
             ))}
           </nav>
           <div className="mt-auto px-2">
-            <div className="p-4 rounded-xl bg-gradient-to-br from-ember/20 to-transparent border border-ember/20">
-              <p className="text-white font-bold mb-2">升级至专业版</p>
-              <p className="text-white/60 text-xs mb-3">解锁无限次数 AI 语音渲染</p>
-              <button className="w-full bg-ember text-on-primary-fixed py-2 rounded-lg text-sm font-bold active:scale-[0.95] transition-transform">
-                立即开始
-              </button>
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                <p className="text-white font-bold text-sm">内测阶段 · 免费</p>
+              </div>
+              <p className="text-white/40 text-xs">正式上线后将推出付费方案</p>
             </div>
           </div>
         </aside>
@@ -281,6 +305,8 @@ export default function DashboardPage() {
                 className="w-full bg-surface-container border-none rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:ring-2 focus:ring-ember/40 transition-all font-sans"
                 placeholder="搜索您的作品..."
                 type="text"
+                value={filterQuery}
+                onChange={(e) => setFilterQuery(e.target.value)}
               />
             </div>
           </div>
@@ -307,7 +333,9 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {songs.map((song) => (
+              {songs
+                .filter((s) => !filterQuery || s.title.toLowerCase().includes(filterQuery.toLowerCase()))
+                .map((song) => (
                 <Link
                   key={song.id}
                   href={`/songs/${song.id}`}
@@ -363,7 +391,14 @@ export default function DashboardPage() {
                         {song.status === "error" ? song.error_message || "处理失败" : song.status === "done" ? "完成" : "待处理"}
                       </span>
                     </div>
-                    <span className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-white">more_vert</span>
+                    <button
+                      onClick={(e) => handleDelete(song.id, song.title, e)}
+                      disabled={deleting === song.id}
+                      className="text-on-surface-variant hover:text-error transition-colors disabled:opacity-50"
+                      title="删除"
+                    >
+                      <span className="material-symbols-outlined text-sm">{deleting === song.id ? "hourglass_empty" : "delete"}</span>
+                    </button>
                   </div>
                 </Link>
               ))}
@@ -376,25 +411,25 @@ export default function DashboardPage() {
       <footer className="md:hidden fixed bottom-0 w-full bg-sidebar/80 backdrop-blur-lg border-t border-white/5 flex justify-around items-center py-4 px-6 z-50">
         <Link href="/dashboard" className="flex flex-col items-center gap-1 text-ember">
           <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>home</span>
-          <span className="text-[10px] font-bold">主页</span>
+          <span className="text-[10px] font-bold">我的作品</span>
         </Link>
-        <Link href="/dashboard" className="flex flex-col items-center gap-1 text-white/40">
+        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
           <span className="material-symbols-outlined">library_music</span>
           <span className="text-[10px] font-medium">音乐库</span>
-        </Link>
-        <span className="flex flex-col items-center gap-1 text-white/40 cursor-pointer">
+        </span>
+        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
           <span className="material-symbols-outlined">settings_voice</span>
           <span className="text-[10px] font-medium">语音模型</span>
         </span>
-        <Link href="/dashboard" className="flex flex-col items-center gap-1 text-white/40">
+        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
           <span className="material-symbols-outlined">mic_external_on</span>
-          <span className="text-[10px] font-medium">工作站</span>
-        </Link>
+          <span className="text-[10px] font-medium">工作室</span>
+        </span>
       </footer>
 
       {/* Add Song Dialog */}
       <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 bg-surface-container-low border border-white/10 text-on-surface">
-        <div className="p-6 w-[480px] max-h-[80vh] flex flex-col">
+        <div className="p-6 w-full max-w-[480px] max-h-[80vh] flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold">添加新歌</h2>
             <button
@@ -499,7 +534,14 @@ export default function DashboardPage() {
                         )}
                         <div className="flex-1 min-w-0">
                           <p className="font-bold text-sm truncate">{song.name}</p>
-                          <p className="text-xs text-on-surface-variant truncate">{song.artist}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs text-on-surface-variant truncate">{song.artist}</p>
+                            {song.duration > 0 && (
+                              <span className="text-[10px] text-on-surface-variant/50 flex-shrink-0">
+                                {Math.floor(song.duration / 60)}:{String(song.duration % 60).padStart(2, "0")}
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <div className="flex items-center gap-1 flex-shrink-0">
                           {song.platforms.slice(0, 3).map((p) => (
@@ -507,7 +549,7 @@ export default function DashboardPage() {
                               key={p.source}
                               className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-on-surface-variant"
                             >
-                              {p.source}
+                              {p.name}
                             </span>
                           ))}
                           {song.platforms.length > 3 && (
@@ -517,7 +559,7 @@ export default function DashboardPage() {
                         <button
                           onClick={() => handleImport(song)}
                           disabled={!!importing}
-                          className="bg-ember text-on-primary-fixed px-3 py-1 rounded text-xs font-bold transition-opacity active:scale-95 disabled:opacity-50 md:opacity-0 md:group-hover:opacity-100"
+                          className="bg-ember text-on-primary-fixed px-3 py-1.5 rounded text-xs font-bold transition-opacity active:scale-95 disabled:opacity-50"
                         >
                           导入
                         </button>

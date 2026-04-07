@@ -9,7 +9,7 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    // MVP: no real auth, redirect to dashboard
+    // MVP: no real auth, direct experience
     window.location.href = "/dashboard";
   }
 
@@ -64,36 +64,16 @@ export default function LoginPage() {
 
           {/* Login Form */}
           <div className="bg-ember/10 border border-ember/20 rounded-lg px-4 py-3 text-sm text-ember text-center">
-            内测阶段，点击登录即可体验
+            内测阶段，直接体验全部功能
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2 px-1">
-                手机号 / 邮箱
-              </label>
-              <input
-                className="w-full bg-surface-container-high border-2 border-surface-container text-on-surface px-4 py-3.5 rounded-lg focus:outline-none focus:border-ember/40 focus:ring-4 focus:ring-ember/10 transition-all placeholder:text-outline/50"
-                placeholder="手机号 / 邮箱"
-                type="text"
-              />
-            </div>
-            <div>
-              <div className="flex justify-between items-center mb-2 px-1">
-                <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest">密码</label>
-                <span className="text-[10px] text-ember/80 hover:text-ember transition-colors cursor-pointer">忘记密码？</span>
-              </div>
-              <input
-                className="w-full bg-surface-container-high border-2 border-surface-container text-on-surface px-4 py-3.5 rounded-lg focus:outline-none focus:border-ember/40 focus:ring-4 focus:ring-ember/10 transition-all placeholder:text-outline/50"
-                placeholder="请输入密码"
-                type="password"
-              />
-            </div>
             <button
-              className="w-full ember-gradient text-on-primary-fixed font-bold py-4 rounded-lg active:scale-[0.98] transition-transform shadow-lg shadow-ember/20"
+              className="w-full ember-gradient text-on-primary-fixed font-bold py-4 rounded-lg active:scale-[0.98] transition-transform shadow-lg shadow-ember/20 flex items-center justify-center gap-2"
               type="submit"
               disabled={loading}
             >
-              {loading ? "登录中..." : "登 录"}
+              <span className="material-symbols-outlined">rocket_launch</span>
+              {loading ? "进入中..." : "免费体验"}
             </button>
           </form>
 
@@ -116,12 +96,9 @@ export default function LoginPage() {
 
         {/* Footer Link */}
         <div className="mt-8 text-center">
-          <p className="text-on-surface-variant text-sm">
-            还没有账号？
-            <Link href="/login" className="text-ember font-bold ml-1 hover:underline underline-offset-4 decoration-ember/40">
-              立即注册
-            </Link>
-          </p>
+          <Link href="/" className="text-on-surface-variant text-sm hover:text-ember transition-colors">
+            ← 返回首页
+          </Link>
         </div>
       </main>
     </div>
