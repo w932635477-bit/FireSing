@@ -52,18 +52,50 @@ def _migrate_db():
     """Add columns added after initial schema. Safe to call multiple times."""
     from sqlalchemy import text
 
-    migrations = [
-        ("songs", "source", "String", "'upload'"),
-        ("songs", "source_id", "String", "NULL"),
-        ("songs", "source_url", "String", "NULL"),
-        ("songs", "artist", "String", "NULL"),
-    ]
     with engine.connect() as conn:
-        for table, col, col_type, default in migrations:
-            try:
-                conn.execute(
-                    text(f"ALTER TABLE {table} ADD COLUMN {col} {col_type} DEFAULT {default}")
-                )
-            except Exception:
-                pass  # Column already exists
+        # Each migration is a hardcoded ALTER TABLE statement so we avoid
+        # f-string interpolation of SQL identifiers/values.
+        # try/except provides idempotency (column already exists -> no-op).
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN source VARCHAR DEFAULT 'upload'")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN source_id VARCHAR DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN source_url VARCHAR DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN artist VARCHAR DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN pipeline_pct INTEGER DEFAULT 0")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE songs ADD COLUMN pipeline_task_id VARCHAR DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
         conn.commit()

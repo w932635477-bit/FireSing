@@ -32,13 +32,36 @@ logger = logging.getLogger(__name__)
 # In-memory progress store (single-process, no Redis needed)
 _pipeline_progress: dict[str, PipelineProgress] = {}
 
+# Event-based notification for SSE (replaces polling)
+_progress_events: dict[str, asyncio.Event] = {}
+
+# Cancellation flags — DELETE /{song_id}/process sets these
+_cancel_flags: dict[str, bool] = {}
+
 
 def _update_progress(song_id: str, step: str, pct: int, message: str,
-                     step_failed: str | None = None, error_detail: str | None = None):
+                     step_failed: str | None = None, error_detail: str | None = None,
+                     db: Session | None = None):
     _pipeline_progress[song_id] = PipelineProgress(
         step=step, pct=pct, message=message,
         step_failed=step_failed, error_detail=error_detail,
     )
+    # Wake up SSE listeners
+    event = _progress_events.get(song_id)
+    if event:
+        event.set()
+    # Persist to DB so progress survives server restarts
+    if db:
+        try:
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = step if step not in ("done",) else step
+                song.pipeline_step = step
+                if hasattr(song, 'pipeline_pct'):
+                    song.pipeline_pct = pct
+                db.commit()
+        except Exception:
+            db.rollback()
 
 
 # Statuses that indicate active processing
@@ -90,18 +113,30 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             raise ValueError(f"Song {song_id} not found")
 
         # Step 1: Demucs vocal separation
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "separating", 0, "Separating vocals...")
         await demucs_service.separate(song_id, db)
 
         # Step 2: LRC parse + segment cutting
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "segmenting", 15, "Cutting vocal segments...")
         await asyncio.to_thread(lyrics_service.parse_and_cut, song_id, db)
 
         # Step 3: Voice assignment
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "assigning", 25, "Assigning voice models...")
         _assign_voices_for_pipeline(song_id, params, db)
 
         # Step 4: RVC per-line conversion
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         segments = db.query(Segment).filter(
             Segment.song_id == song_id, Segment.voice_model_id.isnot(None)
         ).order_by(Segment.line_number).all()
@@ -120,6 +155,9 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         ).order_by(Segment.line_number).all()
 
         # Step 4b: Harmony generation (multi-part vocal harmonies)
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "harmony", 78, "Generating harmonies...")
         assigned_seg_ids = [s.id for s in segments if s.voice_model_id]
         if assigned_seg_ids:
@@ -136,6 +174,9 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         ).order_by(Segment.line_number).all()
 
         # Step 5: Chorus detection + grand chorus synthesis
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "chorus", 82, "Detecting chorus...")
         chorus_ids = chorus_service.detect(segments)
 
@@ -157,6 +198,9 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
                     )
 
         # Step 6: Monologue generation
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         if params.monologue_text or song.monologue_audio_path:
             _update_progress(song_id, "monologue", 85, "Generating monologue...")
             if song.monologue_audio_path:
@@ -166,6 +210,9 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
                 await tts_service.generate(song_id, params.monologue_text, db)
 
         # Step 7: Audio mixing
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         _update_progress(song_id, "mixing", 90, "Mixing audio...")
         await asyncio.to_thread(
             audio_service.mix_all, song_id, chorus_ids,
@@ -173,6 +220,9 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         )
 
         # Step 8: Video / audio generation based on output_format
+        if _cancel_flags.get(song_id):
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+            return
         output_format = params.output_format or "video"
         if output_format in ("video", "video_subtitled"):
             _update_progress(song_id, "video", 95, "Generating video...")
@@ -199,6 +249,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             song.error_message = _friendly_error(e)
             db.commit()
     finally:
+        _cancel_flags.pop(song_id, None)
+        # Wake up SSE one last time and clean up event
+        event = _progress_events.pop(song_id, None)
+        if event:
+            event.set()
         db.close()
 
 
@@ -220,10 +275,34 @@ async def process_song(
 
     if song.status == "error":
         song.error_message = None
-        db.commit()
 
+    # Task ID guard — prevents stale SSE clients from seeing wrong run
+    import uuid
+    task_id = uuid.uuid4().hex[:12]
+    if hasattr(song, 'pipeline_task_id'):
+        song.pipeline_task_id = task_id
+    db.commit()
+
+    _progress_events[song_id] = asyncio.Event()
     background_tasks.add_task(_run_pipeline, song_id, params)
-    return ProcessResponse(status="processing")
+    return ProcessResponse(status="processing", task_id=task_id)
+
+
+@router.delete("/{song_id}/process")
+async def cancel_processing(
+    song_id: str,
+    db: Session = Depends(get_db),
+):
+    """Cancel an in-progress pipeline run."""
+    song = db.query(Song).filter(Song.id == song_id).first()
+    if not song:
+        raise HTTPException(404, f"Song {song_id} not found")
+
+    _cancel_flags[song_id] = True
+    song.status = "uploaded"
+    song.error_message = None
+    db.commit()
+    return {"cancelled": True}
 
 
 @router.get("/{song_id}/progress")
@@ -249,6 +328,11 @@ async def pipeline_progress(song_id: str, db: Session = Depends(get_db)):
             yield f"data: {json.dumps(data)}\n\n"
             if data["step"] in ("done", "error"):
                 break
-            await asyncio.sleep(1)
+            event = _progress_events.get(song_id)
+            if event:
+                event.clear()
+                await event.wait()
+            else:
+                await asyncio.sleep(1)
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

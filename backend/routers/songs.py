@@ -9,7 +9,7 @@ from typing import Optional
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from ..config import SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR, MAX_AUDIO_SIZE_MB, ALLOWED_AUDIO_FORMATS
 from ..database import get_db
@@ -19,6 +19,8 @@ from ..schemas import (
     SegmentListResponse, VoiceAssignRequest, VoiceAssignResponse,
 )
 from ..services.lyrics_service import parse_lrc, validate_segments, compute_end_times
+from ..database import Base
+from .. import models  # ensure all models registered
 
 router = APIRouter()
 
@@ -72,8 +74,13 @@ async def upload_song(
         status="uploaded",
     )
     db.add(song)
-    db.commit()
-    db.refresh(song)
+    try:
+        db.commit()
+        db.refresh(song)
+    except Exception:
+        db.rollback()
+        shutil.rmtree(song_dir, ignore_errors=True)
+        raise HTTPException(500, "Failed to save song record")
 
     return song
 
@@ -81,7 +88,7 @@ async def upload_song(
 @router.get("", response_model=SongListResponse)
 async def list_songs(db: Session = Depends(get_db)):
     """List all songs."""
-    songs = db.query(Song).order_by(Song.created_at.desc()).all()
+    songs = db.query(Song).options(joinedload(Song.segments)).order_by(Song.created_at.desc()).all()
     return {"songs": songs}
 
 
@@ -150,13 +157,29 @@ async def upload_lrc(
     song.lrc_path = str(lrc_path)
     db.commit()
 
-    # Parse LRC and return segment info
+    # Parse LRC and create segment records in DB
     try:
         lrc_lines = parse_lrc(lrc_path)
         lrc_lines = validate_segments(lrc_lines)
         segments_data = compute_end_times(lrc_lines)
     except ValueError as e:
         raise HTTPException(400, f"LRC parse error: {e}")
+
+    # Delete existing segments (re-upload replaces them)
+    db.query(Segment).filter(Segment.song_id == song_id).delete()
+    db.flush()
+
+    # Create Segment records so frontend can display and assign voices
+    for seg_data in segments_data:
+        db_seg = Segment(
+            song_id=song_id,
+            line_number=seg_data["line_number"],
+            text=seg_data["text"],
+            start_time=seg_data["start_time"],
+            end_time=seg_data["end_time"],
+        )
+        db.add(db_seg)
+    db.commit()
 
     return {"song_id": song_id, "lrc_path": str(lrc_path), "segments": segments_data}
 
@@ -193,7 +216,12 @@ async def upload_monologue_audio(
         f.write(content)
 
     song.monologue_audio_path = str(audio_path)
-    db.commit()
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        audio_path.unlink(missing_ok=True)
+        raise HTTPException(500, "Failed to save monologue audio record")
 
     return {"song_id": song_id, "monologue_audio_path": str(audio_path)}
 

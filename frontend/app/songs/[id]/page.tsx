@@ -127,23 +127,23 @@ export default function SongDetailPage() {
     finally { setLrcUploading(false); }
   }
 
-  async function handleAssignRoundRobin() {
-    if (voices.length === 0) { addToast("warning", "请先上传音色模型"); return; }
-    try { await assignVoices(songId, { voice_pool: voices.map((v) => v.id), strategy: "round-robin" }); await load(); }
-    catch (e) { addToast("error", `音色分配失败，请检查音色模型是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`); }
-  }
-
-  async function handleAssignRandom() {
-    if (voices.length === 0) { addToast("warning", "请先上传音色模型"); return; }
-    try { await assignVoices(songId, { voice_pool: voices.map((v) => v.id), strategy: "random" }); await load(); }
-    catch (e) { addToast("error", `音色分配失败，请检查音色模型是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`); }
-  }
-
-  async function handleManualAssign(segId: string, voiceId: string) {
-    const seg = segments.find((s) => s.id === segId);
-    if (!seg) return;
-    try { await assignVoices(songId, { assignments: [{ line_number: seg.line_number, voice_model_id: voiceId }], strategy: "manual" }); await load(); }
-    catch (e) { addToast("error", `音色分配失败，请检查音色模型是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`); }
+  async function handleAssign(strategy: "manual" | "round-robin" | "random", options?: { segId?: string; voiceId?: string }) {
+    if (strategy !== "manual" && voices.length === 0) {
+      addToast("warning", "请先上传音色模型");
+      return;
+    }
+    try {
+      if (strategy === "manual" && options?.segId && options?.voiceId) {
+        const seg = segments.find((s) => s.id === options.segId);
+        if (!seg) return;
+        await assignVoices(songId, { assignments: [{ line_number: seg.line_number, voice_model_id: options.voiceId }], strategy: "manual" });
+      } else {
+        await assignVoices(songId, { voice_pool: voices.map((v) => v.id), strategy });
+      }
+      await load();
+    } catch (e) {
+      addToast("error", `音色分配失败，请检查音色模型是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`);
+    }
   }
 
   async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
@@ -434,11 +434,11 @@ export default function SongDetailPage() {
                 3. 歌词段落
               </h2>
               <div className="flex gap-2">
-                <button onClick={handleAssignRoundRobin} className="text-xs font-bold text-ember hover:underline flex items-center gap-1">
+                <button onClick={() => handleAssign("round-robin")} className="text-xs font-bold text-ember hover:underline flex items-center gap-1">
                   <span className="material-symbols-outlined text-xs">autorenew</span>
                   轮流分配
                 </button>
-                <button onClick={handleAssignRandom} className="text-xs font-bold text-ember hover:underline flex items-center gap-1">
+                <button onClick={() => handleAssign("random")} className="text-xs font-bold text-ember hover:underline flex items-center gap-1">
                   <span className="material-symbols-outlined text-xs">shuffle</span>
                   随机分配
                 </button>
@@ -483,7 +483,7 @@ export default function SongDetailPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <select value={seg.voice_model_id || ""} onChange={(e) => handleManualAssign(seg.id, e.target.value)}
+                          <select value={seg.voice_model_id || ""} onChange={(e) => handleAssign("manual", { segId: seg.id, voiceId: e.target.value })}
                             className={`text-xs font-bold px-3 py-2 min-h-[44px] rounded-lg border-0 appearance-none cursor-pointer ${seg.voice_model_id ? color.chip : "bg-surface-container-high text-on-surface-variant"}`}
                           >
                             <option value="">未分配</option>
@@ -507,7 +507,7 @@ export default function SongDetailPage() {
                           <span className="text-[10px] font-mono text-on-surface-variant">{String(seg.line_number).padStart(2, "0")}</span>
                           <p className="text-sm font-medium mt-0.5">{seg.text}</p>
                         </div>
-                        <select value={seg.voice_model_id || ""} onChange={(e) => handleManualAssign(seg.id, e.target.value)}
+                        <select value={seg.voice_model_id || ""} onChange={(e) => handleAssign("manual", { segId: seg.id, voiceId: e.target.value })}
                           className={`text-xs font-bold px-3 py-2 min-h-[44px] rounded-lg border-0 appearance-none cursor-pointer flex-shrink-0 ${seg.voice_model_id ? color.chip : "bg-surface-container-high text-on-surface-variant"}`}
                         >
                           <option value="">未分配</option>

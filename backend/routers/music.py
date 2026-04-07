@@ -30,6 +30,9 @@ ALLOWED_SOURCES = {"netease", "qq", "kugou", "kuwo"}
 _import_progress: dict[str, dict] = {}
 _progress_max_age = 600  # seconds
 
+# Event-based notification for SSE (replaces polling)
+_import_progress_events: dict[str, asyncio.Event] = {}
+
 
 async def _search_musicdl(keyword: str, sources: list[str]) -> list[dict]:
     """Call go-music-dl JSON search API."""
@@ -129,6 +132,9 @@ async def _run_import(task_id: str, source: str, source_id: str,
     try:
         _import_progress[task_id] = {"step": "creating", "pct": 10,
                                       "message": "Creating song record..."}
+        evt = _import_progress_events.get(task_id)
+        if evt:
+            evt.set()
 
         song = Song(
             title=f"{title} - {artist}" if artist else title,
@@ -148,6 +154,9 @@ async def _run_import(task_id: str, source: str, source_id: str,
         # Step 1: Download audio
         _import_progress[task_id] = {"step": "downloading_audio", "pct": 30,
                                       "message": "Downloading audio..."}
+        evt = _import_progress_events.get(task_id)
+        if evt:
+            evt.set()
 
         async with httpx.AsyncClient(timeout=120, proxy=None) as client:
             async with client.stream(
@@ -182,6 +191,9 @@ async def _run_import(task_id: str, source: str, source_id: str,
         # Step 2: Download lyrics
         _import_progress[task_id] = {"step": "downloading_lyrics", "pct": 70,
                                       "message": "Downloading lyrics..."}
+        evt = _import_progress_events.get(task_id)
+        if evt:
+            evt.set()
 
         async with httpx.AsyncClient(timeout=15, proxy=None) as client:
             try:
@@ -207,6 +219,9 @@ async def _run_import(task_id: str, source: str, source_id: str,
             "message": "Import complete!",
             "song_id": song.id,
         }
+        evt = _import_progress_events.get(task_id)
+        if evt:
+            evt.set()
 
     except Exception as e:
         logger.error(f"Music import failed for task {task_id}: {e}")
@@ -216,18 +231,25 @@ async def _run_import(task_id: str, source: str, source_id: str,
             "pct": current.get("pct", 0),
             "message": str(e),
         }
+        evt = _import_progress_events.get(task_id)
+        if evt:
+            evt.set()
         # Clean up failed song and orphan files
         if 'song' in dir() and song and song.id:
-            song.status = "error"
-            song.error_message = f"Import failed: {e}"
-            db.commit()
             # Remove orphan audio files
             song_dir = SONGS_DIR / song.id
             if song_dir.exists():
                 import shutil
                 shutil.rmtree(song_dir, ignore_errors=True)
+            # Delete the DB record so it doesn't point to deleted files
+            db.delete(song)
+            db.commit()
     finally:
         db.close()
+        # Wake up SSE one last time and clean up event
+        evt = _import_progress_events.pop(task_id, None)
+        if evt:
+            evt.set()
         # Schedule progress cleanup after 2 minutes
         import asyncio
         async def _cleanup():
@@ -257,6 +279,7 @@ async def import_music(
 
     _import_progress[task_id] = {"step": "queued", "pct": 0,
                                   "message": "Queued for import..."}
+    _import_progress_events[task_id] = asyncio.Event()
 
     background_tasks.add_task(
         _run_import, task_id, source, source_id, title, artist
@@ -276,7 +299,12 @@ async def import_progress(task_id: str):
             yield f"data: {json.dumps(progress)}\n\n"
             if progress.get("step") in ("done", "error"):
                 break
-            await asyncio.sleep(0.5)
+            event = _import_progress_events.get(task_id)
+            if event:
+                event.clear()
+                await event.wait()
+            else:
+                await asyncio.sleep(0.5)
             elapsed += 0.5
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

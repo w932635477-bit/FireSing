@@ -83,8 +83,10 @@ async def generate_harmonies(
             logger.warning(f"Voice model {seg.voice_model_id} not found, skipping harmony")
             continue
 
-        # Load the lead vocal
-        lead_vocal = AudioSegment.from_wav(seg.converted_vocal_path)
+        # Load the lead vocal (file I/O — offload to thread)
+        lead_vocal = await asyncio.to_thread(
+            AudioSegment.from_wav, seg.converted_vocal_path
+        )
 
         # Generate each harmony part
         harmony_tracks = []
@@ -110,16 +112,20 @@ async def generate_harmonies(
             output_paths.append(Path(seg.converted_vocal_path))
             continue
 
-        # Mix lead vocal with harmony parts
-        mixed = lead_vocal
-        for harmony_track in harmony_tracks:
-            mixed = mixed.overlay(harmony_track)
+        # Mix lead vocal with harmony parts (CPU-bound pydub overlay)
+        def _mix_harmonies(lead, tracks):
+            result = lead
+            for track in tracks:
+                result = result.overlay(track)
+            return result
 
-        # Save harmony-enhanced segment (overwrite the converted vocal)
+        mixed = await asyncio.to_thread(_mix_harmonies, lead_vocal, harmony_tracks)
+
+        # Save harmony-enhanced segment (file I/O — offload to thread)
         output_dir = CONVERTED_DIR / song_id
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / f"line_{seg.line_number:03d}_harmony.wav"
-        mixed.export(str(output_path), format="wav")
+        await asyncio.to_thread(mixed.export, str(output_path), format="wav")
 
         # Update segment path
         seg.converted_vocal_path = str(output_path)
@@ -151,18 +157,20 @@ async def _generate_harmony_part(
     if not vocal_path.exists():
         return None
 
-    # Read source vocal bytes
-    audio_bytes = vocal_path.read_bytes()
+    # Read source vocal bytes (file I/O — offload to thread)
+    audio_bytes = await asyncio.to_thread(vocal_path.read_bytes)
 
     # Read model files
     pth_path = Path(voice_model.model_path)
-    if not pth_path.exists():
+    if not await asyncio.to_thread(pth_path.exists):
         return None
-    pth_bytes = pth_path.read_bytes()
+    pth_bytes = await asyncio.to_thread(pth_path.read_bytes)
 
     index_bytes = None
-    if voice_model.index_path and Path(voice_model.index_path).exists():
-        index_bytes = Path(voice_model.index_path).read_bytes()
+    if voice_model.index_path:
+        index_path = Path(voice_model.index_path)
+        if await asyncio.to_thread(index_path.exists):
+            index_bytes = await asyncio.to_thread(index_path.read_bytes)
 
     # Call RVC with pitch-shifted f0_up_key
     converted_bytes = await convert_with_params(
@@ -179,15 +187,16 @@ async def _generate_harmony_part(
     if not converted_bytes:
         return None
 
-    # Save to temp file and load as AudioSegment
+    # Save to temp file (file I/O — offload to thread)
     output_dir = CONVERTED_DIR / song_id
     output_dir.mkdir(parents=True, exist_ok=True)
     temp_path = output_dir / f"line_{segment.line_number:03d}_harm_{part_name}.wav"
-    temp_path.write_bytes(converted_bytes)
+    await asyncio.to_thread(temp_path.write_bytes, converted_bytes)
 
-    harmony_audio = AudioSegment.from_wav(str(temp_path))
+    # Load as AudioSegment (file I/O + CPU — offload to thread)
+    harmony_audio = await asyncio.to_thread(AudioSegment.from_wav, str(temp_path))
 
-    # Cleanup temp harmony file after loading
-    temp_path.unlink(missing_ok=True)
+    # Cleanup temp harmony file after loading (file I/O — offload to thread)
+    await asyncio.to_thread(temp_path.unlink, missing_ok=True)
 
     return harmony_audio

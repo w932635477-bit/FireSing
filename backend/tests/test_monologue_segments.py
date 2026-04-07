@@ -1,12 +1,22 @@
 """Tests for monologue audio upload and segment timestamp update endpoints."""
 
 import io
+import pathlib
 import pytest
 
 
-def _upload_song(client, sample_wav):
-    """Helper: upload a song and return its ID."""
-    with open(sample_wav, "rb") as f:
+def _upload_song(client, sample_wav_or_dir):
+    """Helper: upload a song and return its ID. Creates a minimal WAV if given a directory."""
+    import struct, wave, tempfile
+    p = pathlib.Path(sample_wav_or_dir) if not isinstance(sample_wav_or_dir, pathlib.Path) else sample_wav_or_dir
+    if p.is_dir():
+        wav_path = p / "test.wav"
+        with wave.open(str(wav_path), "w") as wf:
+            wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(44100)
+            wf.writeframes(struct.pack("<h", 0) * 44100)  # 1s silence
+    else:
+        wav_path = p
+    with open(wav_path, "rb") as f:
         resp = client.post("/api/songs", files={"audio": ("test.wav", f, "audio/wav")})
     assert resp.status_code == 201
     return resp.json()["id"]
@@ -77,7 +87,7 @@ class TestSegmentTimestampUpdate:
         """Create a song with segments and return (song_id, segment_ids)."""
         from backend.models import Segment
 
-        song_id = _upload_song(client, None if False else __import__("pathlib").Path(__import__("tempfile").mkdtemp())  # skip
+        song_id = _upload_song(client, pathlib.Path(tempfile.mkdtemp()))
 
         # Directly insert segments via DB
         seg1 = Segment(id="seg-1", song_id=song_id, line_number=1,

@@ -47,7 +47,7 @@ async def download_output(song_id: str, output_id: str, db: Session = Depends(ge
     if not file_path.exists():
         raise HTTPException(404, f"File not found: {file_path}")
 
-    media_type = "video/mp4" if output.format == "video" else "audio/wav"
+    media_type = "video/mp4" if output.format in ("video", "video_subtitled") else "audio/wav"
     return FileResponse(
         path=str(file_path),
         media_type=media_type,

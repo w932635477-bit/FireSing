@@ -25,6 +25,25 @@ async def lifespan(app: FastAPI):
     # Initialize database
     init_db()
 
+    # Detect stuck songs from previous server crash
+    from .database import SessionLocal
+    from .models import Song
+    from datetime import datetime, timezone, timedelta
+    _ACTIVE = {"separating", "segmented", "segmenting", "assigning",
+               "converting", "chorus", "monologue", "mixing", "video"}
+    db = SessionLocal()
+    try:
+        stuck = db.query(Song).filter(Song.status.in_(_ACTIVE)).all()
+        for song in stuck:
+            age = (datetime.now(timezone.utc) - song.updated_at.replace(tzinfo=timezone.utc)
+                   if song.updated_at else timedelta(hours=1))
+            if age > timedelta(minutes=10):
+                song.status = "interrupted"
+                song.error_message = "处理被服务器重启中断，请重试"
+        db.commit()
+    finally:
+        db.close()
+
     yield
 
 
