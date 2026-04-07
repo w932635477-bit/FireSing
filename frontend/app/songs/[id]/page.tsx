@@ -28,10 +28,10 @@ const VOICE_COLORS = [
   { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
   { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
   { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
-  { chip: "voice-chip-red", dot: "bg-ember", label: "珊瑚红" },
-  { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
-  { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
-  { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
+  { chip: "voice-chip-purple", dot: "bg-purple-400", label: "紫罗兰" },
+  { chip: "voice-chip-orange", dot: "bg-orange-400", label: "橘黄色" },
+  { chip: "voice-chip-pink", dot: "bg-pink-400", label: "粉红色" },
+  { chip: "voice-chip-teal", dot: "bg-teal-400", label: "青碧色" },
 ];
 
 type Tab = "detail" | "library" | "studio";
