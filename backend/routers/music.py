@@ -3,7 +3,9 @@
 import asyncio
 import json
 import logging
+import shutil
 import tempfile
+import uuid
 from pathlib import Path
 from typing import Optional
 
@@ -21,7 +23,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # go-music-dl service URL
-MUSIC_DL_URL = "http://localhost:8090/music"
+from ..config import SONGS_DIR, MAX_AUDIO_SIZE_MB, MUSIC_DL_URL
 
 # Allowed music sources
 ALLOWED_SOURCES = {"netease", "qq", "kugou", "kuwo"}
@@ -36,15 +38,19 @@ _import_progress_events: dict[str, asyncio.Event] = {}
 
 async def _search_musicdl(keyword: str, sources: list[str]) -> list[dict]:
     """Call go-music-dl JSON search API."""
-    async with httpx.AsyncClient(timeout=15, proxy=None) as client:
-        params = [("q", keyword)]
-        for s in sources:
-            params.append(("sources", s))
-        resp = await client.get(f"{MUSIC_DL_URL}/api/search", params=params)
-        if resp.status_code != 200:
-            raise HTTPException(503, "Music search service unavailable")
-        data = resp.json()
-        return data.get("songs", [])
+    try:
+        async with httpx.AsyncClient(timeout=15, proxy=None) as client:
+            params = [("q", keyword)]
+            for s in sources:
+                params.append(("sources", s))
+            resp = await client.get(f"{MUSIC_DL_URL}/api/search", params=params)
+            if resp.status_code != 200:
+                raise HTTPException(503, "Music search service unavailable")
+            data = resp.json()
+            return data.get("songs", [])
+    except (httpx.TimeoutException, httpx.ConnectError) as e:
+        logger.warning(f"Music search timeout for {keyword}: {e}")
+        raise HTTPException(503, "Music search service temporarily unavailable")
 
 
 def _merge_results(songs: list[dict]) -> list[dict]:
@@ -77,6 +83,8 @@ def _merge_results(songs: list[dict]) -> list[dict]:
                 "name": e.get("name", ""),
                 "duration": e.get("duration", 0),
                 "cover_url": e.get("cover_url", ""),
+                "source_name": e.get("source_name", e.get("source", "")),
+                "source_name": e.get("source_name", ""),
             })
 
         primary["platforms"] = platforms
@@ -103,7 +111,11 @@ async def search_music(
     merge: bool = Query(default=True, description="Merge results across platforms"),
 ):
     """Search songs across multiple music platforms."""
-    raw = await _search_musicdl(q, sources)
+    try:
+        raw = await _search_musicdl(q, sources)
+    except (httpx.TimeoutException, httpx.ConnectError):
+        logger.warning(f"Music search failed for {q}: timeout")
+        raise HTTPException(503, "Music search service temporarily unavailable")
     if merge:
         results = _merge_results(raw)
     else:
@@ -235,15 +247,17 @@ async def _run_import(task_id: str, source: str, source_id: str,
         if evt:
             evt.set()
         # Clean up failed song and orphan files
-        if 'song' in dir() and song and song.id:
-            # Remove orphan audio files
+        try:
             song_dir = SONGS_DIR / song.id
             if song_dir.exists():
-                import shutil
                 shutil.rmtree(song_dir, ignore_errors=True)
-            # Delete the DB record so it doesn't point to deleted files
+        except Exception:
+            logger.warning(f"Failed to remove song directory: {song_dir}")
+        try:
             db.delete(song)
             db.commit()
+        except Exception:
+            logger.error(f"Failed to delete song {song.id}: {e}")
     finally:
         db.close()
         # Wake up SSE one last time and clean up event
@@ -256,7 +270,7 @@ async def _run_import(task_id: str, source: str, source_id: str,
             await asyncio.sleep(120)
             _import_progress.pop(task_id, None)
         try:
-            asyncio.get_event_loop().create_task(_cleanup())
+            asyncio.get_running_loop().create_task(_cleanup())
         except RuntimeError:
             pass
 
@@ -268,13 +282,21 @@ async def import_music(
     title: str = Query(...),
     artist: str = Query(default=""),
     background_tasks: BackgroundTasks = None,
+    db: Session = Depends(get_db),
 ):
     """Import a song from a music platform. Returns a task_id for progress tracking."""
     # Validate source
     if source not in ALLOWED_SOURCES:
         raise HTTPException(400, f"Invalid source: {source}. Allowed: {', '.join(sorted(ALLOWED_SOURCES))}")
 
-    import uuid
+    # Duplicate check — reject if already imported
+    existing = db.query(Song).filter(
+        Song.source == source,
+        Song.source_id == source_id,
+    ).first()
+    if existing:
+        raise HTTPException(409, f"Already imported: song_id={existing.id}")
+
     task_id = f"import_{uuid.uuid4().hex[:8]}"
 
     _import_progress[task_id] = {"step": "queued", "pct": 0,

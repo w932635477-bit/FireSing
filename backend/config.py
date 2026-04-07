@@ -21,6 +21,9 @@ DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DATA_DIR / 'firesing.db'}"
 GPU_SERVER_URL = os.getenv("GPU_SERVER_URL", "http://localhost:8001")
 GPU_REQUEST_TIMEOUT = int(os.getenv("GPU_REQUEST_TIMEOUT", "300"))  # 5 min
 
+# Music Download Service (go-music-dl)
+MUSIC_DL_URL = os.getenv("MUSIC_DL_URL", "http://localhost:8090/music")
+
 # Upload limits
 MAX_AUDIO_SIZE_MB = int(os.getenv("MAX_AUDIO_SIZE_MB", "50"))
 ALLOWED_AUDIO_FORMATS = {".mp3", ".wav", ".flac"}

@@ -66,6 +66,7 @@ export interface MusicSearchSong {
     name: string;
     duration: number;
     cover_url: string;
+    source_name: string;
   }[];
   platform_count: number;
 }
@@ -98,13 +99,27 @@ export interface ProcessRequest {
   chorus_voice_count?: number;
 }
 
+// --- Error Types ---
+
+export class AppError extends Error {
+  constructor(
+    public readonly status: number,
+    public readonly code: string,
+    message: string,
+  ) {
+    super(message);
+    this.status = status;
+    this.code = code;
+  }
+}
+
 // --- Helpers ---
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, init);
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`API ${res.status}: ${body}`);
+    throw new AppError(res.status, "unknown", `API ${res.status}: ${body}`);
   }
   return res.json();
 }

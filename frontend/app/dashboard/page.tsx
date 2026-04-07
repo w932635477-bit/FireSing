@@ -5,13 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   listSongs,
-  uploadSong,
+  uploadSong
   deleteSong,
   searchMusic,
   importMusic,
   checkMusicExisting,
   connectImportProgress,
   statusLabel,
+  AppError,
   type Song,
   type MusicSearchSong,
   type MusicImportProgress,
@@ -149,8 +150,7 @@ export default function DashboardPage() {
         setSearchResults(data.songs || []);
       } catch (e) {
         setSearchResults([]);
-        const msg = e instanceof Error ? e.message : "";
-        if (msg.includes("503") || msg.includes("service_unavailable") || msg.includes("unavailable")) {
+        if (e instanceof AppError && e.status === 503) {
           setSearchError("搜索服务暂时不可用，请稍后再试");
         } else {
           setSearchError("搜索失败，请重试");
@@ -549,7 +549,7 @@ export default function DashboardPage() {
                               key={p.source}
                               className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-on-surface-variant"
                             >
-                              {p.name}
+                              {p.source_name || p.source}
                             </span>
                           ))}
                           {song.platforms.length > 3 && (

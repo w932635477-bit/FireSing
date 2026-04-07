@@ -158,3 +158,67 @@ def test_import_creates_task(client):
 @pytest.mark.skip(reason="SSE streaming test hangs with TestClient; tested manually")
 def test_import_progress_unknown_task(client):
     """SSE endpoint streams progress for unknown tasks. Skipped in CI due to hang."""
+
+
+# --- Source validation ---
+
+def test_import_rejects_invalid_source(client):
+    """POST /api/music/import rejects source not in ALLOWED_SOURCES."""
+    resp = client.post("/api/music/import?source=spotify&source_id=123&title=测试&artist=歌手")
+    assert resp.status_code == 400
+    assert "Invalid source" in resp.json()["detail"]
+
+
+def test_import_rejects_empty_source(client):
+    """POST /api/music/import rejects empty source string."""
+    resp = client.post("/api/music/import?source=&source_id=123&title=测试&artist=歌手")
+    assert resp.status_code in (400, 422)
+
+
+# --- Duplicate import guard ---
+
+def test_import_rejects_duplicate(client, db_session):
+    """POST /api/music/import returns 409 if song already imported."""
+    song = Song(
+        title="测试歌曲",
+        original_audio_path="/tmp/test.mp3",
+        source="netease",
+        source_id="dup123",
+        status="uploaded",
+    )
+    db_session.add(song)
+    db_session.commit()
+
+    with patch("backend.routers.music._run_import", new_callable=AsyncMock):
+        resp = client.post("/api/music/import?source=netease&source_id=dup123&title=测试&artist=歌手")
+    assert resp.status_code == 409
+    data = resp.json()
+    assert "already imported" in data["detail"].lower()
+
+
+# --- Source name in merge results ---
+
+def test_merge_results_includes_source_name():
+    from backend.routers.music import _merge_results
+    songs = [
+        {"name": "稻香", "artist": "周杰伦", "source": "netease", "id": "1", "duration": 240, "source_name": "网易云"},
+        {"name": "稻香", "artist": "周杰伦", "source": "qq", "id": "2", "duration": 245, "source_name": "QQ音乐"},
+    ]
+    results = _merge_results(songs)
+    assert len(results) == 1
+    platforms = results[0]["platforms"]
+    # Primary has longest duration (qq=245), so platforms[0] is qq
+    # Then netease after
+    assert platforms[0]["source_name"] == "QQ音乐"
+    assert platforms[1]["source_name"] == "网易云"
+
+
+    # --- Error handling: search results ---
+
+@patch("backend.routers.music._search_musicdl", new_callable=AsyncMock)
+def test_search_timeout(mock_search, client):
+    """Search timeout returns 503."""
+    import httpx
+    mock_search.side_effect = httpx.TimeoutException("timed out")
+    resp = client.get("/api/music/search?q=稻香")
+    assert resp.status_code == 503
