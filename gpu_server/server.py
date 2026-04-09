@@ -209,6 +209,9 @@ async def infer_rvc(
     try:
         t_start = time.time()
 
+        # Ensure local_pth is a Path (cache stores strings)
+        local_pth = Path(local_pth)
+
         # RVC inference
         rvc = RVCInference(
             models_dir=str(local_pth.parent),
