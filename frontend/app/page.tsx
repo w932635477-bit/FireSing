@@ -10,8 +10,7 @@ export default function LandingPage() {
         <nav className="hidden md:flex gap-8 items-center">
           <Link href="/" className="text-ember font-bold border-b-2 border-ember px-3 py-2">首页</Link>
           <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">工作台</Link>
-          <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">曲库</Link>
-          <span className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors cursor-pointer">会员方案</span>
+          <Link href="/pricing" className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">定价方案</Link>
         </nav>
         <div className="flex items-center gap-4">
           <Link
@@ -504,9 +503,9 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10">
+                <Link href="/dashboard" prefetch={false} className="block w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10 text-center">
                   免费开始
-                </button>
+                </Link>
               </div>
 
               {/* Recommended Plan */}
@@ -529,9 +528,9 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-ember/30">
+                <Link href="/pricing" className="block w-full py-4 rounded-2xl bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed font-black hover:opacity-90 active:scale-[0.98] transition-all shadow-xl shadow-ember/30 text-center">
                   立即订阅
-                </button>
+                </Link>
               </div>
 
               {/* Pro Plan */}
@@ -551,9 +550,9 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10">
+                <Link href="/pricing" className="block w-full py-4 rounded-2xl bg-white/5 text-on-surface font-black hover:bg-white/10 active:scale-[0.98] transition-all border border-white/10 text-center">
                   联系销售
-                </button>
+                </Link>
               </div>
             </div>
 
