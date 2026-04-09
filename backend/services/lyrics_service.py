@@ -146,11 +146,16 @@ def parse_and_cut(song_id: str, db: Session) -> list[Segment]:
     if not song.vocals_path:
         raise ValueError(f"Song {song_id} vocals not yet separated")
 
-    # Check if already segmented
+    # Check if already segmented with vocal files
     existing = db.query(Segment).filter(Segment.song_id == song_id).first()
-    if existing:
-        logger.info(f"Song {song_id} already segmented, skipping")
+    if existing and existing.vocal_path:
+        logger.info(f"Song {song_id} already segmented with vocals, skipping")
         return db.query(Segment).filter(Segment.song_id == song_id).all()
+    # Delete old segments without vocals so we can re-segment
+    if existing:
+        logger.info(f"Song {song_id} has segments without vocals, re-segmenting")
+        db.query(Segment).filter(Segment.song_id == song_id).delete()
+        db.flush()
 
     # Parse and validate
     lrc_lines = parse_lrc(Path(song.lrc_path))

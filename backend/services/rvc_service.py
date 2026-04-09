@@ -130,7 +130,7 @@ async def convert_with_params(
     last_error = None
     for attempt in range(3):
         try:
-            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT) as client:
+            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
                 resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
                 return resp.content

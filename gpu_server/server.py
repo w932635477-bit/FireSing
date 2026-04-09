@@ -14,6 +14,14 @@ import torch
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import Response
 
+# PyTorch 2.6+ changed torch.load default to weights_only=True, breaking RVC.
+# Monkey-patch to restore the old default.
+_original_torch_load = torch.load
+def _patched_torch_load(*args, **kwargs):
+    kwargs.setdefault("weights_only", False)
+    return _original_torch_load(*args, **kwargs)
+torch.load = _patched_torch_load
+
 app = FastAPI(title="FireSing GPU Server", version="0.1.0")
 
 # Model cache: hash -> local_path
@@ -55,8 +63,11 @@ async def infer_demucs(audio: UploadFile = File(...)):
     Time: ~7s (RTX 4090D, 114s song)
     """
     import io
+    import numpy as np
     import soundfile as sf
-    from demucs.api import Separator
+    from demucs.pretrained import get_model
+    from demucs.apply import apply_model
+    from demucs.audio import AudioFile
 
     # Save uploaded audio to temp file
     content = await audio.read()
@@ -67,20 +78,35 @@ async def infer_demucs(audio: UploadFile = File(...)):
     try:
         t_start = time.time()
 
-        # Run Demucs
-        separator = Separator(model="htdemucs")
-        _, separated = separator.separate_audio_file(str(input_path))
+        # Load model and separate
+        model = get_model("htdemucs")
+        model.to(torch.device("cuda:0"))
+        model.eval()
 
-        vocals = separated["vocals"]
-        instrumental = separated["no_vocals"]  # Demucs calls it "no_vocals"
+        wav = AudioFile(str(input_path)).read(streams=0, samplerate=model.samplerate, channels=model.audio_channels)
+        ref = wav.mean(0)
+        wav_input = (wav - ref.mean()) / ref.std()
+
+        with torch.no_grad():
+            sources = apply_model(model, wav_input[None], device="cuda:0")[0]
+
+        sources = sources * ref.std() + ref.mean()
+
+        # Map sources: model.sources = ['drums', 'bass', 'other', 'vocals']
+        source_map = {name: sources[i] for i, name in enumerate(model.sources)}
+        vocals = source_map["vocals"]
+        # Instrumental = everything except vocals
+        instrumental = sum(source_map[k] for k in model.sources if k != "vocals")
+
+        sr = model.samplerate
 
         # Convert to WAV bytes
         vocals_buf = io.BytesIO()
-        sf.write(vocals_buf, vocals.numpy().T, separator.samplerate, format="WAV")
+        sf.write(vocals_buf, vocals.cpu().numpy().T, sr, format="WAV")
         vocals_bytes = vocals_buf.getvalue()
 
         instr_buf = io.BytesIO()
-        sf.write(instr_buf, instrumental.numpy().T, separator.samplerate, format="WAV")
+        sf.write(instr_buf, instrumental.cpu().numpy().T, sr, format="WAV")
         instr_bytes = instr_buf.getvalue()
 
         elapsed = time.time() - t_start
@@ -106,9 +132,20 @@ async def infer_demucs(audio: UploadFile = File(...)):
         )
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(500, f"Demucs inference failed: {str(e)}")
     finally:
         input_path.unlink(missing_ok=True)
+
+
+# Also patch torch.load inside rvc_python
+try:
+    import rvc_python
+    import rvc_python.modules.vc.modules as _rvc_mod
+    # Patch any torch.load references
+except ImportError:
+    pass
 
 
 @app.post("/infer/rvc")
@@ -209,6 +246,8 @@ async def infer_rvc(
         )
 
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(500, f"RVC inference failed: {str(e)}")
     finally:
         audio_path.unlink(missing_ok=True)
