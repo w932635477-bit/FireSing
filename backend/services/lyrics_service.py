@@ -160,7 +160,14 @@ def parse_and_cut(song_id: str, db: Session) -> list[Segment]:
     # Parse and validate
     lrc_lines = parse_lrc(Path(song.lrc_path))
     lrc_lines = validate_segments(lrc_lines)
-    segments_data = compute_end_times(lrc_lines)
+
+    # Get actual vocal audio duration for accurate last segment timing
+    total_duration = None
+    if song.vocals_path and Path(song.vocals_path).exists():
+        vocals_audio = AudioSegment.from_wav(str(song.vocals_path))
+        total_duration = len(vocals_audio) / 1000.0
+
+    segments_data = compute_end_times(lrc_lines, total_duration=total_duration)
 
     # Cut vocals
     output_dir = SEGMENTS_DIR / song_id

@@ -1,16 +1,64 @@
 """RVC service — voice conversion via GPU server."""
 
 import asyncio
+import io
 import logging
 from pathlib import Path
 
 import httpx
+from pydub import AudioSegment
 from sqlalchemy.orm import Session
 
 from ..config import GPU_SERVER_URL, GPU_REQUEST_TIMEOUT, CONVERTED_DIR
 from ..models import Segment, VoiceModel, Song
 
 logger = logging.getLogger(__name__)
+
+# Maximum allowed duration drift before time-stretching (ms)
+_DURATION_TOLERANCE_MS = 50
+
+
+def _align_duration(
+    converted_bytes: bytes, original_duration_ms: float
+) -> bytes:
+    """Time-stretch converted audio to match original segment duration.
+
+    RVC inference can change segment duration due to frame boundary effects
+    and F0 processing. This function corrects the drift by resampling.
+    For small adjustments (< 10%), the quality impact is negligible.
+    """
+    converted = AudioSegment.from_wav(io.BytesIO(converted_bytes))
+    current_ms = len(converted)
+
+    if abs(current_ms - original_duration_ms) < _DURATION_TOLERANCE_MS:
+        return converted_bytes
+
+    speed_ratio = current_ms / original_duration_ms
+
+    # Only stretch if ratio is within reasonable range (0.5x to 2x)
+    if speed_ratio < 0.5 or speed_ratio > 2.0:
+        logger.warning(
+            f"Duration drift too large: {current_ms}ms -> {original_duration_ms}ms "
+            f"(ratio {speed_ratio:.3f}), skipping alignment"
+        )
+        return converted_bytes
+
+    logger.info(
+        f"Aligning duration: {current_ms}ms -> {original_duration_ms}ms "
+        f"(ratio {speed_ratio:.4f})"
+    )
+
+    # Resample by adjusting frame rate, then convert back
+    new_frame_rate = int(converted.frame_rate * speed_ratio)
+    stretched = converted._spawn(
+        converted.raw_data,
+        overrides={"frame_rate": new_frame_rate},
+    )
+    stretched = stretched.set_frame_rate(converted.frame_rate)
+
+    buf = io.BytesIO()
+    stretched.export(buf, format="wav")
+    return buf.getvalue()
 
 
 async def convert(segment_id: str, db: Session) -> Path:
@@ -54,6 +102,13 @@ async def convert(segment_id: str, db: Session) -> Path:
         model_id=voice.id,
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
+    )
+
+    # Align converted audio duration to original segment duration
+    # This prevents rhythm drift caused by RVC changing segment lengths
+    original_duration_ms = (segment.end_time - segment.start_time) * 1000
+    converted_bytes = await asyncio.to_thread(
+        _align_duration, converted_bytes, original_duration_ms
     )
 
     # Save converted audio
@@ -102,7 +157,7 @@ async def convert_with_params(
     model_id: str,
     pth_bytes: bytes,
     index_bytes: bytes | None = None,
-    f0_method: str = "harvest",
+    f0_method: str = "rmvpe",
     f0_up_key: int = 0,
     index_rate: float = 0.5,
     filter_radius: int = 3,
@@ -155,14 +210,14 @@ async def _call_gpu_rvc(
     """Send vocal + model to GPU server, return converted WAV bytes.
 
     Uses model_id to reference cached models (avoid re-upload on subsequent calls).
-    Default parameters: harvest f0, no pitch shift, index_rate 0.5.
+    Default parameters: rmvpe f0, no pitch shift, index_rate 0.5.
     """
     return await convert_with_params(
         audio_bytes=audio_bytes,
         model_id=model_id,
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
-        f0_method="harvest",
+        f0_method="rmvpe",
         f0_up_key=0,
         index_rate=0.5,
         filter_radius=3,

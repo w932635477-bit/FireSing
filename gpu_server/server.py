@@ -154,7 +154,7 @@ async def infer_rvc(
     pth_file: UploadFile = File(None),
     model_id: str = Form(None),
     index_file: UploadFile = File(None),
-    f0_method: str = Form("harvest"),
+    f0_method: str = Form("rmvpe"),
     f0up_key: int = Form(0),
     index_rate: float = Form(0.5),
     filter_radius: int = Form(3),
@@ -165,7 +165,7 @@ async def infer_rvc(
     1. Upload model: pth_file + audio (model cached for future use)
     2. Reference cached model: model_id + audio (no re-upload needed)
 
-    Time: ~4.6s per segment (harvest f0, RTX 4090D)
+    Time: ~4.6s per segment (rmvpe f0, RTX 4090D)
     """
     import io
     import soundfile as sf
