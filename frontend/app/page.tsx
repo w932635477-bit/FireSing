@@ -481,7 +481,7 @@ export default function LandingPage() {
             <div className="text-center mb-20">
               <h2 className="text-5xl md:text-6xl font-black tracking-tighter mb-8">选择适合你的方案</h2>
               <p className="text-on-surface-variant text-xl max-w-2xl mx-auto font-medium">
-                释放你的创意潜力。从基础创作到专业音频工程，我们为你量身打造了多款灵活的方案。
+                按需付费，用多少买多少。从免费体验到批量处理，总有一款适合你。
               </p>
             </div>
 
