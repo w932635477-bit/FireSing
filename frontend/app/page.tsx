@@ -89,9 +89,9 @@ export default function LandingPage() {
                 {/* Stats row */}
                 <div className="flex gap-10 mt-14">
                   {[
-                    { value: "10K+", label: "创作者" },
-                    { value: "50K+", label: "作品" },
-                    { value: "99.2%", label: "满意度" },
+                    { value: "5+", label: "音色库" },
+                    { value: "1080P", label: "视频输出" },
+                    { value: "<2min", label: "处理速度" },
                   ].map((stat) => (
                     <div key={stat.label}>
                       <div className="text-2xl md:text-3xl font-black text-ember font-mono">{stat.value}</div>
