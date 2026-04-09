@@ -272,7 +272,9 @@ async def generate_grand_chorus(
                     f0_method="rmvpe",
                     f0_up_key=0,
                     index_rate=0.5,
-                    filter_radius=3,
+                    filter_radius=1,
+                    rms_mix_rate=0.25,
+                    protect=0.5,
                 )
 
                 # Convert bytes to pydub AudioSegment (offload to thread)

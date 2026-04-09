@@ -161,6 +161,8 @@ async def convert_with_params(
     f0_up_key: int = 0,
     index_rate: float = 0.5,
     filter_radius: int = 3,
+    rms_mix_rate: float = 0.25,
+    protect: float = 0.5,
 ) -> bytes:
     """Send vocal + model to GPU server with custom RVC parameters.
 
@@ -178,6 +180,8 @@ async def convert_with_params(
         "f0up_key": str(f0_up_key),
         "index_rate": str(index_rate),
         "filter_radius": str(filter_radius),
+        "rms_mix_rate": str(rms_mix_rate),
+        "protect": str(protect),
     }
     if index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
@@ -220,5 +224,7 @@ async def _call_gpu_rvc(
         f0_method="rmvpe",
         f0_up_key=0,
         index_rate=0.5,
-        filter_radius=3,
+        filter_radius=1,
+        rms_mix_rate=0.25,
+        protect=0.5,
     )

@@ -158,6 +158,8 @@ async def infer_rvc(
     f0up_key: int = Form(0),
     index_rate: float = Form(0.5),
     filter_radius: int = Form(3),
+    rms_mix_rate: float = Form(0.25),
+    protect: float = Form(0.5),
 ):
     """RVC voice conversion. Returns converted audio as WAV bytes.
 
@@ -231,6 +233,8 @@ async def infer_rvc(
             f0up_key=f0up_key,
             index_rate=index_rate,
             filter_radius=filter_radius,
+            rms_mix_rate=rms_mix_rate,
+            protect=protect,
         )
 
         rvc.infer_file(str(audio_path), str(output_path))

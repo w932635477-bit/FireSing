@@ -181,7 +181,9 @@ async def _generate_harmony_part(
         f0_method="rmvpe",
         f0_up_key=f0_up_key,
         index_rate=0.5,
-        filter_radius=3,
+        filter_radius=1,
+        rms_mix_rate=0.25,
+        protect=0.5,
     )
 
     if not converted_bytes:
