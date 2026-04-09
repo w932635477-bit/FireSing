@@ -22,6 +22,7 @@ import {
   type ProcessRequest,
 } from "@/lib/api";
 import { useToast } from "@/components/Toast";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 const VOICE_COLORS = [
   { chip: "voice-chip-red", dot: "bg-primary", label: "珊瑚红" },
@@ -56,6 +57,8 @@ export default function SongDetailPage() {
   const [voiceUploading, setVoiceUploading] = useState(false);
   const [lrcUploading, setLrcUploading] = useState(false);
   const [showVoiceUpload, setShowVoiceUpload] = useState(false);
+  const [processConfirm, setProcessConfirm] = useState<string | null>(null);
+  const [pendingProcessData, setPendingProcessData] = useState<{ pool: string[]; req: ProcessRequest } | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -131,15 +134,7 @@ export default function SongDetailPage() {
 
     const voiceNames = pool.map(id => voices.find(v => v.id === id)?.name || id).join(", ");
     const fmt = outputFormat === "video" ? "竖版视频" : outputFormat === "audio" ? "纯音频" : "字幕视频";
-    const summary = `即将开始处理:\n音色: ${voiceNames}\n输出格式: ${fmt}${enableChorus ? `\n合唱: ${chorusVoiceCount}声部` : ""}${monologueText ? `\n独白: ${monologueText.slice(0, 30)}...` : ""}`;
-    if (!confirm(summary)) return;
-
-    if (monologueMode === "record" && monologueFile) {
-      setMonologueUploading(true);
-      try { await uploadMonologueAudio(songId, monologueFile); }
-      catch (e) { setMonologueUploading(false); return addToast("error", `独白上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
-      finally { setMonologueUploading(false); }
-    }
+    const summary = `音色: ${voiceNames}\n输出: ${fmt}${enableChorus ? ` · ${chorusVoiceCount}声部合唱` : ""}${monologueText ? ` · 含独白` : ""}`;
 
     const req: ProcessRequest = {
       voice_pool: pool,
@@ -150,8 +145,25 @@ export default function SongDetailPage() {
       enable_chorus: enableChorus,
       chorus_voice_count: chorusVoiceCount,
     };
-    try { await startProcess(songId, req); router.push(`/songs/${songId}/process`); }
+
+    setPendingProcessData({ pool, req });
+    setProcessConfirm(summary);
+  }
+
+  async function confirmStartProcess() {
+    setProcessConfirm(null);
+    if (!pendingProcessData) return;
+
+    if (monologueMode === "record" && monologueFile) {
+      setMonologueUploading(true);
+      try { await uploadMonologueAudio(songId, monologueFile); }
+      catch (e) { setMonologueUploading(false); setPendingProcessData(null); return addToast("error", `独白上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
+      finally { setMonologueUploading(false); }
+    }
+
+    try { await startProcess(songId, pendingProcessData.req); router.push(`/songs/${songId}/process`); }
     catch (e) { addToast("error", `处理启动失败: ${e instanceof Error ? e.message : "请重试"}`); }
+    finally { setPendingProcessData(null); }
   }
 
   if (loading) return (
@@ -256,12 +268,39 @@ export default function SongDetailPage() {
                       {out.format === "video" ? "MP4" : "WAV"}
                       {out.duration && ` · ${out.duration.toFixed(0)}s`}
                     </span>
-                    <a href={out.file_url} download className="px-3 py-1.5 bg-primary text-black rounded-lg text-xs font-bold active:scale-95 transition-transform">
-                      下载
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => { navigator.clipboard.writeText(window.location.origin + out.file_url); addToast("success", "链接已复制"); }}
+                        className="px-3 py-1.5 bg-surface-container-highest text-on-surface rounded-lg text-xs font-bold hover:bg-surface-bright transition-colors flex items-center gap-1"
+                      >
+                        <span className="material-symbols-outlined text-xs">link</span>
+                        复制链接
+                      </button>
+                      <a href={out.file_url} download className="px-3 py-1.5 bg-primary text-black rounded-lg text-xs font-bold active:scale-95 transition-transform">
+                        下载
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+            {/* Next actions after completion */}
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/dashboard"
+                prefetch={false}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-surface-container-high rounded-xl text-sm font-bold hover:bg-surface-bright transition-colors border border-white/5"
+              >
+                <span className="material-symbols-outlined text-base">add</span>
+                再来一首
+              </Link>
+              <button
+                onClick={() => load()}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-surface-container-high rounded-xl text-sm font-bold hover:bg-surface-bright transition-colors border border-white/5"
+              >
+                <span className="material-symbols-outlined text-base">refresh</span>
+                刷新状态
+              </button>
             </div>
           </section>
         )}
@@ -575,6 +614,17 @@ export default function SongDetailPage() {
           </div>
         )}
       </main>
+
+      {/* Process Confirmation */}
+      <ConfirmDialog
+        open={processConfirm !== null}
+        title="确认开始处理"
+        message={processConfirm ?? ""}
+        confirmLabel="开始处理"
+        cancelLabel="再看看"
+        onConfirm={confirmStartProcess}
+        onCancel={() => { setProcessConfirm(null); setPendingProcessData(null); }}
+      />
     </div>
   );
 }

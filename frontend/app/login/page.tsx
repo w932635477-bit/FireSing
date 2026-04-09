@@ -86,10 +86,10 @@ function LoginContent() {
 
       {/* Main Content */}
       <main className="relative z-10 w-full max-w-md">
-        <div className="bg-surface-container-low p-8 rounded-2xl shadow-2xl ring-1 ring-white/5">
+        <div className="bg-surface-container-low p-8 rounded-2xl shadow-2xl border border-white/5">
           {/* Logo */}
           <div className="text-center mb-8">
-            <span className="text-3xl font-black tracking-tighter text-ember">🔥 FireSing</span>
+            <span className="text-3xl font-black tracking-tighter text-ember">FireSing</span>
             <h1 className="text-on-surface text-lg font-medium mt-2">AI 方言翻唱平台</h1>
             <p className="text-on-surface-variant text-sm mt-1">登录后即可使用，注册送 3 首</p>
           </div>

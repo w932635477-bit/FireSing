@@ -41,7 +41,7 @@
   --color-error: #ff716c;
   --color-on-surface: #fefbfe;
   --color-surface-container-lowest: #000000;
-  --color-on-surface-variant: #acaaad;
+  --color-on-surface-variant: #c4c2c5;
   --color-on-primary-fixed-variant: #551600;
   --color-secondary-container: #005db8;
   --color-surface-bright: #2c2c2f;
@@ -184,4 +184,18 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #48474a;
+}
+
+/* Reduced motion: disable all animations for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-pulse, .animate-ping, .animate-bounce, .animate-spin,
+  .animate-float, .animate-glow-pulse {
+    animation: none !important;
+  }
 }

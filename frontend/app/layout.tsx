@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "@fontsource/material-symbols-outlined/400.css";
 import { ToastProvider } from "@/components/Toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import "./globals.css";
@@ -30,10 +31,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="bg-surface-container-lowest text-on-surface min-h-screen font-sans">
         <ToastProvider><AuthProvider>{children}</AuthProvider></ToastProvider>

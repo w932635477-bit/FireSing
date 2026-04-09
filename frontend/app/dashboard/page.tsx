@@ -17,6 +17,7 @@ import {
   type MusicImportProgress,
 } from "@/lib/api";
 import { useToast } from "@/components/Toast";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 const COVER_IMAGES = [
   "/images/cover-waves.webp",
@@ -39,6 +40,7 @@ export default function DashboardPage() {
   const [uploading, setUploading] = useState(false);
   const [filterQuery, setFilterQuery] = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; title: string } | null>(null);
   const [apiError, setApiError] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -55,9 +57,14 @@ export default function DashboardPage() {
   async function handleDelete(songId: string, songTitle: string, e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    if (!confirm(`确定删除「${songTitle}」？此操作不可恢复。`)) return;
-    setDeleting(songId);
-    try { await deleteSong(songId); await load(); }
+    setDeleteConfirm({ id: songId, title: songTitle });
+  }
+
+  async function confirmDelete() {
+    if (!deleteConfirm) return;
+    setDeleting(deleteConfirm.id);
+    setDeleteConfirm(null);
+    try { await deleteSong(deleteConfirm.id); await load(); }
     catch (e) { addToast("error", `删除失败: ${e instanceof Error ? e.message : "请重试"}`); }
     finally { setDeleting(null); }
   }
@@ -195,7 +202,7 @@ export default function DashboardPage() {
             <span className="material-symbols-outlined text-sm">add</span>
             添加新歌
           </button>
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-outline-variant/15">
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-white/5">
             <div className="w-full h-full bg-gradient-to-tr from-primary to-tertiary opacity-80" />
           </div>
         </div>
@@ -323,9 +330,9 @@ export default function DashboardPage() {
       </nav>
 
       {/* 添加新歌 Dialog */}
-      <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-md bg-surface-container-high border border-outline-variant/15 text-on-surface">
+      <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-md bg-surface-container-high border border-white/5 text-on-surface">
         <div className="p-6 w-full max-w-[480px] max-h-[80vh] flex flex-col">
-          <div className="flex items-center justify-between p-6 border-b border-outline-variant/15">
+          <div className="flex items-center justify-between p-6 border-b border-white/5">
             <h2 className="text-xl font-bold">添加新歌</h2>
             <button onClick={handleDialogClose} className="text-neutral-500 hover:text-white transition-colors">
               <span className="material-symbols-outlined">close</span>
@@ -479,6 +486,18 @@ export default function DashboardPage() {
           )}
         </div>
       </dialog>
+
+      {/* Delete Confirmation */}
+      <ConfirmDialog
+        open={deleteConfirm !== null}
+        title="删除歌曲"
+        message={`确定删除「${deleteConfirm?.title ?? ""}」？此操作不可恢复。`}
+        confirmLabel="删除"
+        cancelLabel="取消"
+        variant="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirm(null)}
+      />
     </div>
   );
 }
