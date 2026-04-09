@@ -63,8 +63,8 @@ export default function ProcessPage() {
         <div className="flex items-center gap-8">
           <Link href="/" className="text-2xl font-black text-primary tracking-tighter">FireSing</Link>
           <div className="hidden md:flex gap-6 items-center">
-            <span className="text-neutral-400">首页</span>
-            <span className="text-primary font-bold border-b-2 border-primary pb-1">我的作品</span>
+            <Link href="/" className="text-neutral-400 hover:text-neutral-200 transition-colors duration-300">首页</Link>
+            <Link href="/dashboard" className="text-primary font-bold border-b-2 border-primary pb-1">我的作品</Link>
           </div>
         </div>
         <div className="flex items-center gap-4">
