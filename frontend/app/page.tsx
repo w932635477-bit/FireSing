@@ -629,7 +629,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-sm text-on-surface-variant font-bold font-mono">&copy; 2025 FireSing. 版权所有.</div>
+          <div className="text-sm text-on-surface-variant font-bold font-mono">&copy; 2026 FireSing. 版权所有.</div>
           <div className="flex gap-8">
             <span className="text-on-surface-variant hover:text-white transition-all transform hover:scale-110 cursor-pointer"><span className="material-symbols-outlined">language</span></span>
             <span className="text-on-surface-variant hover:text-white transition-all transform hover:scale-110 cursor-pointer"><span className="material-symbols-outlined">mail</span></span>
