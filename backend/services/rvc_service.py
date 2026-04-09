@@ -15,7 +15,7 @@ from ..models import Segment, VoiceModel, Song
 logger = logging.getLogger(__name__)
 
 # Maximum allowed duration drift before time-stretching (ms)
-_DURATION_TOLERANCE_MS = 50
+_DURATION_TOLERANCE_MS = 5  # Even 10-20ms drift accumulates badly over 40+ segments
 
 
 def _align_duration(

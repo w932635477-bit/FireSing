@@ -12,7 +12,7 @@ from ..models import Song, Segment, Output
 logger = logging.getLogger(__name__)
 
 # Audio mixing constants
-CROSSFADE_MS = 300  # Crossfade between segments (300ms for smoother transitions)
+CROSSFADE_MS = 150  # Crossfade between segments (150ms balances smoothness vs content loss)
 MONOLOGUE_INSTRUMENTAL_REDUCTION_DB = 12  # Lower instrumental during monologue
 
 
