@@ -115,24 +115,7 @@ export default function PricingPage() {
           ))}
         </div>
 
-        {/* Subscription plans (coming soon) */}
-        <h2 className="text-lg font-semibold text-on-surface mb-4">会员订阅</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {plans?.subscriptions.map((plan) => (
-            <div key={plan.id} className="bg-surface-container-low p-6 rounded-xl ring-1 ring-white/5 flex flex-col opacity-60">
-              <h3 className="font-semibold text-on-surface">{plan.name}</h3>
-              <p className="text-on-surface-variant text-sm mt-1">{plan.desc}</p>
-              <div className="mt-4 text-2xl font-bold text-on-surface-variant">
-                ¥{(plan.price_fen / 100).toFixed(0)}/月
-              </div>
-              <div className="mt-auto pt-4">
-                <button disabled className="w-full bg-surface-container-highest text-on-surface-variant font-medium py-2.5 rounded-lg cursor-not-allowed">
-                  即将推出
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Subscription plans — hidden until ready */}
       </div>
     </div>
   );

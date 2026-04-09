@@ -93,7 +93,7 @@ export interface ProcessRequest {
   voice_pool: string[];
   strategy: "round-robin" | "random";
   monologue_text?: string;
-  monologue_position?: "beginning" | "end";
+  monologue_position?: "beginning" | "end" | "interlude";
   output_format?: "video" | "audio" | "video_subtitled";
   enable_chorus?: boolean;
   chorus_voice_count?: number;
@@ -116,10 +116,15 @@ export class AppError extends Error {
 // --- Helpers ---
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, init);
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, init);
+  } catch {
+    throw new AppError(0, "network", "无法连接到服务器");
+  }
   if (!res.ok) {
-    const body = await res.text();
-    throw new AppError(res.status, "unknown", `API ${res.status}: ${body}`);
+    const body = await res.text().catch(() => "Unknown error");
+    throw new AppError(res.status, "api", `API ${res.status}: ${body}`);
   }
   return res.json();
 }

@@ -146,26 +146,34 @@ def _mix_tracks(
         instrumental = instrumental[:len(vocals)]
 
     # Lower instrumental during monologue
-    if monologue and monologue_position == "beginning":
-        monologue_len = len(monologue)
-        # Lower first section of instrumental
-        quiet_section = instrumental[:monologue_len] - MONOLOGUE_INSTRUMENTAL_REDUCTION_DB
-        instrumental = quiet_section + instrumental[monologue_len:]
-    elif monologue and monologue_position == "end":
+    if monologue:
         monologue_len = len(monologue)
         total_len = len(instrumental)
-        # Lower last section of instrumental
-        quiet_section = instrumental[total_len - monologue_len:] - MONOLOGUE_INSTRUMENTAL_REDUCTION_DB
-        instrumental = instrumental[:total_len - monologue_len] + quiet_section
+        if monologue_position == "beginning":
+            quiet_section = instrumental[:monologue_len] - MONOLOGUE_INSTRUMENTAL_REDUCTION_DB
+            instrumental = quiet_section + instrumental[monologue_len:]
+        elif monologue_position == "end":
+            quiet_section = instrumental[total_len - monologue_len:] - MONOLOGUE_INSTRUMENTAL_REDUCTION_DB
+            instrumental = instrumental[:total_len - monologue_len] + quiet_section
+        elif monologue_position == "interlude":
+            mid = total_len // 2
+            half = monologue_len // 2
+            start = max(0, mid - half)
+            end = min(total_len, start + monologue_len)
+            quiet_section = instrumental[start:end] - MONOLOGUE_INSTRUMENTAL_REDUCTION_DB
+            instrumental = instrumental[:start] + quiet_section + instrumental[end:]
 
     # Mix vocals + instrumental
     mixed = vocals.overlay(instrumental)
 
-    # Prepend or append monologue
+    # Insert monologue at specified position
     if monologue:
         silence_gap = AudioSegment.silent(duration=1500)  # 1.5s gap
         if monologue_position == "beginning":
             mixed = monologue + silence_gap + mixed
+        elif monologue_position == "interlude":
+            mid = len(mixed) // 2
+            mixed = mixed[:mid] + silence_gap + monologue + silence_gap + mixed[mid:]
         else:
             mixed = mixed + silence_gap + monologue
 

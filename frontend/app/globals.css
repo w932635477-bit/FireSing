@@ -8,8 +8,8 @@
   --color-inverse-surface: #fcf8fb;
   --color-on-secondary-fixed: #00336b;
   --color-on-background: #fefbfe;
-  --color-primary: #ff906a;
-  --color-primary-container: #ff7949;
+  --color-primary: #FF6B35;
+  --color-primary-container: #FF8C5A;
   --color-tertiary-container: #64fd7d;
   --color-tertiary: #b9ffb8;
   --color-on-tertiary-container: #005d1f;
@@ -19,7 +19,7 @@
   --color-tertiary-dim: #54ee70;
   --color-surface: #0e0e10;
   --color-surface-dim: #0e0e10;
-  --color-primary-fixed: #ff7949;
+  --color-primary-fixed: #FF6B35;
   --color-on-primary-container: #451000;
   --color-surface-container-low: #131315;
   --color-surface-tint: #ff906a;
@@ -122,6 +122,21 @@ body {
 .glass-panel {
   backdrop-filter: blur(20px);
   background-color: rgba(35, 20, 15, 0.6);
+}
+
+/* Signature glow for buttons */
+.glow-primary {
+  box-shadow: 0 0 12px rgba(255, 107, 53, 0.2);
+}
+
+/* Signature glow for larger elements */
+.signature-glow {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
+}
+
+/* Step indicator line gradient */
+.step-indicator-line {
+  background: linear-gradient(90deg, transparent 0%, #262528 50%, transparent 100%);
 }
 
 /* Voice chip variants */

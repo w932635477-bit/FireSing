@@ -27,7 +27,7 @@ class Song(Base):
     vocals_path = Column(String)
     instrumental_path = Column(String)
     monologue_text = Column(Text)
-    monologue_position = Column(String)  # "beginning" or "end"
+    monologue_position = Column(String)  # "beginning" | "end" | "interlude"
     monologue_audio_path = Column(String)
     status = Column(String, default="uploaded")
     # uploaded | separating | separated | segmented | assigning |

@@ -11,7 +11,6 @@ import {
   importMusic,
   checkMusicExisting,
   connectImportProgress,
-  statusLabel,
   AppError,
   type Song,
   type MusicSearchSong,
@@ -33,36 +32,6 @@ function getCover(title: string): string {
   return COVER_IMAGES[hash % COVER_IMAGES.length];
 }
 
-function statusChip(status: string) {
-  if (status === "done")
-    return (
-      <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-success/10 text-success text-xs font-bold">
-        <span className="w-1.5 h-1.5 rounded-full bg-success" />
-        完成
-      </span>
-    );
-  if (status === "error")
-    return (
-      <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error/10 text-error text-xs font-bold">
-        <span className="material-symbols-outlined text-[10px]" style={{ fontVariationSettings: '"FILL" 1' }}>close</span>
-        失败
-      </span>
-    );
-  if (["uploaded", "separated", "segmented"].includes(status))
-    return (
-      <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-on-surface-variant/10 text-on-surface-variant text-xs font-bold">
-        <span className="w-1.5 h-1.5 rounded-full border border-on-surface-variant" />
-        已上传
-      </span>
-    );
-  return (
-    <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-warning/10 text-warning text-xs font-bold">
-      <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-      处理中
-    </span>
-  );
-}
-
 export default function DashboardPage() {
   const { addToast } = useToast();
   const [songs, setSongs] = useState<Song[]>([]);
@@ -70,6 +39,7 @@ export default function DashboardPage() {
   const [uploading, setUploading] = useState(false);
   const [filterQuery, setFilterQuery] = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [apiError, setApiError] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   // Music search state
@@ -78,7 +48,7 @@ export default function DashboardPage() {
   const [searchResults, setSearchResults] = useState<MusicSearchSong[]>([]);
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
-  const [importing, setImporting] = useState<string | null>(null); // song name being imported
+  const [importing, setImporting] = useState<string | null>(null);
   const [importProgress, setImportProgress] = useState<MusicImportProgress | null>(null);
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(null);
 
@@ -96,17 +66,9 @@ export default function DashboardPage() {
     try {
       const data = await listSongs();
       setSongs(data.songs || []);
-    } catch (e) {
-      // API unavailable — use demo data for UI preview
-      console.warn("API unavailable, showing demo data");
-      setSongs([
-        { id: "demo-1", title: "稻香", status: "done", created_at: "2025-04-01T10:00:00Z" },
-        { id: "demo-2", title: "珊瑚海", status: "separating", created_at: "2025-04-02T14:30:00Z" },
-        { id: "demo-3", title: "晴天", status: "uploaded", created_at: "2025-04-03T09:15:00Z" },
-        { id: "demo-4", title: "七里香", status: "error", error_message: "RVC 模型加载超时", created_at: "2025-04-04T16:00:00Z" },
-        { id: "demo-5", title: "简单爱", status: "done", created_at: "2025-04-04T20:00:00Z" },
-        { id: "demo-6", title: "夜曲", status: "converting", created_at: "2025-04-05T08:00:00Z" },
-      ]);
+    } catch {
+      setSongs([]);
+      setApiError(true);
     } finally {
       setLoading(false);
     }
@@ -162,16 +124,13 @@ export default function DashboardPage() {
   }
 
   async function handleImport(song: MusicSearchSong) {
-    // Dedup check
     try {
       const { exists } = await checkMusicExisting(song.source, song.id);
       if (exists) {
         addToast("warning", "这首歌已经导入过了");
         return;
       }
-    } catch {
-      // If check fails, proceed anyway
-    }
+    } catch {}
 
     setImporting(song.name);
     setImportProgress({ step: "queued", pct: 0, message: "排队中..." });
@@ -218,236 +177,167 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Top Navigation Bar */}
-      <header className="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-black/60 backdrop-blur-xl z-50 shadow-[0_8px_32px_rgba(255,107,53,0.15)]">
+    <div className="min-h-screen bg-surface-container-lowest text-on-surface pb-20 md:pb-0">
+      {/* Top Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-neutral-950/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(89,23,0,0.06)] flex justify-between items-center px-6 md:px-8 h-16">
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-2xl font-black text-ember tracking-tight">FireSing</Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/dashboard" className="text-ember font-bold border-b-2 border-ember py-1">我的作品</Link>
-            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">音乐库 <span className="text-[9px] text-white/15">即将上线</span></span>
-            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">语音模型 <span className="text-[9px] text-white/15">即将上线</span></span>
-            <span className="text-white/20 font-medium px-3 py-2 cursor-not-allowed">工作室 <span className="text-[9px] text-white/15">即将上线</span></span>
-          </nav>
+          <Link href="/" className="text-2xl font-black text-primary tracking-tighter">FireSing</Link>
+          <div className="hidden md:flex gap-6 items-center">
+            <Link href="/" className="text-neutral-400 hover:text-neutral-200 transition-colors duration-300">首页</Link>
+            <Link href="/dashboard" className="text-primary font-bold border-b-2 border-primary pb-1">我的作品</Link>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <button
             onClick={openDialog}
-            className="bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed px-5 py-2 rounded-lg font-bold flex items-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all"
+            className="bg-primary text-on-primary-fixed px-4 py-2 rounded-xl text-sm font-bold hover:scale-95 transition-transform flex items-center gap-2 shadow-[0_0_20px_rgba(255,107,53,0.2)]"
           >
-            <span className="material-symbols-outlined text-lg">add_circle</span>
-            添加新歌曲
+            <span className="material-symbols-outlined text-sm">add</span>
+            添加新歌
           </button>
-          <Link href="/login" className="w-10 h-10 rounded-full bg-surface-variant overflow-hidden cursor-pointer active:scale-[0.95] transition-transform flex items-center justify-center">
-            <span className="material-symbols-outlined text-white/60">person</span>
-          </Link>
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-outline-variant/15">
+            <div className="w-full h-full bg-gradient-to-tr from-primary to-tertiary opacity-80" />
+          </div>
         </div>
-      </header>
+      </nav>
 
-      <div className="flex min-h-screen pt-20">
-        {/* Side Navigation */}
-        <aside className="hidden md:flex flex-col h-[calc(100vh-80px)] w-64 fixed left-0 bg-sidebar py-8 px-4">
-          <div className="mb-8 px-2">
-            <h2 className="text-white text-xl font-bold">黑曜石工作室</h2>
-            <p className="text-white/40 text-sm font-medium">精英创作者中心</p>
+      {/* Main Content */}
+      <main className="pt-24 px-6 md:px-12 max-w-7xl mx-auto">
+        {/* Header */}
+        <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="relative">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight -ml-1">我的作品</h1>
+            <div className="h-1 w-12 bg-primary mt-2" />
           </div>
-          <nav className="flex-1 space-y-2">
-            {[
-              { icon: "home", label: "我的作品", href: "/dashboard", active: true, disabled: false },
-              { icon: "library_music", label: "音乐库", disabled: true },
-              { icon: "settings_voice", label: "语音模型", disabled: true },
-              { icon: "mic_external_on", label: "工作室", disabled: true },
-            ].map((item) => (
-              item.disabled ? (
-                <div key={item.label} className="flex items-center gap-3 px-4 py-3 rounded-lg text-white/20 cursor-not-allowed">
-                  <span className="material-symbols-outlined">{item.icon}</span>
-                  <span>{item.label}</span>
-                  <span className="text-[9px] ml-auto px-1.5 py-0.5 rounded bg-white/5 text-white/25">即将上线</span>
-                </div>
-              ) : (
-              <Link
-                key={item.label}
-                href={item.href!}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all active:scale-[0.98] ${
-                  item.active
-                    ? "text-ember bg-white/5"
-                    : "text-white/40 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                <span className="material-symbols-outlined">{item.icon}</span>
-                <span>{item.label}</span>
-              </Link>
-              )
-            ))}
-          </nav>
-          <div className="mt-auto px-2">
-            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                <p className="text-white font-bold text-sm">内测阶段 · 免费</p>
-              </div>
-              <p className="text-white/40 text-xs">正式上线后将推出付费方案</p>
-            </div>
-          </div>
-        </aside>
-
-        {/* Main Content Area */}
-        <main className="flex-1 md:ml-64 p-8 bg-surface-container-lowest">
-          {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-            <div>
-              <h1 className="text-4xl font-bold tracking-tight mb-2">我的作品</h1>
-              <p className="text-on-surface-variant font-medium">管理您的精英 AI 生成人声轨道</p>
-            </div>
-            <div className="relative w-full md:w-80">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          {songs.length > 0 && (
+            <div className="relative w-full md:w-80 group">
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
               <input
-                className="w-full bg-surface-container border-none rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:ring-2 focus:ring-ember/40 transition-all font-sans"
-                placeholder="搜索您的作品..."
+                className="w-full bg-surface-container-low border-none rounded-xl pl-12 pr-4 py-3 text-on-surface placeholder:text-on-surface-variant focus:ring-0 group-hover:bg-surface-container-high transition-colors"
+                placeholder="搜索作品..."
                 type="text"
                 value={filterQuery}
                 onChange={(e) => setFilterQuery(e.target.value)}
               />
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-focus-within:scale-x-100 transition-transform origin-left" />
             </div>
-          </div>
+          )}
+        </header>
 
-          {/* Song Cards Grid */}
-          {loading ? (
-            <div className="flex items-center justify-center py-32">
-              <span className="material-symbols-outlined text-5xl text-ember animate-pulse">hourglass_empty</span>
-            </div>
-          ) : songs.length === 0 ? (
-            /* Empty State */
-            <div className="flex flex-col items-center justify-center py-32 text-center">
-              <div className="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-6">
-                <span className="material-symbols-outlined text-5xl text-ember">library_music</span>
+        {/* Song Grid */}
+        {loading ? (
+          <div className="flex items-center justify-center py-32">
+            <span className="material-symbols-outlined text-5xl text-primary animate-pulse">hourglass_empty</span>
+          </div>
+        ) : songs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-32 text-center">
+            {apiError && (
+              <div className="mb-6 px-4 py-3 rounded-xl bg-error/10 text-error text-sm max-w-md">
+                无法连接到服务器，请确认后端服务已启动。
               </div>
-              <h2 className="text-2xl font-bold mb-2">还没有作品</h2>
-              <p className="text-on-surface-variant mb-8 max-w-xs">点击右上角上传第一首歌，开始您的创作之旅</p>
-              <button
-                onClick={openDialog}
-                className="bg-surface-container-high border border-white/10 px-6 py-3 rounded-lg font-bold hover:bg-surface-variant active:scale-[0.98] transition-all"
-              >
-                上传新歌
-              </button>
+            )}
+            <div className="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-6">
+              <span className="material-symbols-outlined text-5xl text-primary">library_music</span>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {songs
-                .filter((s) => !filterQuery || s.title.toLowerCase().includes(filterQuery.toLowerCase()))
-                .map((song) => (
+            <h2 className="text-2xl font-bold mb-2">还没有作品</h2>
+            <p className="text-neutral-500 mb-8 max-w-xs">点击右上角上传第一首歌，开始您的创作之旅</p>
+            <button
+              onClick={openDialog}
+              className="bg-surface-container-high border border-white/10 px-6 py-3 rounded-xl font-bold hover:bg-surface-container-highest active:scale-[0.98] transition-all"
+            >
+              添加新歌
+            </button>
+          </div>
+        ) : (
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
+            {songs
+              .filter((s) => !filterQuery || s.title.toLowerCase().includes(filterQuery.toLowerCase()))
+              .map((song) => (
                 <Link
                   key={song.id}
                   href={`/songs/${song.id}`}
-                  className="group relative bg-surface-container-low p-6 rounded-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(255,107,53,0.1)] hover:bg-surface-container"
+                  className="group relative bg-surface-container-low rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 hover:bg-surface-container-high"
                 >
-                  <div className="aspect-square rounded-lg mb-4 overflow-hidden relative">
+                  <div className="aspect-video overflow-hidden relative">
                     <Image
                       src={getCover(song.title)}
                       alt={song.title}
                       fill
-                      loading="eager"
-                      className="object-cover"
-                      sizes="(max-width:100%) 100vw, (max-width:50%) 50vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                    {/* Dark gradient overlay for text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    {song.status !== "uploaded" && song.status !== "done" && song.status !== "error" && (
-                      <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
-                        <div className="w-12 h-1 rounded-full bg-white/20 mb-2 overflow-hidden">
-                          <div className="h-full bg-warning w-2/3" />
-                        </div>
-                        <span className="text-[10px] font-mono text-white/80">处理中</span>
-                      </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    {/* Status dot */}
+                    {song.status === "done" && (
+                      <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]" />
                     )}
                     {song.status === "error" && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <span className="material-symbols-outlined text-error text-4xl">error</span>
-                      </div>
+                      <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-error shadow-[0_0_10px_rgba(255,113,108,0.6)]" />
                     )}
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="material-symbols-outlined text-4xl text-white">play_circle</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className={`text-xl font-bold ${song.status === "error" ? "text-on-surface/50" : "text-on-surface"}`}>
-                      {song.title}
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-2 mb-4">
-                    {statusChip(song.status)}
-                    {song.created_at && (
-                      <span className="text-xs font-mono text-on-surface-variant">
-                        {new Date(song.created_at).toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" })}
-                      </span>
+                    {song.status !== "uploaded" && song.status !== "done" && song.status !== "error" && (
+                      <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-orange-500 animate-pulse shadow-[0_0_12px_rgba(249,115,22,0.8)]" />
                     )}
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                    <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-on-surface-variant text-sm">
-                        {song.status === "done" ? "equalizer" : song.status === "error" ? "warning" : "cloud_upload"}
-                      </span>
-                      <span className="text-xs font-mono text-on-surface-variant">
-                        {song.status === "error" ? song.error_message || "处理失败" : song.status === "done" ? "完成" : "待处理"}
-                      </span>
-                    </div>
+                    {song.status === "uploaded" && (
+                      <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-neutral-500" />
+                    )}
+                    {/* Delete button */}
                     <button
                       onClick={(e) => handleDelete(song.id, song.title, e)}
                       disabled={deleting === song.id}
-                      className="text-on-surface-variant hover:text-error transition-colors disabled:opacity-50"
+                      className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-md p-1.5 rounded-lg text-white hover:text-error disabled:opacity-50"
                       title="删除"
                     >
-                      <span className="material-symbols-outlined text-sm">{deleting === song.id ? "hourglass_empty" : "delete"}</span>
+                      <span className="material-symbols-outlined text-sm">{deleting === song.id ? "hourglass_empty" : "close"}</span>
                     </button>
+                    {/* Hover play icon */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="material-symbols-outlined text-4xl text-white/90" style={{ fontVariationSettings: '"FILL" 1' }}>play_circle</span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold tracking-tight text-on-surface truncate">{song.title}</h3>
+                    <p className="text-neutral-500 text-sm mt-1">
+                      {song.status === "done" ? "已完成" : song.status === "error" ? "解析失败，请重试" : ["uploaded"].includes(song.status) ? "已上传" : "处理中..."}
+                    </p>
                   </div>
                 </Link>
               ))}
-            </div>
-          )}
-        </main>
-      </div>
+          </section>
+        )}
+      </main>
 
       {/* Mobile Bottom Navigation */}
-      <footer className="md:hidden fixed bottom-0 w-full bg-sidebar/80 backdrop-blur-lg border-t border-white/5 flex justify-around items-center py-4 px-6 z-50">
-        <Link href="/dashboard" className="flex flex-col items-center gap-1 text-ember">
-          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>home</span>
-          <span className="text-[10px] font-bold">我的作品</span>
+      <nav className="md:hidden fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-4 bg-black z-50 border-t border-white/5">
+        <Link href="/" className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">home</span>
+          <span className="text-xs font-medium">首页</span>
         </Link>
-        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
-          <span className="material-symbols-outlined">library_music</span>
-          <span className="text-[10px] font-medium">音乐库</span>
-        </span>
-        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
-          <span className="material-symbols-outlined">settings_voice</span>
-          <span className="text-[10px] font-medium">语音模型</span>
-        </span>
-        <span className="flex flex-col items-center gap-1 text-white/20 cursor-not-allowed">
-          <span className="material-symbols-outlined">mic_external_on</span>
-          <span className="text-[10px] font-medium">工作室</span>
-        </span>
-      </footer>
+        <Link href="/dashboard" className="flex flex-col items-center justify-center text-primary bg-neutral-900/50 rounded-lg p-2">
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>library_music</span>
+          <span className="text-xs font-medium">我的作品</span>
+        </Link>
+        <Link href="/pricing" className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">account_balance_wallet</span>
+          <span className="text-xs font-medium">充值</span>
+        </Link>
+      </nav>
 
-      {/* Add Song Dialog */}
-      <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 bg-surface-container-low border border-white/10 text-on-surface">
+      {/* 添加新歌 Dialog */}
+      <dialog ref={dialogRef} className="rounded-2xl p-0 backdrop:bg-black/60 backdrop:backdrop-blur-md bg-surface-container-high border border-outline-variant/15 text-on-surface">
         <div className="p-6 w-full max-w-[480px] max-h-[80vh] flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">添加新歌</h2>
-            <button
-              onClick={handleDialogClose}
-              className="text-on-surface-variant hover:text-white transition-colors"
-            >
+          <div className="flex items-center justify-between p-6 border-b border-outline-variant/15">
+            <h2 className="text-xl font-bold">添加新歌</h2>
+            <button onClick={handleDialogClose} className="text-neutral-500 hover:text-white transition-colors">
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
 
           {/* Tabs */}
-          <div className="flex border-b border-white/10 mb-4">
+          <div className="flex p-2 bg-surface-container-low m-6 mb-4 rounded-xl">
             <button
               onClick={() => setDialogTab("search")}
-              className={`flex-1 pb-2 text-sm font-bold transition-colors ${
-                dialogTab === "search"
-                  ? "text-ember border-b-2 border-ember"
-                  : "text-on-surface-variant hover:text-white"
+              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${
+                dialogTab === "search" ? "bg-surface-container-highest text-primary" : "text-neutral-500 hover:text-white"
               }`}
             >
               <span className="material-symbols-outlined text-sm align-middle mr-1">search</span>
@@ -455,10 +345,8 @@ export default function DashboardPage() {
             </button>
             <button
               onClick={() => setDialogTab("upload")}
-              className={`flex-1 pb-2 text-sm font-bold transition-colors ${
-                dialogTab === "upload"
-                  ? "text-ember border-b-2 border-ember"
-                  : "text-on-surface-variant hover:text-white"
+              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-colors ${
+                dialogTab === "upload" ? "bg-surface-container-highest text-primary" : "text-neutral-500 hover:text-white"
               }`}
             >
               <span className="material-symbols-outlined text-sm align-middle mr-1">upload_file</span>
@@ -468,29 +356,26 @@ export default function DashboardPage() {
 
           {/* Search Tab */}
           {dialogTab === "search" && (
-            <div className="flex-1 overflow-y-auto min-h-0">
+            <div className="flex-1 overflow-y-auto min-h-0 px-6 pb-6 space-y-4">
               {importing ? (
                 <div className="py-12 flex flex-col items-center gap-4">
-                  <span className="material-symbols-outlined text-4xl text-ember animate-pulse">downloading</span>
+                  <span className="material-symbols-outlined text-4xl text-primary animate-pulse">downloading</span>
                   <p className="font-bold">{importing}</p>
                   {importProgress && (
                     <>
                       <div className="w-full max-w-xs h-2 rounded-full bg-white/10 overflow-hidden">
-                        <div
-                          className="h-full bg-ember rounded-full transition-all duration-300"
-                          style={{ width: `${importProgress.pct}%` }}
-                        />
+                        <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${importProgress.pct}%` }} />
                       </div>
-                      <p className="text-xs text-on-surface-variant">{importProgress.message}</p>
+                      <p className="text-xs text-neutral-500">{importProgress.message}</p>
                     </>
                   )}
                 </div>
               ) : (
                 <>
-                  <div className="relative mb-4">
-                    <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+                  <div className="relative">
+                    <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500">search</span>
                     <input
-                      className="w-full bg-surface-container border-none rounded-lg pl-10 pr-4 py-2.5 text-on-surface focus:ring-2 focus:ring-ember/40 transition-all"
+                      className="w-full bg-surface-container-lowest border-none rounded-xl pl-12 pr-4 py-4 text-on-surface placeholder:text-neutral-600 focus:outline-none"
                       placeholder="搜索歌曲名或歌手..."
                       value={searchQuery}
                       onChange={(e) => handleSearchInput(e.target.value)}
@@ -498,76 +383,61 @@ export default function DashboardPage() {
                     />
                   </div>
                   {searchError && (
-                    <div className="flex items-center gap-2 p-4 rounded-lg bg-error/10 text-error mb-4">
+                    <div className="flex items-center gap-2 p-4 rounded-xl bg-error/10 text-error">
                       <span className="material-symbols-outlined text-lg">cloud_off</span>
                       <p className="text-sm font-medium">{searchError}</p>
                     </div>
                   )}
                   {searching && (
                     <div className="flex justify-center py-8">
-                      <span className="material-symbols-outlined text-3xl text-ember animate-pulse">hourglass_empty</span>
+                      <span className="material-symbols-outlined text-3xl text-primary animate-pulse">hourglass_empty</span>
                     </div>
                   )}
                   {!searching && !searchError && searchResults.length === 0 && searchQuery && (
-                    <p className="text-center text-on-surface-variant py-8">没有找到相关歌曲</p>
+                    <p className="text-center text-neutral-500 py-8">没有找到相关歌曲</p>
                   )}
                   {!searching && !searchError && searchResults.length === 0 && !searchQuery && (
-                    <p className="text-center text-on-surface-variant py-8">输入关键词搜索歌曲，支持网易云、QQ、酷狗等平台</p>
+                    <p className="text-center text-neutral-500 py-8">输入关键词搜索歌曲，支持网易云、QQ、酷狗等平台</p>
                   )}
                   <div className="space-y-2">
                     {searchResults.map((song) => (
-                      <div
-                        key={`${song.source}-${song.id}`}
-                        className="flex items-center gap-3 p-3 rounded-lg bg-surface-container hover:bg-surface-variant transition-colors group"
-                      >
-                        {song.cover_url ? (
-                          <img
-                            src={song.cover_url}
-                            alt=""
-                            className="w-10 h-10 rounded object-cover flex-shrink-0"
-                            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded bg-surface-container-high flex items-center justify-center flex-shrink-0">
-                            <span className="material-symbols-outlined text-lg text-on-surface-variant">music_note</span>
-                          </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <p className="font-bold text-sm truncate">{song.name}</p>
-                          <div className="flex items-center gap-2">
-                            <p className="text-xs text-on-surface-variant truncate">{song.artist}</p>
-                            {song.duration > 0 && (
-                              <span className="text-[10px] text-on-surface-variant/50 flex-shrink-0">
-                                {Math.floor(song.duration / 60)}:{String(song.duration % 60).padStart(2, "0")}
-                              </span>
-                            )}
+                      <div key={`${song.source}-${song.id}`} className="bg-surface-container-low p-4 rounded-xl flex items-center justify-between hover:bg-surface-container-highest transition-colors">
+                        <div className="flex items-center gap-4">
+                          {song.cover_url ? (
+                            <img src={song.cover_url} alt="" className="w-12 h-12 rounded-lg object-cover flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                          ) : (
+                            <div className="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+                              <span className="material-symbols-outlined text-lg text-neutral-500">music_note</span>
+                            </div>
+                          )}
+                          <div>
+                            <h4 className="font-bold text-on-surface">{song.name}</h4>
+                            <div className="flex items-center gap-2 text-xs text-neutral-500">
+                              <span>{song.artist}</span>
+                              {song.duration > 0 && (
+                                <span className="flex-shrink-0">{Math.floor(song.duration / 60)}:{String(song.duration % 60).padStart(2, "0")}</span>
+                              )}
+                            </div>
                           </div>
                         </div>
-                        <div className="flex items-center gap-1 flex-shrink-0">
+                        <div className="flex items-center gap-2 flex-shrink-0">
                           {song.platforms.slice(0, 3).map((p) => (
-                            <span
-                              key={p.source}
-                              className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-on-surface-variant"
-                            >
+                            <span key={p.source} className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-neutral-400">
                               {p.source_name || p.source}
                             </span>
                           ))}
-                          {song.platforms.length > 3 && (
-                            <span className="text-[10px] text-on-surface-variant">+{song.platforms.length - 3}</span>
-                          )}
+                          <button
+                            onClick={() => handleImport(song)}
+                            disabled={!!importing}
+                            className="bg-primary-container text-on-primary-fixed px-4 py-2 rounded-lg text-xs font-bold hover:bg-primary transition-all disabled:opacity-50"
+                          >
+                            导入
+                          </button>
                         </div>
-                        <button
-                          onClick={() => handleImport(song)}
-                          disabled={!!importing}
-                          className="bg-ember text-on-primary-fixed px-3 py-1.5 rounded text-xs font-bold transition-opacity active:scale-95 disabled:opacity-50"
-                        >
-                          导入
-                        </button>
                       </div>
                     ))}
                   </div>
-                  {/* Copyright notice */}
-                  <p className="text-[10px] text-on-surface-variant/60 text-center mt-4 pb-2">
+                  <p className="text-[10px] text-neutral-600 text-center mt-4 pb-2">
                     仅供个人翻唱创作使用，请勿用于商业用途
                   </p>
                 </>
@@ -577,31 +447,31 @@ export default function DashboardPage() {
 
           {/* Upload Tab */}
           {dialogTab === "upload" && (
-            <form onSubmit={handleUpload} className="space-y-4">
+            <form onSubmit={handleUpload} className="px-6 pb-6 space-y-4">
               <div>
-                <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">音频文件 *</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2">音频文件 *</label>
                 <input
                   name="audio"
                   type="file"
                   accept=".mp3,.wav,.flac"
                   required
-                  className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ember/20 file:text-ember hover:file:bg-ember/30 transition-colors"
+                  className="block w-full text-sm text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary/20 file:text-primary hover:file:bg-primary/30 transition-colors"
                 />
-                <p className="text-xs text-on-surface-variant/60 mt-1">支持 MP3/WAV/FLAC，最大 50MB</p>
+                <p className="text-xs text-neutral-600 mt-1">支持 MP3/WAV/FLAC，最大 50MB</p>
               </div>
               <div>
-                <label className="block text-xs font-medium text-on-surface-variant uppercase tracking-widest mb-2">LRC 歌词文件（可选）</label>
+                <label className="block text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2">LRC 歌词文件（可选）</label>
                 <input
                   name="lrc"
                   type="file"
                   accept=".lrc,.txt"
-                  className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-surface-container-high file:text-on-surface hover:file:bg-surface-variant transition-colors"
+                  className="block w-full text-sm text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-surface-container-highest file:text-neutral-300 hover:file:bg-surface-container-high transition-colors"
                 />
               </div>
               <button
                 type="submit"
                 disabled={uploading}
-                className="w-full py-3 bg-gradient-to-r from-ember to-primary-container text-on-primary-fixed rounded-lg font-bold hover:brightness-110 disabled:opacity-50 active:scale-[0.98] transition-all"
+                className="w-full py-3 bg-primary text-on-primary-fixed rounded-xl font-bold hover:opacity-90 disabled:opacity-50 active:scale-[0.98] transition-all"
               >
                 {uploading ? "上传中..." : "上传"}
               </button>
