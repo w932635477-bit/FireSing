@@ -64,3 +64,5 @@ validation/results_download/
 test_*.mp3
 test_*.lrc
 song-detail-full.yml
+design-spec-for-stitch-v3.md
+frontend/tmp-dashboard.png
