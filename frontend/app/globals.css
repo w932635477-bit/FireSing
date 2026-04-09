@@ -65,11 +65,11 @@
   --color-sidebar: #1C1C1E;
 
   /* Fonts */
-  --font-sans: var(--font-geist-sans), "Inter", sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+  --font-mono: "Geist Mono", monospace;
 }
 
-/* Base styles */
+/* ===== Base styles ===== */
 body {
   background-color: #000000;
   color: #fefbfe;
@@ -79,6 +79,7 @@ body {
 
 /* Material Symbols configuration */
 .material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
   vertical-align: middle;
 }
@@ -144,6 +145,10 @@ body {
 .voice-chip-green { background: rgba(48, 209, 88, 0.15); color: #30D158; }
 .voice-chip-blue { background: rgba(95, 158, 255, 0.15); color: #5f9eff; }
 .voice-chip-gray { background: rgba(172, 170, 173, 0.15); color: #acaaad; }
+.voice-chip-purple { background: rgba(192, 132, 252, 0.15); color: #c084fc; }
+.voice-chip-orange { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+.voice-chip-pink { background: rgba(244, 114, 182, 0.15); color: #f472b6; }
+.voice-chip-teal { background: rgba(45, 212, 191, 0.15); color: #2dd4bf; }
 
 /* Step card glow pulse */
 @keyframes glow-pulse {

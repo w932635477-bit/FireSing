@@ -1,0 +1,25 @@
+/* Font faces — all self-hosted, no CDN */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/geist-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/geist-mono-latin-wght-normal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url('/fonts/material-symbols-outlined-latin-400-normal.woff2') format('woff2'),
+       url('/fonts/material-symbols-outlined-latin-400-normal.woff') format('woff');
+}

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   listSongs,
   uploadSong,
@@ -35,6 +36,7 @@ function getCover(title: string): string {
 
 export default function DashboardPage() {
   const { addToast } = useToast();
+  const { user } = useAuth();
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -202,14 +204,25 @@ export default function DashboardPage() {
             <span className="material-symbols-outlined text-sm">add</span>
             添加新歌
           </button>
-          <div className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-white/5">
+          <Link href={user?.authenticated ? "/pricing" : "/login"} className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-white/5 hover:border-white/20 transition-colors flex items-center justify-center" title={user?.authenticated ? "账户" : "登录"}>
             <div className="w-full h-full bg-gradient-to-tr from-primary to-tertiary opacity-80" />
-          </div>
+          </Link>
         </div>
       </nav>
 
       {/* Main Content */}
       <main className="pt-24 px-6 md:px-12 max-w-7xl mx-auto">
+        {/* Trial mode banner */}
+        {!user?.authenticated && (
+          <div className="mb-6 px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-between gap-4">
+            <p className="text-sm text-on-surface font-medium">
+              <span className="text-primary font-bold">试用模式</span> — 登录后可保存作品和充值
+            </p>
+            <Link href="/login" className="text-xs font-bold text-primary px-3 py-1.5 bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors flex-shrink-0">
+              登录
+            </Link>
+          </div>
+        )}
         {/* Header */}
         <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="relative">

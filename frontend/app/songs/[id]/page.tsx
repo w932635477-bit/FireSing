@@ -221,14 +221,14 @@ export default function SongDetailPage() {
             { num: 4, label: "处理", done: isDone },
           ].map((step) => (
             <div key={step.num} className="flex flex-col items-center gap-2">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
+              <div className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-sm ${
                 step.done
                   ? "bg-primary text-on-primary-fixed shadow-[0_0_12px_rgba(255,107,53,0.2)]"
                   : currentStep === step.num
                     ? "bg-primary text-on-primary-fixed shadow-[0_0_12px_rgba(255,107,53,0.2)]"
                     : "bg-surface-container-highest border border-outline-variant/30 text-on-surface-variant"
               }`}>
-                {step.done ? <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: '"FILL" 1' }}>check_circle</span> : step.num}
+                {step.done ? <span className="material-symbols-outlined text-lg md:text-base" style={{ fontVariationSettings: '"FILL" 1' }}>check_circle</span> : step.num}
               </div>
               <span className={`text-xs font-bold ${step.done ? "text-primary" : currentStep === step.num ? "text-primary" : "text-on-surface-variant"}`}>{step.label}</span>
             </div>
@@ -625,6 +625,22 @@ export default function SongDetailPage() {
         onConfirm={confirmStartProcess}
         onCancel={() => { setProcessConfirm(null); setPendingProcessData(null); }}
       />
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-4 bg-black z-50 border-t border-white/5">
+        <Link href="/" className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">home</span>
+          <span className="text-xs font-medium">首页</span>
+        </Link>
+        <Link href="/dashboard" prefetch={false} className="flex flex-col items-center justify-center text-primary bg-neutral-900/50 rounded-lg p-2">
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>library_music</span>
+          <span className="text-xs font-medium">我的作品</span>
+        </Link>
+        <Link href="/pricing" className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">account_balance_wallet</span>
+          <span className="text-xs font-medium">充值</span>
+        </Link>
+      </nav>
     </div>
   );
 }

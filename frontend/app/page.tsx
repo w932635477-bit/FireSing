@@ -1,45 +1,18 @@
 import Link from "next/link";
+import LandingNav from "@/components/LandingNav";
 import LazyBelowFold from "./home/lazy-below-fold";
 
 export default function LandingPage() {
   return (
     <div className="bg-surface-container-lowest text-on-surface">
       {/* Top Navigation */}
-      <header className="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-black/60 backdrop-blur-xl z-50 shadow-[0_8px_32px_rgba(255,107,53,0.15)]">
-        <div className="text-2xl font-black text-ember tracking-tight">FireSing</div>
-        <nav className="hidden md:flex gap-8 items-center">
-          <Link href="/" className="text-ember font-bold border-b-2 border-ember px-3 py-2">首页</Link>
-          <Link href="/dashboard" prefetch={false} className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">我的作品</Link>
-          <Link href="/pricing" className="text-white/60 font-medium hover:bg-white/10 px-3 py-2 rounded transition-colors">充值</Link>
-        </nav>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/dashboard"
-            prefetch={false}
-            className="bg-ember text-on-primary-fixed font-bold px-5 py-2 rounded shadow-[0_8px_32px_rgba(255,107,53,0.15)] active:scale-[0.98] transition-transform"
-          >
-            开始创作
-          </Link>
-          <Link href="/login" className="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-white/10 flex items-center justify-center hover:bg-surface-variant hover:border-white/20 transition-all active:scale-[0.95]">
-            <span className="material-symbols-outlined text-white/60">person</span>
-          </Link>
-        </div>
-      </header>
+      <LandingNav />
 
       <main className="pt-0">
         {/* ===== HERO SECTION ===== */}
         <section className="relative min-h-screen overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="/images/chorus-feature.webp"
-              className="w-full h-full object-cover opacity-30"
-            >
-              <source src="/video/hero-bg.mp4" type="video/mp4" />
-            </video>
+            <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: "url('/images/chorus-feature.webp')" }} />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,107,53,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,107,53,0.02)_1px,transparent_1px)] bg-[size:80px_80px]" />
@@ -50,7 +23,7 @@ export default function LandingPage() {
           <div className="relative z-10 min-h-screen flex items-center">
             <div className="w-full max-w-7xl mx-auto px-6 md:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-7 pt-28 lg:pt-0">
-                <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-[0.9] mb-8">
+                <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black tracking-tight leading-[0.95] mb-8">
                   <span className="bg-gradient-to-b from-white via-white/90 to-white/30 bg-clip-text text-transparent">老歌</span>
                   <br />
                   <span className="text-ember">换个声音唱</span>

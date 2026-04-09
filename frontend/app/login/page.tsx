@@ -78,6 +78,11 @@ function LoginContent() {
 
   return (
     <div className="bg-surface-container-lowest min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Back link */}
+      <Link href="/" className="fixed top-6 left-6 z-10 flex items-center gap-1 text-on-surface-variant hover:text-ember text-sm font-medium transition-colors">
+        <span className="material-symbols-outlined text-base">arrow_back</span>
+        首页
+      </Link>
       {/* Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-ember/5 blur-[120px]" />
@@ -156,8 +161,8 @@ function LoginContent() {
         </div>
 
         <div className="mt-6 text-center">
-          <Link href="/" className="text-on-surface-variant text-sm hover:text-ember transition-colors">
-            ← 返回首页
+          <Link href="/dashboard" prefetch={false} className="text-on-surface-variant text-sm hover:text-ember transition-colors">
+            直接进入工作台 →
           </Link>
         </div>
       </main>

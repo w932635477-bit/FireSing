@@ -57,14 +57,23 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="bg-surface-container-lowest min-h-screen p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-on-surface">充值</h1>
-          <Link href="/dashboard" className="text-on-surface-variant hover:text-ember text-sm">
-            ← 返回
-          </Link>
+    <div className="bg-surface-container-lowest min-h-screen text-on-surface pb-20 md:pb-0">
+      {/* Top Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-neutral-950/80 backdrop-blur-xl flex justify-between items-center px-6 md:px-8 h-16">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="text-2xl font-black text-primary tracking-tighter">FireSing</Link>
+          <div className="hidden md:flex gap-6 items-center">
+            <Link href="/" className="text-neutral-400 hover:text-neutral-200 transition-colors duration-300">首页</Link>
+            <Link href="/dashboard" prefetch={false} className="text-neutral-400 hover:text-neutral-200 transition-colors duration-300">我的作品</Link>
+            <Link href="/pricing" className="text-primary font-bold border-b-2 border-primary pb-1">充值</Link>
+          </div>
         </div>
+        <Link href="/login" className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-white/5 hover:border-white/20 transition-colors flex items-center justify-center" title="登录">
+          <span className="material-symbols-outlined text-sm text-white/60">person</span>
+        </Link>
+      </nav>
+
+      <div className="pt-24 px-4 md:px-8 max-w-4xl mx-auto">
 
         {/* Current balance */}
         {user?.authenticated && (
@@ -119,6 +128,22 @@ export default function PricingPage() {
 
         {/* Subscription plans — hidden until ready */}
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 w-full h-16 flex justify-around items-center px-4 bg-black z-50 border-t border-white/5">
+        <Link href="/" className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">home</span>
+          <span className="text-xs font-medium">首页</span>
+        </Link>
+        <Link href="/dashboard" prefetch={false} className="flex flex-col items-center justify-center text-neutral-500 p-2 hover:bg-neutral-800 transition-colors">
+          <span className="material-symbols-outlined">library_music</span>
+          <span className="text-xs font-medium">我的作品</span>
+        </Link>
+        <Link href="/pricing" className="flex flex-col items-center justify-center text-primary bg-neutral-900/50 rounded-lg p-2">
+          <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>account_balance_wallet</span>
+          <span className="text-xs font-medium">充值</span>
+        </Link>
+      </nav>
     </div>
   );
 }
