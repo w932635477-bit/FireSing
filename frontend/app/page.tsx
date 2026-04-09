@@ -612,28 +612,28 @@ export default function LandingPage() {
           <div>
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-sm">产品</h4>
             <ul className="space-y-6 text-on-surface-variant font-bold">
-              <li><span className="hover:text-primary transition-colors cursor-pointer">核心功能</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">价格方案</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">开发者 API</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">曲库展示</span></li>
+              <li><Link href="/#how-it-works" className="hover:text-primary transition-colors">核心功能</Link></li>
+              <li><Link href="/pricing" className="hover:text-primary transition-colors">价格方案</Link></li>
+              <li><span className="text-on-surface-variant/50">开发者 API (即将上线)</span></li>
+              <li><Link href="/dashboard" className="hover:text-primary transition-colors">曲库展示</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-sm">关于我们</h4>
             <ul className="space-y-6 text-on-surface-variant font-bold">
-              <li><span className="hover:text-primary transition-colors cursor-pointer">公司介绍</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">服务条款</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">隐私政策</span></li>
-              <li><span className="hover:text-primary transition-colors cursor-pointer">联系我们</span></li>
+              <li><span className="text-on-surface-variant/50">公司介绍 (即将上线)</span></li>
+              <li><span className="text-on-surface-variant/50">服务条款 (即将上线)</span></li>
+              <li><span className="text-on-surface-variant/50">隐私政策 (即将上线)</span></li>
+              <li><span className="text-on-surface-variant/50">联系我们 (即将上线)</span></li>
             </ul>
           </div>
         </div>
         <div className="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-sm text-on-surface-variant font-bold font-mono">&copy; 2026 FireSing. 版权所有.</div>
           <div className="flex gap-8">
-            <span className="text-on-surface-variant hover:text-white transition-all transform hover:scale-110 cursor-pointer"><span className="material-symbols-outlined">language</span></span>
-            <span className="text-on-surface-variant hover:text-white transition-all transform hover:scale-110 cursor-pointer"><span className="material-symbols-outlined">mail</span></span>
-            <span className="text-on-surface-variant hover:text-white transition-all transform hover:scale-110 cursor-pointer"><span className="material-symbols-outlined">podcasts</span></span>
+            <span className="text-on-surface-variant/50"><span className="material-symbols-outlined">language</span></span>
+            <span className="text-on-surface-variant/50"><span className="material-symbols-outlined">mail</span></span>
+            <span className="text-on-surface-variant/50"><span className="material-symbols-outlined">podcasts</span></span>
           </div>
         </div>
       </footer>
