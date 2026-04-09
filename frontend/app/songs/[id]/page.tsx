@@ -169,8 +169,8 @@ export default function SongDetailPage() {
 
   const hasSegments = segments.length > 0;
   const allAssigned = segments.length > 0 && segments.every((s) => s.voice_model_id);
-  const canProcess = allAssigned && !["separating", "segmenting", "assigning", "converting", "chorus", "monologue", "mixing", "video"].includes(song.status);
-  const isProcessing = ["separating", "segmenting", "assigning", "converting", "chorus", "monologue", "mixing", "video"].includes(song.status);
+  const canProcess = allAssigned && !["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
+  const isProcessing = ["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isDone = song.status === "done";
 
   // Determine current step for the progress indicator

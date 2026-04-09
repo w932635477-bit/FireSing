@@ -252,6 +252,7 @@ export function statusLabel(status: string): string {
     segmented: "已切分",
     assigning: "分配音色",
     converting: "RVC 转换",
+    harmony: "和声生成",
     chorus: "合唱检测",
     monologue: "生成独白",
     mixing: "混音",

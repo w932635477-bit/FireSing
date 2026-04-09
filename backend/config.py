@@ -34,7 +34,7 @@ HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 
 # CORS
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:3001").split(",")
 
 # WeChat Open Platform (PC QR scan login)
 WECHAT_OPEN_APP_ID = os.getenv("WECHAT_OPEN_APP_ID", "")
@@ -52,6 +52,6 @@ WECHAT_PAY_NOTIFY_URL = os.getenv(
 )
 
 # JWT
-JWT_SECRET = os.getenv("JWT_SECRET", "change-this-to-a-random-32-char-string")
+JWT_SECRET = os.getenv("JWT_SECRET", "firesing-dev-jwt-secret-CHANGE-IN-PRODUCTION-x9k2m")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = int(os.getenv("JWT_EXPIRE_HOURS", "168"))  # 7 days

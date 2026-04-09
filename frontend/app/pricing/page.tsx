@@ -106,7 +106,7 @@ export default function PricingPage() {
                 <button
                   onClick={() => handleBuy(plan.id)}
                   disabled={buying !== null}
-                  className="w-full bg-ember hover:bg-ember-dark text-white font-medium py-2.5 rounded-lg disabled:opacity-50 transition-colors"
+                  className="w-full bg-ember hover:opacity-90 text-white font-medium py-2.5 rounded-lg disabled:opacity-50 transition-colors"
                 >
                   {buying === plan.id ? "处理中..." : "购买"}
                 </button>

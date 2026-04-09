@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
     from .models import Song
     from datetime import datetime, timezone, timedelta
     _ACTIVE = {"separating", "segmented", "segmenting", "assigning",
-               "converting", "chorus", "monologue", "mixing", "video"}
+               "converting", "harmony", "chorus", "monologue", "mixing", "video"}
     db = SessionLocal()
     try:
         stuck = db.query(Song).filter(Song.status.in_(_ACTIVE)).all()

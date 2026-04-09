@@ -66,7 +66,7 @@ def _update_progress(song_id: str, step: str, pct: int, message: str,
 
 # Statuses that indicate active processing
 _ACTIVE_STATUSES = {"separating", "segmented", "segmenting", "assigning",
-                    "converting", "chorus", "monologue", "mixing", "video"}
+                    "converting", "harmony", "chorus", "monologue", "mixing", "video"}
 
 
 def _assign_voices_for_pipeline(song_id: str, params, db):

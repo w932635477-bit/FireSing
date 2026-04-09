@@ -33,6 +33,8 @@ class Song(Base):
     # uploaded | separating | separated | segmented | assigning |
     # converting | chorus | monologue | mixing | video | done | error
     pipeline_step = Column(String)  # sub-step for resume on error
+    pipeline_pct = Column(Integer, default=0)  # progress percentage
+    pipeline_task_id = Column(String)  # unique task ID for each pipeline run
     error_message = Column(Text)
     source = Column(String, default="upload")   # "upload", "netease", "qq", "kugou", etc.
     source_id = Column(String)                  # Platform song ID
