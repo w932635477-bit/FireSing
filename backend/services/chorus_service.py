@@ -30,16 +30,18 @@ REVERB_MIX_DB = -4  # wet signal volume relative to dry
 
 
 def detect(segments: list) -> list[str]:
-    """Detect chorus segments by finding repeated lyric text.
+    """Detect chorus segments.
 
-    A segment is chorus if its text appears >= 2 times across all segments.
+    Strategy 1: Find repeated lyric text (LRC-based segments).
+    Strategy 2 (fallback for VAD segments): Use the last ~30% of segments
+    as the "chorus section" based on typical song structure.
 
     Returns list of segment IDs identified as chorus.
     """
     if not segments:
         return []
 
-    # Count text occurrences
+    # Strategy 1: text repetition (works with LRC segments)
     text_counts = Counter(seg.text for seg in segments)
     repeated_texts = {text for text, count in text_counts.items() if count >= 2}
 
@@ -49,7 +51,16 @@ def detect(segments: list) -> list[str]:
             chorus_ids.append(seg.id)
 
     if chorus_ids:
-        logger.info(f"Detected {len(chorus_ids)} chorus segments out of {len(segments)}")
+        logger.info(f"Detected {len(chorus_ids)} chorus segments via text repetition")
+        return chorus_ids
+
+    # Strategy 2: VAD fallback — last ~30% of segments
+    # Most songs have the final chorus in the last third
+    chorus_count = max(1, len(segments) // 3)
+    chorus_ids = [seg.id for seg in segments[-chorus_count:]]
+    logger.info(
+        f"VAD fallback: using last {len(chorus_ids)}/{len(segments)} segments as chorus"
+    )
 
     return chorus_ids
 

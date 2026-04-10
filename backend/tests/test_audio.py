@@ -20,15 +20,16 @@ class TestChorusDetection:
         chorus_ids = detect_chorus(segments)
         assert set(chorus_ids) == {"s1", "s3"}
 
-    def test_detect_no_chorus(self):
-        """No chorus when all lyrics are unique."""
+    def test_detect_no_chorus_vad_fallback(self):
+        """VAD segments (unique text) trigger fallback: last ~30% as chorus."""
         segments = [
             MagicMock(id="s1", text="第一句"),
             MagicMock(id="s2", text="第二句"),
             MagicMock(id="s3", text="第三句"),
         ]
         chorus_ids = detect_chorus(segments)
-        assert chorus_ids == []
+        # VAD fallback: last 1/3 of segments → ["s3"]
+        assert chorus_ids == ["s3"]
 
     def test_detect_all_chorus(self):
         """All segments are chorus when all have same text."""
