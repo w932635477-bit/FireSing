@@ -66,3 +66,9 @@ test_*.lrc
 song-detail-full.yml
 design-spec-for-stitch-v3.md
 frontend/tmp-dashboard.png
+
+# Dev test/benchmark scripts (not part of project)
+diagnose_*.py
+test_batch_e2e.py
+test_e2e_gpu.py
+test_phase2_*.py
