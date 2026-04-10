@@ -178,10 +178,10 @@ async def _generate_harmony_part(
         model_id=f"{voice_model.id}_h{f0_up_key}",
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
-        f0_method="harvest",
+        f0_method="crepe",
         f0_up_key=f0_up_key,
-        index_rate=0.5,
-        filter_radius=1,
+        index_rate=0.6,
+        filter_radius=3,
         rms_mix_rate=0.25,
         protect=0.5,
     )
