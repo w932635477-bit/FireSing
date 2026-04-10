@@ -3,6 +3,7 @@
 import logging
 from pathlib import Path
 
+import numpy as np
 from pydub import AudioSegment
 from sqlalchemy.orm import Session
 
@@ -12,7 +13,7 @@ from ..models import Song, Segment, Output
 logger = logging.getLogger(__name__)
 
 # Audio mixing constants
-CROSSFADE_MS = 150  # Crossfade between segments (150ms balances smoothness vs content loss)
+CROSSFADE_MS = 50  # Crossfade between segments (50ms with squared-sine window)
 MONOLOGUE_INSTRUMENTAL_REDUCTION_DB = 12  # Lower instrumental during monologue
 
 
@@ -103,8 +104,62 @@ def mix_all(
     return output_path
 
 
+def _squared_sine_crossfade(
+    seg1: AudioSegment, seg2: AudioSegment, crossfade_ms: int
+) -> AudioSegment:
+    """Crossfade two segments using a squared-sine window (RVC best practice).
+
+    Unlike pydub's default linear crossfade, squared-sine avoids volume dips
+    at the midpoint and produces smoother transitions for voice segments.
+    """
+    cf_samples = int(crossfade_ms * seg1.frame_rate / 1000)
+
+    # Get raw sample arrays
+    seg1_raw = np.array(seg1.get_array_of_samples(), dtype=np.float64)
+    seg2_raw = np.array(seg2.get_array_of_samples(), dtype=np.float64)
+
+    # If either segment is too short, just concatenate without crossfade
+    if len(seg1_raw) < cf_samples or len(seg2_raw) < cf_samples:
+        return seg1 + seg2
+
+    # Squared-sine fade curves
+    fade_out = np.cos(0.5 * np.pi * np.linspace(0, 1, cf_samples)) ** 2
+    fade_in = np.sin(0.5 * np.pi * np.linspace(0, 1, cf_samples)) ** 2
+
+    channels = seg1.channels
+    if channels > 1:
+        seg1_2d = seg1_raw.reshape(-1, channels)
+        seg2_2d = seg2_raw.reshape(-1, channels)
+        overlap = (
+            seg1_2d[-cf_samples:] * fade_out[:, np.newaxis]
+            + seg2_2d[:cf_samples] * fade_in[:, np.newaxis]
+        )
+        result_samples = np.concatenate([
+            seg1_2d[:-cf_samples],
+            overlap,
+            seg2_2d[cf_samples:],
+        ], axis=0).flatten()
+    else:
+        overlap = (
+            seg1_raw[-cf_samples:] * fade_out
+            + seg2_raw[:cf_samples] * fade_in
+        )
+        result_samples = np.concatenate([
+            seg1_raw[:-cf_samples],
+            overlap,
+            seg2_raw[cf_samples:],
+        ])
+
+    return AudioSegment(
+        result_samples.astype(np.int16).tobytes(),
+        frame_rate=seg1.frame_rate,
+        sample_width=2,
+        channels=channels,
+    )
+
+
 def _concatenate_vocals(segments: list, chorus_set: set) -> AudioSegment:
-    """Concatenate converted vocal segments with crossfade."""
+    """Concatenate converted vocal segments with squared-sine crossfade."""
     parts = []
     for seg in segments:
         if not seg.converted_vocal_path:
@@ -122,10 +177,10 @@ def _concatenate_vocals(segments: list, chorus_set: set) -> AudioSegment:
     if not parts:
         raise ValueError("No converted vocals available for mixing")
 
-    # Concatenate with crossfade
+    # Concatenate with squared-sine crossfade
     result = parts[0]
     for part in parts[1:]:
-        result = result.append(part, crossfade=CROSSFADE_MS)
+        result = _squared_sine_crossfade(result, part, CROSSFADE_MS)
 
     return result
 

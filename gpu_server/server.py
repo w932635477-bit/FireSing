@@ -27,6 +27,10 @@ app = FastAPI(title="FireSing GPU Server", version="0.1.0")
 # Model cache: hash -> local_path
 _model_cache: dict[str, str] = {}
 
+# F0 method priority: harvest (known-good) → crepe → rmvpe
+_F0_FALLBACK_CHAIN = ["harvest", "crepe", "rmvpe"]
+_available_f0_methods: list[str] = []
+
 # Temp directory for inference I/O
 TEMP_DIR = Path("/tmp/firesing_gpu")
 TEMP_DIR.mkdir(parents=True, exist_ok=True)
@@ -34,11 +38,31 @@ TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
 @app.on_event("startup")
 def startup():
+    global _available_f0_methods
     if not torch.cuda.is_available():
         print("WARNING: No CUDA GPU detected!")
     else:
         print(f"GPU: {torch.cuda.get_device_name(0)}")
         print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+
+    # Test which f0 methods are importable
+    for method in _F0_FALLBACK_CHAIN:
+        try:
+            if method == "rmvpe":
+                import rvc_python.modules.rmvdpe  # noqa: F401
+            elif method == "crepe":
+                import crepe  # noqa: F401
+            elif method == "harvest":
+                import pyworld  # noqa: F401
+            _available_f0_methods.append(method)
+            print(f"  f0 method '{method}': OK")
+        except ImportError:
+            print(f"  f0 method '{method}': NOT AVAILABLE (import failed)")
+
+    if not _available_f0_methods:
+        print("WARNING: No f0 methods available! RVC inference will fail.")
+    else:
+        print(f"  f0 fallback chain: {' → '.join(_available_f0_methods)}")
 
 
 @app.get("/health")
@@ -211,6 +235,18 @@ async def infer_rvc(
     try:
         t_start = time.time()
 
+        # F0 method fallback: if requested method unavailable, use best available
+        actual_f0 = f0_method
+        if f0_method not in _available_f0_methods:
+            if _available_f0_methods:
+                actual_f0 = _available_f0_methods[0]
+                print(
+                    f"WARNING: f0 method '{f0_method}' unavailable, "
+                    f"falling back to '{actual_f0}'"
+                )
+            else:
+                raise HTTPException(500, f"No f0 methods available on this server")
+
         # Ensure local_pth is a Path (cache stores strings)
         local_pth = Path(local_pth)
 
@@ -229,7 +265,7 @@ async def infer_rvc(
                           index_path=str(local_index) if local_index else None)
 
         rvc.set_params(
-            f0method=f0_method,
+            f0method=actual_f0,
             f0up_key=f0up_key,
             index_rate=index_rate,
             filter_radius=filter_radius,
@@ -241,6 +277,11 @@ async def infer_rvc(
         rvc.unload_model()
 
         elapsed = time.time() - t_start
+        print(
+            f"RVC inference: f0={actual_f0}, pitch={f0up_key}, "
+            f"index_rate={index_rate}, model={model_id}, "
+            f"time={elapsed:.2f}s"
+        )
 
         # Read output and return as WAV bytes
         with open(output_path, "rb") as f:

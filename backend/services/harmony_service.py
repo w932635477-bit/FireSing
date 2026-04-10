@@ -172,7 +172,8 @@ async def _generate_harmony_part(
         if await asyncio.to_thread(index_path.exists):
             index_bytes = await asyncio.to_thread(index_path.read_bytes)
 
-    # Call RVC with pitch-shifted f0_up_key
+    # Call RVC with pitch-shifted f0_up_key + duration alignment
+    original_duration_ms = (segment.end_time - segment.start_time) * 1000
     converted_bytes = await convert_with_params(
         audio_bytes=audio_bytes,
         model_id=f"{voice_model.id}_h{f0_up_key}",
@@ -184,6 +185,7 @@ async def _generate_harmony_part(
         filter_radius=3,
         rms_mix_rate=0.25,
         protect=0.5,
+        original_duration_ms=original_duration_ms,
     )
 
     if not converted_bytes:

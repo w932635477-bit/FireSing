@@ -6,7 +6,9 @@ import logging
 from pathlib import Path
 
 import httpx
-from pydub import AudioSegment
+import librosa
+import numpy as np
+import soundfile as sf
 from sqlalchemy.orm import Session
 
 from ..config import GPU_SERVER_URL, GPU_REQUEST_TIMEOUT, CONVERTED_DIR
@@ -14,8 +16,12 @@ from ..models import Segment, VoiceModel, Song
 
 logger = logging.getLogger(__name__)
 
-# Maximum allowed duration drift before time-stretching (ms)
-_DURATION_TOLERANCE_MS = 5  # Even 10-20ms drift accumulates badly over 40+ segments
+# Maximum allowed duration drift before time-stretching (seconds)
+_DURATION_TOLERANCE_S = 0.01  # 10ms — larger tolerance avoids unnecessary stretching
+
+# Minimum segment duration for phase vocoder alignment (seconds)
+# Below this, phase vocoder can produce audible artifacts on transients
+_MIN_ALIGN_DURATION_S = 1.5
 
 
 def _align_duration(
@@ -23,41 +29,55 @@ def _align_duration(
 ) -> bytes:
     """Time-stretch converted audio to match original segment duration.
 
-    RVC inference can change segment duration due to frame boundary effects
-    and F0 processing. This function corrects the drift by resampling.
-    For small adjustments (< 10%), the quality impact is negligible.
-    """
-    converted = AudioSegment.from_wav(io.BytesIO(converted_bytes))
-    current_ms = len(converted)
+    Uses librosa phase vocoder which preserves pitch, unlike the old
+    resampling approach which changed pitch proportionally to the stretch ratio.
 
-    if abs(current_ms - original_duration_ms) < _DURATION_TOLERANCE_MS:
+    RVC inference can change segment duration due to frame boundary effects
+    and F0 processing. This function corrects the drift without affecting pitch.
+    """
+    audio, sr = sf.read(io.BytesIO(converted_bytes))
+    current_duration_s = len(audio) / sr
+    target_duration_s = original_duration_ms / 1000.0
+
+    drift_s = abs(current_duration_s - target_duration_s)
+    if drift_s < _DURATION_TOLERANCE_S:
         return converted_bytes
 
-    speed_ratio = current_ms / original_duration_ms
+    # Skip alignment for very short segments (phase vocoder artifacts)
+    if current_duration_s < _MIN_ALIGN_DURATION_S:
+        logger.debug(
+            f"Segment too short for alignment ({current_duration_s:.3f}s), "
+            f"accepting {drift_s*1000:.1f}ms drift"
+        )
+        return converted_bytes
+
+    rate = current_duration_s / target_duration_s
 
     # Only stretch if ratio is within reasonable range (0.5x to 2x)
-    if speed_ratio < 0.5 or speed_ratio > 2.0:
+    if rate < 0.5 or rate > 2.0:
         logger.warning(
-            f"Duration drift too large: {current_ms}ms -> {original_duration_ms}ms "
-            f"(ratio {speed_ratio:.3f}), skipping alignment"
+            f"Duration drift too large: {current_duration_s:.3f}s -> {target_duration_s:.3f}s "
+            f"(ratio {rate:.3f}), skipping alignment"
         )
         return converted_bytes
 
     logger.info(
-        f"Aligning duration: {current_ms}ms -> {original_duration_ms}ms "
-        f"(ratio {speed_ratio:.4f})"
+        f"Aligning duration: {current_duration_s:.3f}s -> {target_duration_s:.3f}s "
+        f"(ratio {rate:.4f}, drift {drift_s*1000:.1f}ms)"
     )
 
-    # Resample by adjusting frame rate, then convert back
-    new_frame_rate = int(converted.frame_rate * speed_ratio)
-    stretched = converted._spawn(
-        converted.raw_data,
-        overrides={"frame_rate": new_frame_rate},
-    )
-    stretched = stretched.set_frame_rate(converted.frame_rate)
+    # Phase vocoder: preserves pitch while stretching time
+    if audio.ndim == 1:
+        stretched = librosa.effects.time_stretch(audio, rate=rate)
+    else:
+        # Stereo: process each channel independently
+        stretched = np.stack([
+            librosa.effects.time_stretch(audio[:, c], rate=rate)
+            for c in range(audio.shape[1])
+        ], axis=1)
 
     buf = io.BytesIO()
-    stretched.export(buf, format="wav")
+    sf.write(buf, stretched, sr, format="WAV")
     return buf.getvalue()
 
 
@@ -96,19 +116,14 @@ async def convert(segment_id: str, db: Session) -> Path:
         with open(voice.index_path, "rb") as f:
             index_bytes = f.read()
 
-    # Call GPU server
+    # Call GPU server with duration alignment built in
+    original_duration_ms = (segment.end_time - segment.start_time) * 1000
     converted_bytes = await _call_gpu_rvc(
         audio_bytes=audio_bytes,
         model_id=voice.id,
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
-    )
-
-    # Align converted audio duration to original segment duration
-    # This prevents rhythm drift caused by RVC changing segment lengths
-    original_duration_ms = (segment.end_time - segment.start_time) * 1000
-    converted_bytes = await asyncio.to_thread(
-        _align_duration, converted_bytes, original_duration_ms
+        original_duration_ms=original_duration_ms,
     )
 
     # Save converted audio
@@ -163,10 +178,12 @@ async def convert_with_params(
     filter_radius: int = 3,
     rms_mix_rate: float = 0.25,
     protect: float = 0.5,
+    original_duration_ms: float | None = None,
 ) -> bytes:
     """Send vocal + model to GPU server with custom RVC parameters.
 
     Returns converted WAV bytes.
+    If original_duration_ms is provided, applies pitch-preserving duration alignment.
     """
     url = f"{GPU_SERVER_URL}/infer/rvc"
 
@@ -192,7 +209,15 @@ async def convert_with_params(
             async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
                 resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
-                return resp.content
+                result = resp.content
+
+            # Apply pitch-preserving duration alignment if requested
+            if original_duration_ms is not None:
+                result = await asyncio.to_thread(
+                    _align_duration, result, original_duration_ms
+                )
+
+            return result
         except (httpx.ConnectError, httpx.TimeoutException) as e:
             last_error = e
             if attempt < 2:
@@ -210,11 +235,12 @@ async def _call_gpu_rvc(
     model_id: str,
     pth_bytes: bytes,
     index_bytes: bytes | None = None,
+    original_duration_ms: float | None = None,
 ) -> bytes:
     """Send vocal + model to GPU server, return converted WAV bytes.
 
     Uses model_id to reference cached models (avoid re-upload on subsequent calls).
-    Default parameters: rmvpe f0, no pitch shift, index_rate 0.5.
+    If original_duration_ms is provided, applies pitch-preserving duration alignment.
     """
     return await convert_with_params(
         audio_bytes=audio_bytes,
@@ -227,4 +253,5 @@ async def _call_gpu_rvc(
         filter_radius=3,
         rms_mix_rate=0.25,
         protect=0.5,
+        original_duration_ms=original_duration_ms,
     )

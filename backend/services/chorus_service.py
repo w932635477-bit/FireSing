@@ -261,6 +261,7 @@ async def generate_grand_chorus(
 
         # Run RVC inference with each voice model (sequentially to avoid GPU overload)
         voice_audios: list[PydubAudioSegment] = []
+        original_duration_ms = (segment.end_time - segment.start_time) * 1000
         for i, voice in enumerate(voices):
             pth_bytes, index_bytes = voice_data[i]
             try:
@@ -275,6 +276,7 @@ async def generate_grand_chorus(
                     filter_radius=3,
                     rms_mix_rate=0.25,
                     protect=0.5,
+                    original_duration_ms=original_duration_ms,
                 )
 
                 # Convert bytes to pydub AudioSegment (offload to thread)
