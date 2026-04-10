@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ToastProvider } from "@/components/Toast";
 import { AuthProvider } from "@/contexts/AuthContext";
+import GpuStatusBanner from "@/components/GpuStatusBanner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/fonts/fonts.css" />
       </head>
       <body className="bg-surface-container-lowest text-on-surface min-h-screen font-sans">
+        <GpuStatusBanner />
         <ToastProvider><AuthProvider>{children}</AuthProvider></ToastProvider>
       </body>
     </html>

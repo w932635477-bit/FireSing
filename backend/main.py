@@ -76,3 +76,24 @@ app.include_router(orders.router, tags=["orders"])
 @app.get("/api/health")
 async def health():
     return {"status": "ok", "version": "0.1.0"}
+
+
+@app.get("/api/health/gpu")
+async def gpu_health():
+    """Check if the GPU inference server is reachable and healthy."""
+    import httpx
+    from .config import GPU_SERVER_URL
+
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            resp = await client.get(f"{GPU_SERVER_URL}/health")
+            if resp.status_code == 200:
+                data = resp.json()
+                return {"status": "ok", "gpu": data.get("gpu"), "vram_gb": data.get("vram_total_gb")}
+            return {"status": "error", "detail": f"GPU server returned HTTP {resp.status_code}"}
+    except httpx.ConnectError:
+        return {"status": "offline", "detail": "GPU server not reachable — start it with: cd gpu_server && python server.py --port 8001"}
+    except httpx.TimeoutException:
+        return {"status": "timeout", "detail": "GPU server timed out"}
+    except Exception as e:
+        return {"status": "error", "detail": str(e)}

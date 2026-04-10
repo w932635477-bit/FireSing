@@ -100,17 +100,36 @@ def _assign_voices_for_pipeline(song_id: str, params, db):
 
 async def _run_pipeline(song_id: str, params: ProcessRequest):
     """Background pipeline execution — full 8-step pipeline."""
+    import httpx
     from ..database import SessionLocal
     from ..services import demucs_service, lyrics_service, rvc_service
     from ..services import chorus_service, tts_service, audio_service, video_service
     from ..services import harmony_service
     from ..models import Segment, VoiceModel
+    from ..config import GPU_SERVER_URL
 
     db = SessionLocal()
     try:
         song = db.query(Song).filter(Song.id == song_id).first()
         if not song:
             raise ValueError(f"Song {song_id} not found")
+
+        # Pre-flight: check GPU server is reachable
+        _update_progress(song_id, "preparing", 0, "Checking GPU server...", db=db)
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                resp = await client.get(f"{GPU_SERVER_URL}/health")
+                if resp.status_code != 200:
+                    raise ConnectionError(f"GPU server returned HTTP {resp.status_code}")
+        except (httpx.ConnectError, httpx.TimeoutException, ConnectionError) as e:
+            error_msg = "GPU 服务器未启动，无法处理歌曲。请先启动 AutoDL 上的 GPU 服务。"
+            _update_progress(song_id, "error", 0, error_msg, step_failed="preparing", error_detail=str(e))
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "error"
+                song.error_message = error_msg
+                db.commit()
+            return
 
         # Step 1: Demucs vocal separation
         if _cancel_flags.get(song_id):
