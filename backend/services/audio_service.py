@@ -26,7 +26,7 @@ def mix_all(
     """Full audio mixing pipeline.
 
     1. Concatenate converted vocals with crossfade
-    2. Overlay chorus sections with volume boost
+    2. Overlay grand chorus if available
     3. Insert monologue at beginning or end
     4. Mix vocals + instrumental
     5. Save final output + create Output record
@@ -52,7 +52,14 @@ def mix_all(
     # Step 1: Concatenate converted vocals with crossfade
     vocal_track = _concatenate_vocals(segments, chorus_set)
 
-    # Step 2: Load instrumental
+    # Step 2: Overlay grand chorus if available
+    from ..config import CONVERTED_DIR
+    grand_chorus_path = CONVERTED_DIR / song_id / "grand_chorus.wav"
+    if grand_chorus_path.exists():
+        grand_chorus = AudioSegment.from_wav(str(grand_chorus_path))
+        vocal_track = _overlay_grand_chorus(vocal_track, grand_chorus, segments, chorus_set)
+
+    # Step 3: Load instrumental
     if not song.instrumental_path or not Path(song.instrumental_path).exists():
         raise ValueError(f"Song {song_id} has no instrumental file")
 
@@ -182,6 +189,54 @@ def _concatenate_vocals(segments: list, chorus_set: set) -> AudioSegment:
     for part in parts[1:]:
         result = _squared_sine_crossfade(result, part, CROSSFADE_MS)
 
+    return result
+
+
+def _overlay_grand_chorus(
+    vocal_track: AudioSegment,
+    grand_chorus: AudioSegment,
+    segments: list,
+    chorus_set: set,
+) -> AudioSegment:
+    """Overlay grand chorus audio at the correct position in the vocal track.
+
+    The grand chorus was generated for specific segments. We need to find
+    where those segments start in the concatenated track and overlay there.
+    """
+    if not chorus_set:
+        return vocal_track
+
+    # Find the start position of the first chorus segment in the vocal track
+    # by accumulating durations of all preceding segments
+    offset_ms = 0
+    found_first_chorus = False
+    for seg in segments:
+        if seg.id in chorus_set:
+            found_first_chorus = True
+            break
+        if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
+            seg_audio = AudioSegment.from_wav(seg.converted_vocal_path)
+            offset_ms += len(seg_audio)
+
+    if not found_first_chorus:
+        return vocal_track
+
+    # Trim or pad grand chorus to fit available space
+    available_ms = len(vocal_track) - offset_ms
+    if available_ms <= 0:
+        return vocal_track
+
+    if len(grand_chorus) > available_ms:
+        grand_chorus = grand_chorus[:available_ms]
+
+    # Overlay at -3dB (grand chorus should be prominent but not overpower lead)
+    grand_chorus = grand_chorus - 3
+
+    result = vocal_track.overlay(grand_chorus, position=offset_ms)
+    logger.info(
+        f"Grand chorus overlaid at {offset_ms}ms, "
+        f"length {len(grand_chorus)}ms, available {available_ms}ms"
+    )
     return result
 
 
