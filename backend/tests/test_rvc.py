@@ -11,12 +11,15 @@ from backend.models import Song, Segment, VoiceModel
 class TestUploadVoice:
     def test_upload_voice_model(self, client, db_session):
         """Upload a .pth file and verify it's registered."""
-        pth_content = b"fake pth model data"
-        resp = client.post(
-            "/api/voices",
-            files={"pth_file": ("test_voice.pth", BytesIO(pth_content), "application/octet-stream")},
-            data={"name": "Test Voice"},
-        )
+        # Mock torch.load to bypass validation (real models are ~55MB)
+        import torch
+        with patch.object(torch, "load", return_value={"fake": "model"}):
+            pth_content = b"\x00" * (11 * 1024 * 1024)  # 11MB to pass size check
+            resp = client.post(
+                "/api/voices",
+                files={"pth_file": ("test_voice.pth", BytesIO(pth_content), "application/octet-stream")},
+                data={"name": "Test Voice"},
+            )
         assert resp.status_code == 201
         data = resp.json()
         assert data["name"] == "Test Voice"
@@ -34,14 +37,16 @@ class TestUploadVoice:
 
     def test_upload_with_index(self, client, db_session):
         """Upload .pth + optional .index together."""
-        resp = client.post(
-            "/api/voices",
-            files={
-                "pth_file": ("voice.pth", BytesIO(b"pth data"), "application/octet-stream"),
-                "index_file": ("voice.index", BytesIO(b"index data"), "application/octet-stream"),
-            },
-            data={"name": "With Index"},
-        )
+        import torch
+        with patch.object(torch, "load", return_value={"fake": "model"}):
+            resp = client.post(
+                "/api/voices",
+                files={
+                    "pth_file": ("voice.pth", BytesIO(b"\x00" * (11 * 1024 * 1024)), "application/octet-stream"),
+                    "index_file": ("voice.index", BytesIO(b"index data"), "application/octet-stream"),
+                },
+                data={"name": "With Index"},
+            )
         assert resp.status_code == 201
         data = resp.json()
         # Verify DB record has index_path
@@ -58,12 +63,14 @@ class TestListVoices:
 
     def test_list_after_upload(self, client, db_session):
         """List returns uploaded voice models."""
-        for i in range(3):
-            client.post(
-                "/api/voices",
-                files={"pth_file": (f"v{i}.pth", BytesIO(f"data{i}".encode()), "application/octet-stream")},
-                data={"name": f"Voice {i}"},
-            )
+        import torch
+        with patch.object(torch, "load", return_value={"fake": "model"}):
+            for i in range(3):
+                client.post(
+                    "/api/voices",
+                    files={"pth_file": (f"v{i}.pth", BytesIO(b"\x00" * (11 * 1024 * 1024)), "application/octet-stream")},
+                    data={"name": f"Voice {i}"},
+                )
         resp = client.get("/api/voices")
         assert resp.status_code == 200
         assert len(resp.json()["voices"]) == 3

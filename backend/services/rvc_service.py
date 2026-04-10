@@ -255,3 +255,227 @@ async def _call_gpu_rvc(
         protect=0.5,
         original_duration_ms=original_duration_ms,
     )
+
+
+async def convert_batch(
+    song_id: str, db: Session
+) -> list[Path]:
+    """Batch RVC conversion: group segments by voice model, process in parallel.
+
+    Phase 2 optimization: uses asyncio.gather() to send batch requests for all
+    voice models concurrently. The GPU server caches models in VRAM, so subsequent
+    requests skip the ~2s model load overhead.
+
+    Returns list of converted audio paths.
+    """
+    segments = (
+        db.query(Segment)
+        .filter(
+            Segment.song_id == song_id,
+            Segment.voice_model_id.isnot(None),
+        )
+        .order_by(Segment.line_number)
+        .all()
+    )
+
+    if not segments:
+        logger.warning(f"No assigned segments for song {song_id}")
+        return []
+
+    # Group segments by voice model
+    voice_segments: dict[str, list[Segment]] = {}
+    for seg in segments:
+        vid = seg.voice_model_id
+        if vid not in voice_segments:
+            voice_segments[vid] = []
+        voice_segments[vid].append(seg)
+
+    logger.info(
+        f"Batch RVC: {len(segments)} segments across {len(voice_segments)} voices "
+        f"for song {song_id}"
+    )
+
+    # Separate already-converted segments from those needing processing
+    all_paths: list[Path] = []
+    voice_work: list[tuple[str, list[tuple[bytes, Segment]], bytes, bytes | None]] = []
+
+    for voice_id, voice_segs in voice_segments.items():
+        voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
+        if not voice:
+            logger.error(f"Voice model {voice_id} not found, skipping segments")
+            continue
+
+        # Read model files
+        pth_path = Path(voice.model_path)
+        with open(pth_path, "rb") as f:
+            pth_bytes = f.read()
+
+        index_bytes = None
+        if voice.index_path and Path(voice.index_path).exists():
+            with open(voice.index_path, "rb") as f:
+                index_bytes = f.read()
+
+        # Collect audio for segments needing conversion
+        audio_list: list[tuple[bytes, Segment]] = []
+        for seg in voice_segs:
+            if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
+                all_paths.append(Path(seg.converted_vocal_path))
+                continue
+            if not seg.vocal_path:
+                logger.warning(f"Segment {seg.id} has no vocal file, skipping")
+                continue
+            with open(seg.vocal_path, "rb") as f:
+                audio_bytes = f.read()
+            audio_list.append((audio_bytes, seg))
+
+        if audio_list:
+            voice_work.append((voice_id, audio_list, pth_bytes, index_bytes))
+
+    if not voice_work:
+        logger.info(f"Batch RVC: all segments already converted for song {song_id}")
+        return all_paths
+
+    # Process all voices in parallel via asyncio.gather()
+    logger.info(f"Launching {len(voice_work)} parallel batch RVC requests")
+
+    async def _process_voice(voice_id, audio_list, pth_bytes, index_bytes):
+        """Process one voice model's segments via batch endpoint."""
+        converted_map = await _call_gpu_rvc_batch(
+            audio_list=audio_list,
+            model_id=voice_id,
+            pth_bytes=pth_bytes,
+            index_bytes=index_bytes,
+        )
+
+        # Save results
+        output_dir = CONVERTED_DIR / song_id
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        paths = []
+        for audio_bytes, seg in audio_list:
+            result_bytes = converted_map[seg.id]
+
+            # Apply duration alignment
+            original_duration_ms = (seg.end_time - seg.start_time) * 1000
+            result_bytes = await asyncio.to_thread(
+                _align_duration, result_bytes, original_duration_ms
+            )
+
+            output_path = output_dir / f"line_{seg.line_number:03d}_converted.wav"
+            output_path.write_bytes(result_bytes)
+
+            seg.converted_vocal_path = str(output_path)
+            paths.append(output_path)
+
+        return paths
+
+    results = await asyncio.gather(
+        *[_process_voice(*args) for args in voice_work],
+        return_exceptions=True,
+    )
+
+    # Collect results, log any failures
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            voice_id = voice_work[i][0]
+            logger.error(f"Batch RVC failed for voice {voice_id}: {result}")
+            continue
+        all_paths.extend(result)
+
+    db.commit()
+
+    logger.info(
+        f"Batch RVC done: {len(all_paths)} segments converted for song {song_id}"
+    )
+    return all_paths
+
+
+async def _call_gpu_rvc_batch(
+    audio_list: list[tuple[bytes, Segment]],
+    model_id: str,
+    pth_bytes: bytes,
+    index_bytes: bytes | None = None,
+) -> dict[str, bytes]:
+    """Call GPU server batch endpoint. Returns {segment_id: wav_bytes}.
+
+    Groups all segments for one voice model into a single request.
+    Model loaded once on GPU side, all segments processed sequentially.
+    """
+    url = f"{GPU_SERVER_URL}/infer/rvc_batch_v2"
+
+    # Build multipart form data
+    files = {
+        "pth_file": ("model.pth", pth_bytes, "application/octet-stream"),
+    }
+    data = {
+        "model_id": model_id,
+        "f0_method": "rmvpe",
+        "f0up_key": "0",
+        "index_rate": "0.6",
+        "filter_radius": "3",
+        "rms_mix_rate": "0.25",
+        "protect": "0.5",
+    }
+    if index_bytes:
+        files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
+
+    # Add audio files as audio_0, audio_1, ...
+    seg_order = []
+    for idx, (audio_bytes, seg) in enumerate(audio_list):
+        files[f"audio_{idx}"] = (
+            f"segment_{idx}.wav", audio_bytes, "audio/wav"
+        )
+        seg_order.append(seg)
+
+    # Retry logic (same as single-segment)
+    last_error = None
+    for attempt in range(3):
+        try:
+            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
+                resp = await client.post(url, files=files, data=data)
+                resp.raise_for_status()
+
+            # Parse multipart response
+            content_type = resp.headers.get("content-type", "")
+            boundary = content_type.split("boundary=")[-1]
+            body = resp.content
+            parts = body.split(f"--{boundary}".encode())
+
+            # Extract converted audio from multipart
+            result_map = {}
+            for part in parts:
+                if b'name="converted_' not in part:
+                    continue
+                # Parse index from name
+                name_start = part.find(b'name="converted_')
+                name_end = part.find(b'"', name_start + 7)
+                name = part[name_start + 7:name_end].decode()
+                idx = int(name.replace("converted_", ""))
+
+                # Extract audio bytes
+                audio_start = part.find(b"\r\n\r\n")
+                if audio_start == -1:
+                    continue
+                audio_bytes = part[audio_start + 4:].rsplit(b"\r\n", 1)[0]
+
+                if idx < len(seg_order):
+                    result_map[seg_order[idx].id] = audio_bytes
+
+            if len(result_map) != len(audio_list):
+                logger.warning(
+                    f"Batch response mismatch: expected {len(audio_list)}, "
+                    f"got {len(result_map)} results"
+                )
+
+            return result_map
+
+        except (httpx.ConnectError, httpx.TimeoutException) as e:
+            last_error = e
+            if attempt < 2:
+                await asyncio.sleep(2 ** attempt)
+                continue
+            raise ConnectionError(
+                f"GPU server unreachable after 3 attempts: {last_error}"
+            )
+
+    raise ConnectionError(f"GPU server unreachable after 3 attempts: {last_error}")

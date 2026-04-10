@@ -29,18 +29,45 @@ async def upload_voice(
     name: str = Form(...),
     db: Session = Depends(get_db),
 ):
-    """Upload a new voice model (.pth + optional .index)."""
+    """Upload a new voice model (.pth + optional .index).
+
+    Validates model integrity before saving:
+    - Minimum size: 10MB (real RVC v2 models are ~53-55MB)
+    - torch.load() smoke test on CPU (catches truncated/corrupted files)
+    """
+    import torch
+
     if not pth_file.filename.endswith(".pth"):
         raise HTTPException(400, "Model file must be .pth")
     if index_file and not index_file.filename.endswith(".index"):
         raise HTTPException(400, "Index file must be .index")
+
+    pth_content = await pth_file.read()
+
+    # Size validation: real RVC models are 50MB+
+    MIN_MODEL_BYTES = 10 * 1024 * 1024  # 10MB
+    if len(pth_content) < MIN_MODEL_BYTES:
+        raise HTTPException(
+            400,
+            f"Model file too small ({len(pth_content) / 1024 / 1024:.1f}MB). "
+            f"Expected at least 10MB. File may be corrupted or incomplete."
+        )
+
+    # Integrity validation: verify torch can deserialize it
+    import io
+    try:
+        torch.load(io.BytesIO(pth_content), map_location="cpu", weights_only=False)
+    except Exception as e:
+        raise HTTPException(
+            400,
+            f"Model file is not a valid PyTorch checkpoint: {str(e)}"
+        )
 
     voice_id = uuid.uuid4().hex[:12]
     voice_dir = VOICES_DIR / voice_id
     voice_dir.mkdir(parents=True, exist_ok=True)
 
     pth_path = voice_dir / "model.pth"
-    pth_content = await pth_file.read()
     pth_path.write_bytes(pth_content)
 
     index_path = None

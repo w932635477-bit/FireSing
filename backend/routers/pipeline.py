@@ -99,10 +99,18 @@ def _assign_voices_for_pipeline(song_id: str, params, db):
 
 
 async def _run_pipeline(song_id: str, params: ProcessRequest):
-    """Background pipeline execution — full 8-step pipeline."""
+    """Background pipeline execution — optimized 5-step pipeline.
+
+    Pipeline: Demucs → Energy VAD Segmentation → Assign → Batch RVC → Mix → Video
+
+    Key optimizations over the original 8-step pipeline:
+    1. Energy-based segmentation replaces LRC parsing (no lyrics needed)
+    2. Batch RVC loads model once per voice instead of per segment
+    3. Harmony + Chorus merged into mix step (not separate GPU calls)
+    """
     import httpx
     from ..database import SessionLocal
-    from ..services import demucs_service, lyrics_service, rvc_service
+    from ..services import demucs_service, vad_service, rvc_service
     from ..services import chorus_service, tts_service, audio_service, video_service
     from ..services import harmony_service
     from ..models import Segment, VoiceModel
@@ -131,41 +139,48 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
                 db.commit()
             return
 
-        # Step 1: Demucs vocal separation
+        # Step 1: Demucs vocal separation (unchanged)
         if _cancel_flags.get(song_id):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "separating", 0, "Separating vocals...")
         await demucs_service.separate(song_id, db)
 
-        # Step 2: LRC parse + segment cutting
+        # Step 2: Energy-based VAD segmentation (replaces LRC parse + cut)
         if _cancel_flags.get(song_id):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
-        _update_progress(song_id, "segmenting", 15, "Cutting vocal segments...")
-        await asyncio.to_thread(lyrics_service.parse_and_cut, song_id, db)
+        _update_progress(song_id, "segmenting", 15, "Detecting vocal segments...")
+        await asyncio.to_thread(vad_service.segment_and_cut, song_id, db)
 
-        # Step 3: Voice assignment
+        # Step 3: Voice assignment (unchanged)
         if _cancel_flags.get(song_id):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "assigning", 25, "Assigning voice models...")
         _assign_voices_for_pipeline(song_id, params, db)
 
-        # Step 4: RVC per-line conversion
+        # Step 4: Batch RVC conversion (replaces per-segment conversion)
+        # Key optimization: load model once per voice, process all segments
         if _cancel_flags.get(song_id):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
+        _update_progress(song_id, "converting", 30, "Converting vocals (batch)...")
+
+        # Count segments for progress tracking
         segments = db.query(Segment).filter(
             Segment.song_id == song_id, Segment.voice_model_id.isnot(None)
         ).order_by(Segment.line_number).all()
-
         total = len(segments)
-        for i, seg in enumerate(segments):
-            pct = 30 + int(50 * i / max(total, 1))
+
+        if total > 0:
+            # Batch RVC: groups by voice model, loads each once
+            await rvc_service.convert_batch(song_id, db)
+
+            # Update progress per-segment after batch completes
+            pct = 30 + int(40 * total / max(total, 1))
             _update_progress(song_id, "converting", pct,
-                             f"Converting line {i+1}/{total}...")
-            await rvc_service.convert(seg.id, db)
+                           f"Converted {total} segments (batch)")
 
         # Refresh segments after conversion
         db.expire_all()
@@ -223,8 +238,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         if params.monologue_text or song.monologue_audio_path:
             _update_progress(song_id, "monologue", 85, "Generating monologue...")
             if song.monologue_audio_path:
-                # Use uploaded recording directly
-                pass  # audio_service.mix_all will pick it up
+                pass
             elif params.monologue_text:
                 await tts_service.generate(song_id, params.monologue_text, db)
 
@@ -238,7 +252,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             params.monologue_position or "beginning", db
         )
 
-        # Step 8: Video / audio generation based on output_format
+        # Step 8: Video / audio generation
         if _cancel_flags.get(song_id):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
@@ -247,7 +261,6 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             _update_progress(song_id, "video", 95, "Generating video...")
             await asyncio.to_thread(video_service.generate, song_id, db)
         else:
-            # Audio only — skip video, just finalize
             _update_progress(song_id, "video", 95, "Finalizing audio...")
 
         _update_progress(song_id, "done", 100, "Complete!")
@@ -269,7 +282,6 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             db.commit()
     finally:
         _cancel_flags.pop(song_id, None)
-        # Wake up SSE one last time and clean up event
         event = _progress_events.pop(song_id, None)
         if event:
             event.set()
