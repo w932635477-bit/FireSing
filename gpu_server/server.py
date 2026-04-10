@@ -27,8 +27,8 @@ app = FastAPI(title="FireSing GPU Server", version="0.1.0")
 # Model cache: hash -> local_path
 _model_cache: dict[str, str] = {}
 
-# F0 method priority: harvest (known-good) → crepe → rmvpe
-_F0_FALLBACK_CHAIN = ["harvest", "crepe", "rmvpe"]
+# F0 method priority: rmvpe (best) → harvest (reliable fallback)
+_F0_FALLBACK_CHAIN = ["rmvpe", "harvest"]
 _available_f0_methods: list[str] = []
 
 # Temp directory for inference I/O
@@ -235,18 +235,6 @@ async def infer_rvc(
     try:
         t_start = time.time()
 
-        # F0 method fallback: if requested method unavailable, use best available
-        actual_f0 = f0_method
-        if f0_method not in _available_f0_methods:
-            if _available_f0_methods:
-                actual_f0 = _available_f0_methods[0]
-                print(
-                    f"WARNING: f0 method '{f0_method}' unavailable, "
-                    f"falling back to '{actual_f0}'"
-                )
-            else:
-                raise HTTPException(500, f"No f0 methods available on this server")
-
         # Ensure local_pth is a Path (cache stores strings)
         local_pth = Path(local_pth)
 
@@ -264,16 +252,45 @@ async def infer_rvc(
             rvc.load_model(pth_files[0], version="v2",
                           index_path=str(local_index) if local_index else None)
 
-        rvc.set_params(
-            f0method=actual_f0,
-            f0up_key=f0up_key,
-            index_rate=index_rate,
-            filter_radius=filter_radius,
-            rms_mix_rate=rms_mix_rate,
-            protect=protect,
-        )
+        # Try f0 methods with runtime fallback
+        methods_to_try = []
+        if f0_method in _available_f0_methods:
+            methods_to_try.append(f0_method)
+        for m in _available_f0_methods:
+            if m != f0_method:
+                methods_to_try.append(m)
 
-        rvc.infer_file(str(audio_path), str(output_path))
+        if not methods_to_try:
+            raise HTTPException(500, "No f0 methods available on this server")
+
+        last_error = None
+        for actual_f0 in methods_to_try:
+            try:
+                rvc.set_params(
+                    f0method=actual_f0,
+                    f0up_key=f0up_key,
+                    index_rate=index_rate,
+                    filter_radius=filter_radius,
+                    rms_mix_rate=rms_mix_rate,
+                    protect=protect,
+                )
+                rvc.infer_file(str(audio_path), str(output_path))
+                # Success
+                if actual_f0 != f0_method:
+                    print(
+                        f"WARNING: f0 '{f0_method}' failed at runtime, "
+                        f"fell back to '{actual_f0}'"
+                    )
+                break
+            except Exception as f0_err:
+                last_error = f0_err
+                print(f"WARNING: f0 method '{actual_f0}' failed: {f0_err}")
+                if actual_f0 != methods_to_try[-1]:
+                    print(f"  Retrying with next f0 method...")
+                continue
+        else:
+            raise last_error
+
         rvc.unload_model()
 
         elapsed = time.time() - t_start

@@ -247,7 +247,7 @@ async def _call_gpu_rvc(
         model_id=model_id,
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
-        f0_method="crepe",
+        f0_method="rmvpe",
         f0_up_key=0,
         index_rate=0.6,
         filter_radius=3,
