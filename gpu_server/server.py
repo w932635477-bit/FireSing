@@ -49,7 +49,7 @@ def startup():
     for method in _F0_FALLBACK_CHAIN:
         try:
             if method == "rmvpe":
-                import rvc_python.modules.rmvdpe  # noqa: F401
+                import rvc_python.lib.rmvpe  # noqa: F401
             elif method == "crepe":
                 import crepe  # noqa: F401
             elif method == "harvest":
