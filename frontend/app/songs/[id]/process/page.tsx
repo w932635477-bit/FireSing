@@ -7,11 +7,11 @@ import { connectProgress, cancelProcess, type PipelineProgress } from "@/lib/api
 
 const STEPS = [
   { key: "separating", label: "人声分离", sub: "Demucs 分离伴奏与人声" },
-  { key: "segmenting", label: "歌词切分", sub: "按时间戳拆分歌词段落" },
+  { key: "segmenting", label: "智能分段", sub: "自动检测人声段落" },
   { key: "assigning", label: "音色分配", sub: "为每段分配 AI 音色" },
-  { key: "converting", label: "RVC 转换", sub: "逐段进行音色转换" },
+  { key: "converting", label: "RVC 转换", sub: "批量音色转换" },
   { key: "harmony", label: "和声生成", sub: "生成多声部和声" },
-  { key: "chorus", label: "合唱检测", sub: "检测并增强合唱段落" },
+  { key: "chorus", label: "合唱增强", sub: "多声部合唱混音" },
   { key: "monologue", label: "独白合成", sub: "合成个性化独白" },
   { key: "mixing", label: "音频混缩", sub: "混合所有人声与伴奏" },
   { key: "video", label: "视频生成", sub: "生成竖版 MV 视频" },

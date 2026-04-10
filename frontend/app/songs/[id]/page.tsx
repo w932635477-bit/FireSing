@@ -9,7 +9,6 @@ import {
   assignVoices,
   listVoices,
   uploadVoice,
-  uploadLrc,
   getOutputs,
   startProcess,
   updateSegmentTimestamps,
@@ -55,7 +54,6 @@ export default function SongDetailPage() {
   const [enableChorus, setEnableChorus] = useState(true);
   const [chorusVoiceCount, setChorusVoiceCount] = useState(5);
   const [voiceUploading, setVoiceUploading] = useState(false);
-  const [lrcUploading, setLrcUploading] = useState(false);
   const [showVoiceUpload, setShowVoiceUpload] = useState(false);
   const [processConfirm, setProcessConfirm] = useState<string | null>(null);
   const [pendingProcessData, setPendingProcessData] = useState<{ pool: string[]; req: ProcessRequest } | null>(null);
@@ -83,17 +81,6 @@ export default function SongDetailPage() {
   }, [songId]);
 
   useEffect(() => { load(); }, [load]);
-
-  async function handleUploadLrc(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const lrc = fd.get("lrc") as File;
-    if (!lrc || lrc.size === 0) { addToast("warning", "请选择 LRC 歌词文件"); return; }
-    setLrcUploading(true);
-    try { await uploadLrc(songId, lrc); await load(); }
-    catch (e) { addToast("error", `LRC 上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
-    finally { setLrcUploading(false); }
-  }
 
   async function handleAssign(strategy: "manual" | "round-robin" | "random", options?: { segId?: string; voiceId?: string }) {
     if (strategy !== "manual" && voices.length === 0) {
@@ -181,12 +168,12 @@ export default function SongDetailPage() {
 
   const hasSegments = segments.length > 0;
   const allAssigned = segments.length > 0 && segments.every((s) => s.voice_model_id);
-  const canProcess = allAssigned && !["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
+  const canProcess = (voices.length > 0) && !["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isProcessing = ["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isDone = song.status === "done";
 
-  // Determine current step for the progress indicator
-  const currentStep = !song.lrc_path ? 1 : voices.length === 0 ? 2 : !allAssigned ? 3 : 4;
+  // Determine current step for the progress indicator (VAD: no LRC needed)
+  const currentStep = voices.length === 0 ? 1 : !allAssigned && hasSegments ? 2 : hasSegments ? 3 : 2;
 
   return (
     <div className="min-h-screen bg-surface-container-lowest text-on-surface pb-32" style={{ fontFamily: "'Inter', 'PingFang SC', sans-serif" }}>
@@ -215,10 +202,9 @@ export default function SongDetailPage() {
         <div className="relative flex justify-between items-center px-2">
           <div className="absolute top-1/2 left-0 w-full h-px -z-10" style={{ background: "linear-gradient(90deg, transparent 0%, #262528 50%, transparent 100%)" }} />
           {[
-            { num: 1, label: "歌词", done: !!song.lrc_path },
-            { num: 2, label: "音色", done: voices.length > 0 },
-            { num: 3, label: "分配", done: allAssigned },
-            { num: 4, label: "处理", done: isDone },
+            { num: 1, label: "音色", done: voices.length > 0 },
+            { num: 2, label: "设置", done: allAssigned || voices.length > 0 },
+            { num: 3, label: "处理", done: isDone },
           ].map((step) => (
             <div key={step.num} className="flex flex-col items-center gap-2">
               <div className={`w-10 h-10 md:w-8 md:h-8 rounded-full flex items-center justify-center font-bold text-sm ${
@@ -305,40 +291,18 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* Step 1: LRC Upload */}
+        {/* Auto segmentation notice */}
         {!isProcessing && !isDone && (
           <section className="space-y-4">
-            <h2 className="text-xl font-bold tracking-tight -ml-2 text-on-surface">歌词文件</h2>
-            {song.status === "uploaded" && !song.lrc_path ? (
-              <div className="p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center gap-4 group cursor-pointer hover:bg-surface-container-high border border-dashed border-outline-variant/20 transition-all duration-300">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                  <span className="material-symbols-outlined text-3xl">upload_file</span>
-                </div>
-                <div className="text-center">
-                  <p className="text-sm text-on-surface-variant mb-3">上传 LRC 歌词文件以获得最佳切分效果</p>
-                  <form onSubmit={handleUploadLrc} className="flex flex-col sm:flex-row gap-3 items-center justify-center">
-                    <input name="lrc" type="file" accept=".lrc,.txt" required className="text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-primary/20 file:text-primary" />
-                    <button type="submit" disabled={lrcUploading} className="px-4 py-2 bg-primary text-black rounded-lg text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform">
-                      {lrcUploading ? "上传中..." : "上传歌词"}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            ) : song.lrc_path ? (
-              <div className="p-8 bg-surface-container-low rounded-xl flex flex-col items-center justify-center gap-4">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-3xl">task_alt</span>
-                </div>
-                <div className="text-center">
-                  <p className="text-on-surface font-bold">歌词文件已就绪</p>
-                </div>
-              </div>
-            ) : null}
+            <div className="p-4 bg-primary/5 rounded-xl border border-primary/10 flex items-center gap-3">
+              <span className="material-symbols-outlined text-primary text-xl">auto_awesome</span>
+              <p className="text-xs text-on-surface-variant">智能分段：处理时自动检测人声段落，无需上传歌词文件</p>
+            </div>
           </section>
         )}
 
-        {/* Step 2: Voice Models */}
-        {!isProcessing && !isDone && song.lrc_path && (
+        {/* Step 1: Voice Models */}
+        {!isProcessing && !isDone && (
           <section className="space-y-4">
             <div className="flex justify-between items-end">
               <h2 className="text-xl font-bold tracking-tight -ml-2 text-on-surface">音色模型{voices.length > 0 && <span className="text-sm font-normal text-on-surface-variant ml-2">{voices.length} 个</span>}</h2>
@@ -400,8 +364,8 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* Step 3: Segment Assignment */}
-        {!isProcessing && !isDone && song.lrc_path && voices.length > 0 && hasSegments && (
+        {/* Segment Assignment (when segments exist from previous run) */}
+        {!isProcessing && !isDone && voices.length > 0 && hasSegments && (
           <section className="space-y-4">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-bold tracking-tight -ml-2 text-on-surface">段落分配</h2>
@@ -482,8 +446,8 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* Step 4: Settings + Start */}
-        {!isProcessing && !isDone && allAssigned && (
+        {/* Step 2: Settings + Start */}
+        {!isProcessing && !isDone && voices.length > 0 && (
           <section className="space-y-8">
             <h2 className="text-xl font-bold tracking-tight -ml-2 text-on-surface">渲染设置</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -609,7 +573,7 @@ export default function SongDetailPage() {
         {!isProcessing && !isDone && !canProcess && (
           <div className="text-center py-4">
             <p className="text-sm text-on-surface-variant">
-              {!song.lrc_path ? "请先上传歌词文件" : segments.length === 0 ? "等待歌词切分..." : !allAssigned ? "请为每句歌词分配音色" : ""}
+              {voices.length === 0 ? "请先上传音色模型" : hasSegments && !allAssigned ? "请为每句歌词分配音色" : ""}
             </p>
           </div>
         )}
