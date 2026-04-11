@@ -66,6 +66,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch {
       clearToken();
+      // Token invalid (e.g. backend restarted with new JWT_SECRET) — retry dev-login
+      try {
+        const retryResp = await fetch("/api/auth/dev-login");
+        const retryData = await retryResp.json();
+        if (retryData.token) {
+          setToken(retryData.token);
+          const info = await getMe();
+          if (info.authenticated) {
+            setUser(info);
+            return;
+          }
+        }
+      } catch {}
       setUser(null);
     } finally {
       setLoading(false);

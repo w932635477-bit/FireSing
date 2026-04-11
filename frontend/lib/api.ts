@@ -354,6 +354,19 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
+async function refreshToken(): Promise<string | null> {
+  /**Auto-refresh dev token after backend restart (JWT_SECRET changes).*/
+  try {
+    const resp = await fetch(`${API_BASE}/auth/dev-login`);
+    const data = await resp.json();
+    if (data.token) {
+      setToken(data.token);
+      return data.token;
+    }
+  } catch {}
+  return null;
+}
+
 async function authFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const token = getToken();
   const headers: Record<string, string> = {
@@ -362,7 +375,28 @@ async function authFetch<T>(path: string, init?: RequestInit): Promise<T> {
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
-  return apiFetch(path, { ...init, headers });
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { ...init, headers });
+  } catch {
+    throw new AppError(0, "network", "无法连接到服务器");
+  }
+  // Auto-refresh token on 401 (dev mode: JWT_SECRET changes on backend restart)
+  if (res.status === 401) {
+    const fresh = await refreshToken();
+    if (fresh) {
+      const retryHeaders = { ...headers, Authorization: `Bearer ${fresh}` };
+      const retryRes = await fetch(`${API_BASE}${path}`, { ...init, headers: retryHeaders });
+      if (retryRes.ok) return retryRes.json();
+      const body = await retryRes.text().catch(() => "Unknown error");
+      throw new AppError(retryRes.status, "api", `API ${retryRes.status}: ${body}`);
+    }
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => "Unknown error");
+    throw new AppError(res.status, "api", `API ${res.status}: ${body}`);
+  }
+  return res.json();
 }
 
 export async function getMe(): Promise<UserInfo> {
