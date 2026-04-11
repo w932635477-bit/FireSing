@@ -227,7 +227,7 @@ async def convert_with_params(
     last_error = None
     for attempt in range(3):
         try:
-            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
+            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None, trust_env=False) as client:
                 resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
                 result = resp.content
@@ -455,7 +455,7 @@ async def _call_gpu_rvc_batch(
     last_error = None
     for attempt in range(3):
         try:
-            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
+            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None, trust_env=False) as client:
                 resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
 
@@ -472,8 +472,8 @@ async def _call_gpu_rvc_batch(
                     continue
                 # Parse index from name
                 name_start = part.find(b'name="converted_')
-                name_end = part.find(b'"', name_start + 7)
-                name = part[name_start + 7:name_end].decode()
+                name_end = part.find(b'"', name_start + 6)
+                name = part[name_start + 6:name_end].decode()
                 idx = int(name.replace("converted_", ""))
 
                 # Extract audio bytes

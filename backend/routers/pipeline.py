@@ -129,7 +129,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         # Pre-flight: check GPU server is reachable
         _update_progress(song_id, "preparing", 0, "Checking GPU server...", db=db)
         try:
-            async with httpx.AsyncClient(timeout=5.0) as client:
+            async with httpx.AsyncClient(timeout=5.0, trust_env=False) as client:
                 resp = await client.get(f"{GPU_SERVER_URL}/health")
                 if resp.status_code != 200:
                     raise ConnectionError(f"GPU server returned HTTP {resp.status_code}")
@@ -369,10 +369,27 @@ async def cancel_processing(
 @router.get("/{song_id}/progress")
 async def pipeline_progress(
     song_id: str,
+    token: str | None = None,
     user: User | None = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    """SSE stream for real-time pipeline progress."""
+    """SSE stream for real-time pipeline progress.
+
+    Accepts token as query param since EventSource cannot set headers.
+    """
+    # If no user from header, try query param token
+    if user is None and token:
+        import jwt as pyjwt
+        from ..config import JWT_SECRET, JWT_ALGORITHM
+        from sqlalchemy import select
+        try:
+            payload = pyjwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+            uid = payload.get("sub")
+            if uid:
+                user = db.execute(select(User).where(User.id == uid)).scalar_one_or_none()
+        except Exception:
+            pass
+
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")

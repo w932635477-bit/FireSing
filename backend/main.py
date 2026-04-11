@@ -85,7 +85,7 @@ async def gpu_health():
     from .config import GPU_SERVER_URL
 
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
+        async with httpx.AsyncClient(timeout=5.0, trust_env=False) as client:
             resp = await client.get(f"{GPU_SERVER_URL}/health")
             if resp.status_code == 200:
                 data = resp.json()

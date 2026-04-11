@@ -108,6 +108,33 @@ def wechat_poll(state: str):
     return {"status": "pending"}
 
 
+@router.get("/dev-login")
+def dev_login(db=Depends(get_db)):
+    """Dev-only: auto-create a dev user and return JWT token.
+
+    Only available when WECHAT_OPEN_APP_ID is not set (local dev mode).
+    """
+    if WECHAT_OPEN_APP_ID:
+        return {"error": "Dev login disabled in production"}
+
+    openid = "dev_user"
+    user = db.execute(select(User).where(User.wechat_openid == openid)).scalar_one_or_none()
+    if user is None:
+        user = User(
+            id=uuid.uuid4().hex[:12],
+            wechat_openid=openid,
+            wechat_nickname="开发者",
+            credits=999,
+            subscription_plan="yearly",
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    token = create_token(user.id)
+    return {"token": token, "user_id": user.id}
+
+
 @router.get("/me")
 def get_me(user: Optional[User] = Depends(get_current_user)):
     """Get current user info."""

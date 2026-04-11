@@ -286,7 +286,7 @@ export default function DashboardPage() {
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12">
             {songs
               .filter((s) => !filterQuery || s.title.toLowerCase().includes(filterQuery.toLowerCase()))
-              .map((song) => (
+              .map((song, index) => (
                 <Link
                   key={song.id}
                   href={`/songs/${song.id}`}
@@ -297,6 +297,7 @@ export default function DashboardPage() {
                       src={getCover(song.title)}
                       alt={song.title}
                       fill
+                      priority={index < 3}
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
@@ -456,7 +457,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           {song.platforms.slice(0, 3).map((p) => (
-                            <span key={p.source} className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-neutral-400">
+                            <span key={`${p.source}-${p.id}`} className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-neutral-400">
                               {p.source_name || p.source}
                             </span>
                           ))}

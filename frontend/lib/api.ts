@@ -132,34 +132,34 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
 // --- Songs ---
 
 export async function listSongs(): Promise<{ songs: Song[] }> {
-  return apiFetch("/songs");
+  return authFetch("/songs");
 }
 
 export async function getSong(id: string): Promise<Song> {
-  return apiFetch(`/songs/${id}`);
+  return authFetch(`/songs/${id}`);
 }
 
 export async function uploadSong(audio: File, lrc?: File): Promise<Song> {
   const form = new FormData();
   form.append("audio", audio);
   if (lrc) form.append("lrc", lrc);
-  return apiFetch("/songs", { method: "POST", body: form });
+  return authFetch("/songs", { method: "POST", body: form });
 }
 
 export async function deleteSong(id: string): Promise<void> {
-  await apiFetch(`/songs/${id}`, { method: "DELETE" });
+  await authFetch(`/songs/${id}`, { method: "DELETE" });
 }
 
 export async function uploadLrc(songId: string, lrc: File) {
   const form = new FormData();
   form.append("lrc", lrc);
-  return apiFetch(`/songs/${songId}/lrc`, { method: "PUT", body: form });
+  return authFetch(`/songs/${songId}/lrc`, { method: "PUT", body: form });
 }
 
 export async function uploadMonologueAudio(songId: string, audio: File) {
   const form = new FormData();
   form.append("audio", audio);
-  return apiFetch(`/songs/${songId}/monologue-audio`, { method: "PUT", body: form });
+  return authFetch(`/songs/${songId}/monologue-audio`, { method: "PUT", body: form });
 }
 
 export async function updateSegmentTimestamps(
@@ -167,7 +167,7 @@ export async function updateSegmentTimestamps(
   segmentId: string,
   data: { start_time?: number; end_time?: number; text?: string },
 ) {
-  return apiFetch(`/songs/${songId}/segments/${segmentId}`, {
+  return authFetch(`/songs/${songId}/segments/${segmentId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -175,11 +175,11 @@ export async function updateSegmentTimestamps(
 }
 
 export async function getSegments(songId: string): Promise<{ segments: Segment[] }> {
-  return apiFetch(`/songs/${songId}/segments`);
+  return authFetch(`/songs/${songId}/segments`);
 }
 
 export async function assignVoices(songId: string, req: VoiceAssignRequest) {
-  return apiFetch(`/songs/${songId}/voices`, {
+  return authFetch(`/songs/${songId}/voices`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(req),
@@ -189,7 +189,7 @@ export async function assignVoices(songId: string, req: VoiceAssignRequest) {
 // --- Voices ---
 
 export async function listVoices(): Promise<{ voices: VoiceModel[] }> {
-  return apiFetch("/voices");
+  return authFetch("/voices");
 }
 
 export async function uploadVoice(pth: File, index: File | null, name: string): Promise<VoiceModel> {
@@ -197,13 +197,13 @@ export async function uploadVoice(pth: File, index: File | null, name: string): 
   form.append("pth_file", pth);
   if (index) form.append("index_file", index);
   form.append("name", name);
-  return apiFetch("/voices", { method: "POST", body: form });
+  return authFetch("/voices", { method: "POST", body: form });
 }
 
 // --- Pipeline ---
 
 export async function startProcess(songId: string, req: ProcessRequest) {
-  return apiFetch(`/songs/${songId}/process`, {
+  return authFetch(`/songs/${songId}/process`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(req),
@@ -215,7 +215,11 @@ export function connectProgress(
   onProgress: (p: PipelineProgress) => void,
   onError?: (e: Event) => void,
 ): EventSource {
-  const es = new EventSource(`${API_BASE}/songs/${songId}/progress`);
+  const token = getToken();
+  const url = token
+    ? `${API_BASE}/songs/${songId}/progress?token=${encodeURIComponent(token)}`
+    : `${API_BASE}/songs/${songId}/progress`;
+  const es = new EventSource(url);
   es.onmessage = (e) => {
     const data: PipelineProgress = JSON.parse(e.data);
     onProgress(data);
@@ -232,13 +236,13 @@ export function connectProgress(
 // --- Outputs ---
 
 export async function getOutputs(songId: string): Promise<{ outputs: Output[] }> {
-  return apiFetch(`/songs/${songId}/outputs`);
+  return authFetch(`/songs/${songId}/outputs`);
 }
 
 // --- Cancel ---
 
 export async function cancelProcess(songId: string): Promise<void> {
-  await apiFetch(`/songs/${songId}/process`, { method: "DELETE" });
+  await authFetch(`/songs/${songId}/process`, { method: "DELETE" });
 }
 
 // --- Status helpers ---
@@ -301,7 +305,7 @@ export async function importMusic(
     title,
     artist,
   });
-  return apiFetch(`/music/import?${params}`, { method: "POST" });
+  return authFetch(`/music/import?${params}`, { method: "POST" });
 }
 
 // --- Auth ---

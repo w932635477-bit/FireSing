@@ -68,7 +68,7 @@ async def _call_gpu_demucs(
     last_error = None
     for attempt in range(3):
         try:
-            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None) as client:
+            async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None, trust_env=False) as client:
                 resp = await client.post(
                     url,
                     files={"audio": (filename, audio_bytes, "audio/mpeg")},

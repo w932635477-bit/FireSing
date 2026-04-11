@@ -37,7 +37,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
-    const token = getToken();
+    let token = getToken();
+    // Auto dev-login if no token (dev mode only)
+    if (!token) {
+      try {
+        const resp = await fetch("/api/auth/dev-login");
+        const data = await resp.json();
+        if (data.token) {
+          setToken(data.token);
+          token = data.token;
+        }
+      } catch {
+        // Dev login not available (production)
+      }
+    }
     if (!token) {
       setUser(null);
       setLoading(false);
