@@ -16,12 +16,32 @@ from ..models import Segment, VoiceModel, Song
 
 logger = logging.getLogger(__name__)
 
+# Peak limit: prevent clipping distortion from RVC models with extreme peaks
+_PEAK_LIMIT_DB = -1.0
+
 # Maximum allowed duration drift before time-stretching (seconds)
 _DURATION_TOLERANCE_S = 0.01  # 10ms — larger tolerance avoids unnecessary stretching
 
 # Minimum segment duration for phase vocoder alignment (seconds)
 # Below this, phase vocoder can produce audible artifacts on transients
 _MIN_ALIGN_DURATION_S = 1.5
+
+
+def _limit_audio(converted_bytes: bytes, peak_db: float = _PEAK_LIMIT_DB) -> bytes:
+    """Peak-limit converted audio to prevent clipping distortion.
+
+    Some RVC models produce extreme peaks (0.97+) with low RMS, causing
+    audible distortion. This normalizes the peak to a safe level.
+    """
+    audio, sr = sf.read(io.BytesIO(converted_bytes))
+    peak = np.max(np.abs(audio))
+    target = 10 ** (peak_db / 20.0)
+    if peak > target:
+        audio = audio * (target / peak)
+        buf = io.BytesIO()
+        sf.write(buf, audio, sr, format="WAV")
+        return buf.getvalue()
+    return converted_bytes
 
 
 def _align_duration(
@@ -130,7 +150,8 @@ async def convert(segment_id: str, db: Session) -> Path:
     output_dir = CONVERTED_DIR / segment.song_id
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"line_{segment.line_number:03d}_converted.wav"
-    output_path.write_bytes(converted_bytes)
+    limited_bytes = await asyncio.to_thread(_limit_audio, converted_bytes)
+    output_path.write_bytes(limited_bytes)
 
     # Update database
     segment.converted_vocal_path = str(output_path)
@@ -360,6 +381,9 @@ async def convert_batch(
             result_bytes = await asyncio.to_thread(
                 _align_duration, result_bytes, original_duration_ms
             )
+
+            # Apply peak limiting to prevent distortion
+            result_bytes = await asyncio.to_thread(_limit_audio, result_bytes)
 
             output_path = output_dir / f"line_{seg.line_number:03d}_converted.wav"
             output_path.write_bytes(result_bytes)

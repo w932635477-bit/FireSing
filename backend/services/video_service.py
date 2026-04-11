@@ -1,15 +1,13 @@
-"""Video service — DAW multi-track style video generator.
+"""Video service — relay chorus style video generator.
 
-V1: Multi-track static layout + mixed audio waveform.
-Visual language: audio editing software (DAW) multi-track view.
-Each singer = one horizontal track with colored blocks at their segment positions.
-Single showwaves waveform from mixed audio at bottom.
-Blurred background image, PIL-rendered lyrics + progress bar.
+Visual language: Douyin relay chorus (接力合唱).
+Each singer appears one at a time with avatar + name + lyrics.
+When singer changes, new singer fades in smoothly.
 
 Rendering pipeline (no libass needed):
   1. Extract cover art from audio ID3 → gblur → background
-  2. PIL: base frame = background + tracks + labels + title
-  3. PIL: generate overlay frames for lyrics + progress at 2fps
+  2. PIL: base frame = background + dark overlay
+  3. PIL: generate overlay frames for avatar + name + lyrics + progress at 2fps
   4. FFmpeg: overlays + showwaves waveform + audio → MP4
 Target: 30-60s rendering time for ~3min song.
 """
@@ -31,31 +29,31 @@ logger = logging.getLogger(__name__)
 W, H = 1080, 1920
 FPS = 30
 
-# --- Layout zones (pixels, top-down) ---
-TITLE_H = 120
+# --- Layout zones (relay chorus style) ---
+TITLE_Y = 80
+AVATAR_SIZE = 280
+AVATAR_BORDER = 6
+AVATAR_CY = 580
+NAME_Y = 760
+LYRICS_Y = 920
+LYRICS_PAD_X = 30
+LYRICS_PAD_Y = 15
 WAVEFORM_H = 180
 LYRICS_H = 140
 PROGRESS_H = 50
 WAVEFORM_Y = H - LYRICS_H - PROGRESS_H - WAVEFORM_H  # ~1550
-TRACK_TOP = TITLE_H + 10
-TRACK_BOT = WAVEFORM_Y - 15
-TRACK_AREA = TRACK_BOT - TRACK_TOP  # ~1405
-
-TRACK_MIN = 70
-TRACK_MAX = 200
-TRACK_GAP = 4
-LABEL_W = 220
-BLOCK_PAD = 6
+PROGRESS_BAR_W = 600
+PROGRESS_BAR_Y = H - 25
+FADE_DURATION = 0.5
+TITLE_FADE_OUT = 4.0
 
 # --- Alpha values ---
 OVERLAY_ALPHA = 160
-BLOCK_ALPHA = 180
-ROW_ALPHA = 35
+
+# --- Overlay frame rate ---
+OVERLAY_FPS = 2  # frames per second for dynamic content
 
 # --- Voice colors (one per unique singer) ---
-MAX_TRACKS = 15
-OTHER_COLOR = "#808080"
-
 VOICE_COLORS = [
     "#FF6B6B", "#4ECDC4", "#B745D1", "#FFB347",
     "#87CEEB", "#FF69B4", "#98FB98", "#DDA0DD",
@@ -65,7 +63,7 @@ VOICE_COLORS = [
 
 
 def generate(song_id: str, db: Session) -> Path:
-    """Generate 1080x1920 DAW multi-track video. Returns path to MP4."""
+    """Generate 1080x1920 relay chorus video. Returns path to MP4."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise ValueError(f"Song {song_id} not found")
@@ -87,7 +85,6 @@ def generate(song_id: str, db: Session) -> Path:
     )
 
     voice_info = _build_voice_info(segments, db)
-    tracks = _build_tracks(segments, voice_info)
 
     out_dir = OUTPUTS_DIR / song_id
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -95,11 +92,13 @@ def generate(song_id: str, db: Session) -> Path:
     # Step 1: background (cover art + blur, or dark gradient)
     bg = _prepare_bg(audio_path, out_dir)
 
-    # Step 2: base frame (bg + tracks + labels + title as PNG)
-    base = _draw_base_frame(bg, tracks, song.title or "FireSing", duration, out_dir)
+    # Step 2: base frame (bg + dark overlay only, no tracks)
+    base = _draw_static_bg(bg, out_dir)
 
-    # Step 3: generate overlay frames with lyrics + progress (PIL, no ASS needed)
-    overlay_dir = _gen_overlay_frames(segments, duration, song.title or "FireSing", out_dir)
+    # Step 3: generate overlay frames (avatar + name + lyrics + progress)
+    overlay_dir = _gen_overlay_frames(
+        segments, voice_info, duration, song.title or "FireSing", out_dir,
+    )
 
     # Step 4: render (overlays + showwaves waveform + audio → MP4)
     final = out_dir / "final.mp4"
@@ -137,7 +136,6 @@ def generate(song_id: str, db: Session) -> Path:
 def _build_voice_info(segments: list, db: Session) -> dict:
     """Map voice_model_id -> {name, color}."""
     vids = list(dict.fromkeys(s.voice_model_id for s in segments if s.voice_model_id))
-    # Single query instead of N queries
     voice_models = {
         vm.id: vm for vm in db.query(VoiceModel).filter(VoiceModel.id.in_(vids)).all()
     }
@@ -151,47 +149,58 @@ def _build_voice_info(segments: list, db: Session) -> dict:
     return info
 
 
-def _build_tracks(segments: list, voice_info: dict) -> list:
-    """One track per unique voice, capped at MAX_TRACKS. Optional harmony track."""
-    vids = list(dict.fromkeys(s.voice_model_id for s in segments if s.voice_model_id))
-    tracks = []
+def _build_segment_timeline(
+    segments: list, voice_info: dict,
+) -> list[tuple]:
+    """Build sorted timeline of (start, end, text, voice_id, name, color)."""
+    timeline = []
+    for s in segments:
+        if not s.voice_model_id or s.voice_model_id not in voice_info:
+            continue
+        vi = voice_info[s.voice_model_id]
+        text = s.text.strip() if s.text else ""
+        timeline.append((
+            s.start_time, s.end_time, text,
+            s.voice_model_id, vi["name"], vi["color"],
+        ))
+    timeline.sort(key=lambda x: x[0])
+    return timeline
 
-    if len(vids) > MAX_TRACKS:
-        # Cap: first MAX_TRACKS-1 get own tracks, rest merged into "其他"
-        shown = vids[: MAX_TRACKS - 1]
-        merged_ids = vids[MAX_TRACKS - 1 :]
-        for vid in shown:
-            segs = [s for s in segments if s.voice_model_id == vid]
-            tracks.append({
-                "id": vid,
-                "name": voice_info[vid]["name"],
-                "color": voice_info[vid]["color"],
-                "segments": segs,
-            })
-        merged_segs = [s for s in segments if s.voice_model_id in merged_ids]
-        tracks.append({
-            "id": "other", "name": "其他",
-            "color": OTHER_COLOR, "segments": merged_segs,
-        })
-    else:
-        for vid in vids:
-            segs = [s for s in segments if s.voice_model_id == vid]
-            tracks.append({
-                "id": vid,
-                "name": voice_info[vid]["name"],
-                "color": voice_info[vid]["color"],
-                "segments": segs,
-            })
 
-    # Harmony track (if segments carry harmony marker)
-    harmony = [s for s in segments if getattr(s, "harmony_voices", None)]
-    if harmony:
-        tracks.append({
-            "id": "harmony", "name": "\u548c\u58f0",
-            "color": "#9B59B6", "segments": harmony,
-        })
+def _get_active_singer(
+    timeline: list, t: float,
+) -> tuple:
+    """Return (voice_id, name, color, lyric) for time t, or Nones."""
+    best = None
+    for start, end, text, vid, name, color in timeline:
+        if start <= t < end:
+            if best is None or start > best[0]:
+                best = (start, end, text, vid, name, color)
+    if best:
+        return best[3], best[4], best[5], best[2]
+    return None, None, None, None
 
-    return tracks
+
+def _compute_transitions(timeline: list) -> list[float]:
+    """Return list of times where singer changes."""
+    transitions = []
+    prev_vid = None
+    for start, end, text, vid, name, color in timeline:
+        if prev_vid is not None and vid != prev_vid:
+            transitions.append(start)
+        prev_vid = vid
+    return transitions
+
+
+def _compute_singer_alpha(
+    t: float, transitions: list[float], fade_duration: float = FADE_DURATION,
+) -> int:
+    """Alpha for singer avatar/name at time t. Fades in at transitions."""
+    half = fade_duration / 2
+    for trans_time in transitions:
+        if trans_time <= t < trans_time + half:
+            return int(255 * (t - trans_time) / half)
+    return 255
 
 
 # ---------------------------------------------------------------------------
@@ -202,7 +211,6 @@ def _prepare_bg(audio_path: Path, out_dir: Path) -> Path:
     """Extract cover art from audio, blur it. Fallback: dark gradient."""
     bg = out_dir / "bg.png"
 
-    # Try extracting embedded cover art
     try:
         probe = subprocess.run(
             ["ffprobe", "-v", "error", "-select_streams", "v:0",
@@ -231,7 +239,6 @@ def _prepare_bg(audio_path: Path, out_dir: Path) -> Path:
     except Exception as e:
         logger.debug(f"Cover art extraction skipped: {e}")
 
-    # Fallback: dark gradient
     subprocess.run([
         "ffmpeg", "-y", "-f", "lavfi", "-i",
         f"gradients=s={W}x{H}:c0=0x080818:c1=0x180828:duration=1",
@@ -245,71 +252,14 @@ def _prepare_bg(audio_path: Path, out_dir: Path) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# Step 2: Base frame (PIL)
+# Step 2: Base frame (PIL) — static background only
 # ---------------------------------------------------------------------------
 
-def _draw_base_frame(
-    bg_path: Path, tracks: list, title: str,
-    duration: float, out_dir: Path,
-) -> Path:
-    """Compose background + dark overlay + title + track blocks + singer labels."""
+def _draw_static_bg(bg_path: Path, out_dir: Path) -> Path:
+    """Create base frame: blurred background + semi-transparent dark overlay."""
     img = Image.open(str(bg_path)).convert("RGBA")
-
-    # Semi-transparent dark overlay for readability
     dark = Image.new("RGBA", (W, H), (0, 0, 0, OVERLAY_ALPHA))
     img = Image.alpha_composite(img, dark)
-
-    draw = ImageDraw.Draw(img)
-    font_title = _font(40)
-    font_label = _font(26)
-
-    # Title
-    draw.text((W // 2, 60), title, fill=(255, 255, 255, 220),
-              font=font_title, anchor="mm")
-
-    # Track layout
-    n = max(len(tracks), 1)
-    th = max(TRACK_MIN, min(TRACK_MAX, (TRACK_AREA - (n - 1) * TRACK_GAP) // n))
-    left = LABEL_W + 10
-    tw = W - left - 15
-
-    for i, t in enumerate(tracks):
-        y = TRACK_TOP + i * (th + TRACK_GAP)
-        rgb = _hex2rgb(t["color"])
-
-        # Row background
-        draw.rounded_rectangle(
-            [(8, y), (W - 8, y + th)], radius=5,
-            fill=(255, 255, 255, ROW_ALPHA),
-        )
-
-        # Label: colored dot + name
-        cy = y + th // 2
-        r = 8
-        draw.ellipse([(18, cy - r), (18 + r * 2, cy + r)], fill=(*rgb, 255))
-        draw.text((42, cy), t["name"], fill=(*rgb, 230),
-                  font=font_label, anchor="lm")
-
-        # Segment blocks (positioned by time on x-axis)
-        for seg in t["segments"]:
-            if duration <= 0:
-                continue
-            x1 = left + int(seg.start_time / duration * tw)
-            x2 = left + int(seg.end_time / duration * tw)
-            x1 = max(left, min(x1, W - 8))
-            x2 = max(left, min(x2, W - 8))
-            if x2 > x1:
-                draw.rounded_rectangle(
-                    [(x1, y + BLOCK_PAD), (x2, y + th - BLOCK_PAD)],
-                    radius=3, fill=(*rgb, BLOCK_ALPHA),
-                )
-
-    # Separator lines
-    draw.line([(15, WAVEFORM_Y - 8), (W - 15, WAVEFORM_Y - 8)],
-              fill=(255, 255, 255, 25), width=1)
-    lyrics_sep = H - LYRICS_H - PROGRESS_H
-    draw.line([(15, lyrics_sep - 8), (W - 15, lyrics_sep - 8)],
-              fill=(255, 255, 255, 25), width=1)
 
     path = out_dir / "base_frame.png"
     img.save(str(path), "PNG")
@@ -317,34 +267,56 @@ def _draw_base_frame(
 
 
 # ---------------------------------------------------------------------------
-# Step 3: Overlay frames (lyrics + progress bar via PIL)
+# Step 3: Overlay frames (relay chorus style via PIL)
 # ---------------------------------------------------------------------------
 
-OVERLAY_FPS = 2  # frames per second for lyrics/progress overlay
+def _draw_avatar(
+    draw: ImageDraw.ImageDraw,
+    cx: int, cy: int, radius: int,
+    name: str, color_hex: str, alpha: int = 255,
+) -> None:
+    """Draw circular avatar with voice-color border and name initial."""
+    rgb = _hex2rgb(color_hex)
+    # Lighter tint for fill
+    lighter = tuple(min(255, c + 80) for c in rgb)
+
+    # Outer circle (border color)
+    r = radius
+    b = AVATAR_BORDER
+    draw.ellipse(
+        [(cx - r - b, cy - r - b), (cx + r + b, cy + r + b)],
+        fill=(*rgb, alpha),
+    )
+    # Inner circle (lighter fill)
+    draw.ellipse(
+        [(cx - r, cy - r), (cx + r, cy + r)],
+        fill=(*lighter, alpha),
+    )
+    # Initial character
+    ch = name[0] if name else "?"
+    font = _font(int(radius * 0.85))
+    draw.text((cx, cy), ch, fill=(255, 255, 255, alpha), font=font, anchor="mm")
 
 
 def _gen_overlay_frames(
-    segments: list, duration: float, title: str, out_dir: Path,
+    segments: list, voice_info: dict,
+    duration: float, title: str, out_dir: Path,
 ) -> Path:
-    """Generate transparent PNG frames with lyrics text and progress bar.
+    """Generate relay-style overlay frames at OVERLAY_FPS.
 
-    Creates frames at OVERLAY_FPS (2fps) — enough for smooth lyrics transitions.
-    Each frame is a transparent PNG with only the lyrics text and progress bar drawn.
-    FFmpeg will composite these over the base frame.
+    Each frame shows the current singer's avatar + name + lyrics + progress bar.
+    When singer changes, the new singer fades in over FADE_DURATION.
     """
     overlay_dir = out_dir / "overlays"
     overlay_dir.mkdir(parents=True, exist_ok=True)
 
+    font_title = _font(40)
     font_lyrics = _font(46)
+    font_name = _font(32)
     font_progress = _font(20)
 
-    # Build segment lookup: for any time t, find the active lyric
-    lyrics_segs = [(s.start_time, s.end_time, s.text.strip()) for s in segments
-                   if s.text and s.text.strip()]
-
-    lyrics_y = H - LYRICS_H - PROGRESS_H + 50
-    progress_y = H - 25
-    bar_w = 600
+    timeline = _build_segment_timeline(segments, voice_info)
+    transitions = _compute_transitions(timeline)
 
     total_frames = int(duration * OVERLAY_FPS) + 1
     for i in range(total_frames):
@@ -352,65 +324,71 @@ def _gen_overlay_frames(
         if t > duration:
             break
 
-        # Transparent overlay
         frame = Image.new("RGBA", (W, H), (0, 0, 0, 0))
         draw = ImageDraw.Draw(frame)
 
-        # Title fade (first 4 seconds)
-        if t < 4.0:
+        # --- Title fade (first 4 seconds) ---
+        if t < TITLE_FADE_OUT:
             alpha = 255
             if t < 0.5:
                 alpha = int(255 * t / 0.5)
             elif t > 3.5:
-                alpha = int(255 * (4.0 - t) / 0.5)
+                alpha = int(255 * (TITLE_FADE_OUT - t) / 0.5)
             if alpha > 0:
-                draw.text((W // 2, 60), title,
+                draw.text((W // 2, TITLE_Y), title,
                           fill=(255, 255, 255, alpha),
-                          font=_font(40), anchor="mm")
+                          font=font_title, anchor="mm")
 
-        # Find current lyric
-        current_lyric = ""
-        for start, end, text in lyrics_segs:
-            if start <= t < end:
-                current_lyric = text
-                break
+        # --- Current singer ---
+        voice_id, name, color, lyric = _get_active_singer(timeline, t)
 
-        if current_lyric:
-            # Lyrics background (semi-transparent black pill)
-            bbox = draw.textbbox((0, 0), current_lyric, font=font_lyrics)
-            tw = bbox[2] - bbox[0]
-            th = bbox[3] - bbox[1]
-            pad_x, pad_y = 30, 15
-            rx1 = (W - tw) // 2 - pad_x
-            ry1 = lyrics_y - th // 2 - pad_y
-            rx2 = (W + tw) // 2 + pad_x
-            ry2 = lyrics_y + th // 2 + pad_y
-            draw.rounded_rectangle(
-                [(rx1, ry1), (rx2, ry2)], radius=12,
-                fill=(0, 0, 0, 160),
+        if voice_id:
+            singer_alpha = _compute_singer_alpha(t, transitions)
+
+            # Avatar
+            _draw_avatar(
+                draw, W // 2, AVATAR_CY,
+                AVATAR_SIZE // 2, name, color, alpha=singer_alpha,
             )
-            draw.text((W // 2, lyrics_y), current_lyric,
-                      fill=(255, 255, 255, 240),
-                      font=font_lyrics, anchor="mm")
 
-        # Progress bar
+            # Singer name
+            rgb = _hex2rgb(color)
+            draw.text((W // 2, NAME_Y), name,
+                      fill=(*rgb, singer_alpha),
+                      font=font_name, anchor="mm")
+
+            # Lyrics
+            if lyric:
+                bbox = draw.textbbox((0, 0), lyric, font=font_lyrics)
+                tw = bbox[2] - bbox[0]
+                th = bbox[3] - bbox[1]
+                rx1 = (W - tw) // 2 - LYRICS_PAD_X
+                ry1 = LYRICS_Y - th // 2 - LYRICS_PAD_Y
+                rx2 = (W + tw) // 2 + LYRICS_PAD_X
+                ry2 = LYRICS_Y + th // 2 + LYRICS_PAD_Y
+                draw.rounded_rectangle(
+                    [(rx1, ry1), (rx2, ry2)], radius=12,
+                    fill=(0, 0, 0, 160),
+                )
+                draw.text((W // 2, LYRICS_Y), lyric,
+                          fill=(255, 255, 255, 240),
+                          font=font_lyrics, anchor="mm")
+
+        # --- Progress bar ---
         pct = t / duration if duration > 0 else 0
-        filled = int(bar_w * pct)
-        bar_x = (W - bar_w) // 2
-        # Background track
+        filled = int(PROGRESS_BAR_W * pct)
+        bar_x = (W - PROGRESS_BAR_W) // 2
         draw.rounded_rectangle(
-            [(bar_x, progress_y - 4), (bar_x + bar_w, progress_y + 4)],
+            [(bar_x, PROGRESS_BAR_Y - 4), (bar_x + PROGRESS_BAR_W, PROGRESS_BAR_Y + 4)],
             radius=4, fill=(255, 255, 255, 30),
         )
-        # Filled portion
         if filled > 0:
             draw.rounded_rectangle(
-                [(bar_x, progress_y - 4), (bar_x + filled, progress_y + 4)],
+                [(bar_x, PROGRESS_BAR_Y - 4), (bar_x + filled, PROGRESS_BAR_Y + 4)],
                 radius=4, fill=(57, 255, 20, 180),
             )
-        # Percentage text
         pct_text = f"{int(pct * 100)}%"
-        draw.text((bar_x + bar_w + 15, progress_y), pct_text,
+        draw.text((bar_x + PROGRESS_BAR_W + 15, PROGRESS_BAR_Y), pct_text,
                   fill=(255, 255, 255, 100), font=font_progress, anchor="lm")
 
         frame.save(str(overlay_dir / f"frame_{i:06d}.png"), "PNG")
@@ -428,7 +406,6 @@ def _render(
     output: Path, duration: float,
 ) -> None:
     """FFmpeg: base frame + overlay frames + showwaves waveform + audio → MP4."""
-    # Try with showwaves first
     cmd = [
         "ffmpeg", "-y",
         "-loop", "1", "-i", str(base),
@@ -512,14 +489,6 @@ def _audio_dur(p: Path) -> float:
         return float(r.stdout.strip())
     except (ValueError, subprocess.TimeoutExpired, FileNotFoundError):
         return 180.0
-
-
-def _f(s: float) -> str:
-    """Format seconds as ASS timestamp H:MM:SS.CC."""
-    h, rem = divmod(int(s), 3600)
-    m, sec = divmod(rem, 60)
-    cs = int((s % 1) * 100)
-    return f"{h}:{m:02d}:{sec:02d}.{cs:02d}"
 
 
 def _hex2rgb(h: str) -> tuple:
