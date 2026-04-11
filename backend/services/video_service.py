@@ -4,13 +4,14 @@ V1: Multi-track static layout + mixed audio waveform.
 Visual language: audio editing software (DAW) multi-track view.
 Each singer = one horizontal track with colored blocks at their segment positions.
 Single showwaves waveform from mixed audio at bottom.
-Blurred background image, ASS lyrics, progress bar.
+Blurred background image, PIL-rendered lyrics + progress bar.
 
-Rendering pipeline:
+Rendering pipeline (no libass needed):
   1. Extract cover art from audio ID3 → gblur → background
   2. PIL: base frame = background + tracks + labels + title
-  3. FFmpeg: base frame (looped) + showwaves waveform + ASS + audio → MP4
-  Target: 20-30s rendering time.
+  3. PIL: generate overlay frames for lyrics + progress at 2fps
+  4. FFmpeg: overlays + showwaves waveform + audio → MP4
+Target: 30-60s rendering time for ~3min song.
 """
 
 import logging
@@ -97,12 +98,16 @@ def generate(song_id: str, db: Session) -> Path:
     # Step 2: base frame (bg + tracks + labels + title as PNG)
     base = _draw_base_frame(bg, tracks, song.title or "FireSing", duration, out_dir)
 
-    # Step 3: ASS subtitles (lyrics + progress bar)
-    ass = _gen_ass(segments, voice_info, song.title or "FireSing", song_id, duration)
+    # Step 3: generate overlay frames with lyrics + progress (PIL, no ASS needed)
+    overlay_dir = _gen_overlay_frames(segments, duration, song.title or "FireSing", out_dir)
 
-    # Step 4: render (base looped + showwaves waveform + ASS + audio)
+    # Step 4: render (overlays + showwaves waveform + audio → MP4)
     final = out_dir / "final.mp4"
-    _render(base, audio_path, ass, final, duration)
+    _render(base, overlay_dir, audio_path, final, duration)
+
+    # Cleanup temp files
+    base.unlink(missing_ok=True)
+    _cleanup_dir(overlay_dir)
 
     # Step 5: update DB
     fsize = final.stat().st_size
@@ -120,10 +125,6 @@ def generate(song_id: str, db: Session) -> Path:
             duration=audio_out.duration,
         ))
     db.commit()
-
-    # Cleanup temp files
-    for p in [base, ass]:
-        p.unlink(missing_ok=True)
 
     logger.info(f"Video: {final} ({fsize/1024/1024:.1f}MB)")
     return final
@@ -316,78 +317,106 @@ def _draw_base_frame(
 
 
 # ---------------------------------------------------------------------------
-# Step 3: ASS subtitles
+# Step 3: Overlay frames (lyrics + progress bar via PIL)
 # ---------------------------------------------------------------------------
 
-def _gen_ass(
-    segments: list, voice_info: dict, title: str,
-    song_id: str, duration: float,
-) -> Path:
-    """ASS file: per-line lyrics highlight + progress bar."""
-    p = OUTPUTS_DIR / song_id / "sub.ass"
-    p.parent.mkdir(parents=True, exist_ok=True)
+OVERLAY_FPS = 2  # frames per second for lyrics/progress overlay
 
-    def esc(t):
-        return (t.replace("\\", "\\\\").replace("{", "\\{")
-                 .replace("}", "\\}").replace("\n", "\\N"))
+
+def _gen_overlay_frames(
+    segments: list, duration: float, title: str, out_dir: Path,
+) -> Path:
+    """Generate transparent PNG frames with lyrics text and progress bar.
+
+    Creates frames at OVERLAY_FPS (2fps) — enough for smooth lyrics transitions.
+    Each frame is a transparent PNG with only the lyrics text and progress bar drawn.
+    FFmpeg will composite these over the base frame.
+    """
+    overlay_dir = out_dir / "overlays"
+    overlay_dir.mkdir(parents=True, exist_ok=True)
+
+    font_lyrics = _font(46)
+    font_progress = _font(20)
+
+    # Build segment lookup: for any time t, find the active lyric
+    lyrics_segs = [(s.start_time, s.end_time, s.text.strip()) for s in segments
+                   if s.text and s.text.strip()]
 
     lyrics_y = H - LYRICS_H - PROGRESS_H + 50
-    lines = [
-        "[Script Info]", "Title: FireSing", "ScriptType: v4.00+",
-        f"PlayResX: {W}", f"PlayResY: {H}",
-        "WrapStyle: 2", "ScaledBorderAndShadow: yes", "",
-        "[V4+ Styles]",
-        "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, "
-        "OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, "
-        "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, "
-        "Alignment, MarginL, MarginR, MarginV, Encoding",
-        # Title style
-        f"Style: Title,PingFang SC,40,&H40FFFFFF,&H000000FF,&H00000000,"
-        f"&HC0000000,-1,0,0,0,100,100,2,0,1,2,0,8,80,80,30,1",
-        # Lyrics (current line, bright)
-        f"Style: Lyrics,PingFang SC,46,&H00FFFFFF,&H000000FF,&H00000000,"
-        f"&HB0000000,-1,0,0,0,100,100,2,0,1,3,1,2,80,80,80,1",
-        # Dim (progress bar text)
-        f"Style: Dim,PingFang SC,20,&H60FFFFFF,&H000000FF,&H00000000,"
-        f"&H00000000,0,0,0,0,100,100,0,0,1,0,0,7,50,50,20,1",
-        "",
-        "[Events]",
-        "Format: Layer, Start, End, Style, Name, MarginL, MarginR, "
-        "MarginV, Effect, Text",
-    ]
-
-    # Title (fade in/out over first 4 seconds)
-    lines.append(
-        f"Dialogue: 0,{_f(0)},{_f(4)},Title,,0,0,0,,"
-        f"{{\\fad(500,500)\\pos({W // 2},60)}}{esc(title)}"
-    )
-
-    # Lyrics: one dialogue per segment
-    for seg in segments:
-        if not seg.text or not seg.text.strip():
-            continue
-        txt = esc(seg.text.strip())
-        s, e = seg.start_time, seg.end_time
-        lines.append(
-            f"Dialogue: 2,{_f(s)},{_f(e)},Lyrics,,0,0,0,,"
-            f"{{\\pos({W // 2},{lyrics_y})\\fad(200,200)}}{txt}"
-        )
-
-    # Progress bar (update every 5%)
     progress_y = H - 25
-    ticks = 20
-    for t in range(ticks + 1):
-        ts = t / ticks * duration
-        te = min((t + 1) / ticks * duration, duration)
-        bar = "\u2501" * t + "\u257a" + "\u2574" * (ticks - t)
-        pct = f"{t * 5}%"
-        lines.append(
-            f"Dialogue: 5,{_f(ts)},{_f(te)},Dim,,0,0,0,,"
-            f"{{\\pos({W // 2},{progress_y})}}{bar} {pct}"
-        )
+    bar_w = 600
 
-    p.write_text("\n".join(lines), encoding="utf-8")
-    return p
+    total_frames = int(duration * OVERLAY_FPS) + 1
+    for i in range(total_frames):
+        t = i / OVERLAY_FPS
+        if t > duration:
+            break
+
+        # Transparent overlay
+        frame = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(frame)
+
+        # Title fade (first 4 seconds)
+        if t < 4.0:
+            alpha = 255
+            if t < 0.5:
+                alpha = int(255 * t / 0.5)
+            elif t > 3.5:
+                alpha = int(255 * (4.0 - t) / 0.5)
+            if alpha > 0:
+                draw.text((W // 2, 60), title,
+                          fill=(255, 255, 255, alpha),
+                          font=_font(40), anchor="mm")
+
+        # Find current lyric
+        current_lyric = ""
+        for start, end, text in lyrics_segs:
+            if start <= t < end:
+                current_lyric = text
+                break
+
+        if current_lyric:
+            # Lyrics background (semi-transparent black pill)
+            bbox = draw.textbbox((0, 0), current_lyric, font=font_lyrics)
+            tw = bbox[2] - bbox[0]
+            th = bbox[3] - bbox[1]
+            pad_x, pad_y = 30, 15
+            rx1 = (W - tw) // 2 - pad_x
+            ry1 = lyrics_y - th // 2 - pad_y
+            rx2 = (W + tw) // 2 + pad_x
+            ry2 = lyrics_y + th // 2 + pad_y
+            draw.rounded_rectangle(
+                [(rx1, ry1), (rx2, ry2)], radius=12,
+                fill=(0, 0, 0, 160),
+            )
+            draw.text((W // 2, lyrics_y), current_lyric,
+                      fill=(255, 255, 255, 240),
+                      font=font_lyrics, anchor="mm")
+
+        # Progress bar
+        pct = t / duration if duration > 0 else 0
+        filled = int(bar_w * pct)
+        bar_x = (W - bar_w) // 2
+        # Background track
+        draw.rounded_rectangle(
+            [(bar_x, progress_y - 4), (bar_x + bar_w, progress_y + 4)],
+            radius=4, fill=(255, 255, 255, 30),
+        )
+        # Filled portion
+        if filled > 0:
+            draw.rounded_rectangle(
+                [(bar_x, progress_y - 4), (bar_x + filled, progress_y + 4)],
+                radius=4, fill=(57, 255, 20, 180),
+            )
+        # Percentage text
+        pct_text = f"{int(pct * 100)}%"
+        draw.text((bar_x + bar_w + 15, progress_y), pct_text,
+                  fill=(255, 255, 255, 100), font=font_progress, anchor="lm")
+
+        frame.save(str(overlay_dir / f"frame_{i:06d}.png"), "PNG")
+
+    logger.info(f"Generated {total_frames} overlay frames at {OVERLAY_FPS}fps")
+    return overlay_dir
 
 
 # ---------------------------------------------------------------------------
@@ -395,25 +424,26 @@ def _gen_ass(
 # ---------------------------------------------------------------------------
 
 def _render(
-    base: Path, audio: Path, ass_path: Path,
+    base: Path, overlay_dir: Path, audio: Path,
     output: Path, duration: float,
 ) -> None:
-    """FFmpeg: base frame + showwaves waveform overlay + ASS + audio."""
-    # Escape path for filter_complex (colons and backslashes)
-    ass_esc = str(ass_path).replace("\\", "\\\\\\\\").replace(":", "\\\\:")
-
+    """FFmpeg: base frame + overlay frames + showwaves waveform + audio → MP4."""
+    # Try with showwaves first
     cmd = [
         "ffmpeg", "-y",
         "-loop", "1", "-i", str(base),
+        "-framerate", str(OVERLAY_FPS),
+        "-i", str(overlay_dir / "frame_%06d.png"),
         "-i", str(audio),
         "-filter_complex",
         (
-            f"[1:a]showwaves=s={W}x{WAVEFORM_H}:rate={FPS}"
+            f"[1:v]fps={FPS}[overlay];"
+            f"[2:a]showwaves=s={W}x{WAVEFORM_H}:rate={FPS}"
             f":colors=0x39FF14@0.5:mode=cline:scale=sqrt[wave];"
-            f"[0:v][wave]overlay=0:{WAVEFORM_Y}:format=auto[tmp];"
-            f"[tmp]ass={ass_esc}[out]"
+            f"[0:v][overlay]overlay=0:0:format=auto[merged];"
+            f"[merged][wave]overlay=0:{WAVEFORM_Y}:format=auto[out]"
         ),
-        "-map", "[out]", "-map", "1:a",
+        "-map", "[out]", "-map", "2:a",
         "-c:v", "libx264", "-preset", "fast", "-crf", "23",
         "-c:a", "aac", "-b:a", "192k",
         "-pix_fmt", "yuv420p",
@@ -426,28 +456,35 @@ def _render(
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
         if r.returncode != 0:
             logger.warning(f"showwaves failed, fallback: {r.stderr[-300:]}")
-            _render_no_wave(base, audio, ass_path, output, duration)
+            _render_static(base, overlay_dir, audio, output, duration)
     except FileNotFoundError:
         raise RuntimeError("FFmpeg not found. Install with: brew install ffmpeg")
     except subprocess.TimeoutExpired:
         raise RuntimeError("Video rendering timed out (600s limit)")
 
 
-def _render_no_wave(
-    base: Path, audio: Path, ass_path: Path,
+def _render_static(
+    base: Path, overlay_dir: Path, audio: Path,
     output: Path, duration: float,
 ) -> None:
-    """Fallback: static frame + ASS, no waveform."""
+    """Fallback: base + overlays, no waveform."""
     cmd = [
         "ffmpeg", "-y",
         "-loop", "1", "-i", str(base),
+        "-framerate", str(OVERLAY_FPS),
+        "-i", str(overlay_dir / "frame_%06d.png"),
         "-i", str(audio),
-        "-vf", f"ass={ass_path}",
+        "-filter_complex",
+        (
+            f"[1:v]fps={FPS}[overlay];"
+            f"[0:v][overlay]overlay=0:0:format=auto[out]"
+        ),
+        "-map", "[out]", "-map", "2:a",
         "-c:v", "libx264", "-preset", "fast", "-crf", "23",
         "-c:a", "aac", "-b:a", "192k",
         "-pix_fmt", "yuv420p",
         "-t", f"{duration:.3f}",
-        "-shortest", "-movflags", "+faststart",
+        "-movflags", "+faststart",
         str(output),
     ]
     try:
@@ -504,3 +541,11 @@ def _font(size: int) -> ImageFont.FreeTypeFont:
             except Exception:
                 continue
     return ImageFont.load_default()
+
+
+def _cleanup_dir(d: Path) -> None:
+    """Remove a directory and all its contents."""
+    if d.exists():
+        for f in d.iterdir():
+            f.unlink(missing_ok=True)
+        d.rmdir()

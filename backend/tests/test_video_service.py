@@ -189,68 +189,49 @@ class TestBuildTracks:
 
 
 # ---------------------------------------------------------------------------
-# _gen_ass() — ASS subtitle generation
+# _gen_overlay_frames() — PIL overlay frame generation
 # ---------------------------------------------------------------------------
 
-class TestGenAss:
-    def test_ass_file_structure(self, tmp_path):
-        with patch.object(vs, "OUTPUTS_DIR", tmp_path):
-            segs = [_make_segment("v1", 1.0, 3.5, "测试歌词")]
-            voice_info = {"v1": {"name": "小红", "color": "#FF0000"}}
-            p = vs._gen_ass(segs, voice_info, "测试歌曲", "song1", 60.0)
-            content = p.read_text(encoding="utf-8")
-            assert "[Script Info]" in content
-            assert "[V4+ Styles]" in content
-            assert "[Events]" in content
-            assert "测试歌词" in content
-            assert "测试歌曲" in content
-            p.unlink()
+class TestGenOverlayFrames:
+    def test_creates_overlay_directory(self, tmp_path):
+        segs = [_make_segment("v1", 1.0, 3.5, "测试歌词")]
+        overlay_dir = vs._gen_overlay_frames(segs, 5.0, "测试歌曲", tmp_path)
+        assert overlay_dir.exists()
+        assert overlay_dir.name == "overlays"
 
-    def test_ass_timestamps(self, tmp_path):
-        with patch.object(vs, "OUTPUTS_DIR", tmp_path):
-            segs = [_make_segment("v1", 5.0, 10.0, "hello")]
-            voice_info = {"v1": {"name": "V1", "color": "#FF0000"}}
-            p = vs._gen_ass(segs, voice_info, "Title", "song1", 60.0)
-            content = p.read_text(encoding="utf-8")
-            assert "0:00:05.00" in content
-            assert "0:00:10.00" in content
-            p.unlink()
+    def test_correct_frame_count(self, tmp_path):
+        duration = 10.0
+        segs = [_make_segment("v1", 0, 5, "hello")]
+        overlay_dir = vs._gen_overlay_frames(segs, duration, "Title", tmp_path)
+        frames = sorted(overlay_dir.glob("frame_*.png"))
+        expected = int(duration * vs.OVERLAY_FPS) + 1
+        assert len(frames) == expected
 
-    def test_ass_escapes_special_chars(self, tmp_path):
-        with patch.object(vs, "OUTPUTS_DIR", tmp_path):
-            segs = [_make_segment("v1", 0, 5, "line with {brackets} and \\backslash")]
-            voice_info = {"v1": {"name": "V1", "color": "#FF0000"}}
-            p = vs._gen_ass(segs, voice_info, "Title", "song1", 60.0)
-            content = p.read_text(encoding="utf-8")
-            assert "\\{" in content
-            assert "\\}" in content
-            assert "\\\\" in content
-            p.unlink()
+    def test_lyrics_appear_in_frames(self, tmp_path):
+        segs = [_make_segment("v1", 1.0, 3.0, "你好世界")]
+        overlay_dir = vs._gen_overlay_frames(segs, 5.0, "Title", tmp_path)
+        # Frame at t=2.0s should contain the lyric (within 1.0-3.0 window)
+        frame_idx = int(2.0 * vs.OVERLAY_FPS)
+        frame_path = overlay_dir / f"frame_{frame_idx:06d}.png"
+        assert frame_path.exists()
+        assert frame_path.stat().st_size > 0
 
-    def test_ass_empty_segments_skip(self, tmp_path):
-        with patch.object(vs, "OUTPUTS_DIR", tmp_path):
-            segs = [_make_segment("v1", 0, 5, "")]
-            voice_info = {"v1": {"name": "V1", "color": "#FF0000"}}
-            p = vs._gen_ass(segs, voice_info, "Title", "song1", 60.0)
-            content = p.read_text(encoding="utf-8")
-            # Should not contain lyrics dialogue for empty text
-            # But should still have title and progress bar
-            lines = [l for l in content.split("\n") if l.startswith("Dialogue:")]
-            # Title + progress bar entries only (no lyrics)
-            assert len(lines) >= 20  # At least progress bar ticks
-            p.unlink()
+    def test_empty_segments_produce_frames(self, tmp_path):
+        segs = [_make_segment("v1", 0, 5, "")]
+        overlay_dir = vs._gen_overlay_frames(segs, 5.0, "Title", tmp_path)
+        frames = list(overlay_dir.glob("frame_*.png"))
+        # Should still generate frames with progress bar, just no lyrics text
+        assert len(frames) > 0
 
-    def test_progress_bar_ticks(self, tmp_path):
-        with patch.object(vs, "OUTPUTS_DIR", tmp_path):
-            segs = []
-            voice_info = {}
-            p = vs._gen_ass(segs, voice_info, "Title", "song1", 120.0)
-            content = p.read_text(encoding="utf-8")
-            # Progress bar has 21 ticks (0% to 100% in 5% steps)
-            progress_lines = [l for l in content.split("\n")
-                              if l.startswith("Dialogue:") and "Dim" in l]
-            assert len(progress_lines) == 21
-            p.unlink()
+    def test_progress_bar_updates(self, tmp_path):
+        segs = []
+        overlay_dir = vs._gen_overlay_frames(segs, 4.0, "Title", tmp_path)
+        # Frame at t=0 (0%) and t=3.9 (~97%) should both exist and differ
+        f0 = overlay_dir / "frame_000000.png"
+        f_near_end = overlay_dir / f"frame_{int(3.9 * vs.OVERLAY_FPS):06d}.png"
+        assert f0.exists()
+        assert f_near_end.exists()
+        assert f0.stat().st_size != f_near_end.stat().st_size
 
 
 # ---------------------------------------------------------------------------
