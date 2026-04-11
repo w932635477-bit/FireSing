@@ -18,6 +18,8 @@ from ..database import SessionLocal, get_db
 from ..models import Song
 from ..schemas import SongResponse
 from ..config import SONGS_DIR, MAX_AUDIO_SIZE_MB
+from ..dependencies import require_auth
+from ..models import User
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -137,7 +139,7 @@ async def check_existing(
 
 
 async def _run_import(task_id: str, source: str, source_id: str,
-                      title: str, artist: str):
+                      title: str, artist: str, user_id: str):
     """Background task: download audio + lyrics from go-music-dl."""
     db = SessionLocal()
     try:
@@ -154,6 +156,7 @@ async def _run_import(task_id: str, source: str, source_id: str,
             source=source,
             source_id=source_id,
             artist=artist,
+            user_id=user_id,
         )
         db.add(song)
         db.commit()
@@ -281,6 +284,7 @@ async def import_music(
     title: str = Query(...),
     artist: str = Query(default=""),
     background_tasks: BackgroundTasks = None,
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Import a song from a music platform. Returns a task_id for progress tracking."""
@@ -309,7 +313,7 @@ async def import_music(
     _import_progress_events[task_id] = asyncio.Event()
 
     background_tasks.add_task(
-        _run_import, task_id, source, source_id, title, artist
+        _run_import, task_id, source, source_id, title, artist, user.id
     )
     return {"task_id": task_id, "status": "importing"}
 

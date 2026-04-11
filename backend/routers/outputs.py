@@ -6,18 +6,25 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Song, Output
+from ..dependencies import get_current_user
+from ..models import Song, Output, User
 from ..schemas import OutputListResponse
 
 router = APIRouter()
 
 
 @router.get("/{song_id}/outputs", response_model=OutputListResponse)
-async def list_outputs(song_id: str, db: Session = Depends(get_db)):
+async def list_outputs(
+    song_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """List all outputs for a song."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     outputs = db.query(Output).filter(Output.song_id == song_id).all()
 
@@ -35,8 +42,19 @@ async def list_outputs(song_id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/{song_id}/outputs/{output_id}/download")
-async def download_output(song_id: str, output_id: str, db: Session = Depends(get_db)):
+async def download_output(
+    song_id: str,
+    output_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """Download an output file."""
+    song = db.query(Song).filter(Song.id == song_id).first()
+    if not song:
+        raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
+
     output = db.query(Output).filter(
         Output.id == output_id, Output.song_id == song_id
     ).first()

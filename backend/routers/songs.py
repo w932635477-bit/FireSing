@@ -13,7 +13,8 @@ from sqlalchemy.orm import Session, joinedload
 
 from ..config import SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR, MAX_AUDIO_SIZE_MB, ALLOWED_AUDIO_FORMATS
 from ..database import get_db
-from ..models import Song, Segment, VoiceModel
+from ..dependencies import get_current_user, require_auth
+from ..models import Song, Segment, VoiceModel, User
 from ..schemas import (
     SongResponse, SongListResponse, SongDeleteResponse,
     SegmentListResponse, VoiceAssignRequest, VoiceAssignResponse,
@@ -29,6 +30,7 @@ router = APIRouter()
 async def upload_song(
     audio: UploadFile = File(...),
     lrc: Optional[UploadFile] = File(None),
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Upload a new song with optional LRC lyrics file."""
@@ -72,6 +74,7 @@ async def upload_song(
         original_audio_path=str(audio_path),
         lrc_path=str(lrc_path) if lrc_path else None,
         status="uploaded",
+        user_id=user.id,
     )
     db.add(song)
     try:
@@ -86,27 +89,45 @@ async def upload_song(
 
 
 @router.get("", response_model=SongListResponse)
-async def list_songs(db: Session = Depends(get_db)):
-    """List all songs."""
-    songs = db.query(Song).options(joinedload(Song.segments)).order_by(Song.created_at.desc()).all()
+async def list_songs(
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """List songs. Authenticated users see only their own songs. Anonymous sees all (trial mode)."""
+    query = db.query(Song).options(joinedload(Song.segments))
+    if user:
+        query = query.filter(Song.user_id == user.id)
+    songs = query.order_by(Song.created_at.desc()).all()
     return {"songs": songs}
 
 
 @router.get("/{song_id}", response_model=SongResponse)
-async def get_song(song_id: str, db: Session = Depends(get_db)):
-    """Get song details."""
+async def get_song(
+    song_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Get song details. Users can only access their own songs."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
     return song
 
 
 @router.get("/{song_id}/preview")
-async def preview_audio(song_id: str, db: Session = Depends(get_db)):
+async def preview_audio(
+    song_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """Serve original audio file for preview playback."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
     audio_path = Path(song.original_audio_path)
     if not audio_path.exists():
         raise HTTPException(404, "Original audio file not found")
@@ -116,11 +137,17 @@ async def preview_audio(song_id: str, db: Session = Depends(get_db)):
 
 
 @router.delete("/{song_id}", response_model=SongDeleteResponse)
-async def delete_song(song_id: str, db: Session = Depends(get_db)):
+async def delete_song(
+    song_id: str,
+    user: User = Depends(require_auth),
+    db: Session = Depends(get_db),
+):
     """Delete a song and all associated files."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     # Delete files from all data directories
     for data_dir in [SONGS_DIR, SEGMENTS_DIR, CONVERTED_DIR, OUTPUTS_DIR]:
@@ -137,12 +164,15 @@ async def delete_song(song_id: str, db: Session = Depends(get_db)):
 async def upload_lrc(
     song_id: str,
     lrc: UploadFile = File(...),
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Upload or replace LRC lyrics file for a song, parse and return segments."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     lrc_ext = Path(lrc.filename).suffix.lower()
     if lrc_ext not in {".lrc", ".txt"}:
@@ -188,12 +218,15 @@ async def upload_lrc(
 async def upload_monologue_audio(
     song_id: str,
     audio: UploadFile = File(...),
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Upload a recorded monologue audio file for a song."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     audio_ext = Path(audio.filename).suffix.lower()
     if audio_ext not in {".mp3", ".wav", ".ogg", ".m4a", ".webm"}:
@@ -227,11 +260,17 @@ async def upload_monologue_audio(
 
 
 @router.get("/{song_id}/segments", response_model=SegmentListResponse)
-async def list_segments(song_id: str, db: Session = Depends(get_db)):
+async def list_segments(
+    song_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """List all segments for a song."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     segments = (
         db.query(Segment)
@@ -245,6 +284,7 @@ async def list_segments(song_id: str, db: Session = Depends(get_db)):
 class _SegmentUpdateBody(BaseModel):
     start_time: Optional[float] = None
     end_time: Optional[float] = None
+    text: Optional[str] = None
 
 
 @router.patch("/{song_id}/segments/{segment_id}")
@@ -252,9 +292,16 @@ async def update_segment_timestamps(
     song_id: str,
     segment_id: str,
     body: _SegmentUpdateBody,
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Update a segment's start/end timestamps for manual calibration."""
+    song = db.query(Song).filter(Song.id == song_id).first()
+    if not song:
+        raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
+
     seg = db.query(Segment).filter(
         Segment.id == segment_id,
         Segment.song_id == song_id,
@@ -272,6 +319,8 @@ async def update_segment_timestamps(
 
     seg.start_time = new_start
     seg.end_time = new_end
+    if body.text is not None:
+        seg.text = body.text
 
     db.commit()
     db.refresh(seg)
@@ -279,6 +328,7 @@ async def update_segment_timestamps(
         "id": seg.id,
         "start_time": seg.start_time,
         "end_time": seg.end_time,
+        "text": seg.text,
     }
 
 
@@ -286,12 +336,15 @@ async def update_segment_timestamps(
 async def assign_voices(
     song_id: str,
     request: VoiceAssignRequest,
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Assign voice models to segments. Supports round-robin, random, or manual."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     segments = (
         db.query(Segment)

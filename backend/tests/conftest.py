@@ -14,7 +14,7 @@ os.environ.setdefault("GPU_SERVER_URL", "http://mock-gpu:8001")
 from backend.database import Base, get_db
 from backend.main import app  # noqa: F401 — must import to register routes
 # Import all models so Base.metadata.create_all sees them
-from backend.models import Song, Segment, VoiceModel, Output  # noqa: F401
+from backend.models import Song, Segment, VoiceModel, Output, User  # noqa: F401
 
 
 @pytest.fixture
@@ -34,14 +34,43 @@ def db_session():
 
 
 @pytest.fixture
-def client(db_session):
-    """FastAPI test client with test database."""
+def test_user(db_session):
+    """Create a test user for authenticated endpoints."""
+    user = User(
+        id="test_user_001",
+        wechat_openid="test_openid_001",
+        wechat_nickname="Test User",
+        credits=10,
+        subscription_plan="free",
+    )
+    db_session.add(user)
+    db_session.commit()
+    return user
+
+
+@pytest.fixture
+def client(db_session, test_user):
+    """FastAPI test client with test database and auth overrides."""
     from fastapi.testclient import TestClient
+    from backend.dependencies import get_current_user, require_auth, require_credits
 
     def override_get_db():
         yield db_session
 
+    def override_get_current_user():
+        return test_user
+
+    def override_require_auth():
+        return test_user
+
+    def override_require_credits():
+        return test_user
+
     app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = override_get_current_user
+    app.dependency_overrides[require_auth] = override_require_auth
+    app.dependency_overrides[require_credits] = override_require_credits
+
     with TestClient(app) as c:
         yield c
     app.dependency_overrides.clear()

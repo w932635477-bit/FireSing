@@ -9,7 +9,8 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import Song
+from ..dependencies import require_auth, require_credits, get_current_user
+from ..models import Song, User
 from ..schemas import ProcessRequest, ProcessResponse, PipelineProgress
 
 router = APIRouter()
@@ -37,6 +38,9 @@ _progress_events: dict[str, asyncio.Event] = {}
 
 # Cancellation flags — DELETE /{song_id}/process sets these
 _cancel_flags: dict[str, bool] = {}
+
+# Credit refund tracking: song_id -> user_id (for refunding on error)
+_credit_refunds: dict[str, str] = {}
 
 
 def _update_progress(song_id: str, step: str, pct: int, message: str,
@@ -264,6 +268,8 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             _update_progress(song_id, "video", 95, "Finalizing audio...")
 
         _update_progress(song_id, "done", 100, "Complete!")
+        # Credit successfully consumed — clear refund tracking
+        _credit_refunds.pop(song_id, None)
 
     except Exception as e:
         logger.error(f"Pipeline failed for song {song_id}: {e}")
@@ -280,8 +286,19 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             song.status = "error"
             song.error_message = _friendly_error(e)
             db.commit()
+
+        # Refund credit on failure
+        refund_user_id = _credit_refunds.pop(song_id, None)
+        if refund_user_id:
+            from ..models import User as UserModel
+            refund_user = db.query(UserModel).filter(UserModel.id == refund_user_id).first()
+            if refund_user and not refund_user.has_unlimited:
+                refund_user.credits += 1
+                db.commit()
+                logger.info(f"Refunded 1 credit to user {refund_user_id} (pipeline error)")
     finally:
         _cancel_flags.pop(song_id, None)
+        _credit_refunds.pop(song_id, None)
         event = _progress_events.pop(song_id, None)
         if event:
             event.set()
@@ -293,9 +310,14 @@ async def process_song(
     song_id: str,
     params: ProcessRequest,
     background_tasks: BackgroundTasks,
+    user: User = Depends(require_credits),
     db: Session = Depends(get_db),
 ):
-    """Trigger full processing pipeline for a song."""
+    """Trigger full processing pipeline for a song.
+
+    Requires authentication and available credits (or unlimited subscription).
+    Deducts 1 credit on start, refunds on pipeline error.
+    """
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
@@ -306,6 +328,11 @@ async def process_song(
 
     if song.status == "error":
         song.error_message = None
+
+    # Deduct credit (skip for unlimited users)
+    if not user.has_unlimited:
+        user.credits -= 1
+        _credit_refunds[song_id] = user.id  # track for potential refund
 
     # Task ID guard — prevents stale SSE clients from seeing wrong run
     import uuid
@@ -322,12 +349,15 @@ async def process_song(
 @router.delete("/{song_id}/process")
 async def cancel_processing(
     song_id: str,
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Cancel an in-progress pipeline run."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     _cancel_flags[song_id] = True
     song.status = "uploaded"
@@ -337,11 +367,17 @@ async def cancel_processing(
 
 
 @router.get("/{song_id}/progress")
-async def pipeline_progress(song_id: str, db: Session = Depends(get_db)):
+async def pipeline_progress(
+    song_id: str,
+    user: User | None = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """SSE stream for real-time pipeline progress."""
     song = db.query(Song).filter(Song.id == song_id).first()
     if not song:
         raise HTTPException(404, f"Song {song_id} not found")
+    if user and song.user_id and song.user_id != user.id:
+        raise HTTPException(403, "You don't have access to this song")
 
     async def event_generator():
         while True:

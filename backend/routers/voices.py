@@ -9,7 +9,8 @@ from sqlalchemy.orm import Session
 
 from ..config import VOICES_DIR
 from ..database import get_db
-from ..models import VoiceModel
+from ..dependencies import require_auth
+from ..models import VoiceModel, User
 from ..schemas import VoiceModelResponse, VoiceModelListResponse
 
 router = APIRouter()
@@ -27,6 +28,7 @@ async def upload_voice(
     pth_file: UploadFile = File(...),
     index_file: Optional[UploadFile] = File(None),
     name: str = Form(...),
+    user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
     """Upload a new voice model (.pth + optional .index).
@@ -90,52 +92,33 @@ async def upload_voice(
     return voice
 
 
-def _assign_manual(segments, assignments, db):
-    """Assign voices based on explicit user mapping."""
-    # Build lookup: line_number -> voice_model_id
-    lookup = {a.line_number: a.voice_model_id for a in assignments}
+@router.delete("/{voice_id}")
+async def delete_voice(
+    voice_id: str,
+    user: User = Depends(require_auth),
+    db: Session = Depends(get_db),
+):
+    """Delete a voice model and its files."""
+    voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
+    if not voice:
+        raise HTTPException(404, f"Voice model {voice_id} not found")
 
-    # Validate all voice model IDs exist
-    voice_ids = set(lookup.values())
-    existing = db.query(VoiceModel.id).filter(VoiceModel.id.in_(voice_ids)).all()
-    existing_ids = {r[0] for r in existing}
-    missing = voice_ids - existing_ids
-    if missing:
-        raise HTTPException(400, f"Voice models not found: {missing}")
+    # Check if any segments are using this voice
+    from ..models import Segment
+    assigned = db.query(Segment).filter(Segment.voice_model_id == voice_id).first()
+    if assigned:
+        raise HTTPException(
+            409,
+            f"Voice model '{voice.name}' is assigned to segments. "
+            "Remove assignments before deleting."
+        )
 
-    count = 0
-    for seg in segments:
-        if seg.line_number in lookup:
-            seg.voice_model_id = lookup[seg.line_number]
-            count += 1
+    # Delete files
+    import shutil
+    voice_dir = Path(voice.model_path).parent
+    if voice_dir.exists():
+        shutil.rmtree(voice_dir, ignore_errors=True)
 
+    db.delete(voice)
     db.commit()
-    return VoiceAssignResponse(assigned_count=count)
-
-
-def _assign_auto(segments, voice_pool, strategy, db):
-    """Assign voices using round-robin or random strategy."""
-    if not voice_pool:
-        raise HTTPException(400, "voice_pool is required for auto assignment")
-
-    # Validate voice pool
-    existing = db.query(VoiceModel.id).filter(VoiceModel.id.in_(voice_pool)).all()
-    existing_ids = {r[0] for r in existing}
-    missing = set(voice_pool) - existing_ids
-    if missing:
-        raise HTTPException(400, f"Voice models not found: {missing}")
-
-    import random
-
-    count = 0
-    for i, seg in enumerate(segments):
-        if strategy == "round-robin":
-            seg.voice_model_id = voice_pool[i % len(voice_pool)]
-        elif strategy == "random":
-            seg.voice_model_id = random.choice(voice_pool)
-        else:
-            raise HTTPException(400, f"Unknown strategy: {strategy}")
-        count += 1
-
-    db.commit()
-    return VoiceAssignResponse(assigned_count=count)
+    return {"deleted": True}

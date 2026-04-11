@@ -52,6 +52,16 @@ WECHAT_PAY_NOTIFY_URL = os.getenv(
 )
 
 # JWT
-JWT_SECRET = os.getenv("JWT_SECRET", "firesing-dev-jwt-secret-CHANGE-IN-PRODUCTION-x9k2m")
+JWT_SECRET = os.getenv("JWT_SECRET", "")
+if not JWT_SECRET:
+    # Generate a random dev secret (only for local development)
+    import secrets
+    JWT_SECRET = f"dev-{secrets.token_hex(16)}"
+    import warnings
+    warnings.warn(
+        "JWT_SECRET not set. Using random dev secret. "
+        "Set JWT_SECRET env var for production.",
+        stacklevel=2,
+    )
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_HOURS = int(os.getenv("JWT_EXPIRE_HOURS", "168"))  # 7 days

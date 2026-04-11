@@ -165,7 +165,7 @@ export async function uploadMonologueAudio(songId: string, audio: File) {
 export async function updateSegmentTimestamps(
   songId: string,
   segmentId: string,
-  data: { start_time?: number; end_time?: number },
+  data: { start_time?: number; end_time?: number; text?: string },
 ) {
   return apiFetch(`/songs/${songId}/segments/${segmentId}`, {
     method: "PATCH",

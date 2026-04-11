@@ -8,16 +8,42 @@ from fastapi.testclient import TestClient
 
 from backend.database import Base, get_db
 from backend.main import app
-from backend.models import Song
+from backend.models import Song, User
 
 
 @pytest.fixture
-def client(db_session):
-    """FastAPI test client with test database."""
+def test_user(db_session):
+    """Create a test user for authenticated endpoints."""
+    user = User(
+        id="test_music_user",
+        wechat_openid="test_music_openid",
+        wechat_nickname="Music Tester",
+        credits=10,
+        subscription_plan="free",
+    )
+    db_session.add(user)
+    db_session.commit()
+    return user
+
+
+@pytest.fixture
+def client(db_session, test_user):
+    """FastAPI test client with test database and auth overrides."""
+    from backend.dependencies import get_current_user, require_auth
+
     def override_get_db():
         yield db_session
 
+    def override_get_current_user():
+        return test_user
+
+    def override_require_auth():
+        return test_user
+
     app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_current_user] = override_get_current_user
+    app.dependency_overrides[require_auth] = override_require_auth
+
     with TestClient(app) as c:
         yield c
     app.dependency_overrides.clear()

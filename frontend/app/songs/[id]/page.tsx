@@ -13,6 +13,7 @@ import {
   startProcess,
   updateSegmentTimestamps,
   uploadMonologueAudio,
+  uploadLrc,
   statusLabel,
   type Song,
   type Segment,
@@ -57,6 +58,7 @@ export default function SongDetailPage() {
   const [showVoiceUpload, setShowVoiceUpload] = useState(false);
   const [processConfirm, setProcessConfirm] = useState<string | null>(null);
   const [pendingProcessData, setPendingProcessData] = useState<{ pool: string[]; req: ProcessRequest } | null>(null);
+  const [lrcUploading, setLrcUploading] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -171,6 +173,7 @@ export default function SongDetailPage() {
   const canProcess = (voices.length > 0) && !["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isProcessing = ["separating", "segmenting", "assigning", "converting", "harmony", "chorus", "monologue", "mixing", "video"].includes(song.status);
   const isDone = song.status === "done";
+  const isError = song.status === "error";
 
   // Determine current step for the progress indicator (VAD: no LRC needed)
   const currentStep = voices.length === 0 ? 1 : !allAssigned && hasSegments ? 2 : hasSegments ? 3 : 2;
@@ -229,6 +232,29 @@ export default function SongDetailPage() {
             <Link href={`/songs/${songId}/process`} className="text-sm text-primary underline">
               查看进度
             </Link>
+          </div>
+        )}
+
+        {/* Error state with retry */}
+        {isError && (
+          <div className="bg-surface-container-low rounded-xl p-6 border border-error/20">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="material-symbols-outlined text-3xl text-error">error</span>
+              <div>
+                <p className="text-on-surface font-bold">处理失败</p>
+                {song.error_message && (
+                  <p className="text-sm text-on-surface-variant mt-1">{song.error_message}</p>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                setSong({ ...song, status: "uploaded", error_message: undefined });
+              }}
+              className="bg-primary text-on-primary-fixed px-6 py-2 rounded-xl text-sm font-bold active:scale-95 transition-transform"
+            >
+              重新设置并重试
+            </button>
           </div>
         )}
 
@@ -291,13 +317,58 @@ export default function SongDetailPage() {
           </section>
         )}
 
-        {/* Auto segmentation notice */}
+        {/* Auto segmentation notice + LRC upload */}
         {!isProcessing && !isDone && (
           <section className="space-y-4">
             <div className="p-4 bg-primary/5 rounded-xl border border-primary/10 flex items-center gap-3">
               <span className="material-symbols-outlined text-primary text-xl">auto_awesome</span>
-              <p className="text-xs text-on-surface-variant">智能分段：处理时自动检测人声段落，无需上传歌词文件</p>
+              <div className="flex-1">
+                <p className="text-xs text-on-surface-variant">智能分段：处理时自动检测人声段落，无需上传歌词文件</p>
+                <p className="text-xs text-on-surface-variant mt-1 opacity-60">上传 LRC 歌词文件可以获得带歌词文字的分段（替代默认的"Segment N"标签）</p>
+              </div>
             </div>
+            {/* LRC Upload */}
+            {!song.lrc_path && (
+              <div className="p-4 bg-surface-container-low rounded-xl border border-white/5">
+                <p className="text-xs font-bold text-on-surface-variant mb-2">上传歌词文件（可选，获得更好的分段文字）</p>
+                <div className="flex gap-2">
+                  <input
+                    type="file"
+                    accept=".lrc,.txt"
+                    id="lrc-upload"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setLrcUploading(true);
+                      try {
+                        await uploadLrc(songId, file);
+                        addToast("success", "歌词上传成功，已更新分段");
+                        await load();
+                      } catch (err) {
+                        addToast("error", `歌词上传失败: ${err instanceof Error ? err.message : "请重试"}`);
+                      } finally {
+                        setLrcUploading(false);
+                      }
+                    }}
+                  />
+                  <button
+                    onClick={() => document.getElementById("lrc-upload")?.click()}
+                    disabled={lrcUploading}
+                    className="px-4 py-2 bg-surface-container-highest text-on-surface text-xs font-bold rounded-lg hover:bg-surface-bright transition-colors disabled:opacity-50 flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-sm">{lrcUploading ? "hourglass_empty" : "upload_file"}</span>
+                    {lrcUploading ? "上传中..." : "选择 LRC 文件"}
+                  </button>
+                </div>
+              </div>
+            )}
+            {song.lrc_path && (
+              <div className="p-3 bg-success/5 rounded-xl border border-success/10 flex items-center gap-2">
+                <span className="material-symbols-outlined text-success text-base" style={{ fontVariationSettings: '"FILL" 1' }}>check_circle</span>
+                <p className="text-xs text-success font-medium">已上传歌词文件，分段包含歌词文字</p>
+              </div>
+            )}
           </section>
         )}
 
@@ -386,7 +457,7 @@ export default function SongDetailPage() {
                 <thead>
                   <tr className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest bg-surface-container-high/50">
                     <th className="px-6 py-4 w-12 text-center">行号</th>
-                    <th className="px-4 py-4">中文歌词</th>
+                    <th className="px-4 py-4">歌词</th>
                     <th className="px-4 py-4 w-24">时间(s)</th>
                     <th className="px-6 py-4 w-40">音色选择</th>
                   </tr>
@@ -397,7 +468,14 @@ export default function SongDetailPage() {
                     return (
                       <tr key={seg.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                         <td className="px-6 py-4 text-center font-mono text-neutral-500">{String(seg.line_number).padStart(2, '0')}</td>
-                        <td className="px-4 py-4 font-medium">{seg.text}</td>
+                        <td className="px-4 py-4">
+                          <input type="text" value={seg.text}
+                            aria-label={`第${seg.line_number}段歌词`}
+                            onChange={(e) => { setSegments(prev => prev.map(s => s.id === seg.id ? {...s, text: e.target.value} : s)); }}
+                            onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { text: seg.text }); } catch {} }}
+                            className="w-full bg-transparent border-none rounded text-sm font-medium text-on-surface focus:ring-1 focus:ring-primary/40 focus:bg-surface-container-highest px-1 py-0.5"
+                          />
+                        </td>
                         <td className="px-4 py-4">
                           <input type="number" step="0.1" min="0" value={seg.start_time.toFixed(1)}
                             aria-label={`第${seg.line_number}段开始时间`}
@@ -429,7 +507,11 @@ export default function SongDetailPage() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <span className="text-[10px] font-mono text-neutral-500">{seg.line_number}.</span>
-                          <span className="text-sm ml-1">{seg.text}</span>
+                          <input type="text" value={seg.text}
+                            onChange={(e) => { setSegments(prev => prev.map(s => s.id === seg.id ? {...s, text: e.target.value} : s)); }}
+                            onBlur={async () => { try { await updateSegmentTimestamps(songId, seg.id, { text: seg.text }); } catch {} }}
+                            className="text-sm ml-1 bg-transparent border-none w-full focus:ring-1 focus:ring-primary/40 focus:bg-surface-container-highest rounded px-1"
+                          />
                         </div>
                         <select value={seg.voice_model_id || ""} onChange={(e) => handleAssign("manual", { segId: seg.id, voiceId: e.target.value })}
                           className={`text-xs font-bold px-2 py-1.5 min-h-[36px] rounded-lg border-0 appearance-none cursor-pointer flex-shrink-0 ${seg.voice_model_id ? color.chip : "bg-surface-container-highest text-on-surface-variant"}`}

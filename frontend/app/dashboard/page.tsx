@@ -12,6 +12,7 @@ import {
   importMusic,
   checkMusicExisting,
   connectImportProgress,
+  clearToken,
   AppError,
   type Song,
   type MusicSearchSong,
@@ -36,7 +37,7 @@ function getCover(title: string): string {
 
 export default function DashboardPage() {
   const { addToast } = useToast();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -205,8 +206,21 @@ export default function DashboardPage() {
             添加新歌
           </button>
           <Link href={user?.authenticated ? "/pricing" : "/login"} className="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest border border-white/5 hover:border-white/20 transition-colors flex items-center justify-center" title={user?.authenticated ? "账户" : "登录"}>
-            <div className="w-full h-full bg-gradient-to-tr from-primary to-tertiary opacity-80" />
+            {user?.authenticated ? (
+              <span className="text-xs font-bold text-primary">{user.nickname?.[0] || "U"}</span>
+            ) : (
+              <div className="w-full h-full bg-gradient-to-tr from-primary to-tertiary opacity-80" />
+            )}
           </Link>
+          {user?.authenticated && (
+            <button
+              onClick={() => { logout(); }}
+              className="text-neutral-500 hover:text-white transition-colors text-xs"
+              title="退出登录"
+            >
+              <span className="material-symbols-outlined text-lg">logout</span>
+            </button>
+          )}
         </div>
       </nav>
 
