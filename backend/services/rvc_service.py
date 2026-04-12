@@ -136,6 +136,19 @@ async def convert(segment_id: str, db: Session) -> Path:
         with open(voice.index_path, "rb") as f:
             index_bytes = f.read()
 
+    # Auto-detect F0 and compute pitch shift
+    from .f0_service import detect_mean_f0, compute_f0up_key
+    source_f0 = await asyncio.to_thread(detect_mean_f0, segment.vocal_path)
+    f0_up_key = compute_f0up_key(
+        source_f0=source_f0,
+        target_f0=voice.mean_f0_hz,
+        manual_override=voice.f0up_key,
+    )
+    logger.info(
+        f"Segment {segment.line_number}: source_f0={source_f0}, "
+        f"voice_f0={voice.mean_f0_hz}, f0up_key={f0_up_key}"
+    )
+
     # Call GPU server with duration alignment built in
     original_duration_ms = (segment.end_time - segment.start_time) * 1000
     converted_bytes = await _call_gpu_rvc(
@@ -144,6 +157,7 @@ async def convert(segment_id: str, db: Session) -> Path:
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
         original_duration_ms=original_duration_ms,
+        f0_up_key=f0_up_key,
     )
 
     # Save converted audio
@@ -284,6 +298,7 @@ async def _call_gpu_rvc(
     pth_bytes: bytes,
     index_bytes: bytes | None = None,
     original_duration_ms: float | None = None,
+    f0_up_key: int = 0,
 ) -> bytes:
     """Send vocal + model to GPU server, return converted WAV bytes.
 
@@ -296,7 +311,7 @@ async def _call_gpu_rvc(
         pth_bytes=pth_bytes,
         index_bytes=index_bytes,
         f0_method="rmvpe",
-        f0_up_key=0,
+        f0_up_key=f0_up_key,
         index_rate=0.6,
         filter_radius=3,
         rms_mix_rate=0.25,
@@ -308,14 +323,13 @@ async def _call_gpu_rvc(
 async def convert_batch(
     song_id: str, db: Session
 ) -> list[Path]:
-    """Batch RVC conversion: group segments by voice model, process in parallel.
+    """Batch RVC conversion with auto pitch detection.
 
-    Phase 2 optimization: uses asyncio.gather() to send batch requests for all
-    voice models concurrently. The GPU server caches models in VRAM, so subsequent
-    requests skip the ~2s model load overhead.
-
-    Returns list of converted audio paths.
+    Groups segments by (voice_model_id, f0up_key) for batch efficiency.
+    Detects source F0 per segment and computes optimal pitch shift.
     """
+    from .f0_service import detect_mean_f0, compute_f0up_key
+
     segments = (
         db.query(Segment)
         .filter(
@@ -330,72 +344,86 @@ async def convert_batch(
         logger.warning(f"No assigned segments for song {song_id}")
         return []
 
-    # Group segments by voice model
-    voice_segments: dict[str, list[Segment]] = {}
+    # Detect F0 for all segments in parallel
+    seg_f0_map: dict[str, float | None] = {}
+    f0_tasks = []
+    f0_seg_ids = []
     for seg in segments:
-        vid = seg.voice_model_id
-        if vid not in voice_segments:
-            voice_segments[vid] = []
-        voice_segments[vid].append(seg)
+        if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
+            continue
+        if not seg.vocal_path:
+            continue
+        f0_tasks.append(asyncio.to_thread(detect_mean_f0, seg.vocal_path))
+        f0_seg_ids.append(seg.id)
 
-    logger.info(
-        f"Batch RVC: {len(segments)} segments across {len(voice_segments)} voices "
-        f"for song {song_id}"
-    )
+    if f0_tasks:
+        f0_results = await asyncio.gather(*f0_tasks, return_exceptions=True)
+        for seg_id, f0_result in zip(f0_seg_ids, f0_results):
+            seg_f0_map[seg_id] = f0_result if not isinstance(f0_result, Exception) else None
 
-    # Separate already-converted segments from those needing processing
+    # Compute f0up_key per segment and group by (voice_id, f0up_key)
+    voice_cache: dict[str, VoiceModel] = {}
+    pitch_groups: dict[tuple[str, int], list[tuple[bytes, Segment]]] = {}
+    group_model_data: dict[str, tuple[bytes, bytes | None]] = {}
+
     all_paths: list[Path] = []
-    voice_work: list[tuple[str, list[tuple[bytes, Segment]], bytes, bytes | None]] = []
-
-    for voice_id, voice_segs in voice_segments.items():
-        voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
-        if not voice:
-            logger.error(f"Voice model {voice_id} not found, skipping segments")
+    for seg in segments:
+        if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
+            all_paths.append(Path(seg.converted_vocal_path))
+            continue
+        if not seg.vocal_path:
             continue
 
-        # Read model files
-        pth_path = Path(voice.model_path)
-        with open(pth_path, "rb") as f:
-            pth_bytes = f.read()
+        vid = seg.voice_model_id
+        if vid not in voice_cache:
+            voice_cache[vid] = db.query(VoiceModel).filter(VoiceModel.id == vid).first()
+        voice = voice_cache[vid]
+        if not voice:
+            continue
 
-        index_bytes = None
-        if voice.index_path and Path(voice.index_path).exists():
-            with open(voice.index_path, "rb") as f:
-                index_bytes = f.read()
+        # Cache model file bytes per voice
+        if vid not in group_model_data:
+            pth_path = Path(voice.model_path)
+            pth_bytes = pth_path.read_bytes()
+            index_bytes = None
+            if voice.index_path and Path(voice.index_path).exists():
+                index_bytes = Path(voice.index_path).read_bytes()
+            group_model_data[vid] = (pth_bytes, index_bytes)
 
-        # Collect audio for segments needing conversion
-        audio_list: list[tuple[bytes, Segment]] = []
-        for seg in voice_segs:
-            if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
-                all_paths.append(Path(seg.converted_vocal_path))
-                continue
-            if not seg.vocal_path:
-                logger.warning(f"Segment {seg.id} has no vocal file, skipping")
-                continue
-            with open(seg.vocal_path, "rb") as f:
-                audio_bytes = f.read()
-            audio_list.append((audio_bytes, seg))
+        # Compute f0up_key
+        source_f0 = seg_f0_map.get(seg.id)
+        f0up_key = compute_f0up_key(
+            source_f0=source_f0,
+            target_f0=voice.mean_f0_hz,
+            manual_override=voice.f0up_key,
+        )
 
-        if audio_list:
-            voice_work.append((voice_id, audio_list, pth_bytes, index_bytes))
+        key = (vid, f0up_key)
+        if key not in pitch_groups:
+            pitch_groups[key] = []
 
-    if not voice_work:
+        audio_bytes = Path(seg.vocal_path).read_bytes()
+        pitch_groups[key].append((audio_bytes, seg))
+
+    if not pitch_groups:
         logger.info(f"Batch RVC: all segments already converted for song {song_id}")
         return all_paths
 
-    # Process all voices in parallel via asyncio.gather()
-    logger.info(f"Launching {len(voice_work)} parallel batch RVC requests")
+    logger.info(
+        f"Batch RVC: {sum(len(v) for v in pitch_groups.values())} segments "
+        f"in {len(pitch_groups)} pitch groups for song {song_id}"
+    )
 
-    async def _process_voice(voice_id, audio_list, pth_bytes, index_bytes):
-        """Process one voice model's segments via batch endpoint."""
+    # Process each (voice, pitch) group in parallel
+    async def _process_group(voice_id, f0up_key, audio_list, pth_bytes, index_bytes):
         converted_map = await _call_gpu_rvc_batch(
             audio_list=audio_list,
             model_id=voice_id,
             pth_bytes=pth_bytes,
             index_bytes=index_bytes,
+            f0up_key=f0up_key,
         )
 
-        # Save results
         output_dir = CONVERTED_DIR / song_id
         output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -403,13 +431,10 @@ async def convert_batch(
         for audio_bytes, seg in audio_list:
             result_bytes = converted_map[seg.id]
 
-            # Apply duration alignment
             original_duration_ms = (seg.end_time - seg.start_time) * 1000
             result_bytes = await asyncio.to_thread(
                 _align_duration, result_bytes, original_duration_ms
             )
-
-            # Apply peak limiting to prevent distortion
             result_bytes = await asyncio.to_thread(_limit_audio, result_bytes)
 
             output_path = output_dir / f"line_{seg.line_number:03d}_converted.wav"
@@ -420,16 +445,20 @@ async def convert_batch(
 
         return paths
 
+    work_items = []
+    for (vid, fk), audio_list in pitch_groups.items():
+        pth_bytes, index_bytes = group_model_data[vid]
+        work_items.append((vid, fk, audio_list, pth_bytes, index_bytes))
+
     results = await asyncio.gather(
-        *[_process_voice(*args) for args in voice_work],
+        *[_process_group(*args) for args in work_items],
         return_exceptions=True,
     )
 
-    # Collect results, log any failures
     for i, result in enumerate(results):
         if isinstance(result, Exception):
-            voice_id = voice_work[i][0]
-            logger.error(f"Batch RVC failed for voice {voice_id}: {result}")
+            vid, fk = work_items[i][0], work_items[i][1]
+            logger.error(f"Batch RVC failed for voice {vid} f0up_key={fk}: {result}")
             continue
         all_paths.extend(result)
 
@@ -446,6 +475,7 @@ async def _call_gpu_rvc_batch(
     model_id: str,
     pth_bytes: bytes,
     index_bytes: bytes | None = None,
+    f0up_key: int = 0,
 ) -> dict[str, bytes]:
     """Call GPU server batch endpoint. Returns {segment_id: wav_bytes}.
 
@@ -462,7 +492,7 @@ async def _call_gpu_rvc_batch(
     data = {
         "model_id": model_id,
         "f0_method": "rmvpe",
-        "f0up_key": "0",
+        "f0up_key": str(f0up_key),
         "index_rate": "0.6",
         "filter_radius": "3",
         "rms_mix_rate": "0.25",

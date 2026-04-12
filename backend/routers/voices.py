@@ -11,7 +11,7 @@ from ..config import VOICES_DIR
 from ..database import get_db
 from ..dependencies import require_auth
 from ..models import VoiceModel, User
-from ..schemas import VoiceModelResponse, VoiceModelListResponse
+from ..schemas import VoiceModelResponse, VoiceModelListResponse, VoiceModelUpdateRequest
 
 router = APIRouter()
 
@@ -27,6 +27,7 @@ async def list_voices(db: Session = Depends(get_db)):
 async def upload_voice(
     pth_file: UploadFile = File(...),
     index_file: Optional[UploadFile] = File(None),
+    reference_audio: Optional[UploadFile] = File(None),
     name: str = Form(...),
     user: User = Depends(require_auth),
     db: Session = Depends(get_db),
@@ -85,10 +86,43 @@ async def upload_voice(
         index_path=str(index_path) if index_path else None,
         is_preset=False,
     )
+
+    # Auto-detect mean F0 from reference audio if provided
+    if reference_audio:
+        try:
+            from ..services.f0_service import detect_mean_f0_from_bytes
+            ref_bytes = await reference_audio.read()
+            mean_f0 = detect_mean_f0_from_bytes(ref_bytes)
+            if mean_f0:
+                voice.mean_f0_hz = mean_f0
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).warning(f"F0 detection failed for voice upload: {e}")
+
     db.add(voice)
     db.commit()
     db.refresh(voice)
 
+    return voice
+
+
+@router.patch("/{voice_id}", response_model=VoiceModelResponse)
+async def update_voice(
+    voice_id: str,
+    data: VoiceModelUpdateRequest,
+    user: User = Depends(require_auth),
+    db: Session = Depends(get_db),
+):
+    """Update voice model settings (f0up_key, name)."""
+    voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
+    if not voice:
+        raise HTTPException(404, f"Voice model {voice_id} not found")
+
+    if data.name is not None:
+        voice.name = data.name
+    voice.f0up_key = data.f0up_key
+    db.commit()
+    db.refresh(voice)
     return voice
 
 

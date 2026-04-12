@@ -60,12 +60,19 @@ class VoiceModelResponse(BaseModel):
     id: str
     name: str
     is_preset: bool
+    f0up_key: int = 0
+    mean_f0_hz: Optional[float] = None
 
     model_config = {"from_attributes": True}
 
 
 class VoiceModelListResponse(BaseModel):
     voices: list[VoiceModelResponse]
+
+
+class VoiceModelUpdateRequest(BaseModel):
+    f0up_key: int = Field(default=0, ge=-12, le=12)
+    name: Optional[str] = None
 
 
 class VoiceAssignment(BaseModel):

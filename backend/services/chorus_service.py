@@ -287,6 +287,16 @@ async def generate_grand_chorus(
         original_duration_ms = (segment.end_time - segment.start_time) * 1000
         for i, voice in enumerate(voices):
             pth_bytes, index_bytes = voice_data[i]
+
+            # Compute pitch shift for this voice
+            from .f0_service import detect_mean_f0_from_bytes, compute_f0up_key
+            source_f0 = detect_mean_f0_from_bytes(vocal_bytes)
+            f0_up_key = compute_f0up_key(
+                source_f0=source_f0,
+                target_f0=voice.mean_f0_hz,
+                manual_override=voice.f0up_key,
+            )
+
             try:
                 converted_bytes = await convert_with_params(
                     audio_bytes=vocal_bytes,
@@ -294,7 +304,7 @@ async def generate_grand_chorus(
                     pth_bytes=pth_bytes,
                     index_bytes=index_bytes,
                     f0_method="rmvpe",
-                    f0_up_key=0,
+                    f0_up_key=f0_up_key,
                     index_rate=0.6,
                     filter_radius=3,
                     rms_mix_rate=0.25,

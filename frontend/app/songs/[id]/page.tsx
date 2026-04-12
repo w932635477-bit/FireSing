@@ -8,6 +8,7 @@ import {
   getSegments,
   listVoices,
   uploadVoice,
+  updateVoice,
   getOutputs,
   startProcess,
   uploadMonologueAudio,
@@ -106,6 +107,15 @@ export default function SongDetailPage() {
     setSelectedVoiceIds((prev) =>
       prev.includes(voiceId) ? prev.filter((id) => id !== voiceId) : [...prev, voiceId]
     );
+  }
+
+  async function handleUpdateVoicePitch(voiceId: string, f0up_key: number) {
+    try {
+      await updateVoice(voiceId, { f0up_key });
+      setVoices((prev) => prev.map((v) => (v.id === voiceId ? { ...v, f0up_key } : v)));
+    } catch {
+      addToast("error", "音高设置失败");
+    }
   }
 
   async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
@@ -440,7 +450,29 @@ export default function SongDetailPage() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <p className={`text-sm font-bold truncate ${selected ? "text-primary" : "text-on-surface"}`}>{v.name}</p>
-                        {selected && <div className={`text-[10px] px-1.5 py-0.5 rounded-full inline-block ${color.chip} mt-0.5`}>{color.label}</div>}
+                        {selected && (
+                          <>
+                            <div className={`text-[10px] px-1.5 py-0.5 rounded-full inline-block ${color.chip} mt-0.5`}>{color.label}</div>
+                            <div className="mt-1.5 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                              <span className="text-[9px] text-on-surface-variant">-12</span>
+                              <input
+                                type="range"
+                                min={-12}
+                                max={12}
+                                value={v.f0up_key || 0}
+                                onChange={(e) => {
+                                  e.stopPropagation();
+                                  handleUpdateVoicePitch(v.id, Number(e.target.value));
+                                }}
+                                className="flex-1 accent-primary h-1 cursor-pointer"
+                              />
+                              <span className="text-[9px] text-on-surface-variant">+12</span>
+                              <span className="text-[10px] font-mono text-primary w-6 text-center">
+                                {(v.f0up_key || 0) > 0 ? `+${v.f0up_key}` : v.f0up_key || 0}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </button>
                   );

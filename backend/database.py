@@ -105,4 +105,18 @@ def _migrate_db():
         except Exception:
             pass
 
+        try:
+            conn.execute(
+                text("ALTER TABLE voice_models ADD COLUMN f0up_key INTEGER DEFAULT 0")
+            )
+        except Exception:
+            pass
+
+        try:
+            conn.execute(
+                text("ALTER TABLE voice_models ADD COLUMN mean_f0_hz FLOAT DEFAULT NULL")
+            )
+        except Exception:
+            pass
+
         conn.commit()

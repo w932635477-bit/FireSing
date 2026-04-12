@@ -73,6 +73,8 @@ class VoiceModel(Base):
     model_path = Column(String, nullable=False)
     index_path = Column(String)
     is_preset = Column(Boolean, default=False)
+    f0up_key = Column(Integer, default=0)
+    mean_f0_hz = Column(Float, nullable=True)
     created_at = Column(DateTime, default=utcnow)
 
     segments = relationship("Segment", back_populates="voice_model")

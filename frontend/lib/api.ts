@@ -34,6 +34,8 @@ export interface VoiceModel {
   id: string;
   name: string;
   is_preset: boolean;
+  f0up_key: number;
+  mean_f0_hz: number | null;
 }
 
 export interface Output {
@@ -192,12 +194,21 @@ export async function listVoices(): Promise<{ voices: VoiceModel[] }> {
   return authFetch("/voices");
 }
 
-export async function uploadVoice(pth: File, index: File | null, name: string): Promise<VoiceModel> {
+export async function uploadVoice(pth: File, index: File | null, name: string, referenceAudio?: File | null): Promise<VoiceModel> {
   const form = new FormData();
   form.append("pth_file", pth);
   if (index) form.append("index_file", index);
   form.append("name", name);
+  if (referenceAudio) form.append("reference_audio", referenceAudio);
   return authFetch("/voices", { method: "POST", body: form });
+}
+
+export async function updateVoice(voiceId: string, data: { f0up_key?: number; name?: string }): Promise<VoiceModel> {
+  return authFetch(`/voices/${voiceId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 }
 
 // --- Pipeline ---
