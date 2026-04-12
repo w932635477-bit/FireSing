@@ -73,8 +73,13 @@ _ACTIVE_STATUSES = {"separating", "segmented", "segmenting", "assigning",
                     "converting", "harmony", "chorus", "monologue", "mixing", "video"}
 
 
-def _assign_voices_for_pipeline(song_id: str, params, db):
-    """Assign voices to segments using the strategy from ProcessRequest."""
+async def _assign_voices_for_pipeline(song_id: str, params, db):
+    """Assign voices to segments using the strategy from ProcessRequest.
+
+    For round-robin: uses F0-aware matching. Each segment's source F0 is
+    detected, and the voice model whose pitch range is closest is assigned.
+    This avoids cross-gender pitch shifts that destroy RVC quality.
+    """
     from ..models import Segment, VoiceModel
 
     if not params.voice_pool:
@@ -91,13 +96,49 @@ def _assign_voices_for_pipeline(song_id: str, params, db):
         Segment.song_id == song_id
     ).order_by(Segment.line_number).all()
 
+    # Load voice model F0 data
+    voices = db.query(VoiceModel).filter(VoiceModel.id.in_(params.voice_pool)).all()
+    voice_f0_list = [(v.id, v.mean_f0_hz) for v in voices]
+
     import random
-    for i, seg in enumerate(segments):
-        if params.strategy == "round-robin":
-            seg.voice_model_id = params.voice_pool[i % len(params.voice_pool)]
-        elif params.strategy == "random":
+    if params.strategy == "round-robin" and len(params.voice_pool) >= 2:
+        # F0-aware assignment: detect F0 in threads to avoid blocking event loop
+        from ..services.f0_service import detect_mean_f0, best_voice_for_segment
+
+        # Run F0 detection concurrently (librosa.pyin is CPU-bound)
+        f0_tasks = []
+        for seg in segments:
+            if seg.vocal_path:
+                f0_tasks.append(asyncio.to_thread(detect_mean_f0, seg.vocal_path))
+            else:
+                f0_tasks.append(None)
+
+        f0_results = await asyncio.gather(
+            *(t for t in f0_tasks if t is not None),
+            return_exceptions=True,
+        )
+        f0_iter = iter(f0_results)
+
+        for seg in segments:
+            if not seg.vocal_path:
+                seg.voice_model_id = params.voice_pool[0]
+                continue
+            source_f0 = next(f0_iter)
+            if isinstance(source_f0, Exception):
+                logger.warning(f"F0 detection failed for segment {seg.id}: {source_f0}")
+                source_f0 = None
+            best = best_voice_for_segment(source_f0, voice_f0_list)
+            seg.voice_model_id = best or params.voice_pool[0]
+
+        logger.info(
+            f"F0-aware voice assignment: {len(segments)} segments, "
+            f"{len(set(s.voice_model_id for s in segments))} distinct voices"
+        )
+    elif params.strategy == "random":
+        for seg in segments:
             seg.voice_model_id = random.choice(params.voice_pool)
-        else:
+    else:
+        for i, seg in enumerate(segments):
             seg.voice_model_id = params.voice_pool[i % len(params.voice_pool)]
     db.commit()
 
@@ -116,7 +157,6 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
     from ..database import SessionLocal
     from ..services import demucs_service, vad_service, rvc_service
     from ..services import chorus_service, tts_service, audio_service, video_service
-    from ..services import harmony_service
     from ..models import Segment, VoiceModel
     from ..config import GPU_SERVER_URL
 
@@ -177,7 +217,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "assigning", 25, "Assigning voice models...", db=db)
-        _assign_voices_for_pipeline(song_id, params, db)
+        await _assign_voices_for_pipeline(song_id, params, db)
 
         # Step 4: Batch RVC conversion (replaces per-segment conversion)
         # Key optimization: load model once per voice, process all segments
@@ -211,28 +251,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
             Segment.song_id == song_id
         ).order_by(Segment.line_number).all()
 
-        # Step 4b: Harmony generation (multi-part vocal harmonies)
-        if _cancel_flags.get(song_id):
-            song = db.query(Song).filter(Song.id == song_id).first()
-            if song:
-                song.status = "uploaded"
-                db.commit()
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
-            return
-        _update_progress(song_id, "harmony", 78, "Generating harmonies...", db=db)
-        assigned_seg_ids = [s.id for s in segments if s.voice_model_id]
-        if assigned_seg_ids:
-            await harmony_service.generate_harmonies(
-                song_id=song_id,
-                segment_ids=assigned_seg_ids,
-                db=db,
-            )
-
-        # Refresh after harmony
-        db.expire_all()
-        segments = db.query(Segment).filter(
-            Segment.song_id == song_id
-        ).order_by(Segment.line_number).all()
+        # Step 4b: Harmony removed — original vocals backing is mixed in audio_service.mix_all()
 
         # Step 5: Chorus detection + grand chorus synthesis
         if _cancel_flags.get(song_id):

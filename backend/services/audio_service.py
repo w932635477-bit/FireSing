@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 # Audio mixing constants
 CROSSFADE_MS = 50  # Crossfade between segments (50ms with squared-sine window)
 MONOLOGUE_INSTRUMENTAL_REDUCTION_DB = 12  # Lower instrumental during monologue
+ORIGINAL_BACKING_VOLUME_DB = -10  # Original vocals stem volume for harmony context
 
 
 def mix_all(
@@ -51,6 +52,12 @@ def mix_all(
 
     # Step 1: Concatenate converted vocals with crossfade
     vocal_track = _concatenate_vocals(segments, chorus_set)
+
+    # Step 1.5: Overlay original vocals stem at reduced volume for harmony context
+    # The original vocals stem (from Demucs) contains lead + harmony + backing.
+    # At reduced volume, it provides natural harmony depth behind the AI lead vocal.
+    if song.vocals_path and Path(song.vocals_path).exists():
+        vocal_track = _overlay_original_backing(vocal_track, song.vocals_path)
 
     # Step 2: Overlay grand chorus if available
     from ..config import CONVERTED_DIR
@@ -189,6 +196,44 @@ def _concatenate_vocals(segments: list, chorus_set: set) -> AudioSegment:
     for part in parts[1:]:
         result = _squared_sine_crossfade(result, part, CROSSFADE_MS)
 
+    return result
+
+
+def _overlay_original_backing(
+    vocal_track: AudioSegment,
+    original_vocals_path: str,
+) -> AudioSegment:
+    """Overlay original vocals stem at reduced volume for natural harmony context.
+
+    The Demucs vocals stem contains the original lead + harmony/backing vocals.
+    At reduced volume (-10dB), the original harmony naturally comes through
+    behind the AI-converted lead vocal. This is a vocal double tracking technique.
+    """
+    try:
+        original = AudioSegment.from_file(original_vocals_path)
+    except Exception as e:
+        logger.warning(f"Failed to load original vocals for backing: {e}")
+        return vocal_track
+
+    # Reduce volume so it's heard but doesn't dominate
+    backing = original + ORIGINAL_BACKING_VOLUME_DB
+
+    # Match lengths
+    if len(backing) > len(vocal_track):
+        backing = backing[:len(vocal_track)]
+    elif len(backing) < len(vocal_track):
+        silence = AudioSegment.silent(
+            duration=len(vocal_track) - len(backing),
+            frame_rate=backing.frame_rate,
+        )
+        silence = silence.set_sample_width(backing.sample_width).set_channels(backing.channels)
+        backing = backing + silence
+
+    result = vocal_track.overlay(backing)
+    logger.info(
+        f"Original backing overlaid at {ORIGINAL_BACKING_VOLUME_DB}dB, "
+        f"length {len(backing)}ms"
+    )
     return result
 
 
