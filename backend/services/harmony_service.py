@@ -138,7 +138,7 @@ async def generate_harmonies(
                     _pitch_shift_audio, lead_bytes, interval
                 )
                 harmony_audio = await asyncio.to_thread(
-                    AudioSegment, shifted_bytes, format="wav"
+                    lambda: AudioSegment.from_file(io.BytesIO(shifted_bytes), format="wav")
                 )
                 # Reduce volume for harmony part
                 harmony_audio = harmony_audio + HARMONY_VOLUME_DB
