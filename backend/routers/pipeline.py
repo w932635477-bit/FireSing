@@ -148,21 +148,33 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 1: Demucs vocal separation (unchanged)
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "separating", 0, "Separating vocals...", db=db)
         await demucs_service.separate(song_id, db)
 
         # Step 2: Energy-based VAD segmentation (replaces LRC parse + cut)
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "segmenting", 15, "Detecting vocal segments...", db=db)
         await asyncio.to_thread(vad_service.segment_and_cut, song_id, db)
 
         # Step 3: Voice assignment (unchanged)
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "assigning", 25, "Assigning voice models...", db=db)
         _assign_voices_for_pipeline(song_id, params, db)
@@ -170,7 +182,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         # Step 4: Batch RVC conversion (replaces per-segment conversion)
         # Key optimization: load model once per voice, process all segments
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "converting", 30, "Converting vocals (batch)...", db=db)
 
@@ -197,7 +213,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 4b: Harmony generation (multi-part vocal harmonies)
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "harmony", 78, "Generating harmonies...", db=db)
         assigned_seg_ids = [s.id for s in segments if s.voice_model_id]
@@ -216,7 +236,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 5: Chorus detection + grand chorus synthesis
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "chorus", 82, "Detecting chorus...", db=db)
         chorus_ids = chorus_service.detect(segments)
@@ -240,7 +264,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 6: Monologue generation
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         if params.monologue_text or song.monologue_audio_path:
             _update_progress(song_id, "monologue", 85, "Generating monologue...", db=db)
@@ -251,7 +279,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 7: Audio mixing
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         _update_progress(song_id, "mixing", 90, "Mixing audio...", db=db)
         await asyncio.to_thread(
@@ -261,7 +293,11 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 8: Video / audio generation
         if _cancel_flags.get(song_id):
-            _update_progress(song_id, "cancelled", 0, "Cancelled by user", db=db)
+            song = db.query(Song).filter(Song.id == song_id).first()
+            if song:
+                song.status = "uploaded"
+                db.commit()
+            _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
         output_format = params.output_format or "video"
         if output_format in ("video", "video_subtitled"):
