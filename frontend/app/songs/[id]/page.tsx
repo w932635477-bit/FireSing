@@ -44,6 +44,7 @@ export default function SongDetailPage() {
   const [outputs, setOutputs] = useState<Output[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [gpuOnline, setGpuOnline] = useState(true);
   const [monologueText, setMonologueText] = useState("");
   const [monologueMode, setMonologueMode] = useState<"text" | "record">("text");
   const [monologuePosition, setMonologuePosition] = useState<"beginning" | "end" | "interlude">("beginning");
@@ -82,6 +83,24 @@ export default function SongDetailPage() {
   }, [songId]);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    let mounted = true;
+    let interval: ReturnType<typeof setInterval>;
+    async function check() {
+      try {
+        const resp = await fetch("/api/health/gpu");
+        if (!mounted) return;
+        if (resp.ok) {
+          const data = await resp.json();
+          setGpuOnline(data.status === "ok");
+        } else { setGpuOnline(false); }
+      } catch { if (mounted) setGpuOnline(false); }
+    }
+    check();
+    interval = setInterval(check, 30000);
+    return () => { mounted = false; clearInterval(interval); };
+  }, []);
 
   function toggleVoice(voiceId: string) {
     setSelectedVoiceIds((prev) =>
@@ -547,12 +566,15 @@ export default function SongDetailPage() {
             <div className="pt-8">
               <button
                 onClick={handleStartProcess}
-                className="w-full py-5 bg-primary rounded-xl text-on-primary-fixed font-bold text-lg shadow-[0_0_12px_rgba(255,107,53,0.2)] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                disabled={!gpuOnline}
+                className="w-full py-5 bg-primary rounded-xl text-on-primary-fixed font-bold text-lg shadow-[0_0_12px_rgba(255,107,53,0.2)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
               >
                 <span className="material-symbols-outlined" style={{ fontVariationSettings: '"FILL" 1' }}>bolt</span>
-                <span>开始处理</span>
+                <span>{gpuOnline ? "开始处理" : "GPU 离线，无法处理"}</span>
               </button>
-              <p className="text-center text-[10px] text-on-surface-variant mt-4 font-medium tracking-widest uppercase">预计耗时 120-180 秒</p>
+              <p className="text-center text-[10px] text-on-surface-variant mt-4 font-medium tracking-widest uppercase">
+                {gpuOnline ? "预计耗时 120-180 秒" : "请先启动 AutoDL GPU 服务"}
+              </p>
             </div>
           </section>
         )}
