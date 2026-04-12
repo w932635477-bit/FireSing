@@ -59,7 +59,7 @@ def _update_progress(song_id: str, step: str, pct: int, message: str,
         try:
             song = db.query(Song).filter(Song.id == song_id).first()
             if song:
-                song.status = step if step not in ("done",) else step
+                song.status = step
                 song.pipeline_step = step
                 if hasattr(song, 'pipeline_pct'):
                     song.pipeline_pct = pct

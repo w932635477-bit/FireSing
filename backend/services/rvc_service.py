@@ -273,7 +273,7 @@ async def _call_gpu_rvc(
         index_rate=0.6,
         filter_radius=3,
         rms_mix_rate=0.25,
-        protect=0.5,
+        protect=0.33,
         original_duration_ms=original_duration_ms,
     )
 
@@ -438,7 +438,7 @@ async def _call_gpu_rvc_batch(
         "index_rate": "0.6",
         "filter_radius": "3",
         "rms_mix_rate": "0.25",
-        "protect": "0.5",
+        "protect": "0.33",
     }
     if index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")

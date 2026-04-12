@@ -7,6 +7,7 @@ Step 5 of the FireSing pipeline:
 """
 
 import asyncio
+import io
 import logging
 from collections import Counter
 from pathlib import Path
@@ -286,13 +287,13 @@ async def generate_grand_chorus(
                     index_rate=0.6,
                     filter_radius=3,
                     rms_mix_rate=0.25,
-                    protect=0.5,
+                    protect=0.33,
                     original_duration_ms=original_duration_ms,
                 )
 
                 # Convert bytes to pydub AudioSegment (offload to thread)
                 audio_seg = await asyncio.to_thread(
-                    PydubAudioSegment, converted_bytes, format="wav"
+                    PydubAudioSegment.from_file, io.BytesIO(converted_bytes), format="wav"
                 )
                 voice_audios.append(audio_seg)
 
@@ -303,7 +304,8 @@ async def generate_grand_chorus(
             except Exception as e:
                 logger.error(
                     f"  RVC failed for segment {segment.line_number}, "
-                    f"voice {voice.name}: {e}"
+                    f"voice {voice.name}: {type(e).__name__}: {e}",
+                    exc_info=True,
                 )
                 continue
 

@@ -236,7 +236,7 @@ async def infer_rvc(
     index_rate: float = Form(0.5),
     filter_radius: int = Form(3),
     rms_mix_rate: float = Form(0.25),
-    protect: float = Form(0.5),
+    protect: float = Form(0.33),
 ):
     """RVC voice conversion. Returns converted audio as WAV bytes.
 
@@ -384,7 +384,7 @@ async def infer_rvc_batch(
     index_rate: float = Form(0.5),
     filter_radius: int = Form(3),
     rms_mix_rate: float = Form(0.25),
-    protect: float = Form(0.5),
+    protect: float = Form(0.33),
 ):
     """Batch RVC voice conversion. Load model once, process N audio segments.
 
@@ -479,7 +479,7 @@ async def infer_rvc_batch_v2(request: Request):
     - index_rate: float (default 0.5)
     - filter_radius: int (default 3)
     - rms_mix_rate: float (default 0.25)
-    - protect: float (default 0.5)
+    - protect: float (default 0.33)
     - audio_0, audio_1, ...: WAV files — at least 1 required
     - duration_0, duration_1, ...: float ms — optional (for alignment)
 
@@ -513,7 +513,7 @@ async def infer_rvc_batch_v2(request: Request):
     index_rate = float(form.get("index_rate", 0.5))
     filter_radius = int(form.get("filter_radius", 3))
     rms_mix_rate = float(form.get("rms_mix_rate", 0.25))
-    protect = float(form.get("protect", 0.5))
+    protect = float(form.get("protect", 0.33))
 
     # --- Resolve model path ---
     local_pth = None
