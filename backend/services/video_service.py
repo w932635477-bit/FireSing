@@ -51,7 +51,7 @@ TITLE_FADE_OUT = 4.0
 OVERLAY_ALPHA = 160
 
 # --- Overlay frame rate ---
-OVERLAY_FPS = 2  # frames per second for dynamic content
+OVERLAY_FPS = 1  # frames per second for dynamic content (1fps saves 50% PIL + I/O time)
 
 # --- Voice colors (one per unique singer) ---
 VOICE_COLORS = [
@@ -421,7 +421,7 @@ def _render(
             f"[merged][wave]overlay=0:{WAVEFORM_Y}:format=auto[out]"
         ),
         "-map", "[out]", "-map", "2:a",
-        "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+        "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
         "-c:a", "aac", "-b:a", "192k",
         "-pix_fmt", "yuv420p",
         "-t", f"{duration:.3f}",
@@ -457,7 +457,7 @@ def _render_static(
             f"[0:v][overlay]overlay=0:0:format=auto[out]"
         ),
         "-map", "[out]", "-map", "2:a",
-        "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+        "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
         "-c:a", "aac", "-b:a", "192k",
         "-pix_fmt", "yuv420p",
         "-t", f"{duration:.3f}",

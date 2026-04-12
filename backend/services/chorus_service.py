@@ -29,6 +29,9 @@ REVERB_DELAY_MS = 40
 REVERB_DECAY = 0.3
 REVERB_MIX_DB = -4  # wet signal volume relative to dry
 
+# Maximum chorus segments to process (prevents N segs x M voices explosion)
+MAX_CHORUS_SEGMENTS = 8
+
 
 def detect(segments: list) -> list[str]:
     """Detect chorus segments.
@@ -244,6 +247,14 @@ async def generate_grand_chorus(
         f"Generating grand chorus: {len(segment_ids)} segments x "
         f"{len(voice_model_ids)} voices for song {song_id}"
     )
+
+    # Limit segments to prevent explosion (e.g. 41 segs x 5 voices = 205 RVC calls)
+    if len(segment_ids) > MAX_CHORUS_SEGMENTS:
+        logger.warning(
+            f"Limiting chorus from {len(segment_ids)} to {MAX_CHORUS_SEGMENTS} segments "
+            f"(would be {len(segment_ids) * len(voice_model_ids)} RVC calls)"
+        )
+        segment_ids = segment_ids[:MAX_CHORUS_SEGMENTS]
 
     # Pre-load all voice models (pth + index bytes)
     voices: list[VoiceModel] = []

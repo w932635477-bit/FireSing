@@ -451,6 +451,15 @@ async def infer_rvc_batch(
     )
 
 
+@app.get("/model/has/{model_id}")
+async def has_model_cached(model_id: str):
+    """Check if a model is cached in VRAM (no upload needed)."""
+    return {
+        "cached": model_id in _rvc_cache,
+        "model_id": model_id,
+    }
+
+
 @app.post("/model/clear_cache")
 async def clear_model_cache():
     """Unload all cached RVC models from VRAM."""

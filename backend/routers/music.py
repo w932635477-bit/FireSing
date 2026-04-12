@@ -40,8 +40,11 @@ _import_progress_events: dict[str, asyncio.Event] = {}
 
 async def _search_musicdl(keyword: str, sources: list[str]) -> list[dict]:
     """Call go-music-dl JSON search API."""
+    # Chinese queries are slower in go-music-dl — increase timeout
+    has_cjk = any('\u4e00' <= c <= '\u9fff' for c in keyword)
+    timeout = 30.0 if has_cjk else 15.0
     try:
-        async with httpx.AsyncClient(timeout=15, proxy=None) as client:
+        async with httpx.AsyncClient(timeout=timeout, proxy=None) as client:
             params = [("q", keyword)]
             for s in sources:
                 params.append(("sources", s))
@@ -322,21 +325,22 @@ async def import_music(
 async def import_progress(task_id: str):
     """SSE stream for real-time import progress."""
     async def event_generator():
-        elapsed = 0.0
-        while elapsed < 300:  # 5 min max
-            progress = _import_progress.get(task_id, {
-                "step": "unknown", "pct": 0, "message": "Waiting..."
-            })
-            yield f"data: {json.dumps(progress)}\n\n"
-            if progress.get("step") in ("done", "error"):
-                break
+        for _ in range(600):  # 5 min max (600 x 0.5s effective)
+            progress = _import_progress.get(task_id)
+            if progress:
+                yield f"data: {json.dumps(progress)}\n\n"
+                if progress.get("step") in ("done", "error"):
+                    break
+            else:
+                # Task not found yet — yield waiting state
+                yield f"data: {json.dumps({'step': 'waiting', 'pct': 0, 'message': 'Waiting for import to start...'})}\n\n"
+
             event = _import_progress_events.get(task_id)
             if event:
                 event.clear()
                 await event.wait()
             else:
                 await asyncio.sleep(0.5)
-            elapsed += 0.5
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")
 

@@ -188,6 +188,18 @@ async def convert_all(song_id: str, db: Session) -> list[Path]:
     return paths
 
 
+async def _is_model_cached(model_id: str) -> bool:
+    """Check if GPU server already has this model cached in VRAM."""
+    try:
+        async with httpx.AsyncClient(timeout=3.0, proxy=None, trust_env=False) as client:
+            resp = await client.get(f"{GPU_SERVER_URL}/model/has/{model_id}")
+            if resp.status_code == 200:
+                return resp.json().get("cached", False)
+    except (httpx.ConnectError, httpx.TimeoutException):
+        pass
+    return False
+
+
 async def convert_with_params(
     audio_bytes: bytes,
     model_id: str,
@@ -200,18 +212,26 @@ async def convert_with_params(
     rms_mix_rate: float = 0.25,
     protect: float = 0.5,
     original_duration_ms: float | None = None,
+    skip_cache_check: bool = False,
 ) -> bytes:
     """Send vocal + model to GPU server with custom RVC parameters.
 
     Returns converted WAV bytes.
     If original_duration_ms is provided, applies pitch-preserving duration alignment.
+
+    Optimization: checks GPU model cache first and skips uploading pth_file (50-100MB)
+    if the model is already loaded in VRAM.
     """
     url = f"{GPU_SERVER_URL}/infer/rvc"
 
+    # Check if model is already cached on GPU — skip 50-100MB upload
+    cached = not skip_cache_check and await _is_model_cached(model_id)
+
     files = {
         "audio": ("segment.wav", audio_bytes, "audio/wav"),
-        "pth_file": ("model.pth", pth_bytes, "application/octet-stream"),
     }
+    if not cached:
+        files["pth_file"] = ("model.pth", pth_bytes, "application/octet-stream")
     data = {
         "model_id": model_id,
         "f0_method": f0_method,
@@ -221,7 +241,7 @@ async def convert_with_params(
         "rms_mix_rate": str(rms_mix_rate),
         "protect": str(protect),
     }
-    if index_bytes:
+    if not cached and index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
 
     last_error = None
@@ -229,6 +249,13 @@ async def convert_with_params(
         try:
             async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None, trust_env=False) as client:
                 resp = await client.post(url, files=files, data=data)
+                # If GPU says model not found (cache miss), retry with full upload
+                if resp.status_code == 400 and cached:
+                    cached = False
+                    files["pth_file"] = ("model.pth", pth_bytes, "application/octet-stream")
+                    if index_bytes:
+                        files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
+                    resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
                 result = resp.content
 
@@ -427,10 +454,11 @@ async def _call_gpu_rvc_batch(
     """
     url = f"{GPU_SERVER_URL}/infer/rvc_batch_v2"
 
-    # Build multipart form data
-    files = {
-        "pth_file": ("model.pth", pth_bytes, "application/octet-stream"),
-    }
+    # Build multipart form data — skip pth upload if model cached on GPU
+    cached = await _is_model_cached(model_id)
+    files = {}
+    if not cached:
+        files["pth_file"] = ("model.pth", pth_bytes, "application/octet-stream")
     data = {
         "model_id": model_id,
         "f0_method": "rmvpe",
@@ -440,7 +468,7 @@ async def _call_gpu_rvc_batch(
         "rms_mix_rate": "0.25",
         "protect": "0.33",
     }
-    if index_bytes:
+    if not cached and index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
 
     # Add audio files as audio_0, audio_1, ...
@@ -451,12 +479,19 @@ async def _call_gpu_rvc_batch(
         )
         seg_order.append(seg)
 
-    # Retry logic (same as single-segment)
+    # Retry logic with cache-miss fallback
     last_error = None
     for attempt in range(3):
         try:
             async with httpx.AsyncClient(timeout=GPU_REQUEST_TIMEOUT, proxy=None, trust_env=False) as client:
                 resp = await client.post(url, files=files, data=data)
+                # If GPU says model not found (cache miss), retry with full upload
+                if resp.status_code == 400 and cached:
+                    cached = False
+                    files["pth_file"] = ("model.pth", pth_bytes, "application/octet-stream")
+                    if index_bytes:
+                        files["index_file"] = ("model.index", index_bytes, "application/octet-stream")
+                    resp = await client.post(url, files=files, data=data)
                 resp.raise_for_status()
 
             # Parse multipart response
