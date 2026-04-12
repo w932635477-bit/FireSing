@@ -291,19 +291,8 @@ async def infer_rvc(
         # Ensure local_pth is a Path (cache stores strings)
         local_pth = Path(local_pth)
 
-        # RVC inference
-        rvc = RVCInference(
-            models_dir=str(local_pth.parent),
-            device="cuda:0",
-            version="v2",
-        )
-
-        # Load model
-        import glob
-        pth_files = glob.glob(str(local_pth))
-        if pth_files:
-            rvc.load_model(pth_files[0], version="v2",
-                          index_path=str(local_index) if local_index else None)
+        # Use VRAM-cached model instance (same as batch endpoint)
+        rvc = _get_or_load_rvc(model_id or "default", local_pth, local_index)
 
         # Try f0 methods with runtime fallback
         methods_to_try = []
@@ -344,7 +333,7 @@ async def infer_rvc(
         else:
             raise last_error
 
-        rvc.unload_model()
+        # Keep model in VRAM cache (don't unload)
 
         elapsed = time.time() - t_start
         print(
