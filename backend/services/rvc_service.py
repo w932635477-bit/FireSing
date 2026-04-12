@@ -136,17 +136,11 @@ async def convert(segment_id: str, db: Session) -> Path:
         with open(voice.index_path, "rb") as f:
             index_bytes = f.read()
 
-    # Auto-detect F0 and compute pitch shift
-    from .f0_service import detect_mean_f0, compute_f0up_key
-    source_f0 = await asyncio.to_thread(detect_mean_f0, segment.vocal_path)
-    f0_up_key = compute_f0up_key(
-        source_f0=source_f0,
-        target_f0=voice.mean_f0_hz,
-        manual_override=voice.f0up_key,
-    )
+    # Use voice model's f0up_key override (default 0 = preserve original pitch)
+    f0_up_key = voice.f0up_key if voice.f0up_key else 0
     logger.info(
-        f"Segment {segment.line_number}: source_f0={source_f0}, "
-        f"voice_f0={voice.mean_f0_hz}, f0up_key={f0_up_key}"
+        f"Segment {segment.line_number}: voice={voice.name}, "
+        f"f0up_key={f0_up_key} (preserving original pitch)"
     )
 
     # Call GPU server with duration alignment built in
@@ -323,13 +317,16 @@ async def _call_gpu_rvc(
 async def convert_batch(
     song_id: str, db: Session
 ) -> list[Path]:
-    """Batch RVC conversion with auto pitch detection.
+    """Batch RVC conversion — preserves original pitch (f0up_key=0).
 
-    Groups segments by (voice_model_id, f0up_key) for batch efficiency.
-    Detects source F0 per segment and computes optimal pitch shift.
+    For cover songs, preserving the original melody is critical.
+    RVC handles different pitch ranges natively via its F0 detection (rmvpe).
+    Auto pitch matching (shifting to match model's mean_f0) causes more harm
+    than good: it shifts the melody away from the original, and MAX_SAFE_SHIFT
+    truncation produces wrong pitches.
+
+    Groups segments by voice_model_id for batch efficiency.
     """
-    from .f0_service import detect_mean_f0, compute_f0up_key
-
     segments = (
         db.query(Segment)
         .filter(
@@ -344,26 +341,9 @@ async def convert_batch(
         logger.warning(f"No assigned segments for song {song_id}")
         return []
 
-    # Detect F0 for all segments in parallel
-    seg_f0_map: dict[str, float | None] = {}
-    f0_tasks = []
-    f0_seg_ids = []
-    for seg in segments:
-        if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
-            continue
-        if not seg.vocal_path:
-            continue
-        f0_tasks.append(asyncio.to_thread(detect_mean_f0, seg.vocal_path))
-        f0_seg_ids.append(seg.id)
-
-    if f0_tasks:
-        f0_results = await asyncio.gather(*f0_tasks, return_exceptions=True)
-        for seg_id, f0_result in zip(f0_seg_ids, f0_results):
-            seg_f0_map[seg_id] = f0_result if not isinstance(f0_result, Exception) else None
-
-    # Compute f0up_key per segment and group by (voice_id, f0up_key)
+    # Group by voice_model_id (no per-segment pitch detection needed)
     voice_cache: dict[str, VoiceModel] = {}
-    pitch_groups: dict[tuple[str, int], list[tuple[bytes, Segment]]] = {}
+    pitch_groups: dict[str, list[tuple[bytes, Segment]]] = {}
     group_model_data: dict[str, tuple[bytes, bytes | None]] = {}
 
     all_paths: list[Path] = []
@@ -390,15 +370,10 @@ async def convert_batch(
                 index_bytes = Path(voice.index_path).read_bytes()
             group_model_data[vid] = (pth_bytes, index_bytes)
 
-        # Compute f0up_key
-        source_f0 = seg_f0_map.get(seg.id)
-        f0up_key = compute_f0up_key(
-            source_f0=source_f0,
-            target_f0=voice.mean_f0_hz,
-            manual_override=voice.f0up_key,
-        )
+        # Use voice model's manual f0up_key override (default 0 = preserve original pitch)
+        f0up_key = voice.f0up_key if voice.f0up_key else 0
 
-        key = (vid, f0up_key)
+        key = f"{vid}_{f0up_key}"
         if key not in pitch_groups:
             pitch_groups[key] = []
 
@@ -446,7 +421,9 @@ async def convert_batch(
         return paths
 
     work_items = []
-    for (vid, fk), audio_list in pitch_groups.items():
+    for key, audio_list in pitch_groups.items():
+        vid, fk_str = key.rsplit("_", 1)
+        fk = int(fk_str)
         pth_bytes, index_bytes = group_model_data[vid]
         work_items.append((vid, fk, audio_list, pth_bytes, index_bytes))
 

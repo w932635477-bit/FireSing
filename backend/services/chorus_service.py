@@ -21,8 +21,8 @@ from .rvc_service import convert_with_params
 
 logger = logging.getLogger(__name__)
 
-# Stereo panning positions for up to 5 voices (left-to-right spread)
-STEREO_PANS = [-0.8, -0.4, 0.0, 0.4, 0.8]
+# Stereo panning positions for chorus voices (tight center spread, not wide)
+STEREO_PANS = [-0.3, 0.0, 0.3, -0.15, 0.15]
 
 # Reverb settings (light hall reverb via pydub simple delay)
 REVERB_DELAY_MS = 40
@@ -152,10 +152,10 @@ def _add_reverb(audio: PydubAudioSegment) -> PydubAudioSegment:
 
 
 def _mix_voices(voice_audios: list[PydubAudioSegment]) -> PydubAudioSegment:
-    """Mix multiple voice audio segments with stereo panning.
+    """Mix multiple voice audios into a tight chorus blend.
 
-    Each voice is panned to a different position across the stereo field
-    using the STEREO_PANS positions. All are overlaid into one stereo mix.
+    Voices are panned slightly off-center for subtle width,
+    not spread wide. All overlaid into one stereo mix.
     """
     if not voice_audios:
         raise ValueError("No voice audios to mix")
@@ -171,12 +171,11 @@ def _mix_voices(voice_audios: list[PydubAudioSegment]) -> PydubAudioSegment:
     ).set_sample_width(sample_width).set_channels(2)
 
     for i, voice_audio in enumerate(voice_audios):
-        # Ensure consistent format
         voice_audio = voice_audio.set_frame_rate(frame_rate)
         voice_audio = voice_audio.set_sample_width(sample_width)
         voice_audio = voice_audio.set_channels(2)
 
-        # Pan to position
+        # Slight pan for subtle width, tight center cluster
         pan = STEREO_PANS[i % len(STEREO_PANS)]
         panned = _pan_audio(voice_audio, pan)
 
@@ -190,8 +189,8 @@ def _mix_voices(voice_audios: list[PydubAudioSegment]) -> PydubAudioSegment:
         else:
             panned = panned[:max_duration]
 
-        # Overlay at reduced volume (-3 dB per voice to avoid clipping)
-        panned = panned - 3
+        # -2 dB per voice to prevent clipping when overlaid on lead
+        panned = panned - 2
         mixed = mixed.overlay(panned)
 
     return mixed
@@ -226,17 +225,16 @@ async def generate_grand_chorus(
     segment_ids: list[str],
     voice_model_ids: list[str],
     db: Session,
-) -> Path:
-    """Generate grand chorus audio for a section of the song.
+) -> list[str]:
+    """Generate per-segment multi-voice chorus audio files.
 
     For each chorus segment:
     1. Load the original vocal audio
-    2. Run RVC inference with each of the N voice models
-    3. Pan each voice across the stereo field
-    4. Add light reverb
-    5. Mix all voices together
+    2. Run RVC inference with each voice model (f0up_key=0)
+    3. Mix voices with stereo panning
+    4. Save as individual segment file (NOT concatenated)
 
-    Returns path to the final mixed chorus audio file.
+    Returns list of paths to per-segment chorus audio files.
     """
     if not segment_ids:
         raise ValueError("No segment IDs provided for chorus")
@@ -248,15 +246,14 @@ async def generate_grand_chorus(
         f"{len(voice_model_ids)} voices for song {song_id}"
     )
 
-    # Limit segments to prevent explosion (e.g. 41 segs x 5 voices = 205 RVC calls)
+    # Limit segments to prevent explosion
     if len(segment_ids) > MAX_CHORUS_SEGMENTS:
         logger.warning(
-            f"Limiting chorus from {len(segment_ids)} to {MAX_CHORUS_SEGMENTS} segments "
-            f"(would be {len(segment_ids) * len(voice_model_ids)} RVC calls)"
+            f"Limiting chorus from {len(segment_ids)} to {MAX_CHORUS_SEGMENTS} segments"
         )
         segment_ids = segment_ids[:MAX_CHORUS_SEGMENTS]
 
-    # Pre-load all voice models (pth + index bytes)
+    # Pre-load all voice models
     voices: list[VoiceModel] = []
     voice_data: list[tuple[bytes, bytes | None]] = []
     for vm_id in voice_model_ids:
@@ -265,8 +262,9 @@ async def generate_grand_chorus(
         voices.append(voice)
         voice_data.append((pth_bytes, index_bytes))
 
-    # Process each segment
-    segment_audios: list[PydubAudioSegment] = []
+    output_dir = CONVERTED_DIR / song_id
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_paths: list[str] = []
 
     for seg_id in segment_ids:
         segment = db.query(Segment).filter(Segment.id == seg_id).first()
@@ -279,23 +277,15 @@ async def generate_grand_chorus(
             )
             continue
 
-        # Read source vocal bytes
         vocal_bytes = await _read_audio_bytes(segment.vocal_path)
 
-        # Run RVC inference with each voice model (sequentially to avoid GPU overload)
+        # Run RVC with ALL voice models (everyone sings together)
         voice_audios: list[PydubAudioSegment] = []
         original_duration_ms = (segment.end_time - segment.start_time) * 1000
+
         for i, voice in enumerate(voices):
             pth_bytes, index_bytes = voice_data[i]
-
-            # Compute pitch shift for this voice
-            from .f0_service import detect_mean_f0_from_bytes, compute_f0up_key
-            source_f0 = detect_mean_f0_from_bytes(vocal_bytes)
-            f0_up_key = compute_f0up_key(
-                source_f0=source_f0,
-                target_f0=voice.mean_f0_hz,
-                manual_override=voice.f0up_key,
-            )
+            f0_up_key = voice.f0up_key if voice.f0up_key else 0
 
             try:
                 converted_bytes = await convert_with_params(
@@ -312,61 +302,47 @@ async def generate_grand_chorus(
                     original_duration_ms=original_duration_ms,
                 )
 
-                # Convert bytes to pydub AudioSegment (offload to thread)
                 audio_seg = await asyncio.to_thread(
                     PydubAudioSegment.from_file, io.BytesIO(converted_bytes), format="wav"
                 )
                 voice_audios.append(audio_seg)
 
                 logger.debug(
-                    f"  Segment line {segment.line_number}, voice {voice.name}: "
-                    f"{len(converted_bytes)/1024:.1f}KB"
+                    f"  Chorus line {segment.line_number}, voice {voice.name}: done"
                 )
             except Exception as e:
                 logger.error(
-                    f"  RVC failed for segment {segment.line_number}, "
-                    f"voice {voice.name}: {type(e).__name__}: {e}",
-                    exc_info=True,
+                    f"  RVC failed for chorus line {segment.line_number}, "
+                    f"voice {voice.name}: {type(e).__name__}: {e}"
                 )
                 continue
 
         if not voice_audios:
-            logger.warning(
-                f"No voices generated for segment {seg_id}, skipping"
-            )
+            logger.warning(f"No voices for chorus segment {seg_id}, skipping")
             continue
 
-        # Mix voices with stereo panning
+        # Mix all voices into one chorus audio
         mixed_segment = await asyncio.to_thread(_mix_voices, voice_audios)
 
-        # Add light reverb
-        mixed_segment = await asyncio.to_thread(_add_reverb, mixed_segment)
+        # Save and replace the segment's converted vocal with the chorus mix
+        output_path = output_dir / f"chorus_line_{segment.line_number:03d}.wav"
+        await asyncio.to_thread(
+            mixed_segment.export, str(output_path), format="wav"
+        )
 
-        segment_audios.append(mixed_segment)
+        # Replace converted_vocal_path so _place_vocals_at_positions uses chorus
+        segment.converted_vocal_path = str(output_path)
+        db.commit()
+        output_paths.append(str(output_path))
 
-    if not segment_audios:
-        raise RuntimeError("No chorus audio segments were generated")
-
-    # Concatenate all segments in order
-    logger.info(f"Concatenating {len(segment_audios)} chorus segments")
-    full_chorus = segment_audios[0]
-    for seg_audio in segment_audios[1:]:
-        full_chorus = full_chorus + seg_audio
-
-    # Export to file
-    output_dir = CONVERTED_DIR / song_id
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / "grand_chorus.wav"
-
-    await asyncio.to_thread(
-        full_chorus.export, str(output_path), format="wav"
-    )
+        logger.info(
+            f"Chorus line {segment.line_number}: "
+            f"{len(voice_audios)} voices mixed, {len(mixed_segment)}ms"
+        )
 
     logger.info(
-        f"Grand chorus generated: {output_path} "
-        f"({len(full_chorus)/1000:.1f}s, "
-        f"{len(segment_audios)} segments, "
-        f"{len(voice_model_ids)} voices)"
+        f"Grand chorus done: {len(output_paths)} segments "
+        f"with {len(voice_model_ids)} voices for song {song_id}"
     )
 
-    return output_path
+    return output_paths

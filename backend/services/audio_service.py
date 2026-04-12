@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Audio mixing constants
 CROSSFADE_MS = 50  # Crossfade between segments (50ms with squared-sine window)
 MONOLOGUE_INSTRUMENTAL_REDUCTION_DB = 12  # Lower instrumental during monologue
-ORIGINAL_BACKING_VOLUME_DB = -10  # Original vocals stem volume for harmony context
+ORIGINAL_BACKING_VOLUME_DB = -18  # Original vocals stem volume for harmony context
 
 
 def mix_all(
@@ -50,21 +50,17 @@ def mix_all(
 
     chorus_set = set(chorus_segment_ids)
 
-    # Step 1: Concatenate converted vocals with crossfade
-    vocal_track = _concatenate_vocals(segments, chorus_set)
+    # Step 1: Place converted vocals at their original time positions
+    # (NOT concatenation — concatenation loses gaps between segments)
+    vocal_track = _place_vocals_at_positions(segments, chorus_set, song)
 
     # Step 1.5: Overlay original vocals stem at reduced volume for harmony context
-    # The original vocals stem (from Demucs) contains lead + harmony + backing.
-    # At reduced volume, it provides natural harmony depth behind the AI lead vocal.
+    # With f0up_key=0 the AI voice matches original pitch, so backing blends naturally
     if song.vocals_path and Path(song.vocals_path).exists():
         vocal_track = _overlay_original_backing(vocal_track, song.vocals_path)
 
-    # Step 2: Overlay grand chorus if available
-    from ..config import CONVERTED_DIR
-    grand_chorus_path = CONVERTED_DIR / song_id / "grand_chorus.wav"
-    if grand_chorus_path.exists():
-        grand_chorus = AudioSegment.from_wav(str(grand_chorus_path))
-        vocal_track = _overlay_grand_chorus(vocal_track, grand_chorus, segments, chorus_set)
+    # Step 2: Chorus segments already have multi-voice audio in converted_vocal_path
+    # (replaced by chorus_service.generate_grand_chorus), no separate overlay needed
 
     # Step 3: Load instrumental
     if not song.instrumental_path or not Path(song.instrumental_path).exists():
@@ -172,6 +168,67 @@ def _squared_sine_crossfade(
     )
 
 
+def _place_vocals_at_positions(
+    segments: list, chorus_set: set, song
+) -> AudioSegment:
+    """Place converted vocal segments at their original time positions.
+
+    Instead of concatenating segments (which loses all silence/gaps),
+    create a full-length track and overlay each segment at its original
+    start time. This keeps the vocal track in sync with the instrumental.
+    """
+    # Determine total duration from instrumental or original vocals
+    ref_path = song.instrumental_path or song.vocals_path
+    if not ref_path or not Path(ref_path).exists():
+        raise ValueError("No reference audio for duration")
+
+    ref_audio = AudioSegment.from_file(ref_path)
+    total_ms = len(ref_audio)
+    frame_rate = ref_audio.frame_rate
+    channels = ref_audio.channels
+    sample_width = ref_audio.sample_width
+
+    # Create silent track matching reference duration
+    result = AudioSegment.silent(duration=total_ms, frame_rate=frame_rate)
+    result = result.set_sample_width(sample_width).set_channels(channels)
+
+    placed = 0
+    for seg in segments:
+        if not seg.converted_vocal_path:
+            continue
+        if not Path(seg.converted_vocal_path).exists():
+            continue
+        if seg.start_time is None:
+            continue
+
+        seg_audio = AudioSegment.from_wav(seg.converted_vocal_path)
+
+        # Boost chorus sections by 1dB
+        if seg.id in chorus_set:
+            seg_audio = seg_audio + 1
+
+        # Place at original position (start_time is in seconds)
+        position_ms = int(seg.start_time * 1000)
+
+        # Don't place beyond track length
+        if position_ms >= total_ms:
+            continue
+
+        # Trim segment if it extends beyond track
+        available_ms = total_ms - position_ms
+        if len(seg_audio) > available_ms:
+            seg_audio = seg_audio[:available_ms]
+
+        result = result.overlay(seg_audio, position=position_ms)
+        placed += 1
+
+    logger.info(
+        f"Placed {placed}/{len(segments)} segments at original positions, "
+        f"track length {total_ms}ms"
+    )
+    return result
+
+
 def _concatenate_vocals(segments: list, chorus_set: set) -> AudioSegment:
     """Concatenate converted vocal segments with squared-sine crossfade."""
     parts = []
@@ -239,50 +296,51 @@ def _overlay_original_backing(
 
 def _overlay_grand_chorus(
     vocal_track: AudioSegment,
-    grand_chorus: AudioSegment,
     segments: list,
     chorus_set: set,
+    song_id: str,
 ) -> AudioSegment:
-    """Overlay grand chorus audio at the correct position in the vocal track.
+    """Overlay per-segment chorus audio at original positions.
 
-    The grand chorus was generated for specific segments. We need to find
-    where those segments start in the concatenated track and overlay there.
+    Each chorus segment has a separate multi-voice file (chorus_line_XXX.wav).
+    We overlay each at the segment's original start_time position.
+    This preserves timing and avoids concatenation artifacts.
     """
+    from ..config import CONVERTED_DIR
+
     if not chorus_set:
         return vocal_track
 
-    # Find the start position of the first chorus segment in the vocal track
-    # by accumulating durations of all preceding segments
-    offset_ms = 0
-    found_first_chorus = False
+    overlaid = 0
     for seg in segments:
-        if seg.id in chorus_set:
-            found_first_chorus = True
-            break
-        if seg.converted_vocal_path and Path(seg.converted_vocal_path).exists():
-            seg_audio = AudioSegment.from_wav(seg.converted_vocal_path)
-            offset_ms += len(seg_audio)
+        if seg.id not in chorus_set:
+            continue
+        if seg.start_time is None:
+            continue
 
-    if not found_first_chorus:
-        return vocal_track
+        chorus_path = CONVERTED_DIR / song_id / f"chorus_line_{seg.line_number:03d}.wav"
+        if not chorus_path.exists():
+            continue
 
-    # Trim or pad grand chorus to fit available space
-    available_ms = len(vocal_track) - offset_ms
-    if available_ms <= 0:
-        return vocal_track
+        chorus_audio = AudioSegment.from_wav(str(chorus_path))
 
-    if len(grand_chorus) > available_ms:
-        grand_chorus = grand_chorus[:available_ms]
+        # Chorus at -3dB behind the lead vocal
+        chorus_audio = chorus_audio - 3
 
-    # Overlay at -3dB (grand chorus should be prominent but not overpower lead)
-    grand_chorus = grand_chorus - 3
+        position_ms = int(seg.start_time * 1000)
+        if position_ms >= len(vocal_track):
+            continue
 
-    result = vocal_track.overlay(grand_chorus, position=offset_ms)
-    logger.info(
-        f"Grand chorus overlaid at {offset_ms}ms, "
-        f"length {len(grand_chorus)}ms, available {available_ms}ms"
-    )
-    return result
+        # Trim if extends beyond track
+        available_ms = len(vocal_track) - position_ms
+        if len(chorus_audio) > available_ms:
+            chorus_audio = chorus_audio[:available_ms]
+
+        vocal_track = vocal_track.overlay(chorus_audio, position=position_ms)
+        overlaid += 1
+
+    logger.info(f"Overlaid {overlaid} chorus segments at original positions")
+    return vocal_track
 
 
 def _mix_tracks(

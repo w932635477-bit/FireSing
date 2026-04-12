@@ -76,9 +76,8 @@ _ACTIVE_STATUSES = {"separating", "segmented", "segmenting", "assigning",
 async def _assign_voices_for_pipeline(song_id: str, params, db):
     """Assign voices to segments using the strategy from ProcessRequest.
 
-    For round-robin: uses F0-aware matching. Each segment's source F0 is
-    detected, and the voice model whose pitch range is closest is assigned.
-    This avoids cross-gender pitch shifts that destroy RVC quality.
+    round-robin: true sequential rotation (一人一句) — no F0 matching needed
+    since f0up_key=0 preserves original pitch for all models.
     """
     from ..models import Segment, VoiceModel
 
@@ -96,43 +95,19 @@ async def _assign_voices_for_pipeline(song_id: str, params, db):
         Segment.song_id == song_id
     ).order_by(Segment.line_number).all()
 
-    # Load voice model F0 data
-    voices = db.query(VoiceModel).filter(VoiceModel.id.in_(params.voice_pool)).all()
-    voice_f0_list = [(v.id, v.mean_f0_hz) for v in voices]
-
     import random
-    if params.strategy == "round-robin" and len(params.voice_pool) >= 2:
-        # F0-aware assignment: detect F0 in threads to avoid blocking event loop
-        from ..services.f0_service import detect_mean_f0, best_voice_for_segment
-
-        # Run F0 detection concurrently (librosa.pyin is CPU-bound)
-        f0_tasks = []
-        for seg in segments:
-            if seg.vocal_path:
-                f0_tasks.append(asyncio.to_thread(detect_mean_f0, seg.vocal_path))
-            else:
-                f0_tasks.append(None)
-
-        f0_results = await asyncio.gather(
-            *(t for t in f0_tasks if t is not None),
-            return_exceptions=True,
-        )
-        f0_iter = iter(f0_results)
-
-        for seg in segments:
-            if not seg.vocal_path:
-                seg.voice_model_id = params.voice_pool[0]
-                continue
-            source_f0 = next(f0_iter)
-            if isinstance(source_f0, Exception):
-                logger.warning(f"F0 detection failed for segment {seg.id}: {source_f0}")
-                source_f0 = None
-            best = best_voice_for_segment(source_f0, voice_f0_list)
-            seg.voice_model_id = best or params.voice_pool[0]
-
+    if params.strategy == "round-robin":
+        # Grouped round-robin: each voice sings a contiguous section
+        # Divides segments into N equal groups, one per voice
+        # This avoids the jarring effect of switching voices every few seconds
+        n_voices = len(params.voice_pool)
+        group_size = max(1, len(segments) // n_voices)
+        for i, seg in enumerate(segments):
+            voice_idx = min(i // group_size, n_voices - 1)
+            seg.voice_model_id = params.voice_pool[voice_idx]
         logger.info(
-            f"F0-aware voice assignment: {len(segments)} segments, "
-            f"{len(set(s.voice_model_id for s in segments))} distinct voices"
+            f"Grouped round-robin: {len(segments)} segments, "
+            f"{n_voices} voices, ~{group_size} lines per voice"
         )
     elif params.strategy == "random":
         for seg in segments:
@@ -264,20 +239,19 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         _update_progress(song_id, "chorus", 82, "Detecting chorus...", db=db)
         chorus_ids = chorus_service.detect(segments)
 
-        # Grand chorus: use all available voice models for the final chorus section
+        # Grand chorus: use voice_pool models for the final chorus section
         if chorus_ids and params.enable_chorus:
             _update_progress(song_id, "chorus", 83, "Generating grand chorus...", db=db)
-            available_voices = db.query(VoiceModel).all()
-            voice_count = params.chorus_voice_count or 5
-            if len(available_voices) >= 2:
-                chorus_seg_ids = [s.id for s in segments if s.id in chorus_ids]
+            voice_count = params.chorus_voice_count or len(params.voice_pool)
+            chorus_voice_ids = params.voice_pool[:voice_count]
+            if len(chorus_voice_ids) >= 2:
                 last_section_ids = chorus_service.detect_last_section(segments)
-                grand_chorus_ids = last_section_ids if last_section_ids else chorus_seg_ids
+                grand_chorus_ids = last_section_ids if last_section_ids else [s.id for s in segments if s.id in chorus_ids]
                 if grand_chorus_ids:
                     await chorus_service.generate_grand_chorus(
                         song_id=song_id,
                         segment_ids=grand_chorus_ids,
-                        voice_model_ids=[v.id for v in available_voices[:voice_count]],
+                        voice_model_ids=chorus_voice_ids,
                         db=db,
                     )
 
