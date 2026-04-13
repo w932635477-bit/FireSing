@@ -25,6 +25,15 @@ async def lifespan(app: FastAPI):
     # Initialize database
     init_db()
 
+    # Seed voice profile presets
+    from .database import SessionLocal as _SessionLocal
+    _db = _SessionLocal()
+    try:
+        from .services.voice_profile_presets import seed_presets
+        seed_presets(_db)
+    finally:
+        _db.close()
+
     # Detect stuck songs from previous server crash
     from .database import SessionLocal
     from .models import Song

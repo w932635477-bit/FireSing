@@ -60,8 +60,10 @@ class VoiceModelResponse(BaseModel):
     id: str
     name: str
     is_preset: bool
-    f0up_key: int = 0
-    mean_f0_hz: Optional[float] = None
+    pitch_shift: float = 0.0
+    formant_shift: float = 0.0
+    eq_profile: str = "natural"
+    color: str = "#4A90D9"
 
     model_config = {"from_attributes": True}
 
@@ -71,8 +73,11 @@ class VoiceModelListResponse(BaseModel):
 
 
 class VoiceModelUpdateRequest(BaseModel):
-    f0up_key: int = Field(default=0, ge=-12, le=12)
     name: Optional[str] = None
+    pitch_shift: Optional[float] = Field(default=None, ge=-5.0, le=5.0)
+    formant_shift: Optional[float] = Field(default=None, ge=-3.0, le=3.0)
+    eq_profile: Optional[str] = None
+    color: Optional[str] = None
 
 
 class VoiceAssignment(BaseModel):

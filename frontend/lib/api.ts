@@ -34,8 +34,10 @@ export interface VoiceModel {
   id: string;
   name: string;
   is_preset: boolean;
-  f0up_key: number;
-  mean_f0_hz: number | null;
+  pitch_shift: number;
+  formant_shift: number;
+  eq_profile: string;
+  color: string;
 }
 
 export interface Output {
@@ -194,16 +196,29 @@ export async function listVoices(): Promise<{ voices: VoiceModel[] }> {
   return authFetch("/voices");
 }
 
-export async function uploadVoice(pth: File, index: File | null, name: string, referenceAudio?: File | null): Promise<VoiceModel> {
-  const form = new FormData();
-  form.append("pth_file", pth);
-  if (index) form.append("index_file", index);
-  form.append("name", name);
-  if (referenceAudio) form.append("reference_audio", referenceAudio);
-  return authFetch("/voices", { method: "POST", body: form });
+export async function createVoice(params: {
+  name: string;
+  pitch_shift?: number;
+  formant_shift?: number;
+  eq_profile?: string;
+  color?: string;
+}): Promise<VoiceModel> {
+  const qs = new URLSearchParams();
+  qs.set("name", params.name);
+  if (params.pitch_shift !== undefined) qs.set("pitch_shift", String(params.pitch_shift));
+  if (params.formant_shift !== undefined) qs.set("formant_shift", String(params.formant_shift));
+  if (params.eq_profile) qs.set("eq_profile", params.eq_profile);
+  if (params.color) qs.set("color", params.color);
+  return authFetch(`/voices?${qs.toString()}`, { method: "POST" });
 }
 
-export async function updateVoice(voiceId: string, data: { f0up_key?: number; name?: string }): Promise<VoiceModel> {
+export async function updateVoice(voiceId: string, data: {
+  name?: string;
+  pitch_shift?: number;
+  formant_shift?: number;
+  eq_profile?: string;
+  color?: string;
+}): Promise<VoiceModel> {
   return authFetch(`/voices/${voiceId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
@@ -266,7 +281,7 @@ export function statusLabel(status: string): string {
     separated: "已分离",
     segmented: "已切分",
     assigning: "分配音色",
-    converting: "RVC 转换",
+    converting: "音色调整",
     harmony: "和声生成",
     chorus: "合唱检测",
     monologue: "生成独白",

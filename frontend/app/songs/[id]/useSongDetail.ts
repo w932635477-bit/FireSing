@@ -7,7 +7,7 @@ import {
   getSegments,
   assignVoices,
   listVoices,
-  uploadVoice,
+  createVoice,
   uploadLrc,
   getOutputs,
   startProcess,
@@ -19,17 +19,6 @@ import {
   type ProcessRequest,
 } from "@/lib/api";
 import { useToast } from "@/components/Toast";
-
-export const VOICE_COLORS = [
-  { chip: "voice-chip-red", dot: "bg-ember", label: "珊瑚红" },
-  { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
-  { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
-  { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
-  { chip: "voice-chip-purple", dot: "bg-purple-400", label: "紫罗兰" },
-  { chip: "voice-chip-orange", dot: "bg-orange-400", label: "橘黄色" },
-  { chip: "voice-chip-pink", dot: "bg-pink-400", label: "粉红色" },
-  { chip: "voice-chip-teal", dot: "bg-teal-400", label: "青碧色" },
-];
 
 export type Tab = "detail" | "library" | "studio";
 
@@ -53,9 +42,9 @@ export function useSongDetail(songId: string) {
   const [outputFormat, setOutputFormat] = useState<"video" | "audio" | "video_subtitled">("video");
   const [enableChorus, setEnableChorus] = useState(true);
   const [chorusVoiceCount, setChorusVoiceCount] = useState(5);
-  const [voiceUploading, setVoiceUploading] = useState(false);
+  const [voiceCreating, setVoiceCreating] = useState(false);
   const [lrcUploading, setLrcUploading] = useState(false);
-  const [showVoiceUpload, setShowVoiceUpload] = useState(false);
+  const [showVoiceCreate, setShowVoiceCreate] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -84,9 +73,9 @@ export function useSongDetail(songId: string) {
         created_at: "2025-04-04T16:00:00Z",
       });
       setVoices([
-        { id: "voice-1", name: "周杰伦音色", is_preset: false },
-        { id: "voice-2", name: "林俊杰音色", is_preset: false },
-        { id: "voice-3", name: "邓紫棋音色", is_preset: true },
+        { id: "voice-1", name: "原声女", is_preset: true, pitch_shift: 0, formant_shift: 0, eq_profile: "natural", color: "#FF69B4" },
+        { id: "voice-2", name: "浑厚男声", is_preset: true, pitch_shift: -2, formant_shift: -1.5, eq_profile: "deep", color: "#8B4513" },
+        { id: "voice-3", name: "清亮男声", is_preset: true, pitch_shift: 1, formant_shift: 1, eq_profile: "bright", color: "#00CED1" },
       ]);
       setSegments([
         { id: "seg-1", line_number: 1, text: "对这个世界如果你有太多的抱怨", start_time: 12.5, end_time: 16.8, voice_model_id: "voice-1" },
@@ -125,7 +114,7 @@ export function useSongDetail(songId: string) {
 
   async function handleAssign(strategy: "manual" | "round-robin" | "random", options?: { segId?: string; voiceId?: string }) {
     if (strategy !== "manual" && voices.length === 0) {
-      addToast("warning", "请先上传音色模型");
+      addToast("warning", "请先创建音色");
       return;
     }
     try {
@@ -138,21 +127,22 @@ export function useSongDetail(songId: string) {
       }
       await load();
     } catch (e) {
-      addToast("error", `音色分配失败，请检查音色模型是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`);
+      addToast("error", `音色分配失败，请检查音色是否有效。错误: ${e instanceof Error ? e.message : "请重试"}`);
     }
   }
 
-  async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const pth = fd.get("pth_file") as File;
-    const idx = fd.get("index_file") as File;
-    const name = fd.get("name") as string;
-    if (!pth || !name) { addToast("warning", "请填写音色名称并选择 .pth 文件"); return; }
-    setVoiceUploading(true);
-    try { await uploadVoice(pth, idx?.size > 0 ? idx : null, name); await load(); setShowVoiceUpload(false); }
-    catch (e) { addToast("error", `音色上传失败，请确保 .pth 文件格式正确。错误: ${e instanceof Error ? e.message : "请重试"}`); }
-    finally { setVoiceUploading(false); }
+  async function handleCreateVoice(name: string, pitch_shift: number, formant_shift: number, eq_profile: string) {
+    if (!name.trim()) { addToast("warning", "请填写音色名称"); return; }
+    setVoiceCreating(true);
+    try {
+      await createVoice({ name: name.trim(), pitch_shift, formant_shift, eq_profile });
+      await load();
+      setShowVoiceCreate(false);
+    } catch (e) {
+      addToast("error", `音色创建失败: ${e instanceof Error ? e.message : "请重试"}`);
+    } finally {
+      setVoiceCreating(false);
+    }
   }
 
   async function handleStartProcess() {
@@ -219,14 +209,14 @@ export function useSongDetail(songId: string) {
     setEnableChorus,
     chorusVoiceCount,
     setChorusVoiceCount,
-    voiceUploading,
+    voiceCreating,
     lrcUploading,
-    showVoiceUpload,
-    setShowVoiceUpload,
+    showVoiceCreate,
+    setShowVoiceCreate,
     // Handlers
     handleUploadLrc,
     handleAssign,
-    handleUploadVoice,
+    handleCreateVoice,
     handleStartProcess,
     // Computed
     hasSegments,

@@ -85,39 +85,23 @@ def _lowpass_biquad(freq: float, sr: float):
 def _process_vocal(converted_bytes: bytes) -> bytes:
     """Post-processing chain for RVC output.
 
-    1. Compression + makeup gain — reduce dynamic range, boost overall level
-    2. EQ presence boost (+2dB at 3.5kHz) — clarity and articulation
-    3. De-ess (soft lowpass above 6kHz, -3dB) — reduce RVC sibilance
+    1. Presence EQ boost (+2dB at 3.5kHz) — clarity and articulation
+    2. De-ess (soft lowpass above 6kHz) — reduce RVC sibilance
 
     Handles both mono (1D) and stereo (2D, shape Nx2) audio.
     No scipy dependency — all filters use raw biquad coefficients.
+
+    NOTE: Compression was removed because sample-level compression (hard or soft knee)
+    introduces severe harmonic distortion. Even soft-knee creates waveform kinks at the
+    threshold boundary that generate odd harmonics (3rd harmonic at 1320Hz was 4000x
+    louder than input on a 440Hz test tone). A proper compressor needs attack/release
+    envelope following which is complex and error-prone. EQ + de-ess alone provide
+    most of the perceived benefit without any distortion risk.
     """
     audio, sr = sf.read(io.BytesIO(converted_bytes))
     is_stereo = audio.ndim == 2
 
-    # 1. Downward compression + makeup gain
-    threshold = 0.3
-    ratio = 2.0
-    makeup_gain = 1.15  # +1.2dB
-
-    if is_stereo:
-        for ch in range(audio.shape[1]):
-            channel = audio[:, ch]
-            abs_ch = np.abs(channel)
-            mask = abs_ch > threshold
-            channel[mask] = np.sign(channel[mask]) * (
-                threshold + (abs_ch[mask] - threshold) / ratio
-            )
-            audio[:, ch] = channel * makeup_gain
-    else:
-        abs_audio = np.abs(audio)
-        mask = abs_audio > threshold
-        audio[mask] = np.sign(audio[mask]) * (
-            threshold + (abs_audio[mask] - threshold) / ratio
-        )
-        audio = audio * makeup_gain
-
-    # 2. Presence EQ boost (+2dB at 3.5kHz, Q=1.5)
+    # 1. Presence EQ boost (+2dB at 3.5kHz, Q=1.5)
     b, a = _peaking_eq(3500, sr, 2.0, 1.5)
     if is_stereo:
         for ch in range(audio.shape[1]):
@@ -125,7 +109,7 @@ def _process_vocal(converted_bytes: bytes) -> bytes:
     else:
         audio = _apply_iir(audio, b, a)
 
-    # 3. De-ess: soften sibilance band above 6kHz (30% mix)
+    # 2. De-ess: soften sibilance band above 6kHz (30% mix)
     b_lp, a_lp = _lowpass_biquad(6000, sr)
     if is_stereo:
         deessed = np.column_stack([
@@ -135,7 +119,7 @@ def _process_vocal(converted_bytes: bytes) -> bytes:
         deessed = _apply_iir(audio, b_lp, a_lp)
     audio = 0.7 * audio + 0.3 * deessed
 
-    # Normalize to prevent clipping from EQ + makeup gain
+    # Normalize to prevent clipping from EQ boost
     peak = np.max(np.abs(audio))
     if peak > 0.95:
         audio = audio * (0.95 / peak)

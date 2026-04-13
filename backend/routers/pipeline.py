@@ -76,8 +76,8 @@ _ACTIVE_STATUSES = {"separating", "segmented", "segmenting", "assigning",
 async def _assign_voices_for_pipeline(song_id: str, params, db):
     """Assign voices to segments using the strategy from ProcessRequest.
 
-    round-robin: true sequential rotation (一人一句) — no F0 matching needed
-    since f0up_key=0 preserves original pitch for all models.
+    Preserves existing voice_model_id assignments — only assigns unassigned segments.
+    This prevents overwriting user's manual segment assignments in the UI.
     """
     from ..models import Segment, VoiceModel
 
@@ -91,22 +91,25 @@ async def _assign_voices_for_pipeline(song_id: str, params, db):
     if missing:
         raise ValueError(f"Voice models not found: {missing}")
 
+    # Only assign to segments that don't already have a voice_model_id
     segments = db.query(Segment).filter(
-        Segment.song_id == song_id
+        Segment.song_id == song_id,
+        Segment.voice_model_id.is_(None),
     ).order_by(Segment.line_number).all()
+
+    if not segments:
+        logger.info(f"All segments already assigned for song {song_id}")
+        return
 
     import random
     if params.strategy == "round-robin":
-        # Grouped round-robin: each voice sings a contiguous section
-        # Divides segments into N equal groups, one per voice
-        # This avoids the jarring effect of switching voices every few seconds
         n_voices = len(params.voice_pool)
         group_size = max(1, len(segments) // n_voices)
         for i, seg in enumerate(segments):
             voice_idx = min(i // group_size, n_voices - 1)
             seg.voice_model_id = params.voice_pool[voice_idx]
         logger.info(
-            f"Grouped round-robin: {len(segments)} segments, "
+            f"Grouped round-robin: {len(segments)} unassigned segments, "
             f"{n_voices} voices, ~{group_size} lines per voice"
         )
     elif params.strategy == "random":
@@ -119,21 +122,21 @@ async def _assign_voices_for_pipeline(song_id: str, params, db):
 
 
 async def _run_pipeline(song_id: str, params: ProcessRequest):
-    """Background pipeline execution — optimized 5-step pipeline.
+    """Background pipeline execution — Voice Profile Pipeline.
 
-    Pipeline: Demucs → Energy VAD Segmentation → Assign → Batch RVC → Mix → Video
+    Pipeline: Demucs → Energy VAD Segmentation → Assign → VoiceModify → Chorus → Mix → Video
 
-    Key optimizations over the original 8-step pipeline:
-    1. Energy-based segmentation replaces LRC parsing (no lyrics needed)
-    2. Batch RVC loads model once per voice instead of per segment
-    3. Harmony + Chorus merged into mix step (not separate GPU calls)
+    Voice modification is local CPU (no GPU needed for step 4).
+    GPU only required for Demucs vocal separation (step 1).
     """
     import httpx
+    from pathlib import Path as FilePath
     from ..database import SessionLocal
-    from ..services import demucs_service, vad_service, rvc_service
+    from ..services import demucs_service, vad_service
+    from ..services import voice_modify_service
     from ..services import chorus_service, tts_service, audio_service, video_service
     from ..models import Segment, VoiceModel
-    from ..config import GPU_SERVER_URL
+    from ..config import GPU_SERVER_URL, CONVERTED_DIR
 
     db = SessionLocal()
     try:
@@ -141,25 +144,28 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         if not song:
             raise ValueError(f"Song {song_id} not found")
 
-        # Pre-flight: check GPU server is reachable
-        logger.info(f"[PIPELINE] Starting pipeline for song {song_id}")
-        _update_progress(song_id, "preparing", 0, "Checking GPU server...", db=db)
-        try:
-            logger.info(f"[PIPELINE] Checking GPU at {GPU_SERVER_URL}/health")
-            async with httpx.AsyncClient(timeout=5.0, trust_env=False) as client:
-                resp = await client.get(f"{GPU_SERVER_URL}/health")
-                logger.info(f"[PIPELINE] GPU health response: {resp.status_code}")
-                if resp.status_code != 200:
-                    raise ConnectionError(f"GPU server returned HTTP {resp.status_code}")
-        except (httpx.ConnectError, httpx.TimeoutException, ConnectionError) as e:
-            error_msg = "GPU 服务器未启动，无法处理歌曲。请先启动 AutoDL 上的 GPU 服务。"
-            _update_progress(song_id, "error", 0, error_msg, step_failed="preparing", error_detail=str(e))
-            song = db.query(Song).filter(Song.id == song_id).first()
-            if song:
-                song.status = "error"
-                song.error_message = error_msg
-                db.commit()
-            return
+        # Pre-flight: check GPU server only if vocals not already separated
+        needs_gpu = not song.vocals_path or not FilePath(song.vocals_path).exists()
+        if needs_gpu:
+            logger.info(f"[PIPELINE] Starting pipeline for song {song_id} (GPU needed)")
+            _update_progress(song_id, "preparing", 0, "Checking GPU server...", db=db)
+            try:
+                async with httpx.AsyncClient(timeout=5.0, trust_env=False) as client:
+                    resp = await client.get(f"{GPU_SERVER_URL}/health")
+                    if resp.status_code != 200:
+                        raise ConnectionError(f"GPU server returned HTTP {resp.status_code}")
+            except (httpx.ConnectError, httpx.TimeoutException, ConnectionError) as e:
+                error_msg = "GPU 服务器未启动，无法处理歌曲。请先启动 AutoDL 上的 GPU 服务。"
+                _update_progress(song_id, "error", 0, error_msg, step_failed="preparing", error_detail=str(e))
+                song = db.query(Song).filter(Song.id == song_id).first()
+                if song:
+                    song.status = "error"
+                    song.error_message = error_msg
+                    db.commit()
+                return
+        else:
+            logger.info(f"[PIPELINE] Starting pipeline for song {song_id} (vocals already separated)")
+            _update_progress(song_id, "preparing", 0, "Preparing...", db=db)
 
         # Step 1: Demucs vocal separation (unchanged)
         if _cancel_flags.get(song_id):
@@ -194,8 +200,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         _update_progress(song_id, "assigning", 25, "Assigning voice models...", db=db)
         await _assign_voices_for_pipeline(song_id, params, db)
 
-        # Step 4: Batch RVC conversion (replaces per-segment conversion)
-        # Key optimization: load model once per voice, process all segments
+        # Step 4: Voice modification (local CPU, replaces RVC GPU conversion)
         if _cancel_flags.get(song_id):
             song = db.query(Song).filter(Song.id == song_id).first()
             if song:
@@ -203,22 +208,76 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
                 db.commit()
             _update_progress(song_id, "cancelled", 0, "Cancelled by user")
             return
-        _update_progress(song_id, "converting", 30, "Converting vocals (batch)...", db=db)
+        _update_progress(song_id, "converting", 30, "Modifying vocals...", db=db)
 
-        # Count segments for progress tracking
+        # Clear old outputs to prevent mixing stale files
         segments = db.query(Segment).filter(
-            Segment.song_id == song_id, Segment.voice_model_id.isnot(None)
+            Segment.song_id == song_id
         ).order_by(Segment.line_number).all()
-        total = len(segments)
 
-        if total > 0:
-            # Batch RVC: groups by voice model, loads each once
-            await rvc_service.convert_batch(song_id, db)
+        for seg in segments:
+            seg.converted_vocal_path = None
+            if seg.vocal_path:
+                parent = FilePath(seg.vocal_path).parent
+                (parent / f"line_{seg.line_number:03d}_modified.wav").unlink(missing_ok=True)
+                (parent / f"chorus_line_{seg.line_number:03d}.wav").unlink(missing_ok=True)
+        db.commit()
 
-            # Update progress per-segment after batch completes
-            pct = 30 + int(40 * total / max(total, 1))
-            _update_progress(song_id, "converting", pct,
-                           f"Converted {total} segments (batch)", db=db)
+        # Process segments with voice profiles
+        assigned_segments = [s for s in segments if s.voice_model_id and s.vocal_path]
+        total = len(assigned_segments)
+
+        # Cache voice models
+        voice_cache: dict[str, VoiceModel] = {}
+        for seg in assigned_segments:
+            if seg.voice_model_id not in voice_cache:
+                vm = db.query(VoiceModel).filter(VoiceModel.id == seg.voice_model_id).first()
+                voice_cache[seg.voice_model_id] = vm
+
+        for i, seg in enumerate(assigned_segments):
+            if _cancel_flags.get(song_id):
+                song = db.query(Song).filter(Song.id == song_id).first()
+                if song:
+                    song.status = "uploaded"
+                    db.commit()
+                _update_progress(song_id, "cancelled", 0, "Cancelled by user")
+                return
+
+            vm = voice_cache.get(seg.voice_model_id)
+            if not vm:
+                logger.warning(f"Segment {seg.id}: voice model {seg.voice_model_id} not found, skipping")
+                continue
+
+            try:
+                vocal_path = FilePath(seg.vocal_path)
+                vocal_bytes = vocal_path.read_bytes()
+
+                modified = await asyncio.to_thread(
+                    voice_modify_service.modify_vocal,
+                    vocal_bytes,
+                    pitch_shift=vm.pitch_shift,
+                    formant_shift=vm.formant_shift,
+                    eq_profile=vm.eq_profile,
+                )
+
+                output_dir = CONVERTED_DIR / song_id
+                output_dir.mkdir(parents=True, exist_ok=True)
+                output_path = output_dir / f"line_{seg.line_number:03d}_modified.wav"
+                output_path.write_bytes(modified)
+                seg.converted_vocal_path = str(output_path)
+
+            except Exception as e:
+                logger.error(f"Segment {seg.id} (line {seg.line_number}): modification failed: {e}")
+                continue
+
+            if (i + 1) % 5 == 0 or i == total - 1:
+                db.commit()
+                _update_progress(
+                    song_id, "converting",
+                    30 + int(40 * (i + 1) / total),
+                    f"Modifying segment {i+1}/{total}",
+                    db=db,
+                )
 
         # Refresh segments after conversion
         db.expire_all()
@@ -228,7 +287,7 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
 
         # Step 4b: Harmony removed — original vocals backing is mixed in audio_service.mix_all()
 
-        # Step 5: Chorus detection + grand chorus synthesis
+        # Step 5: Chorus detection + parameter variant synthesis
         if _cancel_flags.get(song_id):
             song = db.query(Song).filter(Song.id == song_id).first()
             if song:
@@ -239,21 +298,20 @@ async def _run_pipeline(song_id: str, params: ProcessRequest):
         _update_progress(song_id, "chorus", 82, "Detecting chorus...", db=db)
         chorus_ids = chorus_service.detect(segments)
 
-        # Grand chorus: use voice_pool models for the final chorus section
+        # Chorus: use parameter variants from each segment's assigned profile
+        # No longer requires multiple voice IDs — single profile + CHORUS_VARIANTS
         if chorus_ids and params.enable_chorus:
             _update_progress(song_id, "chorus", 83, "Generating grand chorus...", db=db)
-            voice_count = params.chorus_voice_count or len(params.voice_pool)
-            chorus_voice_ids = params.voice_pool[:voice_count]
-            if len(chorus_voice_ids) >= 2:
-                last_section_ids = chorus_service.detect_last_section(segments)
-                grand_chorus_ids = last_section_ids if last_section_ids else [s.id for s in segments if s.id in chorus_ids]
-                if grand_chorus_ids:
-                    await chorus_service.generate_grand_chorus(
-                        song_id=song_id,
-                        segment_ids=grand_chorus_ids,
-                        voice_model_ids=chorus_voice_ids,
-                        db=db,
-                    )
+            voice_count = params.chorus_voice_count or 5
+            last_section_ids = chorus_service.detect_last_section(segments)
+            grand_chorus_ids = last_section_ids if last_section_ids else [s.id for s in segments if s.id in set(chorus_ids)]
+            if grand_chorus_ids:
+                await chorus_service.generate_grand_chorus(
+                    song_id=song_id,
+                    segment_ids=grand_chorus_ids,
+                    voice_count=voice_count,
+                    db=db,
+                )
 
         # Step 6: Monologue generation
         if _cancel_flags.get(song_id):

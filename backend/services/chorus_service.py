@@ -3,7 +3,9 @@
 Step 5 of the FireSing pipeline:
 - detect() identifies chorus sections by lyric repetition
 - detect_last_section() finds the final chorus/outro
-- generate_grand_chorus() runs multi-voice RVC inference with stereo panning + reverb
+- generate_grand_chorus() runs parameter variant synthesis with stereo panning + reverb
+
+Uses voice profile parameters + CHORUS_VARIANTS offsets instead of multiple RVC models.
 """
 
 import asyncio
@@ -21,7 +23,7 @@ from sqlalchemy.orm import Session
 
 from ..config import CONVERTED_DIR
 from ..models import Segment, VoiceModel, Song
-from .rvc_service import convert_with_params
+from .voice_modify_service import modify_vocal
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +37,15 @@ REVERB_MIX_DB = -3  # wet signal volume relative to dry
 
 # Maximum chorus segments to process (prevents N segs x M voices explosion)
 MAX_CHORUS_SEGMENTS = 8
+
+# Chorus parameter variants: based on assigned profile + these offsets
+CHORUS_VARIANTS = [
+    {"pitch_offset": 0.0, "formant_offset": 0.0, "volume_offset": 0.0},    # original
+    {"pitch_offset": 0.05, "formant_offset": 0.5, "volume_offset": -1.0},  # variant 1
+    {"pitch_offset": -0.07, "formant_offset": -0.5, "volume_offset": -0.5},# variant 2
+    {"pitch_offset": 0.03, "formant_offset": 1.0, "volume_offset": -1.5},  # variant 3
+    {"pitch_offset": -0.05, "formant_offset": -1.0, "volume_offset": 0.5}, # variant 4
+]
 
 
 def detect(segments: list) -> list[str]:
@@ -292,27 +303,29 @@ async def _load_voice_model_bytes(voice: VoiceModel) -> tuple[bytes, bytes | Non
 async def generate_grand_chorus(
     song_id: str,
     segment_ids: list[str],
-    voice_model_ids: list[str],
-    db: Session,
+    voice_count: int = 5,
+    db: Session = None,
 ) -> list[str]:
-    """Generate per-segment multi-voice chorus audio files.
+    """Generate per-segment multi-voice chorus using parameter variants.
 
     For each chorus segment:
-    1. Load the original vocal audio
-    2. Run RVC inference with each voice model (f0up_key=0)
-    3. Mix voices with stereo panning
-    4. Save as individual segment file (NOT concatenated)
+    1. Read original vocal (vocal_path, NOT converted_vocal_path)
+    2. Get the segment's assigned voice profile as base
+    3. Generate N variants with CHORUS_VARIANTS offsets
+    4. Apply ensemble variation (micro-timing, micro-pitch)
+    5. Mix voices with stereo panning + reverb
+    6. Overwrite converted_vocal_path with chorus mix
 
-    Returns list of paths to per-segment chorus audio files.
+    No GPU needed — all processing is local CPU.
     """
     if not segment_ids:
         raise ValueError("No segment IDs provided for chorus")
-    if not voice_model_ids:
-        raise ValueError("No voice model IDs provided for chorus")
+
+    voice_count = min(voice_count, len(CHORUS_VARIANTS))
 
     logger.info(
         f"Generating grand chorus: {len(segment_ids)} segments x "
-        f"{len(voice_model_ids)} voices for song {song_id}"
+        f"{voice_count} variants for song {song_id}"
     )
 
     # Limit segments to prevent explosion
@@ -321,15 +334,6 @@ async def generate_grand_chorus(
             f"Limiting chorus from {len(segment_ids)} to {MAX_CHORUS_SEGMENTS} segments"
         )
         segment_ids = segment_ids[:MAX_CHORUS_SEGMENTS]
-
-    # Pre-load all voice models
-    voices: list[VoiceModel] = []
-    voice_data: list[tuple[bytes, bytes | None]] = []
-    for vm_id in voice_model_ids:
-        voice = await _load_voice_model(vm_id, db)
-        pth_bytes, index_bytes = await _load_voice_model_bytes(voice)
-        voices.append(voice)
-        voice_data.append((pth_bytes, index_bytes))
 
     output_dir = CONVERTED_DIR / song_id
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -346,64 +350,69 @@ async def generate_grand_chorus(
             )
             continue
 
+        # Get base voice profile for this segment
+        vm = None
+        if segment.voice_model_id:
+            vm = db.query(VoiceModel).filter(VoiceModel.id == segment.voice_model_id).first()
+        if not vm:
+            logger.warning(f"Chorus segment {seg_id} has no voice profile, skipping")
+            continue
+
+        # Read original vocal bytes (NOT converted_vocal_path)
         vocal_bytes = await _read_audio_bytes(segment.vocal_path)
 
-        # Run RVC with ALL voice models (everyone sings together)
+        # Generate variants using base profile + CHORUS_VARIANTS offsets
         voice_audios: list[PydubAudioSegment] = []
-        failed_voices = 0
-        total_voices = len(voices)
-        original_duration_ms = (segment.end_time - segment.start_time) * 1000
+        failed_variants = 0
 
-        for i, voice in enumerate(voices):
-            pth_bytes, index_bytes = voice_data[i]
-            f0_up_key = voice.f0up_key if voice.f0up_key else 0
-
+        for i in range(voice_count):
+            variant = CHORUS_VARIANTS[i]
             try:
-                converted_bytes = await convert_with_params(
-                    audio_bytes=vocal_bytes,
-                    model_id=voice.id,
-                    pth_bytes=pth_bytes,
-                    index_bytes=index_bytes,
-                    f0_method="rmvpe",
-                    f0_up_key=f0_up_key,
-                    index_rate=0.6,
-                    filter_radius=3,
-                    rms_mix_rate=0.5,
-                    protect=0.5,
-                    original_duration_ms=original_duration_ms,
+                variant_pitch = vm.pitch_shift + variant["pitch_offset"]
+                variant_formant = vm.formant_shift + variant["formant_offset"]
+
+                modified_bytes = await asyncio.to_thread(
+                    modify_vocal,
+                    vocal_bytes,
+                    pitch_shift=variant_pitch,
+                    formant_shift=variant_formant,
+                    eq_profile=vm.eq_profile,
                 )
 
                 audio_seg = await asyncio.to_thread(
-                    PydubAudioSegment.from_file, io.BytesIO(converted_bytes), format="wav"
+                    PydubAudioSegment.from_file, io.BytesIO(modified_bytes), format="wav"
                 )
 
                 # Apply ensemble variation (micro-timing, micro-pitch, volume)
                 audio_seg = await asyncio.to_thread(
                     _apply_ensemble_variation, audio_seg, i
                 )
+
+                # Apply volume offset from variant
+                vol_offset = variant["volume_offset"]
+                if abs(vol_offset) > 0.01:
+                    audio_seg = audio_seg + vol_offset
+
                 voice_audios.append(audio_seg)
 
-                logger.debug(
-                    f"  Chorus line {segment.line_number}, voice {voice.name}: done"
-                )
             except Exception as e:
-                failed_voices += 1
+                failed_variants += 1
                 logger.error(
-                    f"  RVC failed for chorus line {segment.line_number}, "
-                    f"voice {voice.name}: {type(e).__name__}: {e}"
+                    f"Chorus variant {i} failed for line {segment.line_number}: "
+                    f"{type(e).__name__}: {e}"
                 )
                 continue
 
         if not voice_audios:
             logger.error(
-                f"Chorus line {segment.line_number}: ALL {total_voices} voices failed"
+                f"Chorus line {segment.line_number}: ALL {voice_count} variants failed"
             )
             continue
 
-        if failed_voices > 0:
+        if failed_variants > 0:
             logger.warning(
                 f"Chorus line {segment.line_number}: "
-                f"{failed_voices}/{total_voices} voices failed, "
+                f"{failed_variants}/{voice_count} variants failed, "
                 f"mixing with {len(voice_audios)} voices"
             )
 
@@ -416,19 +425,19 @@ async def generate_grand_chorus(
             mixed_segment.export, str(output_path), format="wav"
         )
 
-        # Replace converted_vocal_path so _place_vocals_at_positions uses chorus
+        # Replace converted_vocal_path so mixer uses chorus
         segment.converted_vocal_path = str(output_path)
         db.commit()
         output_paths.append(str(output_path))
 
         logger.info(
             f"Chorus line {segment.line_number}: "
-            f"{len(voice_audios)} voices mixed, {len(mixed_segment)}ms"
+            f"{len(voice_audios)} variants mixed, {len(mixed_segment)}ms"
         )
 
     logger.info(
         f"Grand chorus done: {len(output_paths)} segments "
-        f"with {len(voice_model_ids)} voices for song {song_id}"
+        f"with {voice_count} variants for song {song_id}"
     )
 
     return output_paths

@@ -7,7 +7,7 @@ import {
   getSong,
   getSegments,
   listVoices,
-  uploadVoice,
+  createVoice,
   updateVoice,
   getOutputs,
   startProcess,
@@ -23,16 +23,6 @@ import {
 import { useToast } from "@/components/Toast";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 
-const VOICE_COLORS = [
-  { chip: "voice-chip-red", dot: "bg-primary", label: "珊瑚红" },
-  { chip: "voice-chip-green", dot: "bg-success", label: "薄荷绿" },
-  { chip: "voice-chip-blue", dot: "bg-secondary", label: "天蓝色" },
-  { chip: "voice-chip-gray", dot: "bg-on-surface-variant", label: "灰绿色" },
-  { chip: "voice-chip-purple", dot: "bg-purple-400", label: "紫罗兰" },
-  { chip: "voice-chip-orange", dot: "bg-orange-400", label: "橘黄色" },
-  { chip: "voice-chip-pink", dot: "bg-pink-400", label: "粉红色" },
-  { chip: "voice-chip-teal", dot: "bg-teal-400", label: "青碧色" },
-];
 
 export default function SongDetailPage() {
   const params = useParams();
@@ -54,8 +44,12 @@ export default function SongDetailPage() {
   const [outputFormat, setOutputFormat] = useState<"video" | "audio" | "video_subtitled">("video");
   const [enableChorus, setEnableChorus] = useState(true);
   const [chorusVoiceCount, setChorusVoiceCount] = useState(5);
-  const [voiceUploading, setVoiceUploading] = useState(false);
-  const [showVoiceUpload, setShowVoiceUpload] = useState(false);
+  const [voiceCreating, setVoiceCreating] = useState(false);
+  const [showVoiceCreate, setShowVoiceCreate] = useState(false);
+  const [newVoiceName, setNewVoiceName] = useState("");
+  const [newVoicePitch, setNewVoicePitch] = useState(0);
+  const [newVoiceFormant, setNewVoiceFormant] = useState(0);
+  const [newVoiceEq, setNewVoiceEq] = useState("natural");
   const [selectedVoiceIds, setSelectedVoiceIds] = useState<string[]>([]);
   const [processConfirm, setProcessConfirm] = useState<string | null>(null);
   const [pendingProcessData, setPendingProcessData] = useState<{ pool: string[]; req: ProcessRequest } | null>(null);
@@ -109,26 +103,36 @@ export default function SongDetailPage() {
     );
   }
 
-  async function handleUpdateVoicePitch(voiceId: string, f0up_key: number) {
+  async function handleUpdateVoicePitch(voiceId: string, pitch_shift: number) {
     try {
-      await updateVoice(voiceId, { f0up_key });
-      setVoices((prev) => prev.map((v) => (v.id === voiceId ? { ...v, f0up_key } : v)));
+      await updateVoice(voiceId, { pitch_shift });
+      setVoices((prev) => prev.map((v) => (v.id === voiceId ? { ...v, pitch_shift } : v)));
     } catch {
       addToast("error", "音高设置失败");
     }
   }
 
-  async function handleUploadVoice(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const pth = fd.get("pth_file") as File;
-    const idx = fd.get("index_file") as File;
-    const name = fd.get("name") as string;
-    if (!pth || !name) { addToast("warning", "请填写音色名称并选择 .pth 文件"); return; }
-    setVoiceUploading(true);
-    try { await uploadVoice(pth, idx?.size > 0 ? idx : null, name); await load(); setShowVoiceUpload(false); }
-    catch (e) { addToast("error", `音色上传失败: ${e instanceof Error ? e.message : "请重试"}`); }
-    finally { setVoiceUploading(false); }
+  async function handleCreateVoice() {
+    if (!newVoiceName.trim()) { addToast("warning", "请填写音色名称"); return; }
+    setVoiceCreating(true);
+    try {
+      await createVoice({
+        name: newVoiceName.trim(),
+        pitch_shift: newVoicePitch,
+        formant_shift: newVoiceFormant,
+        eq_profile: newVoiceEq,
+      });
+      await load();
+      setShowVoiceCreate(false);
+      setNewVoiceName("");
+      setNewVoicePitch(0);
+      setNewVoiceFormant(0);
+      setNewVoiceEq("natural");
+    } catch (e) {
+      addToast("error", `音色创建失败: ${e instanceof Error ? e.message : "请重试"}`);
+    } finally {
+      setVoiceCreating(false);
+    }
   }
 
   async function handleStartProcess() {
@@ -388,60 +392,85 @@ export default function SongDetailPage() {
             <div className="flex justify-between items-end">
               <h2 className="text-xl font-bold tracking-tight -ml-2 text-on-surface">选择音色{selectedVoiceIds.length > 0 && <span className="text-sm font-normal text-on-surface-variant ml-2">已选 {selectedVoiceIds.length} 个</span>}</h2>
               <button
-                onClick={() => setShowVoiceUpload(!showVoiceUpload)}
+                onClick={() => setShowVoiceCreate(!showVoiceCreate)}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-highest rounded-lg text-xs font-bold text-on-surface-variant hover:bg-surface-bright transition-colors"
               >
-                <span className="material-symbols-outlined text-base">upload_file</span>
-                <span>导入模型</span>
+                <span className="material-symbols-outlined text-base">add</span>
+                <span>添加音色</span>
               </button>
             </div>
 
-            {showVoiceUpload && (
-              <form onSubmit={handleUploadVoice} className="p-6 bg-surface-container-low rounded-xl space-y-4">
-                <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">导入自定义 RVC 模型</p>
-                <div className="grid grid-cols-2 gap-4">
+            {showVoiceCreate && (
+              <div className="p-6 bg-surface-container-low rounded-xl space-y-4">
+                <p className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">创建自定义音色</p>
+                <div className="space-y-3">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-on-surface-variant ml-1">音色名称</label>
-                    <input name="name" placeholder="音色名称" required className="w-full bg-surface-container-highest border-none rounded-lg text-sm text-on-surface focus:ring-1 focus:ring-primary placeholder:text-neutral-600 px-4 py-2.5" />
+                    <input value={newVoiceName} onChange={(e) => setNewVoiceName(e.target.value)} placeholder="例: 浑厚男声" className="w-full bg-surface-container-highest border-none rounded-lg text-sm text-on-surface focus:ring-1 focus:ring-primary placeholder:text-neutral-600 px-4 py-2.5" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-on-surface-variant ml-1">音高偏移 (半音)</label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-on-surface-variant">-5</span>
+                        <input type="range" min={-5} max={5} step={0.5} value={newVoicePitch} onChange={(e) => setNewVoicePitch(Number(e.target.value))} className="flex-1 accent-primary" />
+                        <span className="text-[10px] text-on-surface-variant">+5</span>
+                      </div>
+                      <p className="text-[10px] font-mono text-primary text-center">{newVoicePitch > 0 ? `+${newVoicePitch}` : newVoicePitch}</p>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-on-surface-variant ml-1">音色偏移</label>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] text-on-surface-variant">-3</span>
+                        <input type="range" min={-3} max={3} step={0.5} value={newVoiceFormant} onChange={(e) => setNewVoiceFormant(Number(e.target.value))} className="flex-1 accent-primary" />
+                        <span className="text-[10px] text-on-surface-variant">+3</span>
+                      </div>
+                      <p className="text-[10px] font-mono text-primary text-center">{newVoiceFormant > 0 ? `+${newVoiceFormant}` : newVoiceFormant}</p>
+                    </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-on-surface-variant ml-1">.pth 文件 *</label>
-                    <input name="pth_file" type="file" accept=".pth" required className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-primary/20 file:text-primary" />
+                    <label className="text-[10px] font-bold text-on-surface-variant ml-1">EQ 曲线</label>
+                    <div className="flex gap-2">
+                      {(["natural", "bright", "dark", "nasal", "deep"] as const).map((eq) => (
+                        <button key={eq} onClick={() => setNewVoiceEq(eq)}
+                          className={`flex-1 py-1.5 rounded-lg text-[10px] font-bold ${newVoiceEq === eq ? "bg-primary text-black" : "bg-surface-container-highest text-on-surface-variant"}`}
+                        >
+                          {{ natural: "自然", bright: "明亮", dark: "低沉", nasal: "鼻音", deep: "浑厚" }[eq]}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-on-surface-variant ml-1">.index 文件</label>
-                    <input name="index_file" type="file" accept=".index" className="w-full text-sm text-on-surface-variant file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-sm file:bg-surface-container-highest file:text-on-surface-variant" />
-                  </div>
-                  <div className="flex items-end">
-                    <button type="submit" disabled={voiceUploading} className="w-full px-4 py-2.5 bg-primary text-black rounded-lg text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform">
-                      {voiceUploading ? "上传中..." : "上传"}
-                    </button>
-                  </div>
+                  <button onClick={handleCreateVoice} disabled={voiceCreating} className="w-full px-4 py-2.5 bg-primary text-black rounded-lg text-sm font-bold disabled:opacity-50 active:scale-95 transition-transform">
+                    {voiceCreating ? "创建中..." : "创建音色"}
+                  </button>
                 </div>
-              </form>
+              </div>
             )}
 
             {voices.length === 0 ? (
               <div className="bg-surface-container-low rounded-xl p-6 text-center">
                 <span className="material-symbols-outlined text-3xl text-outline-variant mb-2 block">settings_voice</span>
-                <p className="text-sm text-on-surface-variant">暂无音色模型</p>
+                <p className="text-sm text-on-surface-variant">暂无音色</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {voices.map((v, i) => {
+                {voices.map((v) => {
                   const selected = selectedVoiceIds.includes(v.id);
-                  const color = VOICE_COLORS[i % VOICE_COLORS.length];
                   return (
                     <button
                       key={v.id}
                       onClick={() => toggleVoice(v.id)}
                       className={`p-4 rounded-xl flex items-center gap-3 transition-all text-left ${
                         selected
-                          ? "bg-primary/10 border-2 border-primary shadow-[0_0_12px_rgba(255,107,53,0.1)]"
+                          ? "border-2 border-primary shadow-[0_0_12px_rgba(255,107,53,0.1)]"
                           : "bg-surface-container-high border-2 border-transparent hover:bg-surface-bright"
                       }`}
+                      style={selected ? { backgroundColor: `${v.color}15` } : {}}
                     >
-                      <div className={`w-10 h-10 rounded-full ${selected ? color.dot : "bg-surface-container-highest"} flex-shrink-0 flex items-center justify-center transition-colors`}>
+                      <div
+                        className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center transition-colors`}
+                        style={{ backgroundColor: selected ? v.color : undefined }}
+                      >
                         {selected ? (
                           <span className="material-symbols-outlined text-black text-lg" style={{ fontVariationSettings: '"FILL" 1' }}>check</span>
                         ) : (
@@ -452,23 +481,27 @@ export default function SongDetailPage() {
                         <p className={`text-sm font-bold truncate ${selected ? "text-primary" : "text-on-surface"}`}>{v.name}</p>
                         {selected && (
                           <>
-                            <div className={`text-[10px] px-1.5 py-0.5 rounded-full inline-block ${color.chip} mt-0.5`}>{color.label}</div>
+                            <div className="text-[10px] text-on-surface-variant mt-0.5 flex gap-1.5">
+                              {v.pitch_shift !== 0 && <span>音高{(v.pitch_shift > 0 ? "+" : "") + v.pitch_shift}</span>}
+                              {v.formant_shift !== 0 && <span>音色{(v.formant_shift > 0 ? "+" : "") + v.formant_shift}</span>}
+                            </div>
                             <div className="mt-1.5 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-                              <span className="text-[9px] text-on-surface-variant">-12</span>
+                              <span className="text-[9px] text-on-surface-variant">-5</span>
                               <input
                                 type="range"
-                                min={-12}
-                                max={12}
-                                value={v.f0up_key || 0}
+                                min={-5}
+                                max={5}
+                                step={0.5}
+                                value={v.pitch_shift || 0}
                                 onChange={(e) => {
                                   e.stopPropagation();
                                   handleUpdateVoicePitch(v.id, Number(e.target.value));
                                 }}
                                 className="flex-1 accent-primary h-1 cursor-pointer"
                               />
-                              <span className="text-[9px] text-on-surface-variant">+12</span>
+                              <span className="text-[9px] text-on-surface-variant">+5</span>
                               <span className="text-[10px] font-mono text-primary w-6 text-center">
-                                {(v.f0up_key || 0) > 0 ? `+${v.f0up_key}` : v.f0up_key || 0}
+                                {(v.pitch_shift || 0) > 0 ? `+${v.pitch_shift}` : v.pitch_shift || 0}
                               </span>
                             </div>
                           </>
@@ -479,8 +512,8 @@ export default function SongDetailPage() {
                 })}
               </div>
             )}
-            {selectedVoiceIds.length === 1 && (
-              <p className="text-xs text-on-surface-variant text-center">选择 2 个或更多音色，可以创建接力合唱效果</p>
+            {selectedVoiceIds.length >= 1 && (
+              <p className="text-xs text-on-surface-variant text-center">已选择 {selectedVoiceIds.length} 个音色，不同段落将使用不同音色</p>
             )}
           </section>
         )}

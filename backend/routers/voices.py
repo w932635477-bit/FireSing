@@ -1,13 +1,10 @@
-"""Voice models router — CRUD for RVC voice models."""
+"""Voice profiles router — CRUD for voice parameter profiles."""
 
 import uuid
-from pathlib import Path
-from typing import Optional
 
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from ..config import VOICES_DIR
 from ..database import get_db
 from ..dependencies import require_auth
 from ..models import VoiceModel, User
@@ -18,91 +15,45 @@ router = APIRouter()
 
 @router.get("", response_model=VoiceModelListResponse)
 async def list_voices(db: Session = Depends(get_db)):
-    """List all voice models."""
+    """List all voice profiles (presets + custom)."""
     voices = db.query(VoiceModel).order_by(VoiceModel.created_at.desc()).all()
     return {"voices": voices}
 
 
 @router.post("", response_model=VoiceModelResponse, status_code=201)
-async def upload_voice(
-    pth_file: UploadFile = File(...),
-    index_file: Optional[UploadFile] = File(None),
-    reference_audio: Optional[UploadFile] = File(None),
-    name: str = Form(...),
+async def create_voice(
+    name: str,
+    pitch_shift: float = 0.0,
+    formant_shift: float = 0.0,
+    eq_profile: str = "natural",
+    color: str = "#4A90D9",
     user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
-    """Upload a new voice model (.pth + optional .index).
+    """Create a custom voice profile with parameter settings.
 
-    Validates model integrity before saving:
-    - Minimum size: 10MB (real RVC v2 models are ~53-55MB)
-    - torch.load() smoke test on CPU (catches truncated/corrupted files)
+    No file upload needed — voice profiles are parameter-based.
     """
-    import torch
-
-    if not pth_file.filename.endswith(".pth"):
-        raise HTTPException(400, "Model file must be .pth")
-    if index_file and not index_file.filename.endswith(".index"):
-        raise HTTPException(400, "Index file must be .index")
-
-    pth_content = await pth_file.read()
-
-    # Size validation: real RVC models are 50MB+
-    MIN_MODEL_BYTES = 10 * 1024 * 1024  # 10MB
-    if len(pth_content) < MIN_MODEL_BYTES:
-        raise HTTPException(
-            400,
-            f"Model file too small ({len(pth_content) / 1024 / 1024:.1f}MB). "
-            f"Expected at least 10MB. File may be corrupted or incomplete."
-        )
-
-    # Integrity validation: verify torch can deserialize it
-    import io
-    try:
-        torch.load(io.BytesIO(pth_content), map_location="cpu", weights_only=False)
-    except Exception as e:
-        raise HTTPException(
-            400,
-            f"Model file is not a valid PyTorch checkpoint: {str(e)}"
-        )
-
-    voice_id = uuid.uuid4().hex[:12]
-    voice_dir = VOICES_DIR / voice_id
-    voice_dir.mkdir(parents=True, exist_ok=True)
-
-    pth_path = voice_dir / "model.pth"
-    pth_path.write_bytes(pth_content)
-
-    index_path = None
-    if index_file:
-        index_path = voice_dir / "model.index"
-        index_content = await index_file.read()
-        index_path.write_bytes(index_content)
+    if not -5.0 <= pitch_shift <= 5.0:
+        raise HTTPException(400, "pitch_shift must be between -5.0 and 5.0")
+    if not -3.0 <= formant_shift <= 3.0:
+        raise HTTPException(400, "formant_shift must be between -3.0 and 3.0")
+    valid_eq = {"natural", "bright", "dark", "nasal", "deep"}
+    if eq_profile not in valid_eq:
+        raise HTTPException(400, f"eq_profile must be one of: {', '.join(valid_eq)}")
 
     voice = VoiceModel(
-        id=voice_id,
+        id=uuid.uuid4().hex[:12],
         name=name,
-        model_path=str(pth_path),
-        index_path=str(index_path) if index_path else None,
         is_preset=False,
+        pitch_shift=pitch_shift,
+        formant_shift=formant_shift,
+        eq_profile=eq_profile,
+        color=color,
     )
-
-    # Auto-detect mean F0 from reference audio if provided
-    if reference_audio:
-        try:
-            from ..services.f0_service import detect_mean_f0_from_bytes
-            ref_bytes = await reference_audio.read()
-            mean_f0 = detect_mean_f0_from_bytes(ref_bytes)
-            if mean_f0:
-                voice.mean_f0_hz = mean_f0
-        except Exception as e:
-            import logging
-            logging.getLogger(__name__).warning(f"F0 detection failed for voice upload: {e}")
-
     db.add(voice)
     db.commit()
     db.refresh(voice)
-
     return voice
 
 
@@ -113,14 +64,22 @@ async def update_voice(
     user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
-    """Update voice model settings (f0up_key, name)."""
+    """Update voice profile parameters."""
     voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
     if not voice:
-        raise HTTPException(404, f"Voice model {voice_id} not found")
+        raise HTTPException(404, f"Voice profile {voice_id} not found")
 
     if data.name is not None:
         voice.name = data.name
-    voice.f0up_key = data.f0up_key
+    if data.pitch_shift is not None:
+        voice.pitch_shift = data.pitch_shift
+    if data.formant_shift is not None:
+        voice.formant_shift = data.formant_shift
+    if data.eq_profile is not None:
+        voice.eq_profile = data.eq_profile
+    if data.color is not None:
+        voice.color = data.color
+
     db.commit()
     db.refresh(voice)
     return voice
@@ -132,10 +91,13 @@ async def delete_voice(
     user: User = Depends(require_auth),
     db: Session = Depends(get_db),
 ):
-    """Delete a voice model and its files."""
+    """Delete a voice profile. Presets cannot be deleted."""
     voice = db.query(VoiceModel).filter(VoiceModel.id == voice_id).first()
     if not voice:
-        raise HTTPException(404, f"Voice model {voice_id} not found")
+        raise HTTPException(404, f"Voice profile {voice_id} not found")
+
+    if voice.is_preset:
+        raise HTTPException(400, "Cannot delete preset voice profiles")
 
     # Check if any segments are using this voice
     from ..models import Segment
@@ -143,15 +105,9 @@ async def delete_voice(
     if assigned:
         raise HTTPException(
             409,
-            f"Voice model '{voice.name}' is assigned to segments. "
+            f"Voice profile '{voice.name}' is assigned to segments. "
             "Remove assignments before deleting."
         )
-
-    # Delete files
-    import shutil
-    voice_dir = Path(voice.model_path).parent
-    if voice_dir.exists():
-        shutil.rmtree(voice_dir, ignore_errors=True)
 
     db.delete(voice)
     db.commit()

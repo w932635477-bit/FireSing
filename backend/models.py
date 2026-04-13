@@ -70,11 +70,11 @@ class VoiceModel(Base):
 
     id = Column(String, primary_key=True, default=new_id)
     name = Column(String, nullable=False)
-    model_path = Column(String, nullable=False)
-    index_path = Column(String)
     is_preset = Column(Boolean, default=False)
-    f0up_key = Column(Integer, default=0)
-    mean_f0_hz = Column(Float, nullable=True)
+    pitch_shift = Column(Float, default=0.0)      # semitones, -5.0 to +5.0
+    formant_shift = Column(Float, default=0.0)     # semitones, -3.0 to +3.0
+    eq_profile = Column(String, default="natural")  # natural|bright|dark|nasal|deep
+    color = Column(String, default="#4A90D9")       # hex color for UI
     created_at = Column(DateTime, default=utcnow)
 
     segments = relationship("Segment", back_populates="voice_model")
