@@ -9,9 +9,13 @@ Step 5 of the FireSing pipeline:
 import asyncio
 import io
 import logging
+import random
 from collections import Counter
 from pathlib import Path
 
+import librosa
+import numpy as np
+import soundfile as sf
 from pydub import AudioSegment as PydubAudioSegment
 from sqlalchemy.orm import Session
 
@@ -21,13 +25,13 @@ from .rvc_service import convert_with_params
 
 logger = logging.getLogger(__name__)
 
-# Stereo panning positions for chorus voices (tight center spread, not wide)
-STEREO_PANS = [-0.3, 0.0, 0.3, -0.15, 0.15]
+# Stereo panning positions for chorus voices (wider spread for grand chorus)
+STEREO_PANS = [-0.5, 0.0, 0.5, -0.25, 0.25]
 
-# Reverb settings (light hall reverb via pydub simple delay)
-REVERB_DELAY_MS = 40
-REVERB_DECAY = 0.3
-REVERB_MIX_DB = -4  # wet signal volume relative to dry
+# Reverb settings (richer hall reverb with more taps)
+REVERB_DELAY_MS = 60
+REVERB_DECAY = 0.35
+REVERB_MIX_DB = -3  # wet signal volume relative to dry
 
 # Maximum chorus segments to process (prevents N segs x M voices explosion)
 MAX_CHORUS_SEGMENTS = 8
@@ -136,6 +140,8 @@ def _add_reverb(audio: PydubAudioSegment) -> PydubAudioSegment:
         (REVERB_DELAY_MS, REVERB_DECAY),
         (REVERB_DELAY_MS * 2, REVERB_DECAY * 0.5),
         (REVERB_DELAY_MS * 3, REVERB_DECAY * 0.25),
+        (REVERB_DELAY_MS * 5, REVERB_DECAY * 0.12),
+        (REVERB_DELAY_MS * 7, REVERB_DECAY * 0.06),
     ]
     for delay_ms, decay in taps:
         silence = PydubAudioSegment.silent(duration=delay_ms, frame_rate=audio.frame_rate)
@@ -149,6 +155,69 @@ def _add_reverb(audio: PydubAudioSegment) -> PydubAudioSegment:
         result = result.overlay(delayed)
 
     return result
+
+
+def _apply_ensemble_variation(
+    audio: PydubAudioSegment,
+    voice_index: int,
+) -> PydubAudioSegment:
+    """Apply micro-variations to simulate natural ensemble singing.
+
+    Real chorus sounds "big" because each singer has slightly different:
+    - Timing: ±5-20ms offset
+    - Pitch: ±5-12 cents offset (skipped for segments < 1.5s)
+    - Volume: ±1-2dB variation
+
+    Uses soundfile for round-trip to preserve original sample width.
+    Must be called inside asyncio.to_thread() — this is a blocking function.
+    """
+    rng = random.Random(voice_index * 42)  # deterministic per voice
+
+    # 1. Timing offset (±5-20ms)
+    timing_offset_ms = rng.randint(5, 20) * rng.choice([-1, 1])
+
+    if timing_offset_ms > 0:
+        silence = PydubAudioSegment.silent(
+            duration=timing_offset_ms, frame_rate=audio.frame_rate
+        )
+        audio = (silence + audio)[:len(audio)]
+    elif timing_offset_ms < 0:
+        audio = audio[abs(timing_offset_ms):]
+        silence = PydubAudioSegment.silent(
+            duration=abs(timing_offset_ms), frame_rate=audio.frame_rate
+        )
+        audio = (audio + silence)
+
+    # 2. Pitch offset (±5-12 cents) — skip for short segments
+    duration_s = len(audio) / 1000.0
+    cents = rng.uniform(-12, 12)
+    semitones = cents / 100.0
+
+    if abs(semitones) > 0.01 and duration_s >= 1.5:
+        # Round-trip via soundfile to preserve sample width
+        buf_in = io.BytesIO()
+        audio.export(buf_in, format="wav")
+        buf_in.seek(0)
+        samples, sr = sf.read(buf_in)
+
+        if samples.ndim == 2:  # stereo
+            shifted = np.column_stack([
+                librosa.effects.pitch_shift(samples[:, ch], sr=sr, n_steps=semitones)
+                for ch in range(samples.shape[1])
+            ])
+        else:
+            shifted = librosa.effects.pitch_shift(samples, sr=sr, n_steps=semitones)
+
+        buf_out = io.BytesIO()
+        sf.write(buf_out, shifted, sr, format="WAV")
+        buf_out.seek(0)
+        audio = PydubAudioSegment.from_file(buf_out, format="wav")
+
+    # 3. Volume variation (±1-2dB)
+    volume_offset = rng.uniform(-2, 2)
+    audio = audio + volume_offset
+
+    return audio
 
 
 def _mix_voices(voice_audios: list[PydubAudioSegment]) -> PydubAudioSegment:
@@ -281,6 +350,8 @@ async def generate_grand_chorus(
 
         # Run RVC with ALL voice models (everyone sings together)
         voice_audios: list[PydubAudioSegment] = []
+        failed_voices = 0
+        total_voices = len(voices)
         original_duration_ms = (segment.end_time - segment.start_time) * 1000
 
         for i, voice in enumerate(voices):
@@ -297,13 +368,18 @@ async def generate_grand_chorus(
                     f0_up_key=f0_up_key,
                     index_rate=0.6,
                     filter_radius=3,
-                    rms_mix_rate=0.25,
-                    protect=0.33,
+                    rms_mix_rate=0.5,
+                    protect=0.5,
                     original_duration_ms=original_duration_ms,
                 )
 
                 audio_seg = await asyncio.to_thread(
                     PydubAudioSegment.from_file, io.BytesIO(converted_bytes), format="wav"
+                )
+
+                # Apply ensemble variation (micro-timing, micro-pitch, volume)
+                audio_seg = await asyncio.to_thread(
+                    _apply_ensemble_variation, audio_seg, i
                 )
                 voice_audios.append(audio_seg)
 
@@ -311,6 +387,7 @@ async def generate_grand_chorus(
                     f"  Chorus line {segment.line_number}, voice {voice.name}: done"
                 )
             except Exception as e:
+                failed_voices += 1
                 logger.error(
                     f"  RVC failed for chorus line {segment.line_number}, "
                     f"voice {voice.name}: {type(e).__name__}: {e}"
@@ -318,8 +395,17 @@ async def generate_grand_chorus(
                 continue
 
         if not voice_audios:
-            logger.warning(f"No voices for chorus segment {seg_id}, skipping")
+            logger.error(
+                f"Chorus line {segment.line_number}: ALL {total_voices} voices failed"
+            )
             continue
+
+        if failed_voices > 0:
+            logger.warning(
+                f"Chorus line {segment.line_number}: "
+                f"{failed_voices}/{total_voices} voices failed, "
+                f"mixing with {len(voice_audios)} voices"
+            )
 
         # Mix all voices into one chorus audio
         mixed_segment = await asyncio.to_thread(_mix_voices, voice_audios)

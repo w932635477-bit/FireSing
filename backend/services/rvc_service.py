@@ -27,6 +27,124 @@ _DURATION_TOLERANCE_S = 0.01  # 10ms — larger tolerance avoids unnecessary str
 _MIN_ALIGN_DURATION_S = 1.5
 
 
+def _apply_iir(x: np.ndarray, b: np.ndarray, a: np.ndarray) -> np.ndarray:
+    """Apply IIR filter using direct form II transposed (lfilter equivalent).
+
+    Same algorithm as scipy.signal.lfilter but pure numpy. No scipy dependency.
+    """
+    n = len(b)
+    y = np.zeros_like(x)
+    z = np.zeros(n - 1)
+
+    for i in range(len(x)):
+        y[i] = b[0] * x[i] + z[0]
+        for j in range(n - 2):
+            z[j] = b[j + 1] * x[i] - a[j + 1] * y[i] + z[j + 1]
+        z[n - 2] = b[n - 1] * x[i] - a[n - 1] * y[i]
+
+    return y
+
+
+def _peaking_eq(freq: float, sr: float, gain_db: float, Q: float):
+    """Design a peaking EQ biquad filter (boost or cut at specific frequency).
+
+    Returns (b, a) coefficients for a second-order IIR filter.
+    Reference: Audio EQ Cookbook by Robert Bristow-Johnson.
+    """
+    A = 10 ** (gain_db / 40.0)
+    w0 = 2 * np.pi * freq / sr
+    cos_w0 = np.cos(w0)
+    sin_w0 = np.sin(w0)
+    alpha = sin_w0 / (2 * Q)
+
+    b0 = 1 + alpha * A
+    b1 = -2 * cos_w0
+    b2 = 1 - alpha * A
+    a0 = 1 + alpha / A
+    a1 = -2 * cos_w0
+    a2 = 1 - alpha / A
+
+    return np.array([b0, b1, b2]) / a0, np.array([1, a1 / a0, a2 / a0])
+
+
+def _lowpass_biquad(freq: float, sr: float):
+    """Design a 2nd-order Butterworth lowpass biquad filter."""
+    w0 = 2 * np.pi * freq / sr
+    alpha = np.sin(w0) / (2 * 0.7071)  # Q = 1/sqrt(2) for Butterworth
+
+    b0 = (1 - np.cos(w0)) / 2
+    b1 = 1 - np.cos(w0)
+    b2 = (1 - np.cos(w0)) / 2
+    a0 = 1 + alpha
+    a1 = -2 * np.cos(w0)
+    a2 = 1 - alpha
+
+    return np.array([b0, b1, b2]) / a0, np.array([1, a1 / a0, a2 / a0])
+
+
+def _process_vocal(converted_bytes: bytes) -> bytes:
+    """Post-processing chain for RVC output.
+
+    1. Compression + makeup gain — reduce dynamic range, boost overall level
+    2. EQ presence boost (+2dB at 3.5kHz) — clarity and articulation
+    3. De-ess (soft lowpass above 6kHz, -3dB) — reduce RVC sibilance
+
+    Handles both mono (1D) and stereo (2D, shape Nx2) audio.
+    No scipy dependency — all filters use raw biquad coefficients.
+    """
+    audio, sr = sf.read(io.BytesIO(converted_bytes))
+    is_stereo = audio.ndim == 2
+
+    # 1. Downward compression + makeup gain
+    threshold = 0.3
+    ratio = 2.0
+    makeup_gain = 1.15  # +1.2dB
+
+    if is_stereo:
+        for ch in range(audio.shape[1]):
+            channel = audio[:, ch]
+            abs_ch = np.abs(channel)
+            mask = abs_ch > threshold
+            channel[mask] = np.sign(channel[mask]) * (
+                threshold + (abs_ch[mask] - threshold) / ratio
+            )
+            audio[:, ch] = channel * makeup_gain
+    else:
+        abs_audio = np.abs(audio)
+        mask = abs_audio > threshold
+        audio[mask] = np.sign(audio[mask]) * (
+            threshold + (abs_audio[mask] - threshold) / ratio
+        )
+        audio = audio * makeup_gain
+
+    # 2. Presence EQ boost (+2dB at 3.5kHz, Q=1.5)
+    b, a = _peaking_eq(3500, sr, 2.0, 1.5)
+    if is_stereo:
+        for ch in range(audio.shape[1]):
+            audio[:, ch] = _apply_iir(audio[:, ch], b, a)
+    else:
+        audio = _apply_iir(audio, b, a)
+
+    # 3. De-ess: soften sibilance band above 6kHz (30% mix)
+    b_lp, a_lp = _lowpass_biquad(6000, sr)
+    if is_stereo:
+        deessed = np.column_stack([
+            _apply_iir(audio[:, ch], b_lp, a_lp) for ch in range(audio.shape[1])
+        ])
+    else:
+        deessed = _apply_iir(audio, b_lp, a_lp)
+    audio = 0.7 * audio + 0.3 * deessed
+
+    # Normalize to prevent clipping from EQ + makeup gain
+    peak = np.max(np.abs(audio))
+    if peak > 0.95:
+        audio = audio * (0.95 / peak)
+
+    buf = io.BytesIO()
+    sf.write(buf, audio, sr, format="WAV")
+    return buf.getvalue()
+
+
 def _limit_audio(converted_bytes: bytes, peak_db: float = _PEAK_LIMIT_DB) -> bytes:
     """Peak-limit converted audio to prevent clipping distortion.
 
@@ -159,7 +277,8 @@ async def convert(segment_id: str, db: Session) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"line_{segment.line_number:03d}_converted.wav"
     limited_bytes = await asyncio.to_thread(_limit_audio, converted_bytes)
-    output_path.write_bytes(limited_bytes)
+    processed_bytes = await asyncio.to_thread(_process_vocal, limited_bytes)
+    output_path.write_bytes(processed_bytes)
 
     # Update database
     segment.converted_vocal_path = str(output_path)
@@ -217,7 +336,7 @@ async def convert_with_params(
     f0_up_key: int = 0,
     index_rate: float = 0.5,
     filter_radius: int = 3,
-    rms_mix_rate: float = 0.25,
+    rms_mix_rate: float = 0.5,
     protect: float = 0.5,
     original_duration_ms: float | None = None,
     skip_cache_check: bool = False,
@@ -308,8 +427,8 @@ async def _call_gpu_rvc(
         f0_up_key=f0_up_key,
         index_rate=0.6,
         filter_radius=3,
-        rms_mix_rate=0.25,
-        protect=0.33,
+        rms_mix_rate=0.5,
+        protect=0.5,
         original_duration_ms=original_duration_ms,
     )
 
@@ -411,6 +530,7 @@ async def convert_batch(
                 _align_duration, result_bytes, original_duration_ms
             )
             result_bytes = await asyncio.to_thread(_limit_audio, result_bytes)
+            result_bytes = await asyncio.to_thread(_process_vocal, result_bytes)
 
             output_path = output_dir / f"line_{seg.line_number:03d}_converted.wav"
             output_path.write_bytes(result_bytes)
@@ -472,8 +592,8 @@ async def _call_gpu_rvc_batch(
         "f0up_key": str(f0up_key),
         "index_rate": "0.6",
         "filter_radius": "3",
-        "rms_mix_rate": "0.25",
-        "protect": "0.33",
+        "rms_mix_rate": "0.5",
+        "protect": "0.5",
     }
     if not cached and index_bytes:
         files["index_file"] = ("model.index", index_bytes, "application/octet-stream")

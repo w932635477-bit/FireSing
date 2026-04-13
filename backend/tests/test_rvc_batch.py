@@ -91,7 +91,7 @@ class TestBatchRVCEndpoint:
         db_session.commit()
 
         # Mock the GPU call to avoid needing real GPU
-        async def mock_batch_call(audio_list, model_id, pth_bytes, index_bytes=None):
+        async def mock_batch_call(audio_list, model_id, pth_bytes, index_bytes=None, f0up_key=0):
             # Return dummy WAV bytes for each segment
             return {seg.id: _make_wav_bytes() for _, seg in audio_list}
 
