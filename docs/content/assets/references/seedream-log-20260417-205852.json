@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-17T20:58:52.698203",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-two-person-team.png",
+      "task_id": "task-unified-1776430675-nuaabqhh",
+      "status": "success"
+    }
+  ]
+}

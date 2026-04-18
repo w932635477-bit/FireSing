@@ -1,0 +1,175 @@
+{
+  "video_id": "day1-medvi-story",
+  "version": "2.0",
+  "created": "2026-04-17",
+  "status": "draft",
+
+  "global": {
+    "target_duration_sec": 36,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 12345,
+    "style": "cinematic_documentary",
+    "color_temperature": "warm_gold",
+    "accent_color": "#c9a96e",
+    "bg_color": "#000000"
+  },
+
+  "script": {
+    "topic": "一个人用2万美元+AI，14个月做到4亿营收",
+    "source": "Forbes 2026-04-02",
+    "hook_type": "contradictory_number",
+    "cta_action": "私信",
+    "cta_keyword": "AI获客",
+    "cta_deliverable": "完整工具清单"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 4,
+      "shot_type": "close-up",
+      "emotion": "shock",
+      "visual_description": "giant golden numbers floating in dark void, financial data visualization",
+      "motion_prompt": "slow zoom in on golden numbers, subtle glow pulsing, cinematic",
+      "voiceover_text": "一个人，2万美元启动资金，14个月做到4亿美元营收。",
+      "voiceover_pause_markers": "一个人<#0.2#>2万美元启动资金<#0.3#>14个月做到4亿美元营收。",
+      "subtitle_text": "2万 → 4亿，只用14个月",
+      "reference_prompt": "giant golden numbers 400000000 glowing in dark void, financial visualization, amber light rays, navy black background, warm gold accent, cinematic depth of field, vertical composition 9:16"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "medium",
+      "emotion": "curiosity",
+      "visual_description": "young man sitting at desk with laptop in modest trailer park home, warm evening light",
+      "motion_prompt": "slow push in, subtle ambient light shift, documentary style",
+      "voiceover_text": "创始人Matthew Gallagher，在拖车公园长大，用叔叔的电脑自学编程。",
+      "voiceover_pause_markers": "创始人Matthew Gallagher<#0.2#>在拖车公园长大<#0.2#>用叔叔的电脑自学编程。",
+      "subtitle_text": "拖车公园长大的创始人",
+      "reference_prompt": "young man in his 30s sitting at simple desk with laptop, modest trailer interior, warm evening golden light through window, focused expression, documentary photography, cinematic color grading, navy and gold tones, vertical composition 9:16"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "shock",
+      "visual_description": "financial data on dark screen, key metrics highlighted in gold",
+      "motion_prompt": "slow zoom in, numbers glowing subtly, data visualization motion",
+      "voiceover_text": "2025年，营收4.01亿美元，净利率16.2%。行业巨头2400人，净利率才5.5%。",
+      "voiceover_pause_markers": "2025年<#0.2#>营收4.01亿美元<#0.2#>净利率16.2%。<#0.4#>行业巨头2400人<#0.2#>净利率才5.5%。",
+      "subtitle_text": "营收4.01亿 | 净利率16.2%",
+      "reference_prompt": "close-up of financial dashboard on dark screen, revenue numbers $401M in golden light, profit margin 16.2% highlighted, clean data visualization, dark navy background with gold accents, cinematic macro shot, vertical composition 9:16"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "medium",
+      "emotion": "tension",
+      "visual_description": "split comparison: small team vs large corporation, visual contrast",
+      "motion_prompt": "slow pan left to right, subtle tension in movement",
+      "voiceover_text": "他用2个人，跑了同行3倍的利润率。代码AI写，广告AI生成。",
+      "voiceover_pause_markers": "他用2个人<#0.2#>跑了同行3倍的利润率。<#0.3#>代码AI写<#0.2#>广告AI生成。",
+      "subtitle_text": "2人 vs 2400人",
+      "reference_prompt": "minimalist office with just 2 desks and laptops, warm amber lighting, empty chairs suggesting small team, dark walls, cinematic medium shot, documentary style, gold and navy color palette, vertical composition 9:16"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "wide",
+      "emotion": "revelation",
+      "visual_description": "panoramic view of digital infrastructure, servers and data flows",
+      "motion_prompt": "slow wide pan, establishing scale of operation",
+      "voiceover_text": "客服是AI机器人，日营收超300万美元。这整套工具链，国内都有免费替代。",
+      "voiceover_pause_markers": "客服是AI机器人<#0.2#>日营收超300万美元。<#0.4#>这整套工具链<#0.2#>国内都有免费替代。",
+      "subtitle_text": "日营收超300万美元",
+      "reference_prompt": "wide shot of modern digital workspace, multiple screens showing AI tools and dashboards, ambient blue and gold lighting, futuristic but grounded, documentary wide angle, cinematic, vertical composition 9:16"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 5,
+      "shot_type": "text_card",
+      "emotion": "warm",
+      "visual_description": "black background with golden text card, CTA message",
+      "motion_prompt": "gentle fade in with slight parallax on text elements",
+      "voiceover_text": "私信AI获客，我发你完整工具清单。",
+      "voiceover_pause_markers": "私信AI获客<#0.2#>我发你完整工具清单。",
+      "subtitle_text": "私信「AI获客」",
+      "reference_prompt": ""
+    }
+  ],
+
+  "voiceover": {
+    "engine": "minimax_speech_02",
+    "model": "speech-02-hd",
+    "voice": "presenter_male",
+    "speed": 1.1,
+    "sample_rate": 32000,
+    "format": "mp3",
+    "bitrate": "128k"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 12,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/tech_ambient_01.mp3",
+    "bgm_volume_pct": 10,
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 18,
+    "lens_glow_intensity_pct": 12,
+    "saturation_adjust": -8,
+    "contrast_adjust": 8,
+    "sharpness_adjust": -3,
+    "vignette": 0.3
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "2万启动，14个月4亿营收，AI获客全拆解",
+      "2个人用AI做到4亿美元年营收，工具链全公开",
+      "在拖车公园长大的人，用AI做出了4亿营收的公司"
+    ],
+    "tags": ["AI获客", "AI营销", "人工智能", "创业", "一人公司"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "黑底金字 $20K → $4亿 对比"
+  }
+}

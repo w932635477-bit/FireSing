@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-04-17T14:42:16.925905",
+  "model": "doubao-seedream-4.5",
+  "shots": 8,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-digital-emergence.png",
+      "task_id": "task-unified-1776408030-77y33dw8",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-empty-office.png",
+      "task_id": "task-unified-1776408043-nkbi3mgu",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-trailer-park.png",
+      "task_id": "task-unified-1776408056-9rkequnb",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-coding-scene.png",
+      "task_id": "task-unified-1776408070-yz7vefm9",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-data-display.png",
+      "task_id": "task-unified-1776408083-gxkd9v1k",
+      "status": "success"
+    },
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S06-company-comparison.png",
+      "task_id": "task-unified-1776408098-r9qw554o",
+      "status": "success"
+    },
+    {
+      "shot": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S07-profit-comparison.png",
+      "task_id": "task-unified-1776408111-1cdtauhz",
+      "status": "success"
+    },
+    {
+      "shot": "S09",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S09-daily-revenue.png",
+      "task_id": "task-unified-1776408125-p0shc7kg",
+      "status": "success"
+    }
+  ]
+}

@@ -35,6 +35,9 @@ Thumbs.db
 # Environment
 .env
 .env.local
+docs/content/.env
+docs/content/output/
+docs/content/scripts/.venv/
 
 # Node
 node_modules/

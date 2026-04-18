@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-04-17T20:16:00.936294",
+  "model": "speech-02-hd",
+  "voice_id": "male-qn-jingying",
+  "speed": 1.05,
+  "segments": 6,
+  "total_duration_ms": 35568.0,
+  "total_chars": 405,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S01-hook-numbers.mp3",
+      "duration_ms": 4860,
+      "chars": 58,
+      "status": "success"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S02-character-bg.mp3",
+      "duration_ms": 5436,
+      "chars": 72,
+      "status": "success"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S03-key-data.mp3",
+      "duration_ms": 9180,
+      "chars": 87,
+      "status": "success"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S04-method.mp3",
+      "duration_ms": 5940,
+      "chars": 70,
+      "status": "success"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S05-scale-alt.mp3",
+      "duration_ms": 6984,
+      "chars": 82,
+      "status": "success"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S06-cta.mp3",
+      "duration_ms": 3168,
+      "chars": 36,
+      "status": "success"
+    }
+  ]
+}

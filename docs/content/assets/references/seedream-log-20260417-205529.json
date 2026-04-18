@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-04-17T20:55:29.134172",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-golden-numbers.png",
+      "task_id": "task-unified-1776430315-kr44rc1u",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-trailer-founder.png",
+      "task_id": "task-unified-1776430349-rip8d3c8",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-financial-data.png",
+      "task_id": "task-unified-1776430373-tzl4gl4b",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "status": "error",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-ai-workspace.png",
+      "task_id": "task-unified-1776430490-ic9gif4n",
+      "status": "success"
+    }
+  ]
+}

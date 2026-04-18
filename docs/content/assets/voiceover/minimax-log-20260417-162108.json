@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-04-17T16:21:08.027812",
+  "model": "speech-02-hd",
+  "voice_id": "male-qn-jingying",
+  "speed": 1.05,
+  "segments": 10,
+  "total_duration_ms": 63432.0,
+  "total_chars": 646,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S01-hook-numbers.mp3",
+      "duration_ms": 5148,
+      "chars": 59,
+      "status": "success"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S02-hook-team.mp3",
+      "duration_ms": 1188,
+      "chars": 14,
+      "status": "success"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S03-character-intro.mp3",
+      "duration_ms": 5868,
+      "chars": 70,
+      "status": "success"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S04-startup.mp3",
+      "duration_ms": 6516,
+      "chars": 67,
+      "status": "success"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S05-key-data.mp3",
+      "duration_ms": 11772,
+      "chars": 103,
+      "status": "success"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S06-comparison.mp3",
+      "duration_ms": 6948,
+      "chars": 65,
+      "status": "success"
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S07-profit-summary.mp3",
+      "duration_ms": 3564,
+      "chars": 37,
+      "status": "success"
+    },
+    {
+      "segment": "S08",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S08-ai-tools.mp3",
+      "duration_ms": 9396,
+      "chars": 96,
+      "status": "success"
+    },
+    {
+      "segment": "S09",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S09-daily-revenue.mp3",
+      "duration_ms": 2844,
+      "chars": 27,
+      "status": "success"
+    },
+    {
+      "segment": "S10",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/S10-cta.mp3",
+      "duration_ms": 10188,
+      "chars": 108,
+      "status": "success"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "timestamp": "2026-04-17T16:07:59.208397",
+  "model": "speech-02-hd",
+  "voice_id": "male-qn-jingying",
+  "speed": 1.05,
+  "segments": 10,
+  "total_duration_ms": 0,
+  "total_chars": 0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S02",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S03",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S04",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S05",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S06",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S07",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S08",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S09",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    },
+    {
+      "segment": "S10",
+      "status": "error",
+      "error": "API error (2061): your current token plan not support model, speech-02-hd"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-04-17T21:13:15.565675",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S01",
+      "status": "error",
+      "error": "<urlopen error _ssl.c:1063: The handshake operation timed out>"
+    }
+  ]
+}

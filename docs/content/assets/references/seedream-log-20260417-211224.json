@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-04-17T21:12:24.502871",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "status": "error",
+      "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1081)>"
+    }
+  ]
+}
