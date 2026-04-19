@@ -13,10 +13,10 @@
     "codec": "h264",
     "aspect_ratio": "9:16",
     "runway_seed": 12345,
-    "style": "cinematic_documentary",
-    "color_temperature": "warm_gold",
-    "accent_color": "#c9a96e",
-    "bg_color": "#000000"
+    "style": "bright_documentary",
+    "color_temperature": "warm_bright",
+    "accent_color": "#ffa726",
+    "bg_color": "#faf5ee"
   },
   "script": {
     "topic": "一个人用2万美元+AI，14个月做到4亿营收",
@@ -36,7 +36,7 @@
       "emotion_arc": "共情",
       "reference_file": "S01-hook-money.png",
       "visual_description": "young man sitting on floor in small sparse room with a single old laptop",
-      "reference_prompt": "empathy and humble beginnings, young man sitting on floor in small sparse room with a single old laptop, natural skin texture with visible pores and slight blemishes, uneven skin tone with natural redness on cheeks and nose, warm evening light from a small window casting long soft shadows with visible falloff, walls have slight discoloration and peeling paint edges, unretouched documentary photography, raw photo grain, visible dust motes in the light beam, muted earth tones, subject in lower two-thirds, natural imperfections throughout, no airbrushing, vertical composition 9:16",
+      "reference_prompt": "shot on Sony A7III 50mm f/1.8 Fuji Pro 400H, young man early twenties sitting cross-legged on floor in a small bright rented room, morning sunlight streaming through a window with sheer white curtains, a ThinkPad laptop open on the floor in front of him, wearing a slightly oversized light blue hoodie with a small coffee stain on the sleeve, slight confident smirk with one corner of mouth higher than the other, one eyebrow slightly raised showing determination not defeat, uneven stubble on jaw with a small patch missed while shaving, slight redness around nose, the room walls have a few peeling paint spots but overall clean, a potted plant on the windowsill, warm bright directional morning light from the left creating soft warm shadows across his face, visible dust motes in the sunbeam, warm saturated tones with natural color shift in highlights, subject in lower two-thirds, vertical composition 9:16",
       "motion_prompt": "slow push in, subtle ambient light shift",
       "voiceover_text": "一个人，两万美元启动资金，十四个月做到四亿美元营收。",
       "voiceover_pause_markers": "一个人<#0.2#>两万美元启动资金<#0.3#>十四个月做到四亿美元营收。",
@@ -52,7 +52,7 @@
       "reference_file": "S02-desire-late-night.png",
       "overlay_image": "assets/founders/matthew-gallagher.png",
       "visual_description": "a person seen from behind working late at night, screen glow only light source",
-      "reference_prompt": "burning desire and perseverance, a person seen from behind working late at night, only light comes from the computer screen casting cool white glow on the desk, desk surface has scratches and coffee ring stains, scattered papers with visible wrinkles and curled edges, the room is not clean, a jacket thrown over a chair, visible noise and grain in the dark areas, unretouched raw documentary look, cool blue screen light mixing with warm desk lamp, figure small in lower third, natural messy environment, vertical composition 9:16",
+      "reference_prompt": "shot on Sony A7III 85mm f/1.8 Fuji Pro 400H, a person seen from behind at a desk near a large window, early morning golden hour light flooding through the window casting warm directional light across the workspace, old scratched wooden desk with coffee ring stains and pen marks, scattered papers and a yellow highlighter, a jacket thrown over the back of a wobbly office chair, power strip and tangled cables visible under the desk, the computer screen shows code in dark mode with a warm amber desk lamp providing fill light, one hand reaching toward keyboard with sleeve pushed up showing a wristwatch tan line, warm saturated morning tones, visible film grain in the softer shadow areas, figure in lower third, vertical composition 9:16",
       "motion_prompt": "slow push in, screen glow flickers slightly",
       "voiceover_text": "创始人Matthew Gallagher，在拖车公园长大，用叔叔的电脑自学编程。",
       "voiceover_pause_markers": "创始人Matthew Gallagher<#0.2#>在拖车公园长大<#0.2#>用叔叔的电脑自学编程。",
@@ -67,7 +67,7 @@
       "emotion_arc": "希望",
       "reference_file": "S03-hope-ai-opportunity.png",
       "visual_description": "a person leaning toward a monitor showing upward trending charts, face illuminated by screen glow",
-      "reference_prompt": "hope and discovery, a person leaning toward a monitor showing upward trending charts, face illuminated by warm golden screen glow showing a moment of realization, natural skin with visible pores and slight sheen from the screen light, forehead has natural creases, slight stubble visible on jaw, the monitor is an older model with slight screen glare, desk cluttered with real items, pen marks on the desk surface, warm golden light from screen, deep shadows with visible grain, raw unretouched documentary photography style, person and screen in lower two-thirds, vertical composition 9:16",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Fuji Pro 400H, a person leaning toward a laptop showing upward trending charts, face illuminated by warm golden screen glow at the moment of realization, mouth open in a wide but slightly lopsided grin with one corner higher than the other, eyes wide with excitement and one slightly more squinted from the smile, slight sheen on forehead, visible forehead creases more pronounced on one side, uneven stubble on jaw, bright warm afternoon window light from the right mixing with screen glow creating warm overall tone, desk cluttered with real items: a half-empty coffee mug, pen marks scratched into the desk surface, sticky notes with faded ink, a small cactus in a chipped pot, warm golden light with soft natural falloff, visible film grain, person and screen in lower two-thirds, vertical composition 9:16",
       "motion_prompt": "slow zoom in, screen glow subtly intensifies",
       "voiceover_text": "代码AI写，广告AI生成，客服是AI机器人。",
       "voiceover_pause_markers": "代码AI写<#0.2#>广告AI生成<#0.2#>客服是AI机器人。",
@@ -108,7 +108,7 @@
       "emotion_arc": "对比",
       "reference_file": "S05-contrast-one-vs-many.png",
       "visual_description": "one person at a single desk in a massive empty office floor",
-      "reference_prompt": "stark contrast and defiance, one person at a single desk in a massive empty office floor, the desk has wear marks and a old lamp with a tilted shade, rows and rows of vacant dusty desks stretching into the dark background, visible dust on the empty desks, a flickering fluorescent light in the distance, only one desk has warm lamp light and a glowing computer screen, natural grain and noise throughout, especially in the dark empty areas, raw unretouched documentary photography, real office texture, warm amber pool of light at one desk against cold dark emptiness, single lit desk in lower third, empty rows above, vertical composition 9:16",
+      "reference_prompt": "shot on Canon 5D Mark IV 24mm f/2.8 Fuji Pro 400H, one person at a single desk in a large airy co-working space with big windows, bright warm daylight flooding through floor-to-ceiling windows on the right, the desk has wear marks and a small desk organizer with pens and a coffee mug, rows of other desks in the background but mostly empty with a few plants scattered around, the person is small in frame with their laptop glowing, warm bright directional light from the windows creating long soft shadows across the empty desks, the floor has a few scratches and a plant pot in the corner, warm saturated daylight tones with natural falloff toward background, visible film grain, single occupied desk in lower third, warm bright space above, vertical composition 9:16",
       "motion_prompt": "slow wide pan from empty desks to the single lit desk",
       "voiceover_text": "行业巨头两千四百人，净利率才百分之五点五。他用两个人，跑了同行三倍。",
       "voiceover_pause_markers": "行业巨头两千四百人<#0.2#>净利率才百分之五点五。<#0.3#>他用两个人<#0.2#>跑了同行三倍。",
@@ -123,7 +123,7 @@
       "emotion_arc": "喜悦",
       "reference_file": "S06-joy-massive-profit.png",
       "visual_description": "a person leaning back in their office chair with arms raised in triumph, screen showing revenue numbers",
-      "reference_prompt": "pure joy and disbelief at incredible success, a person leaning back in their office chair with arms raised in triumph, a laptop on the desk showing massive revenue numbers on screen, natural genuine smile with visible crow feet around the eyes, natural skin texture with visible pores and slight sweat on forehead from excitement, the room is still modest and ordinary, not a luxury office, warm afternoon light from a window with natural falloff, desk has coffee stains and scattered papers, raw unretouched documentary photography, real grain and texture, person in lower two-thirds, vertical composition 9:16",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Fuji Pro 400H, a person leaning back in a worn office chair with arms raised in triumph, a laptop on the scratched desk showing revenue numbers on screen, genuine wide but slightly lopsided smile with one side higher than the other, visible crow's feet deeper around the right eye than the left, slight sweat on forehead, one front tooth slightly overlapping, bright warm afternoon sunlight from a window behind creating a golden rim light effect with soft warm shadows on the face, desk has coffee stains and scattered wrinkled papers and a yellow sticky note, wearing a plain light gray t-shirt with a loose thread at the collar, a potted succulent on the windowsill, warm saturated bright tones, visible film grain, real texture in the room, person in lower two-thirds, vertical composition 9:16",
       "motion_prompt": "subtle celebratory movement, warm light shift",
       "voiceover_text": "日营收超三百万美元。这整套工具链，国内都有免费替代。",
       "voiceover_pause_markers": "日营收超三百万美元。<#0.3#>这整套工具链<#0.2#>国内都有免费替代。",
@@ -138,7 +138,7 @@
       "emotion_arc": "邀请",
       "reference_file": "S07-invitation-cta.png",
       "visual_description": "a person sitting casually at their desk, turned toward camera as if talking to a friend",
-      "reference_prompt": "warm trust and invitation, a person sitting casually at their desk, turned slightly toward camera as if talking to a friend, natural friendly expression, slight asymmetrical smile, one hand resting on the desk near the keyboard, the desk has a warm lamp creating soft amber light, background shows a simple real workspace with natural clutter, natural skin texture, visible pores, slight shadow under the jaw, warm golden lamp light with natural falloff into shadow, raw documentary photography, unretouched, natural grain, person in lower two-thirds, vertical composition 9:16",
+      "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.8 Fuji Pro 400H, a person sitting casually at their desk, turned slightly toward camera as if talking to a friend, warm inviting smile with one corner higher than the other, visible laugh lines deeper on one side, one eye slightly more squinted from the smile, slight shadow under the jaw, wearing a wrinkled casual linen shirt with the top button undone and a small food stain near the second button, bright warm window light from the left creating soft warm directional shadows, the desk has a small desk lamp and a coffee mug with a smiley face printed on it, background shows a simple real workspace: a half-empty water bottle, a phone charging cable, a stack of old mail, a calendar on the wall with handwritten notes, warm saturated bright daylight tones with visible film grain, unretouched documentary feel, person in lower two-thirds, vertical composition 9:16",
       "motion_prompt": "gentle nod, warm light steady",
       "voiceover_text": "如果你也想要这套AI获客系统，请留言。",
       "voiceover_pause_markers": "如果你也想要这套AI获客系统<#0.3#>请留言。",
@@ -160,7 +160,8 @@
     "resolution": "1440x2560",
     "candidates_per_segment": 2,
     "style_suffix": "vertical composition 9:16",
-    "deai_suffix": "unretouched documentary photography, raw photo grain, natural imperfections, no airbrushing"
+    "deai_suffix": "unretouched documentary photography, raw photo grain, natural imperfections, no airbrushing, bright warm tones",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin"
   },
   "video_generation": {
     "engine": "runway_gen4",
@@ -196,10 +197,10 @@
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
   "post_production": {
-    "film_grain_intensity_pct": 18,
-    "lens_glow_intensity_pct": 12,
-    "saturation_adjust": -8,
-    "contrast_adjust": 8,
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
     "sharpness_adjust": -3,
     "vignette": 0.3
   },

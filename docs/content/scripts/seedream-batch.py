@@ -106,7 +106,13 @@ def download_image(url: str, dest: Path) -> None:
             f.write(resp.read())
 
 
-def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int = 2):
+def run_batch(
+    api_key: str,
+    shots: list[dict],
+    output_dir: Path,
+    candidates: int = 2,
+    negative_prompt: str | None = None,
+):
     """Generate reference images for all shots."""
     output_dir.mkdir(parents=True, exist_ok=True)
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
@@ -121,6 +127,8 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
         print(f"  Prompt: {shot['prompt'][:80]}...")
         print(f"  Voiceover: {shot.get('voiceover_text', '')[:50]}...")
         print(f"  Size: 1440x2560 (9:16 2K) | Candidates: {candidates}")
+        if negative_prompt:
+            print(f"  Negative prompt: {negative_prompt[:60]}...")
 
         payload = {
             "model": MODEL,
@@ -129,6 +137,8 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
             "size": "1440x2560",
             "prompt_priority": "standard",
         }
+        if negative_prompt:
+            payload["negative_prompt"] = negative_prompt
 
         try:
             print("  Submitting task... ", end="", flush=True)
@@ -230,6 +240,7 @@ def main():
     with open(config_path) as f:
         config = json.load(f)
     candidates = args.candidates or config.get("reference_images", {}).get("candidates_per_segment", 2)
+    negative_prompt = config.get("reference_images", {}).get("negative_prompt")
 
     if candidates < 1 or candidates > 15:
         print("ERROR: candidates must be 1-15")
@@ -280,6 +291,7 @@ def main():
         shots=shots,
         output_dir=Path(args.output_dir),
         candidates=candidates,
+        negative_prompt=negative_prompt,
     )
 
 

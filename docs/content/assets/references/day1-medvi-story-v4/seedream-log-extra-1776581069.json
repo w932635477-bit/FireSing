@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-04-19T14:44:29",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "id": "AI指挥-v1",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/AI指挥-v1.png"
+    },
+    {
+      "id": "AI指挥-v2",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/AI指挥-v2.png"
+    },
+    {
+      "id": "AI指挥-v3",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/AI指挥-v3.png"
+    },
+    {
+      "id": "惬意咖啡-v1",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/惬意咖啡-v1.png"
+    },
+    {
+      "id": "惬意咖啡-v2",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/惬意咖啡-v2.png"
+    },
+    {
+      "id": "惬意咖啡-v3",
+      "status": "success",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v4/惬意咖啡-v3.png"
+    }
+  ]
+}

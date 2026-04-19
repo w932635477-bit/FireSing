@@ -294,32 +294,85 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 
 观众不需要从图片里看出"这是拖车公园"，但需要看到"一个在简陋环境中坚持的人"才能产生共情。
 
-**原则 3：Prompt 结构 = 情绪 + 辨识度元素 + 光影 + 构图 + 去AI质感**
+**原则 3：摄影先行的 Prompt 方法论（v3.0 去AI感，经验证有效）**
 
-砍掉相机/胶片参数（Seedream 不会真的模拟 Leica M6）。
+> v3.0 经 3 轮实测验证（v1→v2→v3），每轮迭代有明确改善。生图必须严格遵循此方法论。
 
-**去AI质感指令（每个 prompt 必须包含）：**
+核心思路：摄影术语不会让 Seedream 精确模拟物理相机，但会强烈引导模型走向「真实摄影」的分布，远离「精修插画/AI渲染」分布。
 
-以下元素必须在每个 prompt 中出现至少 3 条：
-- `natural skin texture with visible pores` — 真实皮肤纹理
-- `uneven skin tone with natural redness` — 轻微色差
-- `unretouched documentary photography, raw photo grain` — 未精修纪录片感
-- `visible noise and grain in dark areas` — 暗部噪点
-- `desk has scratches and wear marks` — 环境磨损
-- `natural light falloff into shadow` — 自然明暗过渡
+**Prompt 结构（6 层，严格按顺序）：**
 
-核心原则：真实感不在完美里，在细微的不完美中。AI 默认生成"精修广告"质感，必须用 prompt 强制压制。
+```
+[摄影声明], [主体+具体不完美+面部不对称], [环境+真实物件名], [光影+方向], [构图], vertical composition 9:16
+```
 
-正确结构：`[核心情绪], [有辨识度的主体], [光影氛围], [色彩], [构图位置], vertical composition 9:16`
+**第 1 层：摄影声明（prompt 最前面，权重最高，MUST）**
 
-示例：`quiet determination, young man at simple desk lit only by laptop screen in dark room, warm amber glow from screen, navy black shadows, subject in lower two-thirds, vertical composition 9:16`
+每条 prompt 开头必须包含摄影参数声明，从以下选项中选一个：
+- `shot on Canon 5D Mark IV, 50mm f/1.4, Kodak Portra 400 film` — 纪录片质感
+- `iPhone 15 Pro photo, slightly underexposed, natural lighting` — 随手拍质感
+- `35mm documentary film still, grainy, imperfect focus` — 胶片纪录片质感
+- `shot on Sony A7III, 85mm f/1.8, available light, Fuji 400H` — 日系纪实
+
+**第 2 层：主体 + 具体不完美 + 面部不对称（MUST）**
+
+不能用笼统的 "natural skin texture"。必须写具体的、可见的不完美。**凡是有人脸的画面，必须包含至少 1 处明确的面部不对称描述。**
+
+具体不完美：
+- ✅ `slight forehead acne and uneven stubble` — 具体可见
+- ✅ `wearing a faded oversized hoodie with a small stain on sleeve` — 具体磨损
+- ❌ `natural skin texture with visible pores` — 太笼统，AI 模型倾向忽略
+
+面部不对称（至少选 1 条）：
+- `one eyebrow slightly raised/furrowed higher than the other`
+- `lips pressed together with one corner slightly higher`
+- `one eye slightly more squinted than the other`
+- `uneven stubble with a small patch missed while shaving`
+- `one front tooth slightly overlapping`
+- `jaw slightly clenched with visible tension in the cheek muscle`
+- `smile lines deeper on one side than the other`
+
+**第 3 层：环境 + 真实物件名（MUST）**
+
+用真实品牌/型号代替笼统描述：
+- ✅ `old ThinkPad laptop on a wobbly IKEA table with coffee ring stains`
+- ✅ `water-stained ceiling, peeling wallpaper edges, power strip under desk`
+- ❌ `small room with old laptop on a table`
+
+**第 4 层：光影 + 方向（MUST）**
+
+必须有光源方向和质感，不能只写 "warm light"：
+- ✅ `late afternoon directional light through a dirty window casting hard warm shadows`
+- ✅ `cool white screen glow as only light source casting hard shadow edges on face`
+- ❌ `warm golden evening light` — 没有方向，AI 会生成平面柔光
+
+**第 5 层：构图**
+- 主体在下 2/3，上方留空间
+- 每张图末尾加 `vertical composition 9:16`
+
+**第 6 层：Negative Prompt（每张图 MUST 配置）**
+
+```
+airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry,
+symmetric face, centered perfectly symmetrical features, HDR, overprocessed,
+studio lighting, stock photo, 3D render, illustration, cartoon, anime,
+oil painting, watermark, text, logo, oversaturated, hyperrealistic,
+mannequin, doll-like, flawless, magazine cover, retouched,
+even skin tone, poreless skin
+```
+
+配置文件中通过 `reference_images.negative_prompt` 字段设置，`seedream-batch.py` 自动读取。
+
+**完整示例：**
+
+`shot on Canon 5D Mark IV 50mm f/1.4 Kodak Portra 400, young man early twenties with lips pressed together tightly showing quiet struggle, one eyebrow slightly furrowed higher than the other, jaw slightly clenched with visible tension in the cheek muscle, uneven stubble on jaw with a small patch missed while shaving, sitting on floor in a cramped rented room with water-stained ceiling and peeling wallpaper edges, a single old ThinkPad laptop on the floor in front of him, late afternoon directional light through a dirty window casting hard warm shadows with one shadow crossing his face diagonally, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16`
 
 **原则 4：画面中禁止的元素**
 
 - 无手部（AI 生成有缺陷）
 - 无文字（AI 生成的文字一定是乱码，文字在后期加）
 - 无过于具体的场景细节（不需要画出"拖车公园"这种具体场景）
-- 无相机型号/胶片型号参数
+- 无笼统的去AI后缀（如 "natural skin texture with visible pores" 单独贴在末尾无效）
 
 **原则 5：手机视角检验**
 
@@ -331,7 +384,7 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 |------|----|
 | 每个镜头生成候选 | 2-3 张，选最佳 |
 | 统一色温 | 暖金色，约 4500K 等效 |
-| 提示词结构 | `[核心情绪/视觉概念], [光影], [色彩], [构图], vertical composition 9:16` |
+| 提示词结构 | 严格遵循原则 3 v3.0 六层结构 |
 
 ### 6.5 Seedream 4.5 参数
 
@@ -353,7 +406,10 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 - [ ] 每张图有辨识度元素（不是纯抽象），观众 0.3 秒能识别（原则 1）
 - [ ] 每张图只传达一个情绪，不承载叙事信息（原则 2）
 - [ ] 6 张图构成完整情感弧线（共情→向往→希望→震撼→对比→信任）
-- [ ] Prompt 中无相机型号/胶片型号参数（原则 4）
+- [ ] Prompt 开头有摄影声明（原则 3 v3.0）
+- [ ] Prompt 中有具体的、可见的不完美描述（不是笼统后缀）
+- [ ] 有人脸的画面包含至少 1 处面部不对称描述（原则 3 v3.0）
+- [ ] Negative prompt 已配置，包含 v3.0 完整列表（原则 3 v3.0）
 - [ ] 200px 宽度下辨识度元素仍可识别（原则 5）
 
 ---

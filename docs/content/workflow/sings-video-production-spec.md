@@ -294,11 +294,36 @@
 | 对比度 | 高对比，暗部更暗亮部更亮 |
 | 风格关键词 | `vibrant, high contrast, music video aesthetic, dynamic lighting` |
 
-**去AI质感指令（同 Medvi，每个 prompt 必须包含至少 3 条）：**
-- `natural skin texture with visible pores`
-- `unretouched documentary photography, raw photo grain`
-- `visible noise and grain in dark areas`
-- `natural light falloff into shadow`
+**去AI质感指令（v3.0 摄影先行 + 面部不对称，经验证有效）**
+
+> v3.0 经 3 轮实测验证（v1→v2→v3），生图必须严格遵循。完整方法论见 Medvi 工作流原则 3。
+> 这里只列出 Sings 特有差异。
+
+**Sings 摄影声明（区别于 Medvi，偏向 MV/音乐录影带风格）：**
+- `music video behind the scenes, shot on RED Komodo 6K, anamorphic lens flare` — MV 幕后质感
+- `concert documentary still, shot on Canon C300, stage lighting` — 演唱会纪录片
+- `hip hop music video freeze frame, shot on Arri Alexa, neon lighting` — 说唱 MV 质感
+
+**其余 5 层严格同 Medvi v3.0：**
+1. 摄影声明（上面 3 个选项）
+2. 主体 + 具体不完美 + 面部不对称（MUST，有人脸画面至少 1 处不对称）
+3. 环境 + 真实物件名（MUST）
+4. 光影 + 方向（MUST）
+5. 构图 + `vertical composition 9:16`
+6. Negative Prompt（MUST）
+
+**Negative Prompt（每张图必须配置，v3.0 完整版）：**
+
+```
+airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry,
+symmetric face, centered perfectly symmetrical features, HDR, overprocessed,
+studio lighting, stock photo, 3D render, illustration, cartoon, anime,
+oil painting, watermark, text, logo, oversaturated, hyperrealistic,
+mannequin, doll-like, flawless, magazine cover, retouched,
+even skin tone, poreless skin
+```
+
+配置文件中通过 `reference_images.negative_prompt` 字段设置，`seedream-batch.py` 自动读取。
 
 ### 6.4 Seedream 4.5 参数
 

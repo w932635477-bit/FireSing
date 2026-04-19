@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-04-19T12:51:18.254671",
+  "model": "doubao-seedream-4.5",
+  "shots": 6,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S01-共情.png",
+      "task_id": "task-unified-1776573992-jj1wrulg",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S02-向往.png",
+      "task_id": "task-unified-1776574033-weqfdaky",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S03-希望.png",
+      "task_id": "task-unified-1776574093-b89vmwyc",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S05-对比.png",
+      "task_id": "task-unified-1776574127-rex6op8n",
+      "status": "success"
+    },
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S06-喜悦.png",
+      "task_id": "task-unified-1776574209-imu9cu9w",
+      "status": "success"
+    },
+    {
+      "shot": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day1-medvi-story-v2/S07-邀请.png",
+      "task_id": "task-unified-1776574252-ghobryl2",
+      "status": "success"
+    }
+  ]
+}
