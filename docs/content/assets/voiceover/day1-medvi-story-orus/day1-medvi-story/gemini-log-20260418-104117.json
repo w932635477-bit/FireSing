@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-18T10:41:17.882481",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Orus",
+  "video_id": "day1-medvi-story",
+  "total_duration_s": 7.2,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story-orus/day1-medvi-story/S01.mp3",
+      "duration_s": 7.2,
+      "status": "success",
+      "actual_duration_s": 7.2,
+      "voiceover_text": "一个人，两万美元启动资金，十四个月做到四亿美元营收。",
+      "director_notes": "Start with a slight pause, then speak with genuine surprise and curiosity. Use [amazed] at key moments. Keep it conversational, not robotic."
+    }
+  ]
+}

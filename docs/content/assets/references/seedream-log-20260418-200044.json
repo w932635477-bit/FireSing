@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-18T20:00:44.359585",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-explosive.png",
+      "task_id": "task-unified-1776513545-otgb42is",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-playful.png",
+      "task_id": "task-unified-1776513567-16d4m1sr",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-excitement.png",
+      "task_id": "task-unified-1776513586-wb65jh2s",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-excitement.png",
+      "task_id": "task-unified-1776513609-lsopw5a5",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-joy.png",
+      "task_id": "task-unified-1776513630-urpkzedf",
+      "status": "success"
+    }
+  ]
+}

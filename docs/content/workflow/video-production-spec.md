@@ -1,9 +1,10 @@
-# AI 短视频生产规范 v1.0
+# AI 短视频生产规范 v1.1 — Medvi 工作流
 
 > 适用范围：30-45 秒 AI 生成短视频，抖音/小红书竖版
-> 工具链：Seedream 4.5 + Runway Gen-4 + Fish Audio S2 Pro + FFmpeg + 剪映
+> 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
+> 工具链：Seedream 4.5 + Runway Gen-4 + Gemini 3.1 Flash TTS + FFmpeg + 剪映
 > 本文档是唯一权威标准，取代所有先前的工作流文档
-> 最后更新：2026-04-17
+> 最后更新：2026-04-18
 
 ---
 
@@ -18,7 +19,7 @@
 
 ### 驱动方式
 
-每条视频由一个 JSON 配置文件驱动全流程。所有工具（Seedream 脚本、Fish Audio 脚本、FFmpeg 脚本）从配置文件读取参数。
+每条视频由一个 JSON 配置文件驱动全流程。所有工具（Seedream 脚本、Gemini TTS 脚本、FFmpeg 脚本）从配置文件读取参数。
 
 ```
 config/{video_id}.json  →  驱动全部 7 个阶段
@@ -30,7 +31,7 @@ config/{video_id}.json  →  驱动全部 7 个阶段
 Stage 1: 脚本写作    →  编辑 JSON 配置文件
 Stage 2: 参考图生成  →  seedream-batch.py 读配置
 Stage 3: 视频生成    →  Runway 手动操作，参数来自配置
-Stage 4: 配音生成    →  fish-audio-tts-batch.py 读配置
+Stage 4: 配音生成    →  gemini-tts-batch.py 读配置
 Stage 5: 视频合成    →  compose-video.py 读配置
 Stage 6: 去AI化后期  →  FFmpeg 滤镜 + 剪映精修
 Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
@@ -81,7 +82,9 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 | 远景（Wide） | 开场/转场/结尾 | slow pan, wide angle, establishing shot | ~15% |
 | 中景（Medium） | 主体展示/工作场景 | medium shot, natural framing | ~45% |
 | 特写（Close-up） | 数据放大/情感连接 | extreme close-up, shallow depth of field | ~30% |
-| 文字卡片（Text） | 数据展示/对比/CTA | FFmpeg/剪映直接叠加 | ~10% |
+| 文字卡片（Text） | 数据展示/对比/CTA | FFmpeg drawtext 自动生成 | ~10% |
+
+**文字卡片自动路由：** `shot_type: text_card` 的段落跳过 Stage 2（Seedream）和 Stage 3（Runway），在 Stage 5（FFmpeg 合成）中由 `generate_text_card()` 自动生成黑底金字画面。配置 `text_card_config` 控制行内容、字号、颜色。
 
 **景别切换节奏模板：**
 ```
@@ -250,41 +253,77 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 | 画面中无手部 | Seedream/Midjourney 手部生成有缺陷 |
 | 边缘干净 | 无重要元素靠近画框边缘（Runway 会扭曲边缘） |
 
-### 6.3 Prompt 行业逻辑（MUST 阅读）
+### 6.3 Prompt 生成逻辑（MUST 阅读）
 
-> 这是从 Medvi 对标分析中得出的核心认知。违反这些原则 = 图片在手机上无效。
+> 经 4 轮迭代验证的最终方法论。违反这些原则 = 图片无法引起观众情绪共鸣。
 
-**原则 1：图片是旁白的情绪伴奏，不是旁白的插图**
+**核心框架：情感弧线 + 辨识度元素**
 
-| 维度 | 正确做法（Medvi 逻辑） | 错误做法 |
-|------|----------------------|---------|
-| 图片功能 | 情绪载体，不承载信息 | 故事叙述，承载信息 |
-| 信息谁来传递 | 100% 旁白 + 字幕 | 旁白 + 图片 + 字幕都在讲故事 |
-| 图片和旁白的关系 | 图片提供情绪氛围，旁白提供内容 | 图片试图"画出来"旁白说的内容 |
-| 视觉复杂度 | 简洁，一眼读出情绪 | 复杂，需要"读懂"画面叙事 |
+每条视频的图片序列必须构成一条完整的情感弧线（压缩版英雄之旅）：
 
-观众不需要从图片里看出"这是拖车公园"，因为旁白已经说了。图片只需要传达"卑微的起点"这个情绪。
+```
+共情 → 向往 → 希望 → 震撼 → 对比 → 信任
+```
 
-**原则 2：镜头类型必须有数据可视化**
+| 步骤 | 情绪 | 观众内心反应 | 视觉要素 |
+|------|------|------------|---------|
+| 1 共情 | 同情/代入 | "我也是普通人" | 朴素环境中的人，简陋但有温度 |
+| 2 向往 | 渴望逆袭 | "我也想翻盘" | 深夜苦干的身影，微光中的坚持 |
+| 3 希望 | 抓住机会 | "这可能就是出路" | 人面对屏幕/数据，专注投入 |
+| 4 震撼 | 数字冲击 | "这不可能" | 爆发式增长的视觉化（有辨识度的增长曲线/柱体） |
+| 5 对比 | 不服/惊叹 | "比大公司还猛？" | 一人 vs 空间（以小胜大的视觉张力） |
+| 6 信任 | 温暖邀请 | "告诉我怎么做的" | 分享的姿态，温暖光线 |
 
-Medvi 镜头分配：远景 15%，中景 45%，特写 30%，纯文字/图表 10%。
+**原则 1：图片要有辨识度元素，不是纯抽象**
 
-每条视频至少 1 个纯数据可视化镜头（无人、无场景、只有抽象数据氛围）。脚本中的关键数字（$4.01亿、净利率 16.2%、$103/月）必须是独立的视觉冲击点，不能藏在人物场景里。
+| 维度 | 正确做法 | 错误做法 |
+|------|---------|---------|
+| 画面内容 | 有辨识度的元素（人、电脑、办公桌、数据图） | 纯抽象几何图形（光点、色块） |
+| 情绪来源 | 观众从画面中的"人/物"产生共情 | 观众看到抽象图形，无从产生情绪 |
+| 辨识速度 | 0.3 秒内识别画面内容并产生情绪 | 需要思考"这是什么"，情绪中断 |
 
-**原则 3：Prompt 结构简洁，砍掉相机/胶片参数**
+关键区别：图片不能抽象到让观众看不懂。画面中必须有人能识别的元素，才能触发情绪。
 
-Seedream 不会真的模拟 Leica M6 + Kodak Portra 800。相机型号、镜头参数、胶片型号只占 prompt 空间，不给画面带来对应回报。
+**原则 2：图片是旁白的情绪伴奏，不是旁白的复述**
 
-正确结构：`[核心情绪/视觉概念], [光影], [色彩], [构图], vertical composition 9:16`
+| 维度 | 正确做法 | 错误做法 |
+|------|---------|---------|
+| 图片功能 | 为旁白提供情绪氛围 | 把旁白内容"画出来" |
+| 信息传递 | 100% 旁白 + 字幕传递信息 | 图片试图承载信息 |
+| 叙事 | 图片只传达一个情绪，不讲故事 | 图片试图讲述完整故事线 |
 
-**原则 4：情绪优先，画面在后**
+观众不需要从图片里看出"这是拖车公园"，但需要看到"一个在简陋环境中坚持的人"才能产生共情。
 
-正确顺序：这个镜头需要"震撼感" → 找一个能制造震撼的视觉 → 简洁画面
-错误顺序：这个镜头要讲"拖车公园少年" → 描述具体场景 → 加情绪修饰词
+**原则 3：Prompt 结构 = 情绪 + 辨识度元素 + 光影 + 构图 + 去AI质感**
+
+砍掉相机/胶片参数（Seedream 不会真的模拟 Leica M6）。
+
+**去AI质感指令（每个 prompt 必须包含）：**
+
+以下元素必须在每个 prompt 中出现至少 3 条：
+- `natural skin texture with visible pores` — 真实皮肤纹理
+- `uneven skin tone with natural redness` — 轻微色差
+- `unretouched documentary photography, raw photo grain` — 未精修纪录片感
+- `visible noise and grain in dark areas` — 暗部噪点
+- `desk has scratches and wear marks` — 环境磨损
+- `natural light falloff into shadow` — 自然明暗过渡
+
+核心原则：真实感不在完美里，在细微的不完美中。AI 默认生成"精修广告"质感，必须用 prompt 强制压制。
+
+正确结构：`[核心情绪], [有辨识度的主体], [光影氛围], [色彩], [构图位置], vertical composition 9:16`
+
+示例：`quiet determination, young man at simple desk lit only by laptop screen in dark room, warm amber glow from screen, navy black shadows, subject in lower two-thirds, vertical composition 9:16`
+
+**原则 4：画面中禁止的元素**
+
+- 无手部（AI 生成有缺陷）
+- 无文字（AI 生成的文字一定是乱码，文字在后期加）
+- 无过于具体的场景细节（不需要画出"拖车公园"这种具体场景）
+- 无相机型号/胶片型号参数
 
 **原则 5：手机视角检验**
 
-每个 prompt 想象在 200px 宽的屏幕上看到的效果。如果画面细节在 200px 下丢失了，那个细节就不值得生成。
+每个 prompt 想象在 200px 宽的屏幕上看到的效果。如果画面细节在 200px 下丢失了，那个细节就不值得生成。辨识度元素必须在 200px 下仍然可识别。
 
 ### 6.4 SHOULD 规则
 
@@ -311,10 +350,11 @@ Seedream 不会真的模拟 Leica M6 + Kodak Portra 800。相机型号、镜头�
 - [ ] 主体在下 2/3，上方留空
 - [ ] 边缘元素最少
 - [ ] 分辨率 ≥ 1440px 高
-- [ ] 每张图只传达一个情绪，不承载叙事信息（原则 1）
-- [ ] 至少 1 张纯数据可视化镜头，无人无场景（原则 2）
-- [ ] Prompt 中无相机型号/胶片型号参数（原则 3）
-- [ ] 200px 宽度下仍能读出核心情绪（原则 5）
+- [ ] 每张图有辨识度元素（不是纯抽象），观众 0.3 秒能识别（原则 1）
+- [ ] 每张图只传达一个情绪，不承载叙事信息（原则 2）
+- [ ] 6 张图构成完整情感弧线（共情→向往→希望→震撼→对比→信任）
+- [ ] Prompt 中无相机型号/胶片型号参数（原则 4）
+- [ ] 200px 宽度下辨识度元素仍可识别（原则 5）
 
 ---
 
@@ -373,7 +413,7 @@ Seedream 不会真的模拟 Leica M6 + Kodak Portra 800。相机型号、镜头�
 
 ---
 
-## 8. Stage 4：配音生成（Fish Audio S2 Pro）
+## 8. Stage 4：配音生成（Gemini 3.1 Flash TTS）
 
 ### 8.1 输入/输出
 
@@ -399,103 +439,104 @@ Seedream 不会真的模拟 Leica M6 + Kodak Portra 800。相机型号、镜头�
 | 生成方式 | 同时生成分段文件（用于合成）+ 完整文件（用于参考） |
 | temperature | 0.7（平衡稳定性和自然度） |
 | top_p | 0.7 |
-| 语速 | 1.0（Fish Audio 自然语速已足够好） |
+| 语速 | 1.0（Gemini 自然语速已足够好） |
 | 按脚本类型微调语速 | 数据型 1.0，对比型 0.95，演示型 0.95 |
 
-### 8.4 Fish Audio API 参数
+### 8.4 Gemini 3.1 Flash TTS 参数
 
 | 参数 | 值 |
 |------|----|
-| API 端点 | `https://api.fish.audio/v1/tts` |
-| 模型 | s2-pro |
-| reference_id | 自定义声音模型（需预先创建） |
-| temperature | 0.7 |
-| top_p | 0.7 |
-| prosody.speed | 1.0 |
+| API | Google Gemini API (gemini-3.1-flash) |
+| 模型 | gemini-3.1-flash |
+| 声音 | 配置文件中的 `voiceover.voice`（如 Charon, Orus 等） |
 | 采样率 | 44100 |
-| 格式 | mp3 |
-| normalize | true |
-| 费用 | ~$15 / 百万字符 |
-| 批量命令 | `python docs/content/scripts/fish-audio-tts-batch.py --config config/{video_id}.json` |
+| 格式 | WAV → MP3 |
+| 音量标准化 | 开启（normalize: true） |
+| 批量命令 | `python docs/content/scripts/gemini-tts-batch.py --config config/{video_id}.json` |
 
 ### 8.5 声音模型选择指南
 
-Fish Audio 使用"声音模型"而非预设音色。获取 reference_id：
+Gemini 3.1 Flash 提供多种内置声音，无需自建模型：
 
-**方法 1：自建声音模型（推荐）**
-- 上传 15 秒以上高质量音频样本到 Fish Audio
-- 样本质量直接决定输出质量
-- 推荐用 Medvi 风格的旁白音频作为样本
-- 创建后获得 `reference_id`，写入配置文件
+**推荐声音：**
+- `Charon` — 深沉男声，适合商业旁白
+- `Orus` — 温暖男声，适合叙事
+- 其他声音见 Google AI Studio 声音列表
 
-**方法 2：使用社区声音**
-- 在 Fish Audio 市场选择高质量中文男声
-- 注意检查音质评价和使用授权
+**Director's Notes 控制：**
+在 voiceover 配置中通过 `director_notes` 字段控制语气、节奏、情感。
 
 ### 8.6 质量检查
 
 - [ ] 每个字可辨识（无含糊不清）
 - [ ] 无金属/电子感（3 遍听测通过）
-- [ ] 关键数字有自然强调（Fish Audio 自动处理）
+- [ ] 关键数字有自然强调（Gemini Director's Notes 控制）
 - [ ] 总时长：___ 秒（MUST：30-45s）
 - [ ] 音质干净无噪音
 - [ ] 与 Medvi 配音对比，自然度接近
 
 ---
 
-## 9. Stage 5：视频合成（FFmpeg）
+## 9. Stage 5：视频合成
+
+### 9.0 核心原则：FFmpeg 只做拼接+音频合并
+
+> FFmpeg 不做剪映的活。拼接 + 音频合并用 FFmpeg（秒级完成），所有视觉处理用剪映（实时预览）。违反这个分工 = 无法批量生产。
 
 ### 9.1 输入/输出
 
-- 输入：视频片段 + 配音 + BGM + SRT 字幕 + JSON 配置
-- 输出：`output/{video_id}/{video_id}_composite.mp4`，1080x1920，24fps
+- 输入：视频片段 + 配音 MP3
+- 输出：`output/{video_id}/{video_id}_concat.mp4`，仅拼接+配音
 
-### 9.2 MUST 规则
-
-| 规则 | 值 |
-|------|----|
-| 镜头按脚本顺序拼接，硬切 | 不用花哨转场 |
-| 配音驱动编辑 | 画面时长匹配配音时长 |
-| BGM 音量 | 8-12%（按响度计算，不是振幅） |
-| 字幕从 SRT 文件烧入 | 不是手动添加 |
-| 最终时长 ≤ 45.0 秒 | ffprobe 验证 |
-
-### 9.3 SHOULD 规则
+### 9.2 FFmpeg 职责（只做这些）
 
 | 规则 | 值 |
 |------|----|
-| 使用 FFmpeg concat demuxer | 拼接片段 |
-| 在此阶段同时应用去AI滤镜 | 减少剪映工作量 |
-| BGM 类型 | 氛围/科技/电影感，80-120 BPM，无歌词 |
+| 视频片段按脚本顺序拼接，硬切 | concat demuxer |
+| 配音音轨合并 | 不做任何音频处理 |
+| 不做滤镜、不做字幕、不做叠加 | MUST |
+| 不做色彩校正、不做去AI | MUST |
 
-### 9.4 FFmpeg 命令模板
+### 9.3 FFmpeg 命令（简单版）
 
 ```bash
+# Step 1: 拼接视频片段
 ffmpeg -f concat -safe 0 -i segments.txt \
-  -i voiceover_full.mp3 \
-  -i bgm.mp3 \
-  -filter_complex "
-    [0:v]noise=c0s=12:c0f=t+u,
-    eq=contrast=1.08:saturation=0.92:brightness=0.01,
-    vignette=angle=0.3:mode=forward[v0];
-    [1:a]volume=1.0[a1];
-    [2:a]volume=0.10[a2];
-    [a1][a2]amix=inputs=2:duration=longest[aout]
-  " \
-  -vf "subtitles=subtitles.srt:force_style='FontName=Noto Sans CJK SC,FontSize=36,PrimaryColour=&Hffffff,OutlineColour=&H000000,Outline=2'" \
-  -map [v0] -map [aout] \
-  -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p \
-  -c:a aac -b:a 192k \
-  -t 45.0 \
-  output/{video_id}_composite.mp4
+  -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p -r 24 \
+  -an concat_video.mp4
+
+# Step 2: 合并配音
+ffmpeg -i concat_video.mp4 -i voiceover_full.mp3 \
+  -c:v copy -c:a aac -b:a 192k \
+  -shortest output/{video_id}_concat.mp4
 ```
 
-### 9.5 质量检查
+### 9.4 剪映职责（所有视觉工作）
 
-- [ ] ffprobe 时长 ≤ 45.0s
+在剪映里完成以下所有操作：
+
+| 任务 | 操作 |
+|------|------|
+| 字幕 | 自动生成 + 手动校对数字，金色高亮 |
+| BGM | 拖拽音频轨，音量 8-12% |
+| 去AI 4 步 | 胶片颗粒 + 光晕 + 色彩校正 + 抖动（见 Stage 6） |
+| AI标识水印 | 开头添加 "AI生成内容" 文字贴纸，持续 ≥ 3 秒 |
+| 文字卡片 | 黑底金字画面 |
+| 照片叠加 | 人物照片等 |
+| 封面帧 | 选取或 Canva 制作 |
+
+### 9.5 导出后的元数据标注
+
+剪映导出后，用 FFmpeg 一条命令写入 AI 声明（不重编码，秒级完成）：
+
+```bash
+ffmpeg -i output.mp4 -metadata comment="本视频由AI生成合成，包含AI生成的图像和配音" -c copy output_labeled.mp4
+```
+
+### 9.6 质量检查
+
+- [ ] ffprobe 时长 ≤ 45.0s 且 ≥ 30.0s
 - [ ] 音画同步（抽查 3 个时间点）
-- [ ] BGM 听得到但不抢旁白
-- [ ] 字幕在手机尺寸下可读
 - [ ] 片段间无黑帧
 
 ---
@@ -557,15 +598,22 @@ ffmpeg -f concat -safe 0 -i segments.txt \
 
 ### 10.4 FFmpeg vs 剪映分工
 
-| 任务 | FFmpeg（自动化） | 剪映（手动） | 推荐 |
-|------|-----------------|-------------|------|
+> **核心原则**：FFmpeg 只做拼接+音频合并。所有视觉处理在剪映里完成。违反 = 无法批量生产。
+
+| 任务 | FFmpeg | 剪映 | 推荐 |
+|------|--------|------|------|
 | 片段拼接 | concat demuxer | 拖拽 | FFmpeg |
-| 字幕烧入 | drawtext/SRT | 自动+手动 | FFmpeg 生成初版，剪映精修 |
-| 去AI滤镜 | filter chain | GUI | FFmpeg（可复现） |
-| 色彩校正 | eq filter | GUI | 剪映（视觉反馈） |
-| BGM 混合 | amix | 拖拽 | FFmpeg |
-| 封面帧制作 | 无 | 无 | Canva |
-| 最终视觉 QA | 无 | 预览 | 剪映 + 手机 |
+| 配音合并 | -i audio | 拖拽 | FFmpeg |
+| AI 元数据标注 | -metadata -c copy | — | FFmpeg（导出后一条命令） |
+| 字幕 | — | 自动+手动 | 剪映 |
+| 去AI 4 步滤镜 | — | GUI 实时预览 | 剪映 |
+| 色彩校正 | — | GUI | 剪映 |
+| BGM 混合 | — | 拖拽 | 剪映 |
+| AI标识水印 | — | 文字贴纸 | 剪映 |
+| 文字卡片 | — | 文字模板 | 剪映 |
+| 照片叠加 | — | 画中画 | 剪映 |
+| 封面帧制作 | — | — | Canva |
+| 最终视觉 QA | — | 预览+手机 | 剪映 + 手机 |
 
 ---
 
@@ -597,19 +645,55 @@ ffmpeg -f concat -safe 0 -i segments.txt \
 - [ ] 无手部伪影、文字乱码、面部异常（MUST）
 - [ ] 无 AI 水印（MUST）
 
-### 11.5 平台合规门控
+### 11.5 AI 内容标识门控（法规强制）
 
-- [ ] 无违反抖音/小红书社区准则的内容（MUST）
-- [ ] 无未经核实的健康/金融声明（MUST）
+> 依据：《人工智能生成合成内容标识办法》，2025年9月1日生效
+
+**显性标识（MUST）：**
+
+- [ ] 视频开头有 "AI生成内容" 文字标识，持续 ≥ 3 秒
+- [ ] 或全程半透明水印标注 "AI生成"
+- [ ] 标识清晰可见、不可轻易去除
+- [ ] FFmpeg 脚本自动添加（见 Stage 5 配置）
+
+**隐性标识（MUST）：**
+
+- [ ] 视频文件元数据包含 AI 生成声明
+- [ ] FFmpeg 脚本自动写入 metadata（见 Stage 5 配置）
+
+**发布时（MUST）：**
+
+- [ ] 在平台发布界面勾选 "AI生成内容" 声明
+
+**不合规后果**：平台有权下架、限流、封号。2025年9月1日后执行力度加强。
+
+### 11.6 平台内容合规门控
+
+**抖音规则（2025）：**
+
+- [ ] 如涉及健康/医疗/减肥话题，发布者须为认证医疗专业人员（MUST）
+- [ ] 无具体疗效承诺（"瘦了XX斤" 须有真实案例支撑）（MUST）
+- [ ] 无暗示医疗建议的内容（MUST）
+- [ ] 如涉及健康话题，添加 "仅供参考，不构成医疗建议" 免责声明（SHOULD）
+- [ ] 无夸大/虚假广告用语（MUST）
 - [ ] CTA 使用批准的模板（MUST）
 
-### 11.6 元数据门控
+**小红书规则：**
+
+- [ ] 禁止虚假 Before/After 对比图（MUST）
+- [ ] 禁止夸大效果宣传（MUST）
+- [ ] 标注 "AI生成内容"（MUST）
+- [ ] 无违反社区准则的内容（MUST）
+
+**如内容不涉及健康/医疗话题：** 跳过健康相关检查项，其余项仍须通过。
+
+### 11.8 元数据门控
 
 - [ ] 标题从配置文件的 3 个候选中选取（MUST）
 - [ ] 标签至少 3 个来自批准标签列表（MUST）
 - [ ] 计划发布时间 12:00 或 18:00（SHOULD）
 
-### 11.7 最终审批
+### 11.9 最终审批
 
 ```
 视频编号：__________
@@ -623,6 +707,9 @@ ffmpeg -f concat -safe 0 -i segments.txt \
 CTA 动作：  ___     [ ] PASS  [ ] FAIL
 手机预览：          [ ] PASS  [ ] FAIL
 去AI检查：          [ ] PASS  [ ] FAIL
+AI显性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
+AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
+平台合规：          [ ] PASS  [ ] FAIL
 封面帧：            [ ] PASS  [ ] FAIL
 
 最终决定：[ ] 批准上传  [ ] 返回 Stage ___ 原因：__________
@@ -695,15 +782,13 @@ CTA 动作：  ___     [ ] PASS  [ ] FAIL
   ],
 
   "voiceover": {
-    "engine": "fish_audio_s2_pro",
-    "model": "s2-pro",
-    "reference_id": "YOUR_VOICE_MODEL_ID",
-    "temperature": 0.7,
-    "top_p": 0.7,
-    "speed": 1.0,
+    "engine": "gemini_3.1_flash_tts",
+    "model": "gemini-3.1-flash",
+    "voice": "Charon",
     "sample_rate": 44100,
     "format": "mp3",
-    "normalize": true
+    "normalize": true,
+    "director_notes": "用沉稳的中文男声旁白风格，语速适中，关键数字加重语气"
   },
 
   "reference_images": {
@@ -737,6 +822,17 @@ CTA 动作：  ___     [ ] PASS  [ ] FAIL
     "bgm_volume_pct": 10,
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
 
   "post_production": {
@@ -812,7 +908,7 @@ docs/content/
 | 写 5 份配置文件 | 75 分钟 | 手动编辑 JSON |
 | 批量生成参考图 | 50 分钟 | `seedream-batch.py` |
 | Runway 批量生成视频 | 75 分钟 | 手动操作 Runway |
-| 批量生成配音 | 25 分钟 | `fish-audio-tts-batch.py` |
+| 批量生成配音 | 25 分钟 | `gemini-tts-batch.py` |
 | **总计** | **225 分钟** | |
 
 ### Day B：制作（5 条视频）
@@ -874,3 +970,6 @@ docs/content/
 |------|------|------|
 | 2026-04-17 | 1.0 | 初始版本，取代所有先前工作流文档 |
 | 2026-04-17 | 1.1 | 配音引擎从 MiniMax Speech-02 替换为 Fish Audio S2 Pro |
+| 2026-04-18 | 1.2 | 配音引擎替换为 Gemini 3.1 Flash TTS，新增 AI 内容标识规范、平台合规门控 |
+| 2026-04-18 | 1.3 | 添加 Medvi 工作流标识，新增 Sings 工作流 |
+| 2026-04-18 | 1.2 | 新增 AI 内容标识规范（显性+隐性）、平台合规门控强化（抖音健康内容规则、小红书规则）、最终审批增加 AI 标识字段 |

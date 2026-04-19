@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-MiniMax Speech-02 TTS Batch Voiceover Generator (config-driven)
-Reads segments from video config JSON file.
+CosyVoice TTS Batch Voiceover Generator (config-driven)
+Uses Alibaba Cloud DashScope CosyVoice-v3-flash with Instruct emotion control.
 
 Usage:
   source docs/content/.env
-  python3 minimax-tts-batch.py --config config/day1-medvi-story.json
-  python3 minimax-tts-batch.py --config config/day1-medvi-story.json --shot S01 --dry-run
+  python3 cosyvoice-tts-batch.py --config config/day1-medvi-story.json
+  python3 cosyvoice-tts-batch.py --config config/day1-medvi-story.json --shot S01 --dry-run
+  python3 cosyvoice-tts-batch.py --config config/day1-medvi-story.json --voice longfei_v3
 """
 
 import argparse
@@ -15,25 +16,34 @@ import os
 import re
 import subprocess
 import sys
-import time
-import urllib.request
 from datetime import datetime
 from pathlib import Path
+
+import dashscope
+from dashscope.audio.tts_v2 import AudioFormat, SpeechSynthesizer
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "voiceover"
 DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 
-API_BASE = "https://api.minimaxi.com/v1/t2a_v2"
-
 VOICES = {
-    "male-elite": "male-qn-jingying",
-    "male-young": "male-qn-qingse",
-    "male-dominant": "male-qn-badao",
-    "male-student": "male-qn-daxuesheng",
-    "presenter-male": "presenter_male",
-    "presenter-female": "presenter_female",
-    "audiobook-male": "audiobook_male_1",
+    "longanyang": "longanyang",
+    "longfei": "longfei_v3",
+    "longsanshu": "longsanshu_v3",
+    "longshuo": "longshuo_v3",
+    "longtian": "longtian_v3",
+    "longxiu": "longxiu_v3",
+    "longanyun": "longanyun_v3",
+}
+
+EMOTION_MAP = {
+    "empathy": "你正在进行新闻播报，你说话的情感是surprised。",
+    "desire": "你现在说话的角色是一个旁白，你说话的情感是neutral。",
+    "hope": "你现在说话的角色是一个旁白，你说话的情感是neutral。",
+    "shock": "你正在进行新闻播报，你说话的情感是surprised。",
+    "contrast": "你正在进行新闻播报，你说话的情感是surprised。",
+    "joy": "你说话的情感是happy。",
+    "trust": "你正在进行广告促销，你说话的情感是happy。",
 }
 
 
@@ -58,52 +68,41 @@ def strip_pause_markers(text: str) -> str:
     return re.sub(r"<#\d+\.?\d*#>", "", text)
 
 
-def api_request(url: str, headers: dict, data: dict) -> dict:
-    body = json.dumps(data).encode("utf-8")
-    req = urllib.request.Request(url, data=body, headers=headers, method="POST")
-    req.add_header("Content-Type", "application/json")
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        return json.loads(resp.read().decode("utf-8"))
-
-
 def synthesize(
-    api_key: str, text: str, voice_id: str, output_path: Path,
-    speed: float = 1.0, model: str = "speech-02-hd",
+    text: str, voice: str, output_path: Path,
+    emotion: str = "", speed: float = 1.0,
 ) -> dict:
-    headers = {"Authorization": f"Bearer {api_key}"}
-    payload = {
-        "model": model,
-        "text": text,
-        "stream": False,
-        "voice_setting": {
-            "voice_id": voice_id,
-            "speed": speed,
-            "vol": 1,
-            "pitch": 0,
-        },
-        "audio_setting": {
-            "sample_rate": 32000,
-            "bitrate": 128000,
-            "format": "mp3",
-            "channel": 1,
-        },
-        "language_boost": "Chinese",
-        "output_format": "hex",
-    }
-    result = api_request(API_BASE, headers, payload)
-    status_code = result.get("base_resp", {}).get("status_code")
-    if status_code != 0:
-        raise RuntimeError(f"API error ({status_code}): {result.get('base_resp', {}).get('status_msg')}")
+    dashscope.base_websocket_api_url = "wss://dashscope.aliyuncs.com/api-ws/v1/inference"
 
-    hex_audio = result["data"]["audio"]
-    audio_bytes = bytes.fromhex(hex_audio)
+    kwargs = {
+        "model": "cosyvoice-v3-flash",
+        "voice": voice,
+        "format": AudioFormat.MP3_44100HZ_MONO_256KBPS,
+        "speech_rate": speed,
+        "volume": 50,
+    }
+
+    instruction = EMOTION_MAP.get(emotion, "")
+    if instruction and voice == "longanyang":
+        kwargs["instruction"] = instruction
+
+    synthesizer = SpeechSynthesizer(**kwargs)
+    audio = synthesizer.call(text)
+
+    if not audio:
+        resp = synthesizer.get_response()
+        raise RuntimeError(f"Synthesis returned no audio. Response: {resp}")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "wb") as f:
-        f.write(audio_bytes)
+        f.write(audio)
 
     duration_s = get_audio_duration(output_path)
-    return {"duration_s": duration_s, "file_size": len(audio_bytes)}
+    return {
+        "duration_s": duration_s,
+        "file_size": len(audio),
+        "instruction": instruction,
+    }
 
 
 def generate_srt(segments: list[dict], output_path: Path) -> None:
@@ -135,13 +134,14 @@ def concatenate_audio(segment_files: list[Path], output_path: Path) -> None:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="MiniMax Speech-02 TTS (config-driven)")
+    parser = argparse.ArgumentParser(description="CosyVoice TTS (config-driven)")
     parser.add_argument("--config", type=str, required=True, help="Video config JSON file")
-    parser.add_argument("--voice", type=str, default="presenter-male",
-                        help=f"Voice ({', '.join(VOICES.keys())}, or raw ID)")
+    parser.add_argument("--voice", type=str, default="longanyang",
+                        help=f"Voice key or raw ID ({', '.join(VOICES.keys())})")
     parser.add_argument("--speed", type=float, default=1.0, help="Speech speed (0.5-2.0)")
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--shot", type=str, help="Generate only this segment (e.g., S01)")
+    parser.add_argument("--no-emotion", action="store_true", help="Disable Instruct emotion control")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -171,50 +171,59 @@ def main():
             print(f"Shot {args.shot} not found")
             sys.exit(1)
 
-    print(f"MiniMax Speech-02 TTS — {video_id}")
+    print(f"CosyVoice TTS — {video_id}")
     print("=" * 50)
-    print(f"Segments: {len(segments)}")
+    print(f"Model: cosyvoice-v3-flash")
     print(f"Voice: {voice_id}")
     print(f"Speed: {args.speed}")
+    print(f"Emotion control: {'off' if args.no_emotion else 'on'}")
     print(f"Output: {output_dir}")
     print()
 
     if args.dry_run:
         print("DRY RUN")
         for seg in segments:
-            text = seg.get("voiceover_pause_markers", seg.get("voiceover_text", ""))
-            print(f"  {seg['id']}: {text[:60]}...")
+            text = seg.get("voiceover_text", "")
+            emotion = seg.get("emotion", "")
+            instruction = EMOTION_MAP.get(emotion, "(none)")
+            print(f"  {seg['id']} [{emotion}]: {text[:50]}...")
+            print(f"    instruction: {instruction}")
         return
 
-    api_key = os.environ.get("MINIMAX_API_KEY")
+    api_key = os.environ.get("DASHSCOPE_API_KEY")
     if not api_key:
-        print("ERROR: MINIMAX_API_KEY not set")
+        print("ERROR: DASHSCOPE_API_KEY not set")
+        print("Get it from: https://help.aliyun.com/zh/model-studio/get-api-key")
         sys.exit(1)
+    dashscope.api_key = api_key
 
     results = []
     total_duration = 0.0
 
     for seg in segments:
-        text = seg.get("voiceover_pause_markers", seg.get("voiceover_text", ""))
+        text = strip_pause_markers(seg.get("voiceover_pause_markers", seg.get("voiceover_text", "")))
         if not text:
             print(f"  [{seg['id']}] SKIPPED — no text")
             continue
 
+        emotion = "" if args.no_emotion else seg.get("emotion", "")
         dest = output_dir / f"{seg['id']}.mp3"
-        print(f"[{seg['id']}] {seg.get('voiceover_text', '')[:50]}...")
+        print(f"[{seg['id']}] [{seg.get('emotion_arc', '')}] {seg.get('voiceover_text', '')[:50]}...")
         print("  Synthesizing... ", end="", flush=True)
 
         try:
-            info = synthesize(api_key, text, voice_id, dest, args.speed)
+            info = synthesize(text, voice_id, dest, emotion=emotion, speed=args.speed)
             total_duration += info["duration_s"]
             print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
+            if info.get("instruction"):
+                print(f"    instruction: {info['instruction']}")
             results.append({
                 "segment": seg["id"], "file": str(dest),
                 "duration_s": info["duration_s"], "status": "success",
                 "actual_duration_s": info["duration_s"],
                 "voiceover_text": seg.get("voiceover_text", ""),
+                "instruction": info.get("instruction", ""),
             })
-            time.sleep(0.5)
         except Exception as e:
             print(f"failed: {e}")
             results.append({"segment": seg["id"], "status": "error", "error": str(e)})
@@ -222,20 +231,20 @@ def main():
     successful = [r for r in results if r["status"] == "success"]
 
     if successful:
-        srt_path = output_dir / f"{video_id}-subtitles.srt"
+        srt_path = output_dir / f"{video_id}-subtitles-cosyvoice.srt"
         generate_srt(successful, srt_path)
         print(f"\nSRT saved: {srt_path}")
 
-        full_path = output_dir / f"{video_id}-full-narration.mp3"
+        full_path = output_dir / f"{video_id}-full-narration-cosyvoice.mp3"
         seg_files = [Path(r["file"]) for r in successful]
         concatenate_audio(seg_files, full_path)
         print(f"Full narration: {full_path}")
 
-    log_path = output_dir / f"minimax-log-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
+    log_path = output_dir / f"cosyvoice-log-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     with open(log_path, "w", encoding="utf-8") as f:
         json.dump({
             "timestamp": datetime.now().isoformat(),
-            "engine": "minimax_speech_02",
+            "engine": "cosyvoice-v3-flash",
             "voice_id": voice_id,
             "video_id": video_id,
             "total_duration_s": round(total_duration, 2),

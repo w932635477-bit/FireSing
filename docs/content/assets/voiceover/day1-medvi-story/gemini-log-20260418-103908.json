@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-18T10:39:08.062984",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "day1-medvi-story",
+  "total_duration_s": 7.56,
+  "results": [
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S06.mp3",
+      "duration_s": 7.56,
+      "status": "success",
+      "actual_duration_s": 7.56,
+      "voiceover_text": "日营收超三百万美元。这整套工具链，国内都有免费替代。",
+      "director_notes": "Use [cheerfully] and [laughing] naturally. Let the joy be infectious but not over-the-top. Smile while speaking — it comes through in the voice."
+    }
+  ]
+}

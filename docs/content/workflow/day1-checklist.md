@@ -1,122 +1,104 @@
-# Day 1 视频制作执行清单（Gen-4 版）
+# Day 1 视频制作执行清单
 
-> 一步一步操作，每步完成后打勾
-> 预计总耗时：45-60 分钟（首次）
-> 工具：Midjourney → Runway Gen-4 → ElevenLabs → 剪映
-
----
-
-## Phase 1: 参考图制作（15 分钟）
-
-- [ ] 打开 Midjourney
-- [ ] 生成 S01 参考图（数字浮现），选最佳 1 张
-- [ ] 生成 S02 参考图（空办公室），选最佳 1 张
-- [ ] 生成 S03 参考图（拖车公园），选最佳 1 张
-- [ ] 生成 S04 参考图（编程场景），选最佳 1 张
-- [ ] 生成 S05 参考图（数据展示），选最佳 1 张
-- [ ] 生成 S06 参考图（公司对比），选最佳 1 张
-- [ ] 生成 S07 参考图（利润率对比），选最佳 1 张
-- [ ] 生成 S09 参考图（日营收），选最佳 1 张
-- [ ] 检查：所有参考图色调统一（深色 + 金色）
-- [ ] 检查：所有参考图主体居中偏下（9:16 构图）
-- [ ] 导出所有参考图到 `docs/content/assets/references/`
-
-提示词文件：`docs/content/workflow/day1-reference-prompts.md`
-
-**选图原则**：
-- 构图干净，边缘无重要元素
-- 光影立体，有明暗层次
-- 不选：过于对称、文字太多、边缘有人的图
+> 视频ID: day1-medvi-story | 7段情感弧线 | 9:16 竖版
+> 预计总耗时：30-45 分钟（自动化脚本驱动）
+> 工具链：Seedream 4.5 → Runway Gen-4 → Gemini 3.1 Flash TTS → FFmpeg
+> **起飞前必读**：`pre-flight-checklist.md`
 
 ---
 
-## Phase 2: Runway Gen-4 视频生成（20 分钟）
+## Phase 1: 参考图生成（自动化）
 
-### 2.1 Turbo 迭代（快速试错）
+已完成 7/7，状态：reference_images_approved
 
-- [ ] 打开 Runway → Generate Video → 选择 Gen-4 Turbo
-- [ ] S01：上传参考图 → 9:16 → 5s → Fixed Seed 开启 → 写运动提示词 → 生成 3 个候选
-- [ ] S02：同上流程
-- [ ] S03：同上流程
-- [ ] S04：同上流程
-- [ ] S05：同上流程
-- [ ] S06：同上流程
-- [ ] S07：同上流程
-- [ ] S08：截取 ChatGPT/Claude/Midjourney/AI客服 界面截图（4张），用 Canva 排成 9:16 拼贴
-- [ ] S09：同上流程
-- [ ] S10：用 Canva 制作转化卡片（黑底金字 9:16）
+- [x] S01 共情 — 穷小子坐在地上（S01-empathy-poor-kid.png）
+- [x] S02 向往 — 深夜苦干背影（S02-desire-late-night.png）
+- [x] S03 希望 — 抓住AI机会（S03-hope-ai-opportunity.png）
+- [x] S04 震撼 — 数据爆发增长（S04-shock-explosive-growth.png）
+- [x] S05 对比 — 一人 vs 空旷办公室（S05-contrast-one-vs-many.png）
+- [x] S06 喜悦 — 赚到钱的反应（S06-joy-massive-profit.png）
+- [x] S07 邀请 — CTA 信任邀请（S07-invitation-cta.png）
 
-### 2.2 Gen-4 最终生成（选中的镜头）
-
-- [ ] 将 Turbo 迭代中选中的每个镜头，用 Gen-4（非 Turbo）重新生成
-- [ ] 保持相同的参考图、Fixed Seed、提示词
-
-### 2.3 后处理（不消耗 credits）
-
-- [ ] 对每个片段：Retime → Trim（裁掉不稳定帧）
-- [ ] 对每个片段：Retime → Handheld Shake（强度 10-15%）
-- [ ] 对最终选中的片段：4K Upscale
-- [ ] 导出所有视频片段 MP4
-
-参数文件：`docs/content/workflow/runway-params-template.md`
+```bash
+source docs/content/.env
+python3 docs/content/scripts/seedream-batch.py --config config/day1-medvi-story.json --dry-run
+python3 docs/content/scripts/seedream-batch.py --config config/day1-medvi-story.json
+```
 
 ---
 
-## Phase 3: 配音（10 分钟）
+## Phase 2: 配音生成（自动化）
 
-- [ ] 打开 ElevenLabs
-- [ ] 选择中文声音（推荐试听 3-5 个选最自然的）
-- [ ] 调整参数：Stability 0.6-0.7, Similarity 0.7-0.8, Style 0.3-0.4
-- [ ] 按脚本分段输入旁白（参考 day1 脚本）
-- [ ] 关键数字前加 0.3s 停顿
-- [ ] 调整关键数字的语气加重
-- [ ] 拼接完整音频
-- [ ] 导出 MP3
-- [ ] 检查：总时长 45-55 秒，语速自然
+- [ ] 配置 voiceover.voice（Gemini 声音名，如 Charon）
+- [ ] 运行 TTS 脚本生成 7 段配音 + SRT 字幕
+- [ ] 检查总时长 30-45s
 
-脚本文件：`docs/content/scripts/day1-拆解40亿公司AI获客.md`
+```bash
+source docs/content/.env
+python3 docs/content/scripts/gemini-tts-batch.py --config config/day1-medvi-story.json --dry-run
+python3 docs/content/scripts/gemini-tts-batch.py --config config/day1-medvi-story.json
+```
 
 ---
 
-## Phase 4: 剪映合成（10 分钟）
+## Phase 3: Runway Gen-4 视频生成（自动化）
 
-- [ ] 新建项目（9:16 竖版，24fps）
-- [ ] 导入所有视频片段
-- [ ] 按 S01→S10 顺序排列
-- [ ] 导入配音音频
-- [ ] 对齐画面和配音（说到数字时切到对应画面）
-- [ ] 添加 BGM（科技感/轻快，音量 8-12%）
-- [ ] 添加字幕（自动生成 + 手动校对所有数字）
-- [ ] 关键数字用金色（#c9a96e）加粗
+- [ ] S01: 共情 → slow push in, subtle ambient light shift
+- [ ] S02: 向往 → slow push in, screen glow flickers slightly
+- [ ] S03: 希望 → slow zoom in, screen glow subtly intensifies
+- [ ] S04: 震撼 → slow zoom in on screen, numbers appear to shift
+- [ ] S05: 对比 → slow wide pan from empty desks to the single lit desk
+- [ ] S06: 喜悦 → subtle celebratory movement, warm light shift
+- [ ] S07: 邀请 → gentle nod, warm light steady
+
+```bash
+source docs/content/.env
+python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json --dry-run
+python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json --turbo
+python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json  # Gen-4 final
+```
+
+### 后处理（Runway UI 手动）
+
+- [ ] 每个片段：Trim 裁掉不稳定帧
+- [ ] 每个片段：Handheld Shake 10-15%
+- [ ] 最终片段：4K Upscale
 
 ---
 
-## Phase 5: 去AI味后期（5 分钟）
+## Phase 4: FFmpeg 合成（自动化）
 
-- [ ] 全选 → 添加胶片颗粒滤镜（强度 15-20%）
-- [ ] 全选 → 添加柔光特效（强度 10-15%）
-- [ ] 逐片段 → 调色（饱和度 -10，对比度 +8，锐度 -3）
-- [ ] 检查色调统一性
-- [ ] 选取封面帧（或用 Canva 制作）
+- [ ] 运行合成脚本：配音驱动时长 + 视频片段拼接 + 去AI后期
+- [ ] 检查输出文件
 
-后期模板：`docs/content/workflow/post-production-template.md`
+```bash
+python3 docs/content/scripts/ffmpeg-compose-day1.py --config config/day1-medvi-story.json
+```
+
+去AI后期参数（已内置于脚本）：
+- 胶片颗粒 noise=c0s=12
+- 对比度 +8%, 饱和度 -8%
+- 暗角 vignette=0.3
+- 锐度 -3
 
 ---
 
-## Phase 6: 导出 & 发布
+## Phase 5: 导出 & 发布
 
 - [ ] 导出 MP4（1080x1920，24fps）
+- [ ] 确认 AI 标识已嵌入（显性水印 + 元数据）
 - [ ] 写标题（3 选 1）：
-  - [ ] $20K 启动，14 个月 $4 亿营收，AI 获客全拆解
-  - [ ] 2 个人做到 4 亿美元营收，AI 工具链全公开
-  - [ ] 在拖车公园长大的人，用 AI 做到了 4 亿美元年营收
+  - 2万启动，14个月4亿营收，AI获客全拆解
+  - 2个人用AI做到4亿美元年营收，工具链全公开
+  - 在拖车公园长大的人，用AI做出了4亿营收的公司
 - [ ] 添加标签：#AI获客 #AI营销 #人工智能 #创业 #一人公司
+- [ ] 发布时勾选 "AI生成内容" 声明
 - [ ] 发布时间：12:00 或 18:00
+- [ ] 记录发布数据到 tracking 表
 
 ---
 
 ## 完成标志
 
-- [ ] 视频已发布到抖音
-- [ ] 记录发布数据（播放量、点赞、评论）到 tracking 表
-- [ ] 总结工作流优化点，更新工作流文档
+- [ ] 视频已发布到抖音/小红书
+- [ ] 工作流优化点记录到 video-production-spec.md

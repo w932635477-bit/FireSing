@@ -1,3 +1,39 @@
+# 内容生产工作流
+
+## 工作流索引
+
+### Medvi 工作流
+- **风格**: 电影纪录片风格商业内容
+- **驱动方式**: 旁白驱动，深色暖金色调
+- **规范文档**: [video-production-spec.md](video-production-spec.md)
+- **旧版参考**: [ai-video-production-workflow.md](ai-video-production-workflow.md)
+- **Medvi 拆解**: [medvi-video-multidimensional-analysis.md](medvi-video-multidimensional-analysis.md)
+
+### Sings 工作流
+- **风格**: 说唱科普风格 FireSing 推广内容
+- **驱动方式**: 音乐节拍驱动，高对比 MV 风格
+- **规范文档**: [sings-video-production-spec.md](sings-video-production-spec.md)
+
+---
+
+## 共用工具链
+
+| 工具 | 用途 | 两个工作流共用 |
+|------|------|--------------|
+| Seedream 4.5 | 参考图生成 | 是 |
+| Runway Gen-4 | 图生视频 | 是 |
+| FFmpeg | 拼接+音频合并 | 是 |
+| 剪映 | 字幕+后期+精修 | 是 |
+
+## 共用规范
+
+- [去AI味 4 步法](#去ai味-4-步法)（两个工作流通用）
+- [Runway 参数模板](runway-params-template.md)
+- [后期模板](post-production-template.md)
+- [预飞检查清单](pre-flight-checklist.md)
+
+---
+
 # 去AI味工作流备忘
 
 > 来源：抖音创作者分享（2026-04-17）

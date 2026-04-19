@@ -1,0 +1,286 @@
+{
+  "video_id": "sings-template",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-18",
+  "status": "template",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": null,
+    "style": "mv_rap",
+    "color_temperature": "neutral_cool",
+    "accent_color": "#7b68ee",
+    "bg_color": "#0a0a1a"
+  },
+
+  "lyrics": {
+    "bpm": 130,
+    "time_signature": "4/4",
+    "style": "chinese rap, energetic, educational, 130bpm",
+    "suno_tags": "chinese hip hop, rap, energetic, educational, bouncy, 130 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["[钩子第1行 ≤10字]", "[钩子第2行 ≤10字 押韵]"],
+        "rhyme": "a",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["[主体第1行 ≤10字]", "[主体第2行 ≤10字 押韵]"],
+        "rhyme": "i",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["[主体第3行 ≤10字]", "[主体第4行 ≤10字 押韵]"],
+        "rhyme": "i",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["[知识点1 ≤10字]", "[知识点1解释 ≤10字 押韵]"],
+        "rhyme": "e",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["[知识点2 ≤10字]", "[知识点2解释 ≤10字 押韵]"],
+        "rhyme": "e",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["[产品功能1 ≤10字]", "[产品功能1效果 ≤10字 押韵]"],
+        "rhyme": "an",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["[产品功能2 ≤10字]", "[产品功能2效果 ≤10字 押韵]"],
+        "rhyme": "an",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["[对比/数据 ≤10字]", "[对比/数据解释 ≤10字 押韵]"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B09",
+        "beat_count": 4,
+        "lines": ["[对比/数据2 ≤10字]", "[对比/数据2解释 ≤10字 押韵]"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B10",
+        "beat_count": 4,
+        "lines": ["[CTA第1行 ≤10字]", "[CTA第2行 ≤10字 押韵]"],
+        "rhyme": "a",
+        "segment_ref": "S06",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "[选题：与对应 Medvi 脚本相同]",
+    "source": "[信息来源：与对应 Medvi 脚本相同]",
+    "source_config": "[对应 Medvi 配置文件名，如 day1-medvi-story.json]",
+    "hook_type": "curiosity_gap",
+    "cta_action": "[与 Medvi 相同]",
+    "cta_keyword": "[与 Medvi 相同]",
+    "cta_deliverable": "[与 Medvi 相同]"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 4,
+      "shot_type": "close-up",
+      "emotion": "explosive",
+      "visual_description": "[画面描述]",
+      "motion_prompt": "dynamic zoom in, vibrant color burst, music video energy",
+      "reference_prompt": "[画面描述], vibrant neon colors, high contrast, energetic, dynamic lighting, music video aesthetic, natural skin texture, raw photo grain, vertical composition 9:16",
+      "lyrics_refs": ["B01"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "focus",
+      "visual_description": "[画面描述]",
+      "motion_prompt": "subtle movement, natural rhythm, ambient light shift",
+      "reference_prompt": "[画面描述], high contrast, music video aesthetic, natural skin texture, raw photo grain, vertical composition 9:16",
+      "lyrics_refs": ["B02", "B03"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "educational",
+      "visual_description": "[画面描述]",
+      "motion_prompt": "slow zoom in, focused, detail reveal",
+      "reference_prompt": "[画面描述], high contrast, music video aesthetic, natural skin texture, visible noise, vertical composition 9:16",
+      "lyrics_refs": ["B04", "B05"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "excitement",
+      "visual_description": "[画面描述]",
+      "motion_prompt": "dynamic movement, energy, vibrant lighting shift",
+      "reference_prompt": "[画面描述], vibrant neon colors, high contrast, energetic, music video aesthetic, vertical composition 9:16",
+      "lyrics_refs": ["B06", "B07"]
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "awe",
+      "visual_description": "[画面描述]",
+      "motion_prompt": "slow pan, expansive, cinematic",
+      "reference_prompt": "[画面描述], wide angle, high contrast, cinematic, music video aesthetic, vertical composition 9:16",
+      "lyrics_refs": ["B08", "B09"]
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 8,
+      "shot_type": "text_card",
+      "emotion": "warm",
+      "visual_description": "CTA text card with brand colors",
+      "motion_prompt": "gentle fade in, slight parallax",
+      "reference_prompt": null,
+      "text_card_config": {
+        "lines": ["[CTA 第1行]", "[CTA 第2行]"],
+        "font_size": 48,
+        "color": "#7b68ee",
+        "bg_color": "#0a0a1a"
+      },
+      "lyrics_refs": ["B10"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "chinese hip hop, bouncy rap, educational, playful, catchy hook, upbeat, 130 bpm, clean mix, pop rap",
+    "negative_tags": "heavy metal, screaming, sad, slow, ballad, rock, jazz",
+    "style_weight": 0.8,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "motion_intensity": 6,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 10,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像、配音和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 10,
+    "lens_glow_intensity_pct": 10,
+    "saturation_adjust": -3,
+    "contrast_adjust": 12,
+    "sharpness_adjust": -3,
+    "vignette": 0.2
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "[标题候选1]",
+      "[标题候选2]",
+      "[标题候选3]"
+    ],
+    "tags": ["AI翻唱", "AI音乐", "RVC", "FireSing", "说唱科普"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "[封面描述]"
+  }
+}

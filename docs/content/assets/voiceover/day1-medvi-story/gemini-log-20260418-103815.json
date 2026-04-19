@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-18T10:38:15.721913",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "day1-medvi-story",
+  "total_duration_s": 9.36,
+  "results": [
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S05.mp3",
+      "duration_s": 9.36,
+      "status": "success",
+      "actual_duration_s": 9.36,
+      "voiceover_text": "行业巨头两千四百人，净利率才百分之五点五。他用两个人，跑了同行三倍。",
+      "director_notes": "Use [serious] for the negative, then shift to [impressed] for the positive. Emphasize the contrast through tone change, not volume."
+    }
+  ]
+}

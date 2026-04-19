@@ -1,0 +1,14 @@
+{
+  "video_id": "sings01-rvc-intro",
+  "timestamp": "2026-04-18T20:02:40.348253",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 130,
+  "bars": 20,
+  "style": "chinese hip hop, bouncy rap, educational, playful, catchy hook, upbeat, happy, fun, 130 bpm, clean mix, pop rap",
+  "negative_tags": "heavy metal, screaming, sad, slow, ballad, rock, jazz, aggressive, dark",
+  "style_weight": 0.8,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1776513687-117syf43",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/sings01-rvc-intro"
+}

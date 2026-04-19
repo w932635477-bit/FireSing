@@ -1,9 +1,9 @@
 {
   "video_id": "day1-medvi-story",
-  "version": "2.0",
+  "version": "3.0",
   "created": "2026-04-17",
-  "status": "draft",
-
+  "updated": "2026-04-18",
+  "status": "reference_images_approved",
   "global": {
     "target_duration_sec": 36,
     "max_duration_sec": 45,
@@ -18,115 +18,150 @@
     "accent_color": "#c9a96e",
     "bg_color": "#000000"
   },
-
   "script": {
     "topic": "一个人用2万美元+AI，14个月做到4亿营收",
     "source": "Forbes 2026-04-02",
     "hook_type": "contradictory_number",
-    "cta_action": "私信",
+    "cta_action": "留言",
     "cta_keyword": "AI获客",
     "cta_deliverable": "完整工具清单"
   },
-
   "segments": [
     {
       "id": "S01",
       "type": "hook",
       "duration_sec": 4,
       "shot_type": "close-up",
-      "emotion": "shock",
-      "visual_description": "giant golden numbers floating in dark void, financial data visualization",
-      "motion_prompt": "slow zoom in on golden numbers, subtle glow pulsing, cinematic",
-      "voiceover_text": "一个人，2万美元启动资金，14个月做到4亿美元营收。",
-      "voiceover_pause_markers": "一个人<#0.2#>2万美元启动资金<#0.3#>14个月做到4亿美元营收。",
-      "subtitle_text": "2万 → 4亿，只用14个月",
-      "reference_prompt": "giant golden numbers 400000000 glowing in dark void, financial visualization, amber light rays, navy black background, warm gold accent, cinematic depth of field, vertical composition 9:16"
+      "emotion": "empathy",
+      "emotion_arc": "共情",
+      "reference_file": "S01-hook-money.png",
+      "visual_description": "young man sitting on floor in small sparse room with a single old laptop",
+      "reference_prompt": "empathy and humble beginnings, young man sitting on floor in small sparse room with a single old laptop, natural skin texture with visible pores and slight blemishes, uneven skin tone with natural redness on cheeks and nose, warm evening light from a small window casting long soft shadows with visible falloff, walls have slight discoloration and peeling paint edges, unretouched documentary photography, raw photo grain, visible dust motes in the light beam, muted earth tones, subject in lower two-thirds, natural imperfections throughout, no airbrushing, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle ambient light shift",
+      "voiceover_text": "一个人，两万美元启动资金，十四个月做到四亿美元营收。",
+      "voiceover_pause_markers": "一个人<#0.2#>两万美元启动资金<#0.3#>十四个月做到四亿美元营收。",
+      "subtitle_text": "2万 → 4亿，只用14个月"
     },
     {
       "id": "S02",
       "type": "body",
       "duration_sec": 5,
       "shot_type": "medium",
-      "emotion": "curiosity",
-      "visual_description": "young man sitting at desk with laptop in modest trailer park home, warm evening light",
-      "motion_prompt": "slow push in, subtle ambient light shift, documentary style",
+      "emotion": "desire",
+      "emotion_arc": "向往",
+      "reference_file": "S02-desire-late-night.png",
+      "overlay_image": "assets/founders/matthew-gallagher.png",
+      "visual_description": "a person seen from behind working late at night, screen glow only light source",
+      "reference_prompt": "burning desire and perseverance, a person seen from behind working late at night, only light comes from the computer screen casting cool white glow on the desk, desk surface has scratches and coffee ring stains, scattered papers with visible wrinkles and curled edges, the room is not clean, a jacket thrown over a chair, visible noise and grain in the dark areas, unretouched raw documentary look, cool blue screen light mixing with warm desk lamp, figure small in lower third, natural messy environment, vertical composition 9:16",
+      "motion_prompt": "slow push in, screen glow flickers slightly",
       "voiceover_text": "创始人Matthew Gallagher，在拖车公园长大，用叔叔的电脑自学编程。",
       "voiceover_pause_markers": "创始人Matthew Gallagher<#0.2#>在拖车公园长大<#0.2#>用叔叔的电脑自学编程。",
-      "subtitle_text": "拖车公园长大的创始人",
-      "reference_prompt": "young man in his 30s sitting at simple desk with laptop, modest trailer interior, warm evening golden light through window, focused expression, documentary photography, cinematic color grading, navy and gold tones, vertical composition 9:16"
+      "subtitle_text": "拖车公园长大的创始人"
     },
     {
       "id": "S03",
       "type": "body",
-      "duration_sec": 6,
+      "duration_sec": 5,
       "shot_type": "close-up",
-      "emotion": "shock",
-      "visual_description": "financial data on dark screen, key metrics highlighted in gold",
-      "motion_prompt": "slow zoom in, numbers glowing subtly, data visualization motion",
-      "voiceover_text": "2025年，营收4.01亿美元，净利率16.2%。行业巨头2400人，净利率才5.5%。",
-      "voiceover_pause_markers": "2025年<#0.2#>营收4.01亿美元<#0.2#>净利率16.2%。<#0.4#>行业巨头2400人<#0.2#>净利率才5.5%。",
-      "subtitle_text": "营收4.01亿 | 净利率16.2%",
-      "reference_prompt": "close-up of financial dashboard on dark screen, revenue numbers $401M in golden light, profit margin 16.2% highlighted, clean data visualization, dark navy background with gold accents, cinematic macro shot, vertical composition 9:16"
+      "emotion": "hope",
+      "emotion_arc": "希望",
+      "reference_file": "S03-hope-ai-opportunity.png",
+      "visual_description": "a person leaning toward a monitor showing upward trending charts, face illuminated by screen glow",
+      "reference_prompt": "hope and discovery, a person leaning toward a monitor showing upward trending charts, face illuminated by warm golden screen glow showing a moment of realization, natural skin with visible pores and slight sheen from the screen light, forehead has natural creases, slight stubble visible on jaw, the monitor is an older model with slight screen glare, desk cluttered with real items, pen marks on the desk surface, warm golden light from screen, deep shadows with visible grain, raw unretouched documentary photography style, person and screen in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow zoom in, screen glow subtly intensifies",
+      "voiceover_text": "代码AI写，广告AI生成，客服是AI机器人。",
+      "voiceover_pause_markers": "代码AI写<#0.2#>广告AI生成<#0.2#>客服是AI机器人。",
+      "subtitle_text": "AI写代码 AI做广告 AI当客服"
     },
     {
       "id": "S04",
       "type": "body",
       "duration_sec": 5,
-      "shot_type": "medium",
-      "emotion": "tension",
-      "visual_description": "split comparison: small team vs large corporation, visual contrast",
-      "motion_prompt": "slow pan left to right, subtle tension in movement",
-      "voiceover_text": "他用2个人，跑了同行3倍的利润率。代码AI写，广告AI生成。",
-      "voiceover_pause_markers": "他用2个人<#0.2#>跑了同行3倍的利润率。<#0.3#>代码AI写<#0.2#>广告AI生成。",
-      "subtitle_text": "2人 vs 2400人",
-      "reference_prompt": "minimalist office with just 2 desks and laptops, warm amber lighting, empty chairs suggesting small team, dark walls, cinematic medium shot, documentary style, gold and navy color palette, vertical composition 9:16"
+      "shot_type": "text_card",
+      "emotion": "shock",
+      "emotion_arc": "震撼",
+      "reference_file": "",
+      "visual_description": "全屏数据卡片：黑色背景，金色大字显示核心财务数据",
+      "reference_prompt": "text_card",
+      "motion_prompt": "text_card",
+      "text_card_config": {
+        "lines": [
+          "营收 $4.01亿",
+          "净利 $6500万",
+          "净利率 16.2%"
+        ],
+        "font_size": 52,
+        "font_color": "#c9a96e",
+        "bg_color": "#000000",
+        "animation": "fade_in"
+      },
+      "voiceover_text": "二零二五年，营收四点零一亿美元，净利六千五百万，净利率百分之十六点二。",
+      "voiceover_pause_markers": "二零二五年<#0.2#>营收四点零一亿美元<#0.2#>净利六千五百万<#0.2#>净利率百分之十六点二。",
+      "subtitle_text": "营收4.01亿 | 净利6500万"
     },
     {
       "id": "S05",
       "type": "body",
       "duration_sec": 5,
       "shot_type": "wide",
-      "emotion": "revelation",
-      "visual_description": "panoramic view of digital infrastructure, servers and data flows",
-      "motion_prompt": "slow wide pan, establishing scale of operation",
-      "voiceover_text": "客服是AI机器人，日营收超300万美元。这整套工具链，国内都有免费替代。",
-      "voiceover_pause_markers": "客服是AI机器人<#0.2#>日营收超300万美元。<#0.4#>这整套工具链<#0.2#>国内都有免费替代。",
-      "subtitle_text": "日营收超300万美元",
-      "reference_prompt": "wide shot of modern digital workspace, multiple screens showing AI tools and dashboards, ambient blue and gold lighting, futuristic but grounded, documentary wide angle, cinematic, vertical composition 9:16"
+      "emotion": "contrast",
+      "emotion_arc": "对比",
+      "reference_file": "S05-contrast-one-vs-many.png",
+      "visual_description": "one person at a single desk in a massive empty office floor",
+      "reference_prompt": "stark contrast and defiance, one person at a single desk in a massive empty office floor, the desk has wear marks and a old lamp with a tilted shade, rows and rows of vacant dusty desks stretching into the dark background, visible dust on the empty desks, a flickering fluorescent light in the distance, only one desk has warm lamp light and a glowing computer screen, natural grain and noise throughout, especially in the dark empty areas, raw unretouched documentary photography, real office texture, warm amber pool of light at one desk against cold dark emptiness, single lit desk in lower third, empty rows above, vertical composition 9:16",
+      "motion_prompt": "slow wide pan from empty desks to the single lit desk",
+      "voiceover_text": "行业巨头两千四百人，净利率才百分之五点五。他用两个人，跑了同行三倍。",
+      "voiceover_pause_markers": "行业巨头两千四百人<#0.2#>净利率才百分之五点五。<#0.3#>他用两个人<#0.2#>跑了同行三倍。",
+      "subtitle_text": "2人 vs 2400人 | 净利率3倍碾压"
     },
     {
       "id": "S06",
+      "type": "body",
+      "duration_sec": 4,
+      "shot_type": "medium",
+      "emotion": "joy",
+      "emotion_arc": "喜悦",
+      "reference_file": "S06-joy-massive-profit.png",
+      "visual_description": "a person leaning back in their office chair with arms raised in triumph, screen showing revenue numbers",
+      "reference_prompt": "pure joy and disbelief at incredible success, a person leaning back in their office chair with arms raised in triumph, a laptop on the desk showing massive revenue numbers on screen, natural genuine smile with visible crow feet around the eyes, natural skin texture with visible pores and slight sweat on forehead from excitement, the room is still modest and ordinary, not a luxury office, warm afternoon light from a window with natural falloff, desk has coffee stains and scattered papers, raw unretouched documentary photography, real grain and texture, person in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "subtle celebratory movement, warm light shift",
+      "voiceover_text": "日营收超三百万美元。这整套工具链，国内都有免费替代。",
+      "voiceover_pause_markers": "日营收超三百万美元。<#0.3#>这整套工具链<#0.2#>国内都有免费替代。",
+      "subtitle_text": "日营收超300万美元"
+    },
+    {
+      "id": "S07",
       "type": "cta",
-      "duration_sec": 5,
-      "shot_type": "text_card",
-      "emotion": "warm",
-      "visual_description": "black background with golden text card, CTA message",
-      "motion_prompt": "gentle fade in with slight parallax on text elements",
-      "voiceover_text": "私信AI获客，我发你完整工具清单。",
-      "voiceover_pause_markers": "私信AI获客<#0.2#>我发你完整工具清单。",
-      "subtitle_text": "私信「AI获客」",
-      "reference_prompt": ""
+      "duration_sec": 4,
+      "shot_type": "medium",
+      "emotion": "trust",
+      "emotion_arc": "邀请",
+      "reference_file": "S07-invitation-cta.png",
+      "visual_description": "a person sitting casually at their desk, turned toward camera as if talking to a friend",
+      "reference_prompt": "warm trust and invitation, a person sitting casually at their desk, turned slightly toward camera as if talking to a friend, natural friendly expression, slight asymmetrical smile, one hand resting on the desk near the keyboard, the desk has a warm lamp creating soft amber light, background shows a simple real workspace with natural clutter, natural skin texture, visible pores, slight shadow under the jaw, warm golden lamp light with natural falloff into shadow, raw documentary photography, unretouched, natural grain, person in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle nod, warm light steady",
+      "voiceover_text": "如果你也想要这套AI获客系统，请留言。",
+      "voiceover_pause_markers": "如果你也想要这套AI获客系统<#0.3#>请留言。",
+      "subtitle_text": "想要AI获客系统？请留言"
     }
   ],
-
   "voiceover": {
-    "engine": "minimax_speech_02",
-    "model": "speech-02-hd",
-    "voice": "presenter_male",
-    "speed": 1.1,
-    "sample_rate": 32000,
+    "engine": "gemini_3.1_flash_tts",
+    "model": "gemini-3.1-flash",
+    "voice": "Charon",
+    "sample_rate": 44100,
     "format": "mp3",
-    "bitrate": "128k"
+    "normalize": true,
+    "director_notes": "用沉稳的中文男声旁白风格，语速适中，关键数字加重语气"
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
     "candidates_per_segment": 2,
-    "style_suffix": "vertical composition 9:16"
+    "style_suffix": "vertical composition 9:16",
+    "deai_suffix": "unretouched documentary photography, raw photo grain, natural imperfections, no airbrushing"
   },
-
   "video_generation": {
     "engine": "runway_gen4",
     "mode": "image_to_video",
@@ -143,7 +178,6 @@
       "upscale_4k": true
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "bgm_file": "assets/bgm/tech_ambient_01.mp3",
@@ -151,7 +185,16 @@
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_script"
   },
-
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
   "post_production": {
     "film_grain_intensity_pct": 18,
     "lens_glow_intensity_pct": 12,
@@ -160,16 +203,27 @@
     "sharpness_adjust": -3,
     "vignette": 0.3
   },
-
   "publishing": {
-    "platforms": ["douyin", "xiaohongshu"],
+    "platforms": [
+      "douyin",
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "2万启动，14个月4亿营收，AI获客全拆解",
       "2个人用AI做到4亿美元年营收，工具链全公开",
       "在拖车公园长大的人，用AI做出了4亿营收的公司"
     ],
-    "tags": ["AI获客", "AI营销", "人工智能", "创业", "一人公司"],
-    "publish_times": ["12:00", "18:00"],
+    "tags": [
+      "AI获客",
+      "AI营销",
+      "人工智能",
+      "创业",
+      "一人公司"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "黑底金字 $20K → $4亿 对比"
   }
 }

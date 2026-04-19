@@ -1,0 +1,14 @@
+{
+  "video_id": "sings01-ai-hack-40yi",
+  "timestamp": "2026-04-18T21:26:57.608818",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 105,
+  "bars": 13,
+  "style": "melodic pop rap, singing rap, catchy melody, conversational, educational, fun, upbeat, clean mix, 105 bpm",
+  "negative_tags": "heavy metal, screaming, sad, slow, ballad, rock, jazz, aggressive, dark, trap, pure rap, chinese hip hop, bouncy rap",
+  "style_weight": 0.8,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1776518701-pjtys1rl",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/sings01-ai-hack-40yi"
+}

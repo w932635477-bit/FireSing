@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-18T09:25:38.774108",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S07-invitation-cta.png",
+      "task_id": "task-unified-1776475524-6ew2cwek",
+      "status": "success"
+    }
+  ]
+}

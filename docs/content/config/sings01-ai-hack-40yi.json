@@ -1,0 +1,316 @@
+{
+  "video_id": "sings01-ai-hack-40yi",
+  "workflow": "sings",
+  "version": "2.0",
+  "created": "2026-04-18",
+  "status": "draft",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 42,
+    "style": "melodic_pop_rap",
+    "color_temperature": "bright_warm",
+    "accent_color": "#ffd700",
+    "bg_color": "#0a0a1a"
+  },
+
+  "lyrics": {
+    "bpm": 105,
+    "time_signature": "4/4",
+    "style": "melodic pop rap, singing rap, catchy melody, conversational, educational, fun, upbeat, 105bpm",
+    "suno_tags": "melodic pop rap, singing rap, catchy melody, conversational, educational, fun, upbeat, clean mix, 105 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["两万块钱你敢创业吗", "他14个月干了四个亿啊"],
+        "rhyme": "a",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["一个人加一台电脑", "AI帮他全部搞定"],
+        "rhyme": "ao",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["拖车公园长大的穷小子", "用叔叔电脑自学写代码"],
+        "rhyme": "i",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["别人花几百万请团队", "他用AI一个人全代替"],
+        "rhyme": "i",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["两万块钱你敢创业吗", "他14个月干了四个亿啊"],
+        "rhyme": "a",
+        "segment_ref": "S03",
+        "type": "hook"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["四亿营收净利十六个点", "行业巨头才五个半"],
+        "rhyme": "an",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["二四零零人干不过俩人", "AI效率就是这么蛮"],
+        "rhyme": "an",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["代码AI写广告AI生成", "客服也是机器人来撑"],
+        "rhyme": "eng",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B09",
+        "beat_count": 4,
+        "lines": ["日营收超三百万美金", "这操作真的太神"],
+        "rhyme": "en",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B10",
+        "beat_count": 4,
+        "lines": ["你还在花钱请人干活", "人家AI免费就搞定"],
+        "rhyme": "ing",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B11",
+        "beat_count": 4,
+        "lines": ["国内工具全部能替代", "方法告诉你你行不行"],
+        "rhyme": "ing",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B12",
+        "beat_count": 4,
+        "lines": ["私信回复AI获客", "工具清单免费发你"],
+        "rhyme": "e",
+        "segment_ref": "S06",
+        "type": "cta"
+      },
+      {
+        "id": "B13",
+        "beat_count": 4,
+        "lines": ["关注我学AI赚钱", "下期更炸别走开"],
+        "rhyme": "ai",
+        "segment_ref": "S06",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "拆解40亿营收AI获客公司",
+    "source": "Forbes 2026-04-02: How Medvi Found Success With Just $20K And AI",
+    "source_config": "day1-medvi-story.json",
+    "source_script": "docs/content/scripts/day1-拆解40亿公司AI获客.md",
+    "hook_type": "curiosity_gap",
+    "cta_action": "私信",
+    "cta_keyword": "AI获客",
+    "cta_deliverable": "完整AI工具清单"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 4,
+      "shot_type": "close-up",
+      "emotion": "explosive",
+      "visual_description": "giant golden $400,000,000 number exploding on dark background with dollar signs flying",
+      "motion_prompt": "dynamic zoom in, gold particle explosion, number growing rapidly, explosive energy",
+      "reference_prompt": "giant golden number 400 million dollars exploding and growing on dark background, flying golden dollar signs and coins, dramatic golden light rays, wealth explosion, bright gold and dark contrast, energetic dynamic composition, financial success, natural skin texture, raw photo grain, visible noise, natural light falloff, vertical composition 9:16",
+      "reference_file": "S01-explosive.png",
+      "lyrics_refs": ["B01", "B02"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "curiosity",
+      "visual_description": "young man sitting in a cramped trailer home with an old laptop, warm evening light",
+      "motion_prompt": "slow push in, warm light shift, subtle ambient movement",
+      "reference_prompt": "young man in his twenties sitting in a small cramped trailer home interior, using an old battered laptop on a small table, warm golden evening light coming through window, humble beginnings, determined focused expression, warm nostalgic atmosphere, natural skin texture with visible pores, unretouched documentary photography, raw photo grain, visible noise, natural light falloff into shadow, vertical composition 9:16",
+      "reference_file": "S02-curiosity.png",
+      "lyrics_refs": ["B03", "B04"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "shock",
+      "visual_description": "dark screen with glowing golden financial data: $401M revenue and 16.2% net margin",
+      "motion_prompt": "slow zoom in on glowing numbers, data appearing dynamically, dramatic reveal",
+      "reference_prompt": "close-up of dark screen displaying glowing golden financial numbers and charts, $401M revenue, 16.2% net profit margin, holographic golden data visualization, dramatic dark background with golden light, futuristic dashboard, wealth data, natural skin texture, raw photo grain, visible noise, natural light falloff, vertical composition 9:16",
+      "reference_file": "S03-shock.png",
+      "lyrics_refs": ["B05", "B06"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "excitement",
+      "visual_description": "minimalist office with only two desks, warm lighting, multiple AI screens glowing",
+      "motion_prompt": "dynamic pan across screens, glowing AI interfaces, energetic movement",
+      "reference_prompt": "minimalist startup office with only two simple desks and chairs, multiple computer screens showing colorful AI dashboards and automated workflows, warm ambient lighting with screen glow, efficient small team workspace, contrast between tiny office and big success, natural skin texture, raw photo grain, visible noise, natural light falloff, vertical composition 9:16",
+      "reference_file": "S04-excitement.png",
+      "lyrics_refs": ["B07", "B08"]
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "revelation",
+      "visual_description": "person standing confidently with arms spread, surrounded by floating AI tool icons and dollar signs",
+      "motion_prompt": "slow zoom out, icons floating upward, expansive cinematic reveal",
+      "reference_prompt": "confident young person standing with arms spread wide, surrounded by floating holographic AI tool icons, chatbots, ad generators, code assistants, golden dollar signs floating upward, expansive futuristic workspace, bright warm golden light, revelation and empowerment atmosphere, natural skin texture with visible pores, raw photo grain, visible noise, natural light falloff, vertical composition 9:16",
+      "reference_file": "S05-revelation.png",
+      "lyrics_refs": ["B09", "B10"]
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 4,
+      "shot_type": "text_card",
+      "emotion": "warm",
+      "visual_description": "CTA text card with gold on dark",
+      "motion_prompt": "",
+      "reference_prompt": null,
+      "text_card_config": {
+        "lines": ["私信「AI获客」", "免费领AI工具清单"],
+        "font_size": 48,
+        "color": "#ffd700",
+        "bg_color": "#0a0a1a"
+      },
+      "lyrics_refs": ["B11", "B12"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "melodic pop rap, singing rap, catchy melody, conversational, educational, fun, upbeat, clean mix, 105 bpm",
+    "negative_tags": "heavy metal, screaming, sad, slow, ballad, rock, jazz, aggressive, dark, trap, pure rap, chinese hip hop, bouncy rap",
+    "style_weight": 0.8,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "motion_intensity": 6,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 8,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像、配音和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 10,
+    "saturation_adjust": 0,
+    "contrast_adjust": 10,
+    "sharpness_adjust": -3,
+    "vignette": 0.15
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "2万启动14个月4亿营收，AI获客全拆解",
+      "2个人用AI做到4亿美元年营收，工具链全公开",
+      "拖车公园长大的穷小子，用AI做了4亿营收的公司"
+    ],
+    "tags": ["AI获客", "AI营销", "一人公司", "说唱科普", "AI工具", "创业"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "金色 $400M 数字爆炸 + '2万→4亿' 大字"
+  }
+}

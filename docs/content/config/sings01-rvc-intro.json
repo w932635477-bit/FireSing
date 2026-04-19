@@ -1,0 +1,365 @@
+{
+  "video_id": "sings01-rvc-intro",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-18",
+  "status": "draft",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 42,
+    "style": "mv_rap_bouncy",
+    "color_temperature": "bright_warm",
+    "accent_color": "#ff69b4",
+    "bg_color": "#1a0a2e"
+  },
+
+  "lyrics": {
+    "bpm": 130,
+    "time_signature": "4/4",
+    "style": "chinese rap, bouncy, playful, educational, 130bpm",
+    "suno_tags": "chinese hip hop, bouncy rap, educational, playful, catchy hook, upbeat, happy, fun, 130 bpm, clean mix, pop rap",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["AI翻唱你见过吗", "十秒换声不是神话"],
+        "rhyme": "a",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["你知道歌能换人唱吗", "听完你会惊掉下巴"],
+        "rhyme": "a",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["RVC技术学你声音", "提取特征存成模型"],
+        "rhyme": "in",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["上传清唱音频就行", "AI克隆你的声音"],
+        "rhyme": "in",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["几分钟训练就搞定", "想唱啥歌都随你定"],
+        "rhyme": "ing",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["音高节奏全对上", "效果逼真不像假唱"],
+        "rhyme": "ang",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["FireSing处理很聪明", "伴奏人声分得清"],
+        "rhyme": "ing",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["只留伴奏不留人声", "换个模型一键搞定"],
+        "rhyme": "ing",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B09",
+        "beat_count": 4,
+        "lines": ["翻唱质量超级好听", "朋友听了都说行"],
+        "rhyme": "ing",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B10",
+        "beat_count": 4,
+        "lines": ["专业录音棚也吃惊", "AI效果竟然这么灵"],
+        "rhyme": "ing",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B11",
+        "beat_count": 4,
+        "lines": ["传统录音太浪费", "AI翻唱又快又对"],
+        "rhyme": "ei",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B12",
+        "beat_count": 4,
+        "lines": ["不用花钱不受累", "手机录音就能配"],
+        "rhyme": "ei",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B13",
+        "beat_count": 4,
+        "lines": ["一人合唱自己陪", "多种声线随意配"],
+        "rhyme": "ei",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B14",
+        "beat_count": 4,
+        "lines": ["FireSing带你飞", "翻唱创作你最对"],
+        "rhyme": "ei",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B15",
+        "beat_count": 4,
+        "lines": ["想翻唱质量总不好", "AI帮你秒变大佬"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B16",
+        "beat_count": 4,
+        "lines": ["不用录音棚不用跑", "手机翻唱分分秒秒"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B17",
+        "beat_count": 4,
+        "lines": ["女声男声随意挑", "翻唱自由真奇妙"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B18",
+        "beat_count": 4,
+        "lines": ["想要谁的声线都好", "AI帮你轻松做到"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B19",
+        "beat_count": 4,
+        "lines": ["私信FireSing免费体验", "AI翻唱等你来玩"],
+        "rhyme": "an",
+        "segment_ref": "S06",
+        "type": "cta"
+      },
+      {
+        "id": "B20",
+        "beat_count": 4,
+        "lines": ["关注我别走散", "下期内容更好看"],
+        "rhyme": "an",
+        "segment_ref": "S06",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "RVC 声音变换科普 + FireSing 推广",
+    "source": "FireSing 项目技术文档",
+    "hook_type": "curiosity_gap",
+    "cta_action": "私信",
+    "cta_keyword": "FireSing",
+    "cta_deliverable": "免费体验名额"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 4,
+      "shot_type": "close-up",
+      "emotion": "explosive",
+      "visual_description": "colorful sound waves exploding from a microphone",
+      "motion_prompt": "dynamic zoom in, vibrant color burst, music video energy, explosive movement",
+      "reference_prompt": "colorful sound waves exploding from a golden microphone, vibrant neon pink and electric blue, bright energetic lighting, pop art explosion style, dynamic composition, youthful energy, happy and bouncy vibe, natural skin texture with visible pores, unretouched documentary photography, raw photo grain, visible noise in dark areas, natural light falloff into shadow, vertical composition 9:16",
+      "lyrics_refs": ["B01", "B02"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "playful",
+      "visual_description": "happy person recording vocals in bright colorful bedroom studio",
+      "motion_prompt": "subtle head bob, natural movement, colorful lighting shift, playful rhythm",
+      "reference_prompt": "happy young person recording vocals in a bright colorful bedroom studio, wearing headphones and smiling broadly, colorful LED strip lights in background, warm and playful atmosphere, bright pastel colors, youthful energy, natural skin texture with visible pores, unretouched documentary photography, raw photo grain, visible noise, natural light falloff into shadow, vertical composition 9:16",
+      "lyrics_refs": ["B03", "B04", "B05", "B06"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "close-up",
+      "emotion": "excitement",
+      "visual_description": "hands holding smartphone showing colorful music equalizer",
+      "motion_prompt": "slow zoom in on screen, glowing interface animation, bright light flicker",
+      "reference_prompt": "close-up of hands holding a smartphone showing colorful music equalizer and waveform, bright glowing neon purple and pink interface, fun and playful design, energetic app screen, vibrant colors, youthful vibe, natural skin texture on hands with visible pores, raw photo grain, visible noise, natural light falloff into shadow, vertical composition 9:16",
+      "lyrics_refs": ["B07", "B08", "B09", "B10"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "excitement",
+      "visual_description": "excited person singing with colorful confetti falling",
+      "motion_prompt": "dynamic jumping movement, confetti floating, energetic camera push",
+      "reference_prompt": "excited young person singing joyfully with colorful confetti falling all around, bright neon pink and blue background, energetic celebration atmosphere, jumping with happiness, vibrant multicolor lighting, youthful fun vibe, natural skin texture with visible pores, unretouched documentary photography, raw photo grain, visible noise, natural light falloff into shadow, vertical composition 9:16",
+      "lyrics_refs": ["B11", "B12", "B13", "B14"]
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "wide",
+      "emotion": "joy",
+      "visual_description": "person singing with arms spread in room full of colorful light beams",
+      "motion_prompt": "slow pan out, expansive colorful space, cinematic wide angle",
+      "reference_prompt": "wide shot of a person singing with arms spread wide in a room filled with colorful light beams, bright pink blue purple neon glow, spacious and joyful atmosphere, happy confident pose, youthful energy, natural skin texture with visible pores, unretouched photography, raw photo grain, visible noise, natural light falloff into shadow, vertical composition 9:16",
+      "lyrics_refs": ["B15", "B16", "B17", "B18"]
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 4,
+      "shot_type": "text_card",
+      "emotion": "warm",
+      "visual_description": "CTA text card with bright brand colors",
+      "motion_prompt": "gentle fade in, slight parallax",
+      "reference_prompt": null,
+      "text_card_config": {
+        "lines": ["私信 FireSing", "免费体验 AI 翻唱"],
+        "font_size": 48,
+        "color": "#ff69b4",
+        "bg_color": "#1a0a2e"
+      },
+      "lyrics_refs": ["B19", "B20"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "chinese hip hop, bouncy rap, educational, playful, catchy hook, upbeat, happy, fun, 130 bpm, clean mix, pop rap",
+    "negative_tags": "heavy metal, screaming, sad, slow, ballad, rock, jazz, aggressive, dark",
+    "style_weight": 0.8,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "motion_intensity": 6,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 8,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像、配音和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 10,
+    "saturation_adjust": 0,
+    "contrast_adjust": 10,
+    "sharpness_adjust": -3,
+    "vignette": 0.15
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "AI翻唱你见过吗？十秒换声不是神话",
+      "RVC技术到底多强？AI翻唱比你想象更炸",
+      "你知道歌能换人唱吗？AI音乐说唱科普"
+    ],
+    "tags": ["AI翻唱", "AI音乐", "RVC", "FireSing", "说唱科普", "AI工具"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "bright colorful sound waves + microphone + 'AI翻唱你见过吗'"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-18T08:50:51.385798",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-hook-numbers.png",
+      "task_id": "task-unified-1776473380-rarcqe9c",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-tiny-vs-vast.png",
+      "task_id": "task-unified-1776473396-pfnv1obk",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-data-authority.png",
+      "task_id": "task-unified-1776473410-vkoxhjuu",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-contrast-split.png",
+      "task_id": "task-unified-1776473424-5n2cw5nt",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-golden-invitation.png",
+      "task_id": "task-unified-1776473438-94emoh55",
+      "status": "success"
+    }
+  ]
+}

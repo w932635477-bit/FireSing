@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-18T09:21:28.857690",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-empathy-poor-kid.png",
+      "task_id": "task-unified-1776475190-0ov3d0d5",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-desire-late-night.png",
+      "task_id": "task-unified-1776475211-y9kom4o8",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-hope-ai-opportunity.png",
+      "task_id": "task-unified-1776475231-unh7mfzh",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-shock-explosive-growth.png",
+      "task_id": "task-unified-1776475249-otvc5bq2",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-contrast-one-vs-many.png",
+      "task_id": "task-unified-1776475270-d2778m8u",
+      "status": "success"
+    }
+  ]
+}

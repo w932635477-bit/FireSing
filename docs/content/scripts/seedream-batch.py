@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
 Seedream 4.5 Batch Reference Image Generator
-Generates reference images for Day 1 storyboard via EvoLink API.
+Reads segment prompts from a video config JSON file.
 
 Usage:
-  export EVOLINK_API_KEY="your-api-key"
-  python seedream-batch.py [--candidates N] [--output-dir DIR]
-  python seedream-batch.py --shot S01 --dry-run
+  source docs/content/.env
+  python seedream-batch.py --config config/day1-medvi-story.json
+  python seedream-batch.py --config config/day1-medvi-story.json --shot S01 --dry-run
 
 Options:
-  --candidates N    Generate N candidates per shot (1-15, default: 2)
+  --config FILE     Video config JSON file (required)
+  --candidates N    Override candidates per shot (1-15, default: from config)
   --output-dir DIR  Output directory (default: docs/content/assets/references)
   --shot S01        Generate only a specific shot
   --dry-run         Show plan without generating
@@ -24,94 +25,42 @@ import urllib.request
 from pathlib import Path
 from datetime import datetime
 
-# Project root
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "references"
+DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 
 API_BASE = "https://api.evolink.ai/v1"
 MODEL = "doubao-seedream-4.5"
 
-# Day 1 v2: 5 shots (S06 is text card, no image needed)
-# Story-driven approach: specific people in specific scenes, emotional connection to voiceover
-# Anti-AI: real camera specs, film stock, no hands, no text, natural imperfections
-SHOTS = [
-    {
-        "id": "S01",
-        "name": "钩子-孤独决心",
-        "prompt": (
-            "close-up of a young man's face in near total darkness, "
-            "the only light is warm amber screen glow from below illuminating his eyes and jaw, "
-            "expression of quiet fierce determination, "
-            "the rest of the frame is pure deep black void, "
-            "stark minimal composition, warm amber and black palette, "
-            "cinematic mood lighting, natural film grain texture, "
-            "face positioned in lower center, vertical composition 9:16"
-        ),
-        "output_file": "S01-hook-isolation.png",
-        "cost_per_image": 0.030,
-    },
-    {
-        "id": "S02",
-        "name": "卑微起点",
-        "prompt": (
-            "warm golden afternoon light flooding a small sparse room, "
-            "a person sitting on the floor hunched over a laptop, "
-            "seen from behind so the face is not visible, "
-            "surroundings simple and bare barely visible in the warm shadows, "
-            "the entire scene radiates quiet hope from humble beginnings, "
-            "warm golden and deep amber tones, natural light, soft shadows, "
-            "subject small in lower frame emphasizing the modest space, "
-            "vertical composition 9:16"
-        ),
-        "output_file": "S02-humble-beginnings.png",
-        "cost_per_image": 0.030,
-    },
-    {
-        "id": "S03",
-        "name": "数据震撼",
-        "prompt": (
-            "abstract golden light trails rising upward from deep black void, "
-            "warm amber data visualization lines and bars trending dramatically upward, "
-            "volumetric golden light creating sense of massive scale and achievement, "
-            "no people no text no numbers, pure atmospheric data mood, "
-            "warm gold and deep navy black palette, cinematic volumetric lighting, "
-            "natural grain texture, glow centered in lower two-thirds, "
-            "vertical composition 9:16"
-        ),
-        "output_file": "S03-data-awe.png",
-        "cost_per_image": 0.030,
-    },
-    {
-        "id": "S04",
-        "name": "两人草根",
-        "prompt": (
-            "two faces close together lit only by warm screen glow in total darkness, "
-            "leaning in studying something with intense focus, "
-            "partnership against the world energy, "
-            "deep shadows swallowing everything except their expressions, "
-            "tight intimate framing, warm amber light on faces against pure black, "
-            "natural film grain, cinematic mood, "
-            "faces in lower two-thirds, vertical composition 9:16"
-        ),
-        "output_file": "S04-two-vs-world.png",
-        "cost_per_image": 0.030,
-    },
-    {
-        "id": "S05",
-        "name": "一人帝国",
-        "prompt": (
-            "wide shot of a single figure at a desk in a vast empty dark office, "
-            "rows of vacant desks stretching into deep shadow behind, "
-            "the negative space tells the story of one person doing the work of many, "
-            "cool ambient light from monitors mixing with warm desk lamp glow, "
-            "cinematic atmosphere, moody and quiet, "
-            "natural film grain, figure small in lower third with vast emptiness above, "
-            "vertical composition 9:16"
-        ),
-        "output_file": "S05-one-person-empire.png",
-        "cost_per_image": 0.030,
-    },
-]
+
+def load_shots_from_config(config_path: Path) -> list[dict]:
+    """Load segments from config JSON and convert to shot format."""
+    with open(config_path) as f:
+        config = json.load(f)
+
+    video_id = config["video_id"]
+    shots = []
+
+    for seg in config["segments"]:
+        prompt = seg.get("reference_prompt", "")
+        if not prompt or prompt == "text_card":
+            continue
+
+        emotion_arc = seg.get("emotion_arc", seg.get("emotion", ""))
+        name = f"{emotion_arc}-{seg['id']}" if emotion_arc else seg["id"]
+        output_file = f"{seg['id']}-{emotion_arc.lower().replace('/', '-')}.png"
+
+        shots.append({
+            "id": seg["id"],
+            "name": name,
+            "prompt": prompt,
+            "output_file": output_file,
+            "cost_per_image": 0.030,
+            "emotion_arc": emotion_arc,
+            "voiceover_text": seg.get("voiceover_text", ""),
+        })
+
+    return shots
 
 
 def api_request(url: str, headers: dict, data: dict | None = None) -> dict:
@@ -168,7 +117,9 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
 
     for shot in shots:
         print(f"\n[{shot['id']}] {shot['name']}")
+        print(f"  Emotion arc: {shot.get('emotion_arc', 'N/A')}")
         print(f"  Prompt: {shot['prompt'][:80]}...")
+        print(f"  Voiceover: {shot.get('voiceover_text', '')[:50]}...")
         print(f"  Size: 1440x2560 (9:16 2K) | Candidates: {candidates}")
 
         payload = {
@@ -184,13 +135,12 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
             resp = api_request(f"{API_BASE}/images/generations", headers, payload)
             task_id = resp.get("task_id") or resp.get("id")
             if not task_id:
-                print(f"\n  ✗ Unexpected response: {resp}")
+                print(f"\n  X Unexpected response: {resp}")
                 results.append({"shot": shot["id"], "status": "error", "error": str(resp)})
                 continue
             print(f"task_id={task_id}")
 
             task_result = poll_task(api_key, task_id)
-            # EvoLink returns images in result_data[].url or results[]
             images = []
             for item in task_result.get("result_data", []):
                 if isinstance(item, dict) and "url" in item:
@@ -209,7 +159,7 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
 
                 print(f"  Downloading {filename}... ", end="", flush=True)
                 download_image(img_url, dest)
-                print(f"✓ saved ({dest.stat().st_size // 1024}KB)")
+                print(f"saved ({dest.stat().st_size // 1024}KB)")
 
                 results.append({
                     "shot": shot["id"],
@@ -219,19 +169,12 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
                 })
                 completed += 1
 
-            # If only 1 candidate, also save as the canonical name for Runway compatibility
-            if candidates == 1 and images:
-                canonical = output_dir / shot["output_file"]
-                if not canonical.exists():
-                    download_image(images[0], canonical)
-
         except Exception as e:
-            print(f"\n  ✗ Error: {e}")
+            print(f"\n  X Error: {e}")
             results.append({"shot": shot["id"], "status": "error", "error": str(e)})
 
         print(f"  Progress: {completed}/{total}")
 
-    # Save log
     log_path = output_dir / f"seedream-log-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     with open(log_path, "w") as f:
         json.dump({
@@ -243,7 +186,6 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
         }, f, indent=2, ensure_ascii=False)
     print(f"\nLog saved: {log_path}")
 
-    # Summary
     success = sum(1 for r in results if r["status"] == "success")
     failed = sum(1 for r in results if r["status"] != "success")
     cost = success * 0.030
@@ -258,35 +200,63 @@ def run_batch(api_key: str, shots: list[dict], output_dir: Path, candidates: int
 
 def main():
     parser = argparse.ArgumentParser(description="Seedream 4.5 Batch Reference Image Generator")
-    parser.add_argument("--candidates", type=int, default=2, help="Candidates per shot (1-15, default: 2)")
+    parser.add_argument("--config", type=str, help="Video config JSON file (relative to config/ or absolute)")
+    parser.add_argument("--candidates", type=int, help="Override candidates per shot (1-15)")
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--shot", type=str, help="Generate only this shot (e.g., S01)")
     parser.add_argument("--dry-run", action="store_true", help="Show plan without generating")
     args = parser.parse_args()
 
-    # Validate
-    if args.candidates < 1 or args.candidates > 15:
-        print("ERROR: --candidates must be 1-15")
+    # Resolve config path
+    if args.config:
+        config_path = Path(args.config)
+        if not config_path.is_absolute():
+            config_path = DEFAULT_CONFIG_DIR / config_path
+        if not config_path.exists():
+            print(f"ERROR: Config file not found: {config_path}")
+            sys.exit(1)
+    else:
+        print("ERROR: --config is required")
+        print("  python seedream-batch.py --config config/day1-medvi-story.json")
+        sys.exit(1)
+
+    # Load shots from config
+    shots = load_shots_from_config(config_path)
+    if not shots:
+        print("ERROR: No segments with reference_prompt found in config")
+        sys.exit(1)
+
+    # Get candidates from config or CLI override
+    with open(config_path) as f:
+        config = json.load(f)
+    candidates = args.candidates or config.get("reference_images", {}).get("candidates_per_segment", 2)
+
+    if candidates < 1 or candidates > 15:
+        print("ERROR: candidates must be 1-15")
         sys.exit(1)
 
     # Filter shots
-    shots = SHOTS
     if args.shot:
-        shots = [s for s in SHOTS if s["id"] == args.shot.upper()]
+        shots = [s for s in shots if s["id"] == args.shot.upper()]
         if not shots:
-            print(f"Shot {args.shot} not found. Available: {', '.join(s['id'] for s in SHOTS)}")
+            print(f"Shot {args.shot} not found. Available: {', '.join(s['id'] for s in load_shots_from_config(config_path))}")
             sys.exit(1)
 
-    total_images = len(shots) * args.candidates
+    total_images = len(shots) * candidates
     print("Seedream 4.5 Batch Reference Image Generator")
     print("=" * 50)
+    print(f"Config: {config_path.name}")
     print(f"Shots: {len(shots)} ({', '.join(s['id'] for s in shots)})")
-    print(f"Candidates per shot: {args.candidates}")
+    print(f"Candidates per shot: {candidates}")
     print(f"Total images: {total_images}")
     print(f"Model: {MODEL}")
     print(f"Size: 1440x2560 (9:16 2K)")
     print(f"Output: {args.output_dir}")
     print(f"Est. cost: ${total_images * 0.030:.2f}")
+    print()
+    print("Emotion arc:")
+    for shot in shots:
+        print(f"  {shot['id']}: {shot.get('emotion_arc', '?')}")
     print()
 
     if args.dry_run:
@@ -294,23 +264,22 @@ def main():
         print("\nShot plan:")
         for shot in shots:
             existing = (Path(args.output_dir) / shot["output_file"]).exists()
-            status = "✓ exists (will overwrite)" if existing else "○ new"
-            print(f"  {shot['id']} {shot['name']}: {status}")
+            status = "exists (will overwrite)" if existing else "new"
+            print(f"  {shot['id']} [{shot.get('emotion_arc', '?')}]: {status}")
             print(f"    {shot['prompt'][:100]}...")
         return
 
     api_key = os.environ.get("EVOLINK_API_KEY")
     if not api_key:
         print("ERROR: EVOLINK_API_KEY not set")
-        print("  export EVOLINK_API_KEY='your-api-key'")
-        print("  Get your key at: https://evolink.ai")
+        print("  source docs/content/.env")
         sys.exit(1)
 
     run_batch(
         api_key=api_key,
         shots=shots,
         output_dir=Path(args.output_dir),
-        candidates=args.candidates,
+        candidates=candidates,
     )
 
 

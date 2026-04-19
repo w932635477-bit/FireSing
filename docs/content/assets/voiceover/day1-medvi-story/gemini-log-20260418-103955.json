@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-18T10:39:55.422406",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "day1-medvi-story",
+  "total_duration_s": 4.16,
+  "results": [
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S07.mp3",
+      "duration_s": 4.16,
+      "status": "success",
+      "actual_duration_s": 4.16,
+      "voiceover_text": "如果你也想要这套AI获客系统，请留言。",
+      "director_notes": "Use [warmly] and [confidently]. End with a sense of certainty. The viewer should feel safe taking action. Not salesy — more like a recommendation from a friend."
+    }
+  ]
+}

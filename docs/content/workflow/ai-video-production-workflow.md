@@ -1,5 +1,7 @@
-# AI 视频生成工作流（完整版）
+# AI 视频生成工作流（完整版）— Medvi 工作流（旧版）
 
+> 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
+> 本文档已被 video-production-spec.md 取代，保留作为参考
 > 去AI塑料味 4 步法 + 批量生产流程
 > 工具链：Runway Gen-4 + ElevenLabs + Seedream 4.5 + 剪映
 > 最后更新：2026-04-17

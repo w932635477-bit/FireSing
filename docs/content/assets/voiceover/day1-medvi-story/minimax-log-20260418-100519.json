@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-04-18T10:05:19.945886",
+  "engine": "minimax_speech_02",
+  "voice_id": "male-qn-jingying",
+  "video_id": "day1-medvi-story",
+  "total_duration_s": 35.98,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S01.mp3",
+      "duration_s": 4.900188,
+      "status": "success",
+      "actual_duration_s": 4.900188,
+      "voiceover_text": "一个人，两万美元启动资金，十四个月做到四亿美元营收。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S02.mp3",
+      "duration_s": 5.113656,
+      "status": "success",
+      "actual_duration_s": 5.113656,
+      "voiceover_text": "创始人Matthew Gallagher，在拖车公园长大，用叔叔的电脑自学编程。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S03.mp3",
+      "duration_s": 4.684094,
+      "status": "success",
+      "actual_duration_s": 4.684094,
+      "voiceover_text": "代码AI写，广告AI生成，客服是AI机器人。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S04.mp3",
+      "duration_s": 6.228,
+      "status": "success",
+      "actual_duration_s": 6.228,
+      "voiceover_text": "二零二五年，营收四点零一亿美元，净利六千五百万，净利率百分之十六点二。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S05.mp3",
+      "duration_s": 6.912,
+      "status": "success",
+      "actual_duration_s": 6.912,
+      "voiceover_text": "行业巨头两千四百人，净利率才百分之五点五。他用两个人，跑了同行三倍。"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S06.mp3",
+      "duration_s": 4.946625,
+      "status": "success",
+      "actual_duration_s": 4.946625,
+      "voiceover_text": "日营收超三百万美元。这整套工具链，国内都有免费替代。"
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day1-medvi-story/S07.mp3",
+      "duration_s": 3.190906,
+      "status": "success",
+      "actual_duration_s": 3.190906,
+      "voiceover_text": "如果你也想要这套AI获客系统，请留言。"
+    }
+  ]
+}
