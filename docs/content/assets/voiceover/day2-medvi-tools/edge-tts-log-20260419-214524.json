@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-19T21:45:24.383342",
+  "engine": "edge-tts",
+  "voice_id": "zh-CN-YunxiNeural",
+  "video_id": "day2-medvi-tools",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "Communicate.__init__() missing 1 required positional argument: 'text'"
+    }
+  ]
+}

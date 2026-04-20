@@ -429,6 +429,7 @@ def main() -> None:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#") and "=" in line:
+                    line = line.removeprefix("export ")
                     key, _, value = line.partition("=")
                     os.environ.setdefault(key.strip(), value.strip().strip('"'))
 

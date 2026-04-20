@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-04-20T10:19:17.235060",
+  "model": "doubao-seedream-4.5",
+  "shots": 6,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-explosive.png",
+      "task_id": "task-unified-1776651364-d1bc8g6x",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-tension.png",
+      "task_id": "task-unified-1776651404-45hnpd73",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-reversal.png",
+      "task_id": "task-unified-1776651437-z6b9bjqz",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-curiosity.png",
+      "task_id": "task-unified-1776651475-mlbaom6k",
+      "status": "success"
+    },
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S06-fear.png",
+      "task_id": "task-unified-1776651507-g14qwtt6",
+      "status": "success"
+    },
+    {
+      "shot": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S07-engagement.png",
+      "task_id": "task-unified-1776651535-mefrbtwq",
+      "status": "success"
+    }
+  ]
+}

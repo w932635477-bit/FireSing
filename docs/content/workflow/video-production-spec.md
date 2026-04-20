@@ -1,10 +1,10 @@
-# AI 短视频生产规范 v1.1 — Medvi 工作流
+# AI 短视频生产规范 v2.0 — Medvi 工作流
 
 > 适用范围：30-45 秒 AI 生成短视频，抖音/小红书竖版
 > 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
 > 工具链：Seedream 4.5 + Runway Gen-4 + Gemini 3.1 Flash TTS + FFmpeg + 剪映
 > 本文档是唯一权威标准，取代所有先前的工作流文档
-> 最后更新：2026-04-18
+> 最后更新：2026-04-19
 
 ---
 
@@ -82,9 +82,28 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 | 远景（Wide） | 开场/转场/结尾 | slow pan, wide angle, establishing shot | ~15% |
 | 中景（Medium） | 主体展示/工作场景 | medium shot, natural framing | ~45% |
 | 特写（Close-up） | 数据放大/情感连接 | extreme close-up, shallow depth of field | ~30% |
-| 文字卡片（Text） | 数据展示/对比/CTA | FFmpeg drawtext 自动生成 | ~10% |
+| 文字卡片（Text） | 数据展示/对比/CTA | HTML/CSS 渲染 + Playwright 截图 | ~10% |
 
-**文字卡片自动路由：** `shot_type: text_card` 的段落跳过 Stage 2（Seedream）和 Stage 3（Runway），在 Stage 5（FFmpeg 合成）中由 `generate_text_card()` 自动生成黑底金字画面。配置 `text_card_config` 控制行内容、字号、颜色。
+**文字卡片自动路由：** `shot_type: text_card` 的段落跳过 Stage 2（Seedream）和 Stage 3（Runway），在 Stage 5（FFmpeg 合成）中由 `text-card-renderer.py` 通过 HTML/CSS + Playwright 自动渲染。支持渐变背景、文字发光、逐行动画、微粒子装饰。
+
+**文字卡片配置（`text_card_config`）：**
+```json
+{
+  "lines": ["第一行文字", "第二行文字", "第三行文字"],
+  "font_size": 52,
+  "font_color": "#c9a96e",
+  "bg_color": "#0a0806",
+  "animation": "fade_in"
+}
+```
+
+渲染器自动查找 `assets/references/{video_id}/` 下对应段落的参考图作为背景（带暗化遮罩），无背景图时使用渐变背景。
+
+独立渲染命令：
+```bash
+python3 scripts/text-card-renderer.py --config config/{video_id}.json --segment S04
+python3 scripts/text-card-renderer.py --lines "文字1" "文字2" --style sings --png-only
+```
 
 **景别切换节奏模板：**
 ```
@@ -115,16 +134,18 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 
 | 优先级 | 类型 | 示例 | 3 秒留存率 |
 |--------|------|------|-----------|
-| 1 | 反常识数字 | "2个人，103美元月费，4亿营收" | 65-75% |
-| 2 | 成本对比 | "10人团队月花5万 vs 1人月花750" | 55-65% |
-| 3 | 好奇缺口 | "99%的营销团队不知道的方法" | 50-60% |
-| 4 | 身份筛选 | "如果你每个月花超过1万做内容推广" | 55-65% |
+| 1 | 名人震撼 | "马斯克哪里是给自己公司定规矩，分明是给全行业定规矩" | 70-80% |
+| 2 | 反常识数字 | "2个人，103美元月费，4亿营收" | 65-75% |
+| 3 | 成本对比 | "10人团队月花5万 vs 1人月花750" | 55-65% |
+| 4 | 好奇缺口 | "99%的营销团队不知道的方法" | 50-60% |
+| 5 | 身份筛选 | "如果你每个月花超过1万做内容推广" | 55-65% |
 
 ### 2.4 视觉规则
 
 | 规则 | 标记 |
 |------|------|
-| 数字钩子用暗色背景 + 金色/暖色点缀 | MUST |
+| 名人震撼型：用真实名人照片或强代入感的人物画面 | MUST |
+| 数字钩子用暗色背景 + 冷蓝/暖金点缀（按视频色系） | MUST |
 | 不要慢速渐入，直接切入画面 | MUST |
 | 钩子镜头使用特写或极特写（不用远景） | SHOULD |
 
@@ -178,10 +199,20 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 |------|------|
 | 只要求一个动作（不是两个） | MUST |
 | 使用批准的模板之一 | MUST |
-| 关键词 ≤ 6 个中文字（好记好打） | MUST |
-| 给出具体明确的交付物（"完整工具清单"不是"更多内容"） | MUST |
+| 关键词 ≤ 6 个中文字（好记好打） | MUST（转化型 CTA） |
+| 给出具体明确的交付物（"完整工具清单"不是"更多内容"） | MUST（转化型 CTA） |
+| 流量优先视频不引导私信、关注、领取 | MUST（流量型 CTA） |
 
 **批准的 CTA 模板：**
+
+**流量优先型（推荐，追求完播率和评论互动）：**
+```
+模板 D："你觉得你的[岗位/行业]，AI多久能替代？评论区聊聊。"
+模板 E："如果是你，你会怎么做？评论区说说你的看法。"
+模板 F："你觉得这件事对不对？评论区聊聊。"
+```
+
+**转化型（用于需要引导用户行动的场景）：**
 ```
 模板 A："关注我，[下一条内容预告]"
 模板 B："私信'[关键词]'，我发你[交付物]"
@@ -192,7 +223,7 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 
 | 规则 | 标记 |
 |------|------|
-| 暗色背景 (#000000)，金色文字 (#c9a96e) | MUST |
+| 暗色背景 (#000000)，文字颜色按视频色系（冷蓝 #4a90d9 或暖金 #c9a96e） | MUST |
 | 包含平台图标（抖音/小红书） | SHOULD |
 
 ---
@@ -204,33 +235,77 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 - 输入：选题想法（来自内容日历）
 - 输出：JSON 配置文件
 
-### 5.2 MUST 规则
+### 5.2 策略选择
+
+每条视频在配置文件中通过 `strategy_notes` 声明策略：
+
+| 策略 | 目标 | 钩子 | CTA | 适用场景 |
+|------|------|------|-----|---------|
+| **流量优先** | 完播率、评论互动 | 名人震撼/反常识 | 开放讨论 | 早期涨粉，不卖东西 |
+| **转化优先** | 引导用户行动 | 数字/成本对比 | 私信关键词 | 有成熟产品后 |
+
+### 5.3 MUST 规则
 
 | 规则 | 值 |
 |------|----|
 | 总旁白字数 | 30 秒 → 100-130 字，45 秒 → 150-200 字 |
 | 每句旁白 | ≤ 15 个中文字，超过就断句 |
-| 关键数字 | 全文至少 3 个具体数字 |
 | 套话禁止 | 不用"今天就教大家"、"大家好我是XX" |
 | CTA | 只有一个明确的动作 |
 | 大声朗读计时 | 30-45 秒，用秒表验证 |
+| 每段标注 emotion_arc | 中文情绪标签（震撼/紧张/反转/好奇/恐惧/参与） |
+| 每段有 subtitle_text | ≤ 12 字的浓缩字幕，不是旁白全文 |
 
-### 5.3 SHOULD 规则
+### 5.4 流量优先策略规则
 
 | 规则 | 值 |
 |------|----|
-| 钩子类型 | 优先使用反常识数字或成本对比 |
-| 主体数据点 | 4-6 个，每个映射到独立镜头 |
-| 情绪曲线 | 高(钩子) → 低(背景) → 高(数据) → 高(对比) → 暖(CTA) |
-| 信息密度 | 不超过 2 秒无新信息的段落 |
+| 名人叙事 | 用真实名人/大公司的故事做钩子，不虚构 |
+| 情绪弧线 | 震撼→紧张→反转→好奇→恐惧→参与（6 段压缩版） |
+| Anti-ad 措施 | 见下方清单 |
+| 不卖东西 | 不提产品、工具、方案、服务 |
+| 不引导转化 | 不引导私信、关注、领取 |
+| CTA 用开放问题 | 激发评论互动，不是推销 |
+| 关键数字 | 用在故事里自然带出，不为凑数字而加 |
 
-### 5.4 质量检查
+**Anti-ad 措施清单（配置文件 `script.anti_ad_measures`）：**
+
+```
+1. 不提 AI Agent、代运营、智能体等业务关键词
+2. 不引导私信、领取、关注
+3. CTA 用开放式问题，激发评论互动
+4. 聚焦名人的故事和情绪，不卖任何东西
+5. 避免出现"工具""方案""服务"等营销词汇
+```
+
+### 5.5 转化优先策略规则
+
+| 规则 | 值 |
+|------|----|
+| 关键数字 | 全文至少 3 个具体数字 |
+| 主体数据点 | 4-6 个，每个映射到独立镜头 |
+| 情绪弧线 | 高(钩子) → 低(背景) → 高(数据) → 高(对比) → 暖(CTA) |
+| CTA | 有明确关键词和交付物 |
+
+### 5.6 SHOULD 规则
+
+| 规则 | 值 |
+|------|----|
+| 信息密度 | 不超过 2 秒无新信息的段落 |
+| 节奏 | 整体偏快，不拖沓 |
+| 数字强调 | 说到关键数字时放慢加重（通过 voiceover_pause_markers 控制） |
+
+### 5.7 质量检查
 
 - [ ] 大声朗读计时：___ 秒（MUST：30-45s）
 - [ ] 字数：___ 字（MUST：100-200 字）
-- [ ] 数字数量：___ 个（MUST：≥ 3）
 - [ ] CTA 动作数量：___ 个（MUST：= 1）
 - [ ] 最长单句：___ 字（MUST：≤ 15）
+- [ ] 每段有 emotion_arc 标签（MUST）
+- [ ] 每段有 subtitle_text（MUST）
+- [ ] 流量优先视频：anti_ad_measures 全部通过（MUST）
+- [ ] 流量优先视频：无营销词汇、无转化引导（MUST）
+- [ ] 转化优先视频：数字数量 ≥ 3（MUST）
 
 ---
 
@@ -247,7 +322,7 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 |------|----|
 | 所有图片 9:16 比例 | 1440x2560（Seedream API） |
 | 提示词后缀 | 每张图末尾加 `vertical composition 9:16` |
-| 风格统一 | 深色调 + 暖金色点缀 + 电影纪录片感 |
+| 风格统一 | 深色调 + 冷蓝/暖金点缀 + 电影纪录片感（按视频色系） |
 | 主体位置 | 居中偏下，上方留空间给运动和字幕 |
 | 画面中无文字 | AI 生成的文字一定是乱码，文字在后期加 |
 | 画面中无手部 | Seedream/Midjourney 手部生成有缺陷 |
@@ -259,7 +334,24 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 
 **核心框架：情感弧线 + 辨识度元素**
 
-每条视频的图片序列必须构成一条完整的情感弧线（压缩版英雄之旅）：
+每条视频的图片序列必须构成一条完整的情感弧线。按策略选择对应弧线：
+
+**流量优先弧线（名人叙事型）：**
+
+```
+震撼 → 紧张 → 反转 → 好奇 → 恐惧 → 参与
+```
+
+| 步骤 | 情绪 | 观众内心反应 | 视觉要素 |
+|------|------|------------|---------|
+| 1 震撼 | 震惊/好奇 | "真的假的？" | 权威人物/大场面，低角度仰拍，强光影 |
+| 2 紧张 | 焦虑/不安 | "然后呢？" | 空旷/荒凉的办公室场景，冷光 |
+| 3 反转 | 意外/惊叹 | "怎么可能？" | 人离开/行走的背影，暖光尽头 |
+| 4 好奇 | 想知道秘密 | "到底是什么？" | 半脸/暗处人物，屏幕光 |
+| 5 恐惧 | 危机感 | "这会不会轮到我？" | 一个人 vs 大量屏幕/数据，压迫感 |
+| 6 参与 | 被问到 | "让我想想" | 人物正面看向镜头，诚恳表情 |
+
+**转化优先弧线（数据冲击型）：**
 
 ```
 共情 → 向往 → 希望 → 震撼 → 对比 → 信任
@@ -383,7 +475,7 @@ even skin tone, poreless skin
 | 规则 | 值 |
 |------|----|
 | 每个镜头生成候选 | 2-3 张，选最佳 |
-| 统一色温 | 暖金色，约 4500K 等效 |
+| 统一色温 | 暖金色约 4500K（转化优先）或冷钢蓝约 6500K（流量优先） |
 | 提示词结构 | 严格遵循原则 3 v3.0 六层结构 |
 
 ### 6.5 Seedream 4.5 参数
@@ -405,7 +497,7 @@ even skin tone, poreless skin
 - [ ] 分辨率 ≥ 1440px 高
 - [ ] 每张图有辨识度元素（不是纯抽象），观众 0.3 秒能识别（原则 1）
 - [ ] 每张图只传达一个情绪，不承载叙事信息（原则 2）
-- [ ] 6 张图构成完整情感弧线（共情→向往→希望→震撼→对比→信任）
+- [ ] 6 张图构成完整情感弧线（流量优先：震撼→紧张→反转→好奇→恐惧→参与；转化优先：共情→向往→希望→震撼→对比→信任）
 - [ ] Prompt 开头有摄影声明（原则 3 v3.0）
 - [ ] Prompt 中有具体的、可见的不完美描述（不是笼统后缀）
 - [ ] 有人脸的画面包含至少 1 处面部不对称描述（原则 3 v3.0）
@@ -469,67 +561,78 @@ even skin tone, poreless skin
 
 ---
 
-## 8. Stage 4：配音生成（Gemini 3.1 Flash TTS）
+## 8. Stage 4：配音生成
 
 ### 8.1 输入/输出
 
 - 输入：JSON 配置中的 `segments[].voiceover_text`
 - 输出：每段 MP3 + 完整旁白 MP3 + SRT 字幕文件
 
-### 8.2 MUST 规则
+### 8.2 TTS 引擎优先级
+
+| 优先级 | 引擎 | 费用 | 质量 | 脚本 |
+|--------|------|------|------|------|
+| 1 | **Gemini 3.1 Flash TTS** | 免费（有额度限制） | 最高 | `gemini-tts-batch.py` |
+| 2 | **Edge TTS** (YunxiNeural) | 完全免费，无限制 | 高 | `edge-tts-batch.py` |
+| 3 | Fish Audio S2 Pro | 按量付费 | 高 | `fish-audio-tts-batch.py` |
+| 4 | CosyVoice (DashScope) | 免费额度 | 中高 | `cosyvoice-tts-batch.py` |
+
+**选择规则：** Gemini 额度可用时用 Gemini。额度用尽后用 Edge TTS。质量优先于时长限制。
+
+### 8.3 MUST 规则
 
 | 规则 | 值 |
 |------|----|
-| 模型 | `s2-pro` |
-| 声音模型 | 配置文件中的 `voiceover.reference_id` |
-| 采样率 | 44100 |
 | 音频格式 | MP3 |
-| 音量标准化 | 开启（normalize: true） |
-| 总时长 | 30-45 秒 |
+| 音量标准化 | 开启 |
 | 3 遍听测 | 连听 3 遍不觉得机械感，否则重新生成 |
-
-### 8.3 SHOULD 规则
-
-| 规则 | 值 |
-|------|----|
-| 生成方式 | 同时生成分段文件（用于合成）+ 完整文件（用于参考） |
-| temperature | 0.7（平衡稳定性和自然度） |
-| top_p | 0.7 |
-| 语速 | 1.0（Gemini 自然语速已足够好） |
-| 按脚本类型微调语速 | 数据型 1.0，对比型 0.95，演示型 0.95 |
+| 叙述者一致性 | 全片使用同一声音，只改情绪参数 |
 
 ### 8.4 Gemini 3.1 Flash TTS 参数
 
 | 参数 | 值 |
 |------|----|
-| API | Google Gemini API (gemini-3.1-flash) |
-| 模型 | gemini-3.1-flash |
-| 声音 | 配置文件中的 `voiceover.voice`（如 Charon, Orus 等） |
-| 采样率 | 44100 |
-| 格式 | WAV → MP3 |
-| 音量标准化 | 开启（normalize: true） |
-| 批量命令 | `python docs/content/scripts/gemini-tts-batch.py --config config/{video_id}.json` |
+| 模型 | gemini-3.1-flash-tts-preview |
+| 声音 | Charon（深沉男声）或 Orus（温暖男声） |
+| 批量命令 | `python3 gemini-tts-batch.py --config config/{video_id}.json` |
+| 需要环境变量 | `GEMINI_API_KEY` |
 
-### 8.5 声音模型选择指南
+**特点：** 支持 Director's Notes 精细控制情绪，音频标签（[amazed], [warmly]），质量最接近真人。
 
-Gemini 3.1 Flash 提供多种内置声音，无需自建模型：
+### 8.5 Edge TTS 参数（免费备选）
 
-**推荐声音：**
-- `Charon` — 深沉男声，适合商业旁白
-- `Orus` — 温暖男声，适合叙事
-- 其他声音见 Google AI Studio 声音列表
+| 参数 | 值 |
+|------|----|
+| 声音 | `zh-CN-YunxiNeural`（推荐，年轻温暖男声） |
+| 声音备选 | `zh-CN-YunjianNeural`（沉稳新闻风格） |
+| 批量命令 | `python3 edge-tts-batch.py --config config/{video_id}.json` |
+| 需要环境变量 | 无 |
 
-**Director's Notes 控制：**
-在 voiceover 配置中通过 `director_notes` 字段控制语气、节奏、情感。
+**情绪控制：** 通过 rate/pitch/volume 参数按 emotion_arc 自动调整：
 
-### 8.6 质量检查
+| emotion_arc | rate | pitch | volume | 效果 |
+|------------|------|-------|--------|------|
+| 震撼 (shock) | -5% | +2Hz | +10% | 沉重有力 |
+| 紧张 (tension) | +5% | -2Hz | +5% | 紧凑压迫 |
+| 反转 (reversal) | -10% | +0Hz | +5% | 减速强调 |
+| 好奇 (curiosity) | +0% | +3Hz | +0% | 微妙好奇 |
+| 恐惧 (fear) | +3% | -3Hz | -5% | 低沉威胁 |
+| 参与 (engagement) | +5% | +2Hz | +5% | 真诚互动 |
+
+### 8.6 SHOULD 规则
+
+| 规则 | 值 |
+|------|----|
+| 生成方式 | 同时生成分段文件（用于合成）+ 完整文件（用于参考） |
+| 时长超 45s | 优先保证质量，可通过剪映调速 |
+
+### 8.7 质量检查
 
 - [ ] 每个字可辨识（无含糊不清）
 - [ ] 无金属/电子感（3 遍听测通过）
-- [ ] 关键数字有自然强调（Gemini Director's Notes 控制）
-- [ ] 总时长：___ 秒（MUST：30-45s）
+- [ ] 关键数字有自然强调
 - [ ] 音质干净无噪音
-- [ ] 与 Medvi 配音对比，自然度接近
+- [ ] 全片叙述者声音一致
 
 ---
 
@@ -782,57 +885,55 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
 ```json
 {
   "video_id": "day2-medvi-tools",
-  "version": "1.0",
-  "created": "2026-04-18",
+  "version": "2.0",
+  "created": "2026-04-19",
   "status": "draft",
+  "strategy_notes": "流量优先策略：不考虑转化，只追求完播率。名人叙事+情绪冲击，不提Agent/代运营/任何业务",
 
   "global": {
-    "target_duration_sec": 38,
+    "target_duration_sec": 33,
     "max_duration_sec": 45,
     "min_duration_sec": 30,
     "resolution": "1080x1920",
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "runway_seed": 12345,
+    "runway_seed": 67890,
     "style": "cinematic_documentary",
-    "color_temperature": "warm_gold",
-    "accent_color": "#c9a96e",
+    "color_temperature": "cool_steel",
+    "accent_color": "#4a90d9",
     "bg_color": "#000000"
   },
 
   "script": {
-    "topic": "Medvi 用 $103/月的工具做了什么",
-    "source": "Forbes 2026-04-02 + NYT",
-    "hook_type": "contradictory_number",
-    "cta_action": "私信",
-    "cta_keyword": "AI获客",
-    "cta_deliverable": "完整工具清单"
+    "topic": "马斯克裁了6000人用AI替代，公司效率反升",
+    "source": "Yahoo Finance 2025, InfoQ 2025",
+    "hook_type": "celebrity_shock",
+    "cta_action": "讨论",
+    "cta_keyword": "",
+    "cta_deliverable": "",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西",
+      "避免出现'工具''方案''服务'等营销词汇"
+    ]
   },
 
   "segments": [
     {
       "id": "S01",
       "type": "hook",
-      "duration_sec": 4,
+      "duration_sec": 5,
       "shot_type": "close-up",
       "emotion": "shock",
-      "visual_description": "giant golden numbers floating in dark void",
-      "motion_prompt": "slow zoom in on golden numbers, subtle glow pulsing",
-      "voiceover_text": "一个人，2万美元启动资金，14个月做到4亿美元营收。",
-      "voiceover_pause_markers": "一个人<#0.2#>2万美元启动资金<#0.3#>14个月做到4亿美元营收",
-      "reference_prompt": "giant golden numbers 401000000 glowing in dark void, financial visualization, amber light, navy black background, warm gold accent, cinematic, vertical composition 9:16"
-    },
-    {
-      "id": "S02",
-      "type": "body",
-      "duration_sec": 5,
-      "shot_type": "medium",
-      "emotion": "focus",
-      "visual_description": "...",
-      "motion_prompt": "...",
-      "voiceover_text": "...",
-      "voiceover_pause_markers": "...",
+      "emotion_arc": "震撼",
+      "visual_description": "权威人物低角度仰拍，强光影，绝对权威感",
+      "motion_prompt": "slow push in from low angle...",
+      "voiceover_text": "马斯克哪里是给自己公司定规矩。分明是给全行业定规矩。六千人，说裁就裁了。",
+      "voiceover_pause_markers": "马斯克哪里是给自己公司定规矩。<#0.3#>分明是给全行业定规矩。<#0.3#>六千人<#0.2#>说裁就裁了。",
+      "subtitle_text": "给全行业定规矩 说裁就裁",
       "reference_prompt": "..."
     }
   ],
@@ -844,7 +945,7 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
     "sample_rate": 44100,
     "format": "mp3",
     "normalize": true,
-    "director_notes": "用沉稳的中文男声旁白风格，语速适中，关键数字加重语气"
+    "director_notes": "像在讲一个震撼的故事，不是在念稿。说到数字时放慢加重，'六千人'、'九成'要掷地有声"
   },
 
   "reference_images": {
@@ -852,7 +953,8 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
     "api": "evolink",
     "resolution": "1440x2560",
     "candidates_per_segment": 2,
-    "style_suffix": "vertical composition 9:16"
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry..."
   },
 
   "video_generation": {
@@ -874,7 +976,7 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
 
   "compositing": {
     "engine": "ffmpeg",
-    "bgm_file": "assets/bgm/tech_ambient_01.mp3",
+    "bgm_file": "assets/bgm/cinematic_dark_01.mp3",
     "bgm_volume_pct": 10,
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_script"
@@ -903,13 +1005,13 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
   "publishing": {
     "platforms": ["douyin", "xiaohongshu"],
     "title_candidates": [
-      "$103/月工具费，14个月做到4亿营收",
-      "2个人用AI做到4亿美元年营收，工具链全公开",
-      "在拖车公园长大的人，用AI做出了4亿营收的公司"
+      "马斯克裁了6000人，公司效率反而更高",
+      "裁员80%效率反升，马斯克的秘密只有三个字",
+      "未来公司的最小单元不是人，马斯克正在证明这件事"
     ],
-    "tags": ["AI获客", "AI营销", "人工智能", "创业", "一人公司"],
+    "tags": ["AI", "马斯克", "人工智能", "裁员", "自动化", "职场"],
     "publish_times": ["12:00", "18:00"],
-    "cover_description": "黑底金字 $103 → $4亿 对比"
+    "cover_description": "暗色调背景，蓝色数据光，剪影+裁员数字对比"
   }
 }
 ```
@@ -1010,6 +1112,18 @@ docs/content/
 
 ## 附录 C：配色系统
 
+### 色系 A：冷钢蓝（流量优先 / 名人叙事型）
+
+| 用途 | 色值 | 使用场景 |
+|------|------|---------|
+| 冷蓝点缀 | #4a90d9 | 数据高亮、CTA 文字、封面 |
+| 纯黑 | #000000 | 背景、文字卡片底色 |
+| 深灰 | #0a0a0a | 替代纯黑的背景变体 |
+| 白色 | #FFFFFF | 正文文字 |
+| 冷白 | #e8edf5 | 次要文字 |
+
+### 色系 B：暖金色（转化优先 / 数据冲击型）
+
 | 用途 | 色值 | 使用场景 |
 |------|------|---------|
 | 品牌金 | #c9a96e | 数字高亮、CTA 文字、封面 |
@@ -1029,3 +1143,5 @@ docs/content/
 | 2026-04-18 | 1.2 | 配音引擎替换为 Gemini 3.1 Flash TTS，新增 AI 内容标识规范、平台合规门控 |
 | 2026-04-18 | 1.3 | 添加 Medvi 工作流标识，新增 Sings 工作流 |
 | 2026-04-18 | 1.2 | 新增 AI 内容标识规范（显性+隐性）、平台合规门控强化（抖音健康内容规则、小红书规则）、最终审批增加 AI 标识字段 |
+| 2026-04-19 | 2.0 | 集成流量优先脚本写作方案：名人叙事钩子(celebrity_shock)、开放讨论CTA、anti-ad措施、新情绪弧线(震撼→紧张→反转→好奇→恐惧→参与)、冷钢蓝色系、每段emotion_arc+subtitle_text字段 |
+| 2026-04-19 | 2.1 | TTS 引擎分层：Gemini(首选) → Edge TTS(免费备选) → Fish Audio → CosyVoice；新增 edge-tts-batch.py 脚本，支持 emotion_arc 自动调 rate/pitch/volume |

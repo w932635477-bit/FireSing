@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-04-19T21:47:07.484702",
+  "engine": "edge-tts",
+  "voice_id": "zh-CN-YunxiNeural",
+  "video_id": "day2-medvi-tools",
+  "total_duration_s": 50.06,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S01.mp3",
+      "duration_s": 8.976,
+      "status": "success",
+      "actual_duration_s": 8.976,
+      "voiceover_text": "马斯克哪里是给自己公司定规矩。分明是给全行业定规矩。六千人，说裁就裁了。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S02.mp3",
+      "duration_s": 7.776,
+      "status": "success",
+      "actual_duration_s": 7.776,
+      "voiceover_text": "安全团队砍了九成。客服部门整个取消。内容审核？全交给AI了。",
+      "emotion": "tension"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S03.mp3",
+      "duration_s": 7.296,
+      "status": "success",
+      "actual_duration_s": 7.296,
+      "voiceover_text": "但最狠的不是裁员。是他裁完人之后，公司效率反而更高了。",
+      "emotion": "reversal"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S04.mp3",
+      "duration_s": 7.344,
+      "status": "success",
+      "actual_duration_s": 7.344,
+      "voiceover_text": "同行说他疯了，媒体说他完了。结果呢？平台没崩，广告回来了。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S05.mp3",
+      "duration_s": 7.296,
+      "status": "success",
+      "actual_duration_s": 7.296,
+      "voiceover_text": "投资人问秘诀，他没说话，打开了一个后台。六千个AI，同时在跑。",
+      "emotion": "curiosity"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S06.mp3",
+      "duration_s": 5.976,
+      "status": "success",
+      "actual_duration_s": 5.976,
+      "voiceover_text": "他不是在裁员。他在验证一件事：未来公司，不需要那么多人。",
+      "emotion": "fear"
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S07.mp3",
+      "duration_s": 5.4,
+      "status": "success",
+      "actual_duration_s": 5.4,
+      "voiceover_text": "你觉得你的岗位，AI多久能替代？评论区聊聊。",
+      "emotion": "engagement"
+    }
+  ]
+}

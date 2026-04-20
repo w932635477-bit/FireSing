@@ -1,0 +1,307 @@
+{
+  "video_id": "sings02-medvi-tools",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-20",
+  "status": "draft",
+  "strategy_notes": "流量优先策略：不考虑转化，只追求完播率。名人叙事+情绪冲击，不提Agent/代运营/任何业务。CTA用开放式问题激发评论互动",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 67890,
+    "style": "mv_pop",
+    "color_temperature": "vibrant_neutral",
+    "accent_color": "#ff6eb4",
+    "bg_color": "#1a0a2e"
+  },
+
+  "lyrics": {
+    "bpm": 130,
+    "time_signature": "4/4",
+    "style": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, educational pop, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "suno_tags": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, educational pop, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["马斯克六千人全砍", "全行业规矩他说了算"],
+        "rhyme": "an",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["不只是自己公司裁减", "是给全行业定了标杆"],
+        "rhyme": "an",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["安全砍掉九成", "客服取消AI来撑"],
+        "rhyme": "eng",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["内容审核机器包", "人走了活儿还在跑"],
+        "rhyme": "ao",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["最狠的不是裁员这招", "是裁完效率反而更高"],
+        "rhyme": "ao",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["同行都说他完了蛋", "平台没崩广告没断"],
+        "rhyme": "an",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["投资人问秘诀何在", "他没说话打开后台"],
+        "rhyme": "ai",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["六千个AI同时跑", "一人当百效率爆"],
+        "rhyme": "ao",
+        "segment_ref": "S05",
+        "type": "body"
+      },
+      {
+        "id": "B09",
+        "beat_count": 4,
+        "lines": ["他裁员是在做验证", "未来不需要这么多人争"],
+        "rhyme": "eng",
+        "segment_ref": "S06",
+        "type": "body"
+      },
+      {
+        "id": "B10",
+        "beat_count": 4,
+        "lines": ["你的岗位还能撑几年", "AI多久替代评论区见"],
+        "rhyme": "ian",
+        "segment_ref": "S07",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "马斯克裁了6000人用AI替代，公司效率反升",
+    "source": "Yahoo Finance 2025, InfoQ 2025",
+    "source_config": "day2-medvi-tools.json",
+    "hook_type": "celebrity_shock",
+    "cta_action": "讨论",
+    "cta_keyword": "",
+    "cta_deliverable": "",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西",
+      "避免出现'工具''方案''服务'等营销词汇"
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "explosive",
+      "visual_description": "powerful tech CEO figure commanding presence on neon-lit rooftop stage, explosive MV energy",
+      "motion_prompt": "dynamic zoom in from low angle, neon lights pulse to beat, lens flare sweeps, explosive MV energy",
+      "reference_prompt": "hip hop music video freeze frame shot on Arri Alexa anamorphic lens, medium close-up of a man mid-fifties seen from a dynamic low angle looking down at camera with commanding presence, short slightly receding hair more visible on left temple, strong angular jaw with visible silver stubble more pronounced on chin, deep-set intense eyes with one slightly narrower creating calculating asymmetric gaze, one eyebrow marginally higher, wearing dark charcoal zip-up jacket with zipper pulled halfway up and visible loose thread at right cuff, standing on rooftop helipad at dusk with city skyline behind, vibrant purple and magenta neon lights from rooftop bar illuminating face from left side, warm golden sunset rim light from right, one hand in jacket pocket, wind catching jacket fabric, neon reflections on metallic surfaces, vibrant high contrast colors with deep magenta shadows and bright cyan highlights, visible film grain, anamorphic lens flare from neon signs, face and upper body in lower two-thirds, vertical composition 9:16",
+      "lyrics_refs": ["B01", "B02"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "tension",
+      "visual_description": "vibrant MV scene of empty office with colorful screen glows, chairs pushed back, people vanished mid-work",
+      "motion_prompt": "dynamic pan across empty desks, colorful screen glows shift rhythmically, papers drift, MV tension beat",
+      "reference_prompt": "concert documentary still shot on Canon C300, medium shot of open-plan office floor with rows of identical desks, monitors glowing with colorful data dashboards in electric blue and hot pink, chairs pushed back at odd angles, coffee cups half-full with visible latte art, phone off the hook, sticky notes still on monitors, one desk has a family photo with slightly tilted frame, another has a bright yellow jacket draped over chair, papers scattered on floor, vibrant LED strip lighting under desks casting purple and cyan uplight, large window wall showing bright city at golden hour, warm natural light mixing with cool neon screen glow, visible film grain, high contrast vibrant colors, scene in lower two-thirds, vertical composition 9:16",
+      "lyrics_refs": ["B03", "B04"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "reversal",
+      "visual_description": "person carrying cardboard box walking through empty corporate hallway toward bright city light, dramatic MV reversal",
+      "motion_prompt": "dynamic following shot behind person, neon wall strips pulse, person walks toward bright city light, MV reversal beat drop",
+      "reference_prompt": "music video behind the scenes shot on RED Komodo 6K anamorphic, person mid-thirties seen from behind walking down long corporate hallway carrying cardboard moving box with coffee mug and photo frame sticking out, wearing wrinkled dark jacket with one button missing and loose thread at cuff, slightly hunched shoulders, hair slightly messy on one side, hallway has modern LED wall sconces casting warm amber light on one side and cool blue on the other, office doors on both sides all closed, security badge clipped to collar with bent clip, large floor-to-ceiling window at end of corridor showing vibrant sunset city skyline in orange and magenta, bright warm light flooding hallway creating dramatic silhouette, colorful light reflections on polished concrete floor, visible film grain, anamorphic lens flare from sunset, person in lower two-thirds, vertical composition 9:16",
+      "lyrics_refs": ["B05"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "text_card",
+      "emotion": "shock",
+      "visual_description": "fullscreen data card: black background, cold blue large text showing core layoff and efficiency data",
+      "reference_prompt": "text_card",
+      "motion_prompt": "text_card",
+      "text_card_config": {
+        "lines": ["6000人 走了", "平台 没崩", "反而 更快了"],
+        "font_size": 52,
+        "font_color": "#ff6eb4",
+        "bg_color": "#1a0a2e",
+        "animation": "fade_in"
+      },
+      "lyrics_refs": ["B06"]
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "curiosity",
+      "visual_description": "mysterious figure half-lit by colorful screen glow in dark room, guarding a secret, MV curiosity vibe",
+      "motion_prompt": "slow push in, colorful screen light pulses rhythmically, figure stays still, MV mystery beat",
+      "reference_prompt": "hip hop music video freeze frame shot on Arri Alexa anamorphic lens, close-up of figure's face half illuminated by colorful screen light in electric purple and cyan, only one eye and half mouth visible, visible eye has intense focused gaze with bright screen catchlight, slight asymmetric smile with one corner barely raised, jaw slightly clenched, visible stubble more pronounced on one side, small scar near hairline, wearing dark crew neck sweater with loose thread at neckline, multiple screens create colorful light wash mixing purple and teal on face, dark half of face has deep indigo shadow, background has soft bokeh circles in warm amber and cool blue, visible film grain especially in shadow areas, anamorphic lens flare from screen edge in magenta, face filling lower two-thirds, vertical composition 9:16",
+      "lyrics_refs": ["B07", "B08"]
+    },
+    {
+      "id": "S06",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "fear",
+      "visual_description": "one person at small desk surrounded by many colorful LCD monitors showing data, tiny human vs vast digital world, MV scale contrast",
+      "motion_prompt": "dynamic pull back revealing more monitors around person, colorful dashboard data pulses rhythmically, overwhelming MV scale",
+      "reference_prompt": "concert documentary still shot on Canon C300, single person sitting at small cluttered desk in dark room surrounded by six LCD monitors on adjustable arms in semicircle, each screen displaying vibrant data dashboards with electric green hot pink and cyan numbers and graphs, combined screen glow illuminating face with colorful light creating dynamic colored shadows, visible tired eyes with dark circles and one eyebrow slightly raised, wearing faded dark t-shirt with small stain near collar, one hand on keyboard other holding cold instant noodle cup, tangled colorful LED cables behind monitors, half-empty water bottle and scattered sticky notes on desk, room has subtle RGB strip lighting on wall behind monitors casting soft purple ambient glow, contrast between tiny person and wall of colorful screens, vibrant neon screen tones with deep colored shadows, visible film grain, person small in lower third monitors filling upper frame, vertical composition 9:16",
+      "lyrics_refs": ["B09"]
+    },
+    {
+      "id": "S07",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "engagement",
+      "visual_description": "person turned toward camera with intense honest expression, asking you directly, MV engagement vibe",
+      "motion_prompt": "gentle natural breathing, eyes locked on camera, slight head tilt to beat, direct MV engagement gaze",
+      "reference_prompt": "music video behind the scenes shot on RED Komodo 6K, medium shot of person turned slightly toward camera with intense direct gaze and slightly raised eyebrows, mouth open mid-question with one corner slightly higher, visible forehead creases from genuine concern, wearing plain dark henley shirt with top button undone, warm golden window light from left mixing with cool blue LED strip on right wall creating split color lighting on face, one hand raised slightly palm up in questioning gesture, background wall has warm string lights creating soft bokeh circles, vibrant warm-cool color contrast with golden and blue tones, visible film grain, unretouched documentary feel with MV color grade, person in lower two-thirds, vertical composition 9:16",
+      "lyrics_refs": ["B10"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, educational pop, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "motion_intensity": 6,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 10,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像、配音和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 15,
+    "saturation_adjust": 5,
+    "contrast_adjust": 15,
+    "sharpness_adjust": -3,
+    "vignette": 0.15
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "马斯克裁了6000人说唱版，AI替代到底多猛",
+      "6000人走了平台没崩，马斯克的AI实验说唱解密",
+      "裁员80%效率反升，说唱拆解马斯克AI革命"
+    ],
+    "tags": ["马斯克", "AI替代", "裁员", "说唱科普", "人工智能", "职场"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "霓虹紫粉高对比 人物剪影+城市天际线 + '6000人走了' 大字"
+  }
+}

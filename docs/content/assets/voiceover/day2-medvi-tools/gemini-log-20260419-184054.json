@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-04-19T18:40:54.078048",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "day2-medvi-tools",
+  "total_duration_s": 49.72,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S01.mp3",
+      "duration_s": 4.8,
+      "status": "success",
+      "actual_duration_s": 4.8,
+      "voiceover_text": "两个人，月费才一百二，一年做到四个亿。",
+      "director_notes": "Open with genuine amazement at the numbers. Use [amazed] at the key figure. Sound like you just discovered something incredible and can't wait to share it. Natural, conversational energy."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S02.mp3",
+      "duration_s": 6.32,
+      "status": "success",
+      "actual_duration_s": 6.32,
+      "voiceover_text": "没有开发团队，没有设计师，也没有客服。就俩人，一套AI工具链。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S03.mp3",
+      "duration_s": 10.76,
+      "status": "success",
+      "actual_duration_s": 10.76,
+      "voiceover_text": "代码AI写的，广告AI做的，客服也是AI在跑。整个公司就靠几个工具串起来，自动运转。",
+      "director_notes": "Build momentum. List the AI capabilities with quiet excitement. Use [warmly] when describing the tools. This is the 'aha' moment where the listener sees the path forward."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S04.mp3",
+      "duration_s": 8.0,
+      "status": "success",
+      "actual_duration_s": 8.0,
+      "voiceover_text": "月费一百二十美元，年营收四亿零一百万，净利率百分之十六点二。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S05.mp3",
+      "duration_s": 10.48,
+      "status": "success",
+      "actual_duration_s": 10.48,
+      "voiceover_text": "同行两千多人的大团队，净利率才百分之五。他呢，就俩人，净利率是人家的三倍。",
+      "director_notes": "This is the punchline. Use [serious] for the industry giants, then shift to subtle [impressed] satisfaction for the underdog's numbers. The contrast should feel earned, not forced."
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S06.mp3",
+      "duration_s": 4.08,
+      "status": "success",
+      "actual_duration_s": 4.08,
+      "voiceover_text": "这不是科幻片，这就是现在正在发生的事。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S07.mp3",
+      "duration_s": 5.28,
+      "status": "success",
+      "actual_duration_s": 5.28,
+      "voiceover_text": "AI时代，一个人就能顶一个团队。你觉得呢？",
+      "director_notes": "Warm, direct invitation. Use [warmly] and speak with quiet certainty. This is a friend making a genuine recommendation, not a sales pitch. End with natural conviction."
+    }
+  ]
+}

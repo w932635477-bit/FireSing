@@ -13,6 +13,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Add scripts dir to path for text_card_renderer import
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "output"
@@ -28,7 +31,58 @@ def get_duration(path: Path) -> float:
     return float(result.stdout.strip())
 
 
-def generate_text_card(seg: dict, output_path: Path, duration: float) -> bool:
+def _find_bg_for_text_card(seg: dict, all_segs: list[dict]) -> str | None:
+    """Find background image for a text card segment.
+
+    Search order:
+      1. Explicit bg_image in text_card_config
+      2. Segment's own reference image (references/{video_id}/S04*.png)
+      3. Flat reference images (references/S04*.png)
+      4. Adjacent visual segment's reference image (previous, then next)
+    """
+    cfg = seg.get("text_card_config", {})
+    seg_id = seg["id"]
+
+    # 1. Explicit config
+    explicit = cfg.get("bg_image")
+    if explicit and Path(explicit).exists():
+        return explicit
+
+    ref_root = ASSETS_DIR / "references"
+
+    # 2. video_id subdirectory
+    for candidate_dir in [ref_root / seg.get("_video_id", ""), ref_root]:
+        if not candidate_dir.is_dir():
+            continue
+        for pattern in [f"{seg_id}*.png", f"{seg_id}*.jpg"]:
+            matches = list(candidate_dir.glob(pattern))
+            if matches:
+                return str(matches[0])
+
+    # 3. Adjacent visual segments (prefer previous, then next)
+    seg_idx = next((i for i, s in enumerate(all_segs) if s["id"] == seg_id), -1)
+    for offset in [-1, 1, -2, 2]:
+        adj_idx = seg_idx + offset
+        if 0 <= adj_idx < len(all_segs):
+            adj = all_segs[adj_idx]
+            if adj.get("shot_type") == "text_card":
+                continue
+            # Try video_id subdirectory
+            for candidate_dir in [ref_root / seg.get("_video_id", ""), ref_root]:
+                if not candidate_dir.is_dir():
+                    continue
+                for pattern in [f"{adj['id']}*.png", f"{adj['id']}*.jpg"]:
+                    matches = list(candidate_dir.glob(pattern))
+                    if matches:
+                        return str(matches[0])
+
+    return None
+
+
+def generate_text_card(
+    seg: dict, output_path: Path, duration: float,
+    all_segs: list[dict] | None = None,
+) -> bool:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     cfg = seg.get("text_card_config", {})
     lines = cfg.get("lines", [])
@@ -36,64 +90,24 @@ def generate_text_card(seg: dict, output_path: Path, duration: float) -> bool:
         text = seg.get("subtitle_text", "")
         lines = [text]
 
-    font_size = cfg.get("font_size", 52)
-    font_color = cfg.get("font_color", "#c9a96e")
-    bg_color = cfg.get("bg_color", "#000000")
+    font_size = cfg.get("font_size", 56)
+    emotion = seg.get("emotion", "shock")
+    animation = cfg.get("animation", "fade_in")
 
-    # Generate text card image with PIL
-    from PIL import Image, ImageDraw, ImageFont
+    from text_card_renderer import render_card_to_video
 
-    img = Image.new("RGB", (720, 1280), bg_color)
-    draw = ImageDraw.Draw(img)
+    bg_image = _find_bg_for_text_card(seg, all_segs or [])
 
-    # Try CJK fonts on macOS
-    font_paths = [
-        "/System/Library/Fonts/STHeiti Light.ttc",
-        "/System/Library/Fonts/PingFang.ttc",
-        "/System/Library/Fonts/Hiragino Sans GB.ttc",
-        "/Library/Fonts/Arial Unicode.ttf",
-    ]
-    font = None
-    for fp in font_paths:
-        try:
-            font = ImageFont.truetype(fp, font_size)
-            break
-        except (OSError, IOError):
-            continue
-    if font is None:
-        font = ImageFont.load_default()
-
-    line_spacing = font_size * 1.8
-    total_height = len(lines) * line_spacing
-    start_y = (1280 - total_height) / 2
-
-    for i, line in enumerate(lines):
-        bbox = draw.textbbox((0, 0), line, font=font)
-        tw = bbox[2] - bbox[0]
-        x = (720 - tw) / 2
-        y = start_y + i * line_spacing
-        draw.text((x, y), line, fill=font_color, font=font)
-
-    card_img = output_path.parent / f"{seg['id']}_card.png"
-    img.save(str(card_img))
-
-    # Convert image to video with gentle zoom
-    frames = int(duration * 24)
-    cmd = [
-        "ffmpeg", "-y",
-        "-loop", "1", "-i", str(card_img),
-        "-vf", f"zoompan=z='min(zoom+0.001,1.08)':d={frames}:s=720x1280:fps=24,fade=t=in:st=0:d=0.5",
-        "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-        "-pix_fmt", "yuv420p", "-r", "24",
-        "-t", str(duration),
-        str(output_path),
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    card_img.unlink(missing_ok=True)
-    if result.returncode != 0:
-        print(f"  text_card error: {result.stderr[-300:]}")
-        return False
-    return True
+    return render_card_to_video(
+        lines=lines,
+        output_mp4=output_path,
+        duration=duration,
+        scheme_name="medvi",
+        bg_image_path=bg_image,
+        emotion=emotion,
+        font_size=font_size,
+        animation=animation,
+    )
 
 
 def load_segments(config_path: Path) -> list[dict]:
@@ -137,12 +151,13 @@ def load_segments(config_path: Path) -> list[dict]:
             "shot_type": seg.get("shot_type", "medium"),
             "text_card_config": seg.get("text_card_config", {}),
             "overlay_image": seg.get("overlay_image", ""),
+            "_video_id": video_id,
         })
 
     return segments, video_id, post, compositing
 
 
-def prepare_segment(seg: dict, temp_dir: Path, output_path: Path) -> None:
+def prepare_segment(seg: dict, temp_dir: Path, output_path: Path, all_segs: list[dict] | None = None) -> None:
     """Prepare a video segment matching audio duration."""
     if not seg["audio_path"].exists():
         print(f"  {seg['id']}: SKIP — no audio ({seg['audio_path']})")
@@ -155,7 +170,7 @@ def prepare_segment(seg: dict, temp_dir: Path, output_path: Path) -> None:
     shot_type = seg.get("shot_type", "medium")
     if shot_type == "text_card":
         print(f"  {seg['id']}: generating text_card ({target_duration:.1f}s)")
-        return generate_text_card(seg, output_path, target_duration)
+        return generate_text_card(seg, output_path, target_duration, all_segs=all_segs)
 
     # Route 2: normal video from Runway, optionally with photo overlay
     if not seg["video_path"] or not seg["video_path"].exists():
@@ -288,7 +303,7 @@ def main():
         duration = get_duration(seg["audio_path"])
         total_duration += duration
         print(f"  {seg['id']}: audio={duration:.1f}s", end="")
-        ok = prepare_segment(seg, temp_dir, output_path)
+        ok = prepare_segment(seg, temp_dir, output_path, all_segs=ready_segs)
         if ok:
             actual = get_duration(output_path)
             print(f" -> video={actual:.1f}s")

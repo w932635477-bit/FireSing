@@ -1,0 +1,233 @@
+{
+  "video_id": "day2-medvi-tools",
+  "version": "2.0",
+  "created": "2026-04-19",
+  "status": "draft",
+  "strategy_notes": "流量优先策略：不考虑转化，只追求完播率。名人叙事+情绪冲击，不提Agent/代运营/任何业务",
+
+  "global": {
+    "target_duration_sec": 33,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 67890,
+    "style": "cinematic_documentary",
+    "color_temperature": "cool_steel",
+    "accent_color": "#4a90d9",
+    "bg_color": "#000000"
+  },
+
+  "script": {
+    "topic": "马斯克裁了6000人用AI替代，公司效率反升",
+    "source": "Yahoo Finance 2025, InfoQ 2025",
+    "hook_type": "celebrity_shock",
+    "cta_action": "讨论",
+    "cta_keyword": "",
+    "cta_deliverable": "",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西",
+      "避免出现'工具''方案''服务'等营销词汇"
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 5,
+      "shot_type": "close-up",
+      "emotion": "shock",
+      "emotion_arc": "震撼",
+      "reference_file": "S01-震撼.png",
+      "visual_description": "a powerful mid-fifties tech CEO figure seen from low angle in a vast empty industrial space, conveying absolute authority and control",
+      "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, medium close-up of a man mid-fifties seen from a low angle looking down at camera with an expression of cold authority, short slightly receding hair more visible on the left temple, strong angular jaw with visible silver stubble more pronounced on the chin and one side of the neck, deep-set intense eyes with one slightly narrower than the other creating a calculating asymmetric gaze, slight furrow between eyebrows, one eyebrow marginally higher, wearing a dark charcoal zip-up jacket with zipper pulled halfway up and a small crease near the left pocket, visible loose thread at the right cuff, standing at the edge of a vast empty factory floor with exposed concrete pillars and overhead industrial pipes, cold overhead fluorescent light casting harsh downward shadows across the face, one hand buried in jacket pocket the other resting on a metal railing, visible dust particles floating in the industrial air catching the cold light, a single red warning light blinking far in the background out of focus, warm skin tones under cold steel blue industrial light, visible film grain especially in the deep shadows, face and upper body in lower two-thirds, vast empty industrial space stretching above, cool steel blue tones with deep blacks, vertical composition 9:16",
+      "motion_prompt": "slow push in from low angle, the figure stands perfectly still, dust particles drift through the industrial light, red warning light blinks in the distance",
+      "voiceover_text": "马斯克哪里是给自己公司定规矩。分明是给全行业定规矩。六千人，说裁就裁了。",
+      "voiceover_pause_markers": "马斯克哪里是给自己公司定规矩。<#0.3#>分明是给全行业定规矩。<#0.3#>六千人<#0.2#>说裁就裁了。",
+      "subtitle_text": "给全行业定规矩 说裁就裁"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "medium",
+      "emotion": "tension",
+      "emotion_arc": "紧张",
+      "reference_file": "S02-紧张.png",
+      "visual_description": "empty office desks with monitors still on, chairs pushed back, as if people just vanished mid-work",
+      "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 800, medium shot of an open-plan office floor with rows of identical desks, monitors still glowing with unfinished work, chairs pushed back at odd angles, coffee cups half-full, a phone off the hook, sticky notes still on monitors, overhead fluorescent lights casting flat institutional light, one desk has a family photo still visible, another has a jacket draped over the chair, papers scattered on the floor near one desk as if left in a hurry, cool fluorescent tones mixing with warm screen glow, visible film grain, scene in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow pan across empty desks, monitors flickering, a single email notification pops up unanswered",
+      "voiceover_text": "安全团队砍了九成。客服部门整个取消。内容审核？全交给AI了。",
+      "voiceover_pause_markers": "安全团队砍了九成。<#0.2#>客服部门整个取消。<#0.2#>内容审核？<#0.2#>全交给AI了。",
+      "subtitle_text": "安全-90% 客服=0 全靠AI"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "wide",
+      "emotion": "reversal",
+      "emotion_arc": "反转",
+      "reference_file": "S03-反转.png",
+      "visual_description": "a person carrying a cardboard box walking through an empty corporate hallway, the human cost of the layoffs",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Kodak Portra 400, a person mid-thirties seen from behind walking down a long empty corporate hallway carrying a cardboard moving box, the box has a coffee mug a small photo frame and a pen sticking out of the top, wearing a wrinkled dark jacket with one button missing and a loose thread at the cuff, slightly hunched shoulders, hair slightly messy on one side, the hallway has fluorescent lights overhead one of which is flickering, office doors on both sides all closed with nameplates still visible, a security badge clipped to the jacket collar with a visibly bent clip, late afternoon light coming through the window at the end of the corridor casting long warm shadows on the scuffed linoleum floor, visible film grain, person in lower two-thirds, long empty corridor stretching above, warm amber light at the far end contrasting with cold fluorescent light nearby, vertical composition 9:16",
+      "motion_prompt": "slow following shot behind the person, fluorescent light flickers, person walks toward distant warm light at end of corridor",
+      "voiceover_text": "但最狠的不是裁员。是他裁完人之后，公司效率反而更高了。",
+      "voiceover_pause_markers": "但最狠的不是裁员。<#0.3#>是他裁完人之后<#0.2#>公司效率反而更高了。",
+      "subtitle_text": "裁完人 效率反升"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "text_card",
+      "emotion": "shock",
+      "emotion_arc": "震撼",
+      "reference_file": "",
+      "visual_description": "全屏数据卡片：黑色背景，冷蓝色大字显示核心裁员与效率数据",
+      "reference_prompt": "text_card",
+      "motion_prompt": "text_card",
+      "text_card_config": {
+        "lines": [
+          "6000人 走了",
+          "平台 没崩",
+          "反而 更快了"
+        ],
+        "font_size": 52,
+        "font_color": "#4a90d9",
+        "bg_color": "#000000",
+        "animation": "fade_in"
+      },
+      "voiceover_text": "同行说他疯了，媒体说他完了。结果呢？平台没崩，广告回来了。",
+      "voiceover_pause_markers": "同行说他疯了<#0.2#>媒体说他完了。<#0.3#>结果呢？<#0.3#>平台没崩<#0.2#>广告回来了。",
+      "subtitle_text": "都说他完了 结果呢"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "close-up",
+      "emotion": "curiosity",
+      "emotion_arc": "好奇",
+      "reference_file": "S05-好奇.png",
+      "visual_description": "a mysterious figure half-lit by screen glow, as if guarding a secret, creating intrigue",
+      "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Fuji 400H, close-up of a figure's face half in shadow half illuminated by cool blue screen light, only one eye and half the mouth visible, the visible eye has an intense focused gaze, slight asymmetric smile with one corner barely raised, jaw slightly clenched, visible stubble more pronounced on one side, a small scar near the hairline, wearing a dark crew neck sweater with a loose thread, the screen light creates a cold blue catchlight in the visible eye, the dark half of the face merges with deep black background, visible film grain especially in shadows, face filling lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "very slow push in, screen light subtly pulses, the figure doesn't move",
+      "voiceover_text": "投资人问秘诀，他没说话，打开了一个后台。六千个AI，同时在跑。",
+      "voiceover_pause_markers": "投资人问秘诀<#0.2#>他没说话<#0.3#>打开了一个后台。<#0.3#>六千个AI<#0.2#>同时在跑。",
+      "subtitle_text": "六千个AI 同时在跑"
+    },
+    {
+      "id": "S06",
+      "type": "body",
+      "duration_sec": 5,
+      "shot_type": "wide",
+      "emotion": "fear",
+      "emotion_arc": "恐惧",
+      "reference_file": "S06-恐惧.png",
+      "visual_description": "one person at a small desk surrounded by many real LCD monitors showing data, tiny human vs vast digital infrastructure",
+      "reference_prompt": "shot on Sony A7III 35mm f/2.0 available light Fuji Pro 400H, a single person sitting at a small cluttered desk in a dark room surrounded by six regular LCD monitors on adjustable arms arranged in a semicircle around them, each screen displaying different data dashboards with green and blue numbers line charts and code, the combined screen glow illuminates the person's face with cool blue-white light creating deep shadows, visible tired eyes with slight dark circles and one eyebrow slightly raised, wearing a faded dark t-shirt with a small stain near the collar, one hand on keyboard the other holding a cold instant noodle cup, tangled cables visible behind the monitors, a half-empty water bottle and scattered sticky notes on the desk, the contrast between the tiny person and the wall of screens creates a feeling of being overwhelmed by data, cool blue screen tones with warm ambient darkness, visible film grain, person small in lower third, monitors filling upper frame, vertical composition 9:16",
+      "motion_prompt": "slow pull back revealing more monitors around the person, the figure appears increasingly small against the screens",
+      "voiceover_text": "他不是在裁员。他在验证一件事：未来公司，不需要那么多人。",
+      "voiceover_pause_markers": "他不是在裁员。<#0.3#>他在验证一件事<#0.2#>未来公司<#0.2#>不需要那么多人。",
+      "subtitle_text": "未来公司 不需要那么多人"
+    },
+    {
+      "id": "S07",
+      "type": "cta",
+      "duration_sec": 4,
+      "shot_type": "medium",
+      "emotion": "engagement",
+      "emotion_arc": "参与",
+      "reference_file": "S07-参与.png",
+      "visual_description": "a person turned toward camera with an intense but honest expression, as if asking you directly, demanding an answer",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.8 Kodak Portra 400, medium shot of a person turned slightly toward camera with an intense direct gaze and slightly raised eyebrows, mouth open mid-question with one corner slightly higher, visible forehead creases from genuine concern, wearing a plain dark henley shirt with top button undone, warm window light from the left creating soft directional shadows, one hand raised slightly palm up in a questioning gesture, the background is a simple dark wall with a single framed photo, warm natural tones with visible film grain, unretouched documentary feel, person in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle natural breathing, eyes locked on camera, slight head tilt",
+      "voiceover_text": "你觉得你的岗位，AI多久能替代？评论区聊聊。",
+      "voiceover_pause_markers": "你觉得你的岗位<#0.2#>AI多久能替代？<#0.3#>评论区聊聊。",
+      "subtitle_text": "你的岗位 AI多久能替代？"
+    }
+  ],
+
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "model": "gemini-3.1-flash",
+    "voice": "Charon",
+    "sample_rate": 44100,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "像在讲一个震撼的故事，不是在念稿。语气像朋友告诉你一个惊天大新闻。说到数字时放慢加重，'六千人'、'九成'、'八十'要掷地有声。最后一句问话要真诚，不是挑衅，是真的在问。整体节奏偏快，不拖沓"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 12,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/cinematic_dark_01.mp3",
+    "bgm_volume_pct": 10,
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 18,
+    "lens_glow_intensity_pct": 12,
+    "saturation_adjust": -8,
+    "contrast_adjust": 8,
+    "sharpness_adjust": -3,
+    "vignette": 0.3
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "马斯克裁了6000人，公司效率反而更高",
+      "裁员80%效率反升，马斯克的秘密只有三个字",
+      "未来公司的最小单元不是人，马斯克正在证明这件事"
+    ],
+    "tags": ["AI", "马斯克", "人工智能", "裁员", "自动化", "职场"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "暗色调背景，蓝色数据光，剪影+裁员数字对比"
+  }
+}

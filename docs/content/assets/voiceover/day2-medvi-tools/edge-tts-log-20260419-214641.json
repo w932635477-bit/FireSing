@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-19T21:46:41.465048",
+  "engine": "edge-tts",
+  "voice_id": "zh-CN-YunxiNeural",
+  "video_id": "day2-medvi-tools",
+  "total_duration_s": 8.98,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day2-medvi-tools/S01.mp3",
+      "duration_s": 8.976,
+      "status": "success",
+      "actual_duration_s": 8.976,
+      "voiceover_text": "马斯克哪里是给自己公司定规矩。分明是给全行业定规矩。六千人，说裁就裁了。",
+      "emotion": "shock"
+    }
+  ]
+}
