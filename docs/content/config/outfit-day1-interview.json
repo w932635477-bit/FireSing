@@ -1,10 +1,10 @@
 {
-  "video_id": "sings-outfit-template",
+  "video_id": "outfit-day1-interview",
   "workflow": "sings",
-  "version": "2.0",
+  "version": "1.0",
   "created": "2026-04-22",
-  "status": "template",
-  "strategy_notes": "小红书穿搭对比对唱模板。每期一个场景，杨梦展示两套穿搭A/B，男女对唱讲穿搭逻辑",
+  "status": "draft",
+  "strategy_notes": "小红书穿搭对比第1集：面试穿搭A vs B。杨梦穿深蓝西装 vs 针织衫，讲面试穿搭法则",
 
   "global": {
     "target_duration_sec": 37,
@@ -14,7 +14,7 @@
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "kling_seed": null,
+    "kling_seed": 10001,
     "style": "outfit_compare",
     "color_temperature": "warm_bright",
     "accent_color": "#e8a87c",
@@ -30,47 +30,47 @@
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["[场景提问 ≤12字]", "[女声回应 ≤12字]"],
-        "rhyme": "a",
+        "lines": ["面试穿西装还是休闲", "评委看第一眼 定你行不行"],
+        "rhyme": "an",
         "segment_ref": "S01",
         "type": "hook"
       },
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["[A套描述 ≤12字]", "[A套点评 ≤10字]"],
-        "rhyme": "e",
+        "lines": ["A套 深蓝西装白衬衫", "经典不出错 但太正式"],
+        "rhyme": "an",
         "segment_ref": "S02",
         "type": "body"
       },
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["[A套细节/缺点 ≤12字]", "[A套总结 ≤10字 押韵]"],
-        "rhyme": "e",
+        "lines": ["这条领带像去银行", "科技公司穿成这样太紧张"],
+        "rhyme": "ang",
         "segment_ref": "S02",
         "type": "body"
       },
       {
         "id": "B04",
         "beat_count": 4,
-        "lines": ["[B套描述 ≤12字]", "[B套点评 ≤10字]"],
-        "rhyme": "i",
+        "lines": ["B套 针织衫搭深色裤", "干净有层次 不装成熟"],
+        "rhyme": "u",
         "segment_ref": "S03",
         "type": "body"
       },
       {
         "id": "B05",
         "beat_count": 4,
-        "lines": ["[B套优点 ≤12字]", "[B套总结 ≤10字 押韵]"],
-        "rhyme": "i",
+        "lines": ["做你自己就够自信", "不用西装也能赢"],
+        "rhyme": "in",
         "segment_ref": "S03",
         "type": "body"
       },
       {
         "id": "B06",
         "beat_count": 4,
-        "lines": ["[穿搭法则1 ≤12字]", "[法则1解释 ≤10字 押韵]"],
+        "lines": ["法则一 看行业定基调", "金融正式 互联网太拘谨反而不妙"],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -78,7 +78,7 @@
       {
         "id": "B07",
         "beat_count": 4,
-        "lines": ["[穿搭法则2 ≤12字]", "[法则2解释 ≤10字 押韵]"],
+        "lines": ["法则二 合身比品牌重要", "肩膀对不上号 大牌也像借来的搞笑"],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -86,8 +86,8 @@
       {
         "id": "B08",
         "beat_count": 4,
-        "lines": ["[CTA提问 ≤12字]", "[CTA引导 ≤10字 押韵]"],
-        "rhyme": "a",
+        "lines": ["面试穿搭你站A还是B", "评论区投票 告诉我你的品味"],
+        "rhyme": "i",
         "segment_ref": "S05",
         "type": "cta"
       }
@@ -95,24 +95,24 @@
   },
 
   "script": {
-    "topic": "[选题：穿搭场景名称]",
+    "topic": "面试穿搭：西装正式 vs 针织干练",
     "source": "原创穿搭对比",
     "hook_type": "scenario_question",
     "cta_action": "投票A/B",
     "cta_keyword": "评论区投票",
     "outfit_a": {
-      "name": "[A套名称]",
-      "description": "[A套描述]",
-      "keywords": ["[关键词1]", "[关键词2]", "[关键词3]"]
+      "name": "深蓝西装白衬衫",
+      "description": "经典正式，适合金融/传统行业面试",
+      "keywords": ["正式", "经典", "专业"]
     },
     "outfit_b": {
-      "name": "[B套名称]",
-      "description": "[B套描述]",
-      "keywords": ["[关键词1]", "[关键词2]", "[关键词3]"]
+      "name": "针织衫深色裤",
+      "description": "干练有层次，适合科技/创意行业面试",
+      "keywords": ["干练", "层次", "自信"]
     },
     "fashion_rules": [
-      "[穿搭法则1]",
-      "[穿搭法则2]"
+      "看行业定基调：金融正式，互联网太拘谨反而不好",
+      "合身比品牌重要：肩膀对不上号，大牌也像借来的"
     ],
     "anti_ad_measures": [
       "不提任何品牌或产品推荐",
@@ -129,8 +129,8 @@
       "duration_sec": 6,
       "shot_type": "wide",
       "emotion": "playful",
-      "visual_description": "[杨梦全身两套穿搭并排/快速切换对比]",
-      "reference_prompt": "[杨梦穿搭对比参考图prompt]",
+      "visual_description": "杨梦两套面试穿搭并排对比",
+      "reference_prompt": "Candid photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, standing in a bright modern office lobby with floor-to-ceiling windows, wearing a navy blazer over white shirt, one arm relaxed at side, confident smile, soft natural daylight from the left, cream white walls, bright airy atmosphere, natural skin texture, visible noise, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
       "lyrics_refs": ["B01"]
     },
@@ -140,8 +140,8 @@
       "duration_sec": 6,
       "shot_type": "medium",
       "emotion": "confident",
-      "visual_description": "[杨梦穿A套特写，展示细节]",
-      "reference_prompt": "[A套参考图prompt]",
+      "visual_description": "杨梦穿A套：深蓝西装白衬衫，办公室背景",
+      "reference_prompt": "Candid photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a well-fitted navy blue blazer over a crisp white button-down shirt, dark tailored trousers, simple leather watch, small stud earrings, standing in a bright modern office lobby with floor-to-ceiling windows, confident posture with arms relaxed at sides, slight smile, soft natural daylight from the left, cream white walls, bright airy atmosphere, natural skin texture, visible noise, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B02", "B03"]
     },
@@ -151,8 +151,8 @@
       "duration_sec": 6,
       "shot_type": "medium",
       "emotion": "elegant",
-      "visual_description": "[杨梦穿B套特写，展示细节]",
-      "reference_prompt": "[B套参考图prompt]",
+      "visual_description": "杨梦穿B套：针织衫深色裤，办公室背景",
+      "reference_prompt": "Candid photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream knit sweater with subtle ribbed texture, dark slim-fit chinos, minimalist leather belt, delicate gold necklace, standing in a bright modern office lobby with floor-to-ceiling windows, relaxed confident stance, one hand in pocket, genuine smile, soft natural daylight from the left, cream white walls, bright airy atmosphere, natural skin texture, visible noise, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B04", "B05"]
     },
@@ -166,7 +166,7 @@
       "reference_prompt": "text_card",
       "motion_prompt": "text_card",
       "text_card_config": {
-        "lines": ["[穿搭法则1]", "[穿搭法则2]"],
+        "lines": ["面试穿搭法则", "① 看行业定基调", "② 合身比品牌重要"],
         "font_size": 48,
         "font_color": "#2d2d2d",
         "bg_color": "#f5e6d3",
@@ -180,8 +180,8 @@
       "duration_sec": 6,
       "shot_type": "close-up",
       "emotion": "warm",
-      "visual_description": "[杨梦直视镜头微笑，CTA画面]",
-      "reference_prompt": "[杨梦微笑参考图prompt]",
+      "visual_description": "杨梦直视镜头微笑，CTA投票引导",
+      "reference_prompt": "Candid photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, looking directly at camera with warm inviting smile, wearing a cream knit sweater, bright cream-colored background, soft diffused lighting, close-up from chest up, natural skin texture, visible noise, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle movement",
       "lyrics_refs": ["B08"]
     }
@@ -262,13 +262,13 @@
   "publishing": {
     "platforms": ["xiaohongshu"],
     "title_candidates": [
-      "[标题1：场景+提问]",
-      "[标题2：穿搭对比]",
-      "[标题3：法则/结论]"
+      "面试穿A还是B 一秒定胜负",
+      "面试穿搭两套对比 你站哪边",
+      "面试穿搭法则 看行业定基调"
     ],
-    "tags": ["穿搭对比", "OOTD", "杨梦穿搭", "场景穿搭", "穿搭法则"],
+    "tags": ["穿搭对比", "OOTD", "面试穿搭", "职场穿搭", "杨梦穿搭"],
     "xiaohongshu_tags": ["穿搭对比", "OOTD", "面试穿搭", "职场穿搭", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
     "publish_times": ["12:00", "18:00"],
-    "cover_description": "杨梦A/B穿搭对比 + 场景关键词大字 + 明亮奶油色背景"
+    "cover_description": "杨梦面试A/B穿搭对比 + '面试穿搭' 大字 + 奶油白背景"
   }
 }
