@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-21T20:36:36.856163",
+  "engine": "doubao-tts-2.0",
+  "voice_id": "zh_female_tvbnv_uranus_bigtts",
+  "video_id": "day5-yangmun",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "TTS error code 45000030: [resource_id=volc.seedtts.default] requested resource not granted"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 VOICES = [
     "Charon", "Orus", "Iapetus", "Sadaltager", "Sulafat",
     "Puck", "Fenrir", "Kore", "Aoede", "Ledas",
+    "Enceladus", "Zephyr", "Vindemiatrix", "Leda", "Sadachbia",
 ]
 
 # Unified narrator profile — same person throughout the whole video
@@ -80,6 +81,27 @@ EMOTION_PROMPTS = {
         "scene": NARRATOR_SCENE,
         "director": "Warm, direct invitation. Use [warmly] and speak with quiet certainty. This is a friend making a genuine recommendation, not a sales pitch. End with natural conviction.",
     },
+    # Yang Mun character emotions (Day4)
+    "determined": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Narrating a business efficiency video exposing wasted human labor.",
+        "director": "Speak with quiet anger and conviction. Use [confidently] to call out inefficiency. Not shouting, but firm. Each sentence should land like a fact, not an opinion. Slow down before the key insight.",
+    },
+    "power": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Delivering business rules that separate winners from losers.",
+        "director": "Authority mode. Use [seriously] for the rule, then [impressed] for the result. Let numbers hit hard. Short pauses between statements. Sound like someone who has seen this truth firsthand.",
+    },
+    "contemplative": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Reflecting on what speed really means for survival.",
+        "director": "Slow down. Use [thoughtfully] throughout. This is reflection, not attack. Each example should feel like turning a page. End with quiet certainty, not aggression.",
+    },
+    "warm": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Turning business lessons into a personal call to action.",
+        "director": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure.",
+    },
 }
 
 AUDIO_TAGS = {
@@ -90,6 +112,10 @@ AUDIO_TAGS = {
     "contrast": ["[serious]", "[impressed]"],
     "joy": ["[cheerfully]", "[laughing]"],
     "trust": ["[warmly]", "[confidently]"],
+    "determined": ["[confidently]", "[seriously]"],
+    "power": ["[seriously]", "[impressed]"],
+    "contemplative": ["[thoughtfully]", "[softly]"],
+    "warm": ["[warmly]", "[gently]"],
 }
 
 
@@ -278,7 +304,7 @@ def main():
 
     for i, seg in enumerate(segments):
         text = seg.get("voiceover_text", "")
-        emotion = seg.get("emotion", "")
+        emotion = seg.get("emotion", seg.get("emotion_arc", ""))
         if not text:
             print(f"  [{seg['id']}] SKIPPED — no text")
             continue

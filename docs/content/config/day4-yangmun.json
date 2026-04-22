@@ -1,0 +1,157 @@
+{
+  "video_id": "day4-yangmun",
+  "version": "4.0",
+  "created": "2026-04-20",
+  "status": "script_updated",
+  "strategy": "yangmun-emotion-ip",
+  "global": {
+    "target_duration_sec": 79,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 12345,
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "warm",
+    "accent_color": "#c9a96e"
+  },
+  "script": {
+    "topic": "马斯克的3条效率铁律：一个人的公司，比十个人跑得更快",
+    "hook_type": "celebrity_quote",
+    "cta_action": "评论",
+    "cta_keyword": "评论区聊聊"
+  },
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 14,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, eyes wide with quiet amazement lips slightly parted, dark charcoal background with a warm amber accent light from the side, warm directional light from upper left casting soft shadows on her face, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle ambient light shift",
+      "voiceover_text": "马斯克说过一句话：如果你不淘汰自己，市场会替你淘汰。他亲手裁掉六千人，眼都不眨。不是因为心狠。是因为他知道一个绝大多数人不敢承认的事实。",
+      "voiceover_pause_markers": "马斯克说过一句话<#0.3#>如果你不淘汰自己<#0.2#>市场会替你淘汰。<#0.5#>他亲手裁掉六千人<#0.2#>眼都不眨。<#0.5#>不是因为心狠。<#0.3#>是因为他知道一个绝大多数人不敢承认的事实。",
+      "subtitle_text": "\"如果你不淘汰自己\\N市场会替你淘汰\""
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 22,
+      "shot_type": "close-up",
+      "emotion_arc": "determined",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, confident direct gaze slight knowing smile chin slightly raised, warm cream wall with a single soft window light casting long shadows, warm directional light from the right creating gentle falloff into shadow, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, warm light shift",
+      "voiceover_text": "你见过凌晨三点还在改海报的设计师吗？改一个Logo，等三天。换个配色，又等两天。不是设计师不努力，是他在用人力对抗机器该干的活。马斯克说过：用最少的资源做最多的事，这才叫效率。那个凌晨三点还在加班的人，本不该加那个班。",
+      "voiceover_pause_markers": "你见过凌晨三点还在改海报的设计师吗？<#0.5#>改一个Logo<#0.2#>等三天。<#0.2#>换个配色<#0.2#>又等两天。<#0.5#>不是设计师不努力<#0.2#>是他在用人力对抗机器该干的活。<#0.5#>马斯克说过<#0.2#>用最少的资源做最多的事<#0.2#>这才叫效率。<#0.5#>那个凌晨三点还在加班的人<#0.3#>本不该加那个班。",
+      "subtitle_text": "铁律一：重复劳动是最大的浪费\\N凌晨三点改海报的设计师"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 16,
+      "shot_type": "close-up",
+      "emotion_arc": "power",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, strong direct eye contact jaw set with determination, minimalist concrete wall one warm-toned desk lamp creating a pool of light, warm directional light from upper left casting dramatic shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "very slow drift, dramatic shadow shift",
+      "voiceover_text": "铁律二，贵不是问题，慢才是。马斯克说：拖延是最大的成本。十个人磨一个月的方案，一个人加AI三天就能交付。省的不是钱。省的是你的人生。",
+      "voiceover_pause_markers": "铁律二<#0.3#>贵不是问题<#0.2#>慢才是。<#0.5#>马斯克说<#0.2#>拖延是最大的成本。<#0.5#>十个人磨一个月的方案<#0.2#>一个人加AI三天就能交付。<#0.5#>省的不是钱。<#0.3#>省的是你的人生。",
+      "subtitle_text": "铁律二：贵不是问题 慢才是\\N10个人磨1月 → 1个人3天"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 15,
+      "shot_type": "close-up",
+      "emotion_arc": "contemplative",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, looking slightly downward thoughtful expression hand near chin, soft gradient from warm gold to deep burgundy no objects, warm amber backlight creating a soft rim light on hair and shoulders, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow subtle sway, golden light gentle pulse",
+      "voiceover_text": "铁律三，速度决定生存。SpaceX裁完人，火箭照发。特斯拉裁完人，车照卖。马斯克说：只有偏执狂才能生存。不是因为心狠才能赢。是因为动作快的人才配留在场上。",
+      "voiceover_pause_markers": "铁律三<#0.3#>速度决定生存。<#0.5#>SpaceX裁完人<#0.2#>火箭照发。<#0.2#>特斯拉裁完人<#0.2#>车照卖。<#0.5#>马斯克说<#0.2#>只有偏执狂才能生存。<#0.5#>不是因为心狠才能赢。<#0.3#>是因为动作快的人才配留在场上。",
+      "subtitle_text": "铁律三：速度决定生存\\N动作快的人才配留在场上"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion_arc": "warm",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, gentle warm smile eyes soft relaxed shoulders leaning slightly forward, out-of-focus bookshelf with warm-toned spines shallow depth of field, golden hour window light from the side with gentle falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle lean forward, warm light steady",
+      "voiceover_text": "马斯克说的不是SpaceX，不是特斯拉。说的是你。你每天在做的事，有多少是你自己都不想做的？评论区聊聊。",
+      "voiceover_pause_markers": "马斯克说的不是SpaceX<#0.2#>不是特斯拉。<#0.5#>说的是你。<#0.5#>你每天在做的事<#0.2#>有多少是你自己都不想做的？<#0.3#>评论区聊聊。",
+      "subtitle_text": "马斯克说的不是SpaceX\\N说的是你"
+    }
+  ],
+  "voiceover": {
+    "engine": "edge_tts",
+    "voice": "zh-CN-YunxiNeural",
+    "rate": "-10%",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "沉稳男声，语速偏慢，Yang Mun 式节奏，关键数字加重语气，每个分段之间留 0.5s 停顿"
+  },
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/ambient_warm_01.mp3",
+    "bgm_volume_pct": 8,
+    "transitions": "crossfade_1s",
+    "subtitle_source": "auto_from_script"
+  },
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
+  },
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "AI替代10人设计团队，月成本8万降到3千",
+      "1个人干10个人的活，月成本只要3千",
+      "月成本8万→3千，AI正在改写规则"
+    ],
+    "tags": ["AI替代", "一人公司", "AI设计", "降本增效", "AI工具"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "米白亚麻衫女性角色，暗色背景，金色文字叠加"
+  }
+}

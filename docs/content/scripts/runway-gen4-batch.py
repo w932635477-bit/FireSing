@@ -58,10 +58,12 @@ def load_shots_from_config(config_path: Path) -> list[dict]:
             ref_candidates = sorted(REFERENCE_DIR.glob(f"{seg['id']}-*.png"))
             ref_file = ref_candidates[0].name if ref_candidates else f"{seg['id']}.png"
 
+        runway_duration = min(video_cfg.get("duration_sec", 5), 10)
         shots.append({
             "id": seg["id"],
             "name": name,
-            "duration": seg.get("duration_sec", 5),
+            "duration": runway_duration,
+            "segment_duration": seg.get("duration_sec", 5),
             "ratio": video_cfg.get("resolution", "720x1280").replace("x", ":"),
             "prompt": motion_prompt,
             "reference_file": ref_file,

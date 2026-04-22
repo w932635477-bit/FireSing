@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-21T16:02:24.741474",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "docs/content/assets/references/day5-yangmun/S01-shock.png",
+      "task_id": "task-unified-1776758240-01hhen3h",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "docs/content/assets/references/day5-yangmun/S02-determined.png",
+      "task_id": "task-unified-1776758305-est9tmc0",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "docs/content/assets/references/day5-yangmun/S03-power.png",
+      "task_id": "task-unified-1776758360-tikdfz2j",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "docs/content/assets/references/day5-yangmun/S04-contemplative.png",
+      "task_id": "task-unified-1776758416-5lprmbll",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "docs/content/assets/references/day5-yangmun/S05-warm.png",
+      "task_id": "task-unified-1776758479-6inwnz0b",
+      "status": "success"
+    }
+  ]
+}

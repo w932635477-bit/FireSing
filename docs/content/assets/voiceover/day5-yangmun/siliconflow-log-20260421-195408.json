@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-04-21T19:54:08.872514",
+  "engine": "siliconflow-fish-speech-1.5",
+  "voice_id": "fishaudio/fish-speech-1.5:claire",
+  "video_id": "day5-yangmun",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "Speech.create() got an unexpected keyword argument 'gain'"
+    },
+    {
+      "segment": "S02",
+      "status": "error",
+      "error": "Speech.create() got an unexpected keyword argument 'gain'"
+    },
+    {
+      "segment": "S03",
+      "status": "error",
+      "error": "Speech.create() got an unexpected keyword argument 'gain'"
+    },
+    {
+      "segment": "S04",
+      "status": "error",
+      "error": "Speech.create() got an unexpected keyword argument 'gain'"
+    },
+    {
+      "segment": "S05",
+      "status": "error",
+      "error": "Speech.create() got an unexpected keyword argument 'gain'"
+    }
+  ]
+}

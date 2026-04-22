@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-21T20:45:04.420132",
+  "engine": "doubao-tts-2.0",
+  "voice_id": "zh_female_vv_uranus_bigtts",
+  "video_id": "day5-yangmun",
+  "total_duration_s": 15.7,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S01.mp3",
+      "duration_s": 15.696,
+      "status": "success",
+      "actual_duration_s": 15.696,
+      "voiceover_text": "马斯克说过：当一件事足够重要，就算胜算是零，你也得干。2008年，SpaceX三次发射三次爆炸。特斯拉快破产了。他把自己最后的钱分成两份，投进去。所有人都说他疯了。",
+      "emotion": "shock"
+    }
+  ]
+}

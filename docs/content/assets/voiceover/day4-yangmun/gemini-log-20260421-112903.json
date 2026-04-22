@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-04-21T11:29:03.268829",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day4-yangmun",
+  "total_duration_s": 92.64,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day4-yangmun/S01.mp3",
+      "duration_s": 15.44,
+      "status": "success",
+      "actual_duration_s": 15.44,
+      "voiceover_text": "马斯克说过一句话：如果你不淘汰自己，市场会替你淘汰。他亲手裁掉六千人，眼都不眨。不是因为心狠。是因为他知道一个绝大多数人不敢承认的事实。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day4-yangmun/S02.mp3",
+      "duration_s": 26.6,
+      "status": "success",
+      "actual_duration_s": 26.6,
+      "voiceover_text": "你见过凌晨三点还在改海报的设计师吗？改一个Logo，等三天。换个配色，又等两天。不是设计师不努力，是他在用人力对抗机器该干的活。马斯克说过：用最少的资源做最多的事，这才叫效率。那个凌晨三点还在加班的人，本不该加那个班。",
+      "director_notes": "Speak with quiet anger and conviction. Use [confidently] to call out inefficiency. Not shouting, but firm. Each sentence should land like a fact, not an opinion. Slow down before the key insight."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day4-yangmun/S03.mp3",
+      "duration_s": 16.48,
+      "status": "success",
+      "actual_duration_s": 16.48,
+      "voiceover_text": "铁律二，贵不是问题，慢才是。马斯克说：拖延是最大的成本。十个人磨一个月的方案，一个人加AI三天就能交付。省的不是钱。省的是你的人生。",
+      "director_notes": "Authority mode. Use [seriously] for the rule, then [impressed] for the result. Let numbers hit hard. Short pauses between statements. Sound like someone who has seen this truth firsthand."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day4-yangmun/S04.mp3",
+      "duration_s": 23.32,
+      "status": "success",
+      "actual_duration_s": 23.32,
+      "voiceover_text": "铁律三，速度决定生存。SpaceX裁完人，火箭照发。特斯拉裁完人，车照卖。马斯克说：只有偏执狂才能生存。不是因为心狠才能赢。是因为动作快的人才配留在场上。",
+      "director_notes": "Slow down. Use [thoughtfully] throughout. This is reflection, not attack. Each example should feel like turning a page. End with quiet certainty, not aggression."
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day4-yangmun/S05.mp3",
+      "duration_s": 10.8,
+      "status": "success",
+      "actual_duration_s": 10.8,
+      "voiceover_text": "马斯克说的不是SpaceX，不是特斯拉。说的是你。你每天在做的事，有多少是你自己都不想做的？评论区聊聊。",
+      "director_notes": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure."
+    }
+  ]
+}

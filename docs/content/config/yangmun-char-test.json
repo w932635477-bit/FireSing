@@ -1,0 +1,42 @@
+{
+  "video_id": "yangmun-char-test",
+  "title": "Yang Mun Style Character Anchor Consistency Test",
+  "description": "Test v4.0 prompt methodology: same character, different expressions/backgrounds. Verify Seedream cross-image consistency.",
+  "strategy": "yangmun-test",
+  "segments": [
+    {
+      "id": "T01",
+      "emotion_arc": "shock",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, eyes wide with quiet amazement lips slightly parted, dark charcoal background with a warm amber accent light from the side, warm directional light from upper left casting soft shadows on her face, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "voiceover_text": "test - shock expression"
+    },
+    {
+      "id": "T02",
+      "emotion_arc": "determined",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, confident direct gaze slight knowing smile chin slightly raised, minimal warm cream wall with a single soft window light casting long shadows, warm directional light from the right creating gentle falloff into shadow, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "voiceover_text": "test - determined expression"
+    },
+    {
+      "id": "T03",
+      "emotion_arc": "contemplative",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, looking slightly downward thoughtful expression hand near chin, soft gradient from warm gold to deep burgundy no objects, warm amber backlight creating a soft rim light on hair and shoulders, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "voiceover_text": "test - contemplative expression"
+    },
+    {
+      "id": "T04",
+      "emotion_arc": "warm",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, gentle warm smile eyes soft relaxed shoulders, out-of-focus bookshelf with warm-toned spines shallow depth of field, golden hour window light from the side with gentle falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "voiceover_text": "test - warm expression"
+    },
+    {
+      "id": "T05",
+      "emotion_arc": "power",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, strong direct eye contact jaw set with determination, minimalist concrete wall one warm-toned desk lamp creating a pool of light, warm directional light from upper left casting dramatic shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "voiceover_text": "test - power expression"
+    }
+  ],
+  "reference_images": {
+    "candidates_per_segment": 2,
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "video_id": "day5-yangmun",
+  "version": "4.0",
+  "created": "2026-04-21",
+  "status": "script_draft",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day5 马斯克被说100次不可能的3条逆袭法则。流量优先策略，恐惧+赋能双驱动。全部素材重新生成，不复用Day4，防平台查重",
+
+  "global": {
+    "target_duration_sec": 79,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "runway_seed": 56789,
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "warm",
+    "accent_color": "#c9a96e"
+  },
+
+  "script": {
+    "topic": "马斯克被说了100次不可能：3条逆袭法则",
+    "hook_type": "celebrity_quote",
+    "cta_action": "评论",
+    "cta_keyword": "评论区聊聊",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 14,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "reference_file": "day5-yangmun/S01-shock.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, cinematic portrait 85mm f/1.4 shallow depth of field soft warm bokeh, eyes wide with quiet amazement lips slightly parted, deep navy blue background with a single warm amber spotlight from above, warm side light from the right casting gentle shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle ambient light shift",
+      "voiceover_text": "马斯克说过：当一件事足够重要，就算胜算是零，你也得干。2008年，SpaceX三次发射三次爆炸。特斯拉快破产了。他把自己最后的钱分成两份，投进去。所有人都说他疯了。",
+      "voiceover_pause_markers": "马斯克说过<#0.2#>当一件事足够重要<#0.2#>就算胜算是零<#0.2#>你也得干。<#0.5#>2008年<#0.2#>SpaceX三次发射三次爆炸。<#0.3#>特斯拉快破产了。<#0.3#>他把自己最后的钱分成两份<#0.2#>投进去。<#0.3#>所有人都说他疯了。",
+      "subtitle_text": "\"就算胜算是零\\N你也得干\"",
+      "musk_overlay": {
+        "enabled": true,
+        "source": "docs/content/assets/references/musk/day5-musk-hook.jpg",
+        "duration_sec": 7,
+        "transition": "hard_cut",
+        "note": "新找一张不同于Day4的Musk照片，裁为9:16后放入此路径"
+      }
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 22,
+      "shot_type": "close-up",
+      "emotion_arc": "determined",
+      "reference_file": "day5-yangmun/S02-determined.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, medium format portrait Hasselblad X2D natural skin rendering, confident direct gaze slight knowing smile chin slightly raised, muted olive green wall with a single warm desk lamp creating a cone of light, warm directional light from the left with soft falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, warm light shift",
+      "voiceover_text": "铁律一：否定你的人，说的是他自己，不是你。你想做一件事的时候，第一个说不行的是谁？爸妈？朋友？还是你自己？马斯克从来不跟嘲笑他的人辩论。2003年所有人说电动车不可能。他把车造出来了。2020年，特斯拉成了全球市值最高的车企。不是你做不到。是他们不敢。",
+      "voiceover_pause_markers": "铁律一<#0.3#>否定你的人<#0.2#>说的是他自己<#0.2#>不是你。<#0.5#>你想做一件事的时候<#0.2#>第一个说不行的是谁？<#0.3#>爸妈？<#0.2#>朋友？<#0.2#>还是你自己？<#0.5#>马斯克从来不跟嘲笑他的人辩论。<#0.3#>2003年所有人说电动车不可能。<#0.3#>他把车造出来了。<#0.3#>2020年<#0.2#>特斯拉成了全球市值最高的车企。<#0.5#>不是你做不到。<#0.3#>是他们不敢。",
+      "subtitle_text": "铁律一：否定你的人说的是自己\\N不是你做不到，是他们不敢"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 16,
+      "shot_type": "close-up",
+      "emotion_arc": "power",
+      "reference_file": "day5-yangmun/S03-power.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, editorial portrait photography soft window light film color science, strong direct eye contact jaw set with determination, deep charcoal background with warm copper rim light from behind, warm amber key light from upper right creating dramatic falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "very slow drift, dramatic shadow shift",
+      "voiceover_text": "铁律二：不反驳，只出货。SpaceX前三次发射全炸了。马斯克没有写长文解释，没有开发布会辩护。回去修火箭。第四次，最后一分钱，成了。你还在跟质疑你的人解释吗？别解释了。做出来，往桌上一放。",
+      "voiceover_pause_markers": "铁律二<#0.3#>不反驳<#0.2#>只出货。<#0.5#>SpaceX前三次发射全炸了。<#0.3#>马斯克没有写长文解释<#0.2#>没有开发布会辩护。<#0.5#>回去修火箭。<#0.3#>第四次<#0.2#>最后一分钱<#0.2#>成了。<#0.5#>你还在跟质疑你的人解释吗？<#0.3#>别解释了。<#0.2#>做出来<#0.2#>往桌上一放。",
+      "subtitle_text": "铁律二：不反驳，只出货\\N做出来，往桌上一放"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 15,
+      "shot_type": "close-up",
+      "emotion_arc": "contemplative",
+      "reference_file": "day5-yangmun/S04-contemplative.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Sony A7III 85mm f/1.8, looking slightly downward thoughtful expression hand near chin, soft warm taupe background with subtle textured plaster, warm golden hour light from behind left creating halo on hair, gentle fill light from the right, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow subtle sway, golden light gentle pulse",
+      "voiceover_text": "铁律三：半成品就冲出去。你有没有一个做了很久、改了很多遍、但一直没发布的东西？马斯克在火箭没造完的时候，就签了发射合同。特斯拉没量产，就收了三十万台订金。你藏起来的那个东西，该放出来了。",
+      "voiceover_pause_markers": "铁律三<#0.3#>半成品就冲出去。<#0.5#>你有没有一个做了很久<#0.2#>改了很多遍<#0.2#>但一直没发布的东西？<#0.5#>马斯克在火箭没造完的时候<#0.2#>就签了发射合同。<#0.3#>特斯拉没量产<#0.2#>就收了三十万台订金。<#0.5#>你藏起来的那个东西<#0.2#>该放出来了。",
+      "subtitle_text": "铁律三：半成品就冲出去\\N你藏起来的东西，该放出来了"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion_arc": "warm",
+      "reference_file": "day5-yangmun/S05-warm.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, gentle warm smile eyes soft relaxed shoulders leaning slightly forward, soft out-of-focus indoor plant leaves in background creating organic shapes, warm late afternoon light from a window to the left with long shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle lean forward, warm light steady",
+      "voiceover_text": "马斯克不是天才。他只是比所有人都早动手了一步。你不需要准备好。你需要的是动手。你身边有没有一个人，一直在跟你说做不到？评论区聊聊。",
+      "voiceover_pause_markers": "马斯克不是天才。<#0.3#>他只是比所有人都早动手了一步。<#0.5#>你不需要准备好。<#0.2#>你需要的是动手。<#0.5#>你身边有没有一个人<#0.2#>一直在跟你说做不到？<#0.3#>评论区聊聊。",
+      "subtitle_text": "他只是比所有人都早动手了一步\\N你身边谁一直在说你做不到？"
+    }
+  ],
+
+  "voiceover": {
+    "engine": "edge_tts",
+    "voice": "zh-CN-YunxiNeural",
+    "rate": "-10%",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "沉稳男声，语速偏慢，Yang Mun 式节奏，S02的'爸妈朋友'部分放慢加重，S03的'做出来往桌上一放'要有力量感，S04的'该放出来了'带紧迫感"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+
+  "video_generation": {
+    "engine": "runway_gen4",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/ambient_warm_01.mp3",
+    "bgm_volume_pct": 8,
+    "transitions": "hard_cut",
+    "transition_note": "S01 Musk到女性之间用硬切，保持冲击力",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "马斯克被说了100次不可能，然后呢",
+      "你身边有没有人一直在跟你说做不到",
+      "否定你的人，说的是他自己不是你"
+    ],
+    "tags": ["马斯克", "逆袭", "不可能", "行动力", "拒绝躺平", "励志"],
+    "xiaohongshu_title_candidates": [
+      "被人说做不到的时候看看这个",
+      "马斯克被嘲笑了一万次然后呢",
+      "你藏起来的那个东西该放出来了"
+    ],
+    "xiaohongshu_tags": ["马斯克", "励志", "行动力", "逆袭", "自我提升", "拒绝内耗", "不可能"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "米白亚麻衫女性角色坚定眼神，暗色背景，金色文字'3条逆袭法则'"
+  }
+}

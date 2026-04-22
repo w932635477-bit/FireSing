@@ -1,0 +1,14 @@
+{
+  "video_id": "sings04-yangmun",
+  "timestamp": "2026-04-21T13:37:39.614348",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 130,
+  "bars": 10,
+  "style": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, educational pop, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+  "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock",
+  "style_weight": 0.9,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1776749794-10ylfjgp",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/sings04-yangmun"
+}
