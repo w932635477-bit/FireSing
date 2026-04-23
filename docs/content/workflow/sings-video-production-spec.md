@@ -4,7 +4,7 @@
 > 工具链：Seedream 4.5 + Kling 3.0 + Suno AI + FFmpeg + 剪映
 > 工作流类型：**Sings**（穿搭场景对比对唱，音乐节拍驱动）
 > 本文档是 Sings 工作流的唯一权威标准
-> 最后更新：2026-04-22
+> 最后更新：2026-04-23
 > v1.0 说唱科普版本已归档，不再维护
 
 ---
@@ -284,14 +284,27 @@ natural skin texture, visible pores, fine hair strands, slight asymmetry,
 authentic beauty, NOT perfect, NOT retouched,
 ```
 
-**穿搭 Prompt 结构（6 层）：**
+**穿搭 Prompt 结构（7 层，基于行业最佳实践 v2.1）：**
 
-1. 角色锚定（上面段落，MUST）
-2. 服装描述（面料+颜色+版型+配件，MUST）
-3. 场景背景（明亮的现代空间，MUST）
-4. 姿势（站立/转身/微笑等，MUST）
-5. 光影（自然日光，柔和明亮，MUST）
-6. 构图 + `vertical composition 9:16`（MUST）
+> AI 模型对 prompt 前 5-8 个词权重最高，因此顺序很重要。
+> Prompt 长度控制在 30-100 词，太长会让模型迷失。
+> 用 3-5 个强有力的描述词，不用 20 个弱词。
+> 服装用具体面料名（"哑光精梳棉" 而非 "棉"，"真丝 Charmeuse" 而非 "闪亮面料"）。
+
+1. **整体美学/mood**（前 5-8 词决定基调，MUST）
+   - 全身: `Bright fashion lookbook editorial`
+   - 中景: `Fashion lookbook detail shot`
+   - 特写: `Warm intimate fashion portrait`
+2. 角色锚定（上面段落，MUST，逐字不变）
+3. 服装描述（具体面料名+颜色名+版型+配饰，MUST）
+4. 场景背景（明亮的现代空间，MUST）
+5. 姿势（站立/转身/微笑等，MUST）
+6. 光影（自然日光，柔和明亮，明确光源方向和色温，MUST）
+7. **相机/技术**（镜头焦段+景别+构图，MUST）
+   - 全身: `50mm lens, model centered with negative space above`
+   - 中景: `85mm portrait lens, shallow depth of field`
+   - 特写: `85mm portrait lens, shallow depth of field`
+   - 所有图末尾: `vertical composition 9:16`
 
 完整 prompt 模板见 `docs/content/config/outfit-seedream-prompts.md`。
 
@@ -301,7 +314,9 @@ authentic beauty, NOT perfect, NOT retouched,
 airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed,
 studio lighting, stock photo, 3D render, illustration, cartoon, anime,
 watermark, text, logo, oversaturated, mannequin, flawless, magazine cover,
-retouched, poreless skin, dark, moody, cinematic, film grain
+retouched, poreless skin, dark, moody, cinematic, film grain,
+wrinkled clothes, fabric distortion, texture error, stiff pose,
+cropped, cut off, out of frame, tilted, cluttered
 ```
 
 ### 6.4 每集参考图需求
