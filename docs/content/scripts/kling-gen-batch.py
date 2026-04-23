@@ -85,7 +85,7 @@ def load_shots(config_path: Path, include_stories: bool = False) -> list[dict]:
                     "id": story_id,
                     "name": story.get("description", story_id),
                     "prompt": story_prompt,
-                    "reference_file": f"{story_id}.png",
+                    "reference_file": story.get("reference_file", f"{story_id}.png"),
                     "emotion_arc": "",
                     "duration": min(video_cfg.get("duration_sec", 5), 10),
                     "type": "story",
