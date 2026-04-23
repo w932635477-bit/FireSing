@@ -130,6 +130,7 @@
       "shot_type": "wide",
       "emotion": "playful",
       "visual_description": "杨梦 A套碎花裙全身 vs B套针织牛仔全身，咖啡馆背景",
+      "reference_file": "S01-playful.png",
       "reference_prompt": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, paired with beige suede pointed-toe kitten heels, delicate gold chain necklace, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, hands clasped gently in front, confident but slightly nervous smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
       "reference_prompt_b": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, paired with medium blue straight-leg denim jeans and clean white canvas sneakers, silver stud earrings, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, one hand in jeans pocket, relaxed natural smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
       "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
@@ -142,6 +143,7 @@
       "shot_type": "medium",
       "emotion": "confident",
       "visual_description": "杨梦穿A套碎花裙中景特写，展示面料和版型细节",
+      "reference_file": "S02-confident.png",
       "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, delicate gold chain necklace, chiffon fabric catching light with natural drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing with arms relaxed at sides, looking slightly to the side, natural daylight from left side, soft directional shadows on fabric texture, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B02", "B03"]
@@ -153,6 +155,7 @@
       "shot_type": "medium",
       "emotion": "elegant",
       "visual_description": "杨梦穿B套针织衫牛仔裤中景特写，展示舒适自然风格",
+      "reference_file": "S03-elegant.png",
       "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, silver stud earrings, knit texture visible with natural yarn detail and soft drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing casually with one hand touching hair, natural confident smile, natural daylight from left side, soft shadows, warm skin tones, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B04", "B05"]
@@ -182,6 +185,7 @@
       "shot_type": "close-up",
       "emotion": "warm",
       "visual_description": "杨梦穿B套微笑特写，直视镜头，CTA投票画面",
+      "reference_file": "S05-warm.png",
       "reference_prompt": "Warm intimate fashion portrait, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing cream white ribbed knit sweater, natural minimal makeup, in a bright modern cafe, soft blurred background, direct eye contact with camera, warm genuine smile, slightly tilted head, natural daylight, soft catchlight in eyes, warm skin tones, close-up face and shoulders, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle movement",
       "lyrics_refs": ["B08"]

@@ -39,17 +39,24 @@ def image_to_data_uri(image_path: Path) -> str:
 
 
 def find_reference_image(shot_id: str, reference_file: str) -> Path | None:
-    exact = REFERENCE_DIR / reference_file
-    if exact.exists() and exact.is_file():
-        return exact
-    basename = reference_file.split("/")[-1]
-    exact2 = REFERENCE_DIR / basename
-    if exact2.exists() and exact2.is_file():
-        return exact2
+    if reference_file:
+        exact = REFERENCE_DIR / reference_file
+        if exact.exists() and exact.is_file():
+            return exact
+        basename = reference_file.split("/")[-1]
+        exact2 = REFERENCE_DIR / basename
+        if exact2.exists() and exact2.is_file():
+            return exact2
     if REFERENCE_DIR.exists():
-        for f in sorted(REFERENCE_DIR.iterdir()):
-            if f.name.startswith(shot_id) and f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
-                return f
+        candidates = [
+            f for f in REFERENCE_DIR.iterdir()
+            if f.name.startswith(shot_id + "-") and f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+        ]
+        if not candidates:
+            return None
+        non_numbered = [f for f in candidates if not f.stem.split("-")[-1].isdigit()]
+        chosen = non_numbered[0] if non_numbered else candidates[0]
+        return chosen
     return None
 
 
