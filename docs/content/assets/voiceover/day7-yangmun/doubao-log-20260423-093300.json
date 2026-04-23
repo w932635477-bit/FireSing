@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-04-23T09:33:00.309263",
+  "engine": "doubao-tts-2.0",
+  "voice_id": "zh_female_vv_uranus_bigtts",
+  "video_id": "day7-yangmun",
+  "total_duration_s": 73.39,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day7-yangmun/S01.mp3",
+      "duration_s": 10.8,
+      "status": "success",
+      "actual_duration_s": 10.8,
+      "voiceover_text": "你每天做的事，80%机器已经能做了。马斯克说过：我宁愿乐观且错误，也不要悲观且正确。但方向错了，乐观也没用。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day7-yangmun/S02.mp3",
+      "duration_s": 17.856,
+      "status": "success",
+      "actual_duration_s": 17.856,
+      "voiceover_text": "铁律一：忙碌是最隐蔽的偷懒。马斯克说过：我几乎所有时间都在思考，不是在做。你做100遍的表格，AI只要3秒。你熬夜改的PPT格式，AI一键就统一了。你在用忙碌，逃避真正重要的事。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day7-yangmun/S03.mp3",
+      "duration_s": 18.072,
+      "status": "success",
+      "actual_duration_s": 18.072,
+      "voiceover_text": "铁律二：跑得快不如跑得对。他造火箭时，所有人都说回收不可能。但燃料成本只占总成本的0.3%。不是不可能，是没人重新算过。他没换方向，他换了方法。你跑的方向，三年后还在吗？",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day7-yangmun/S04.mp3",
+      "duration_s": 20.256,
+      "status": "success",
+      "actual_duration_s": 20.256,
+      "voiceover_text": "铁律三：你越忙，越容易被替代。因为忙，没时间学新东西。因为没时间学，只能继续忙。马斯克说过：当一件事足够重要，即使胜算不大你也该去做。但你连什么才重要都没时间想。把时间，留给机器做不到的事。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day7-yangmun/S05.mp3",
+      "duration_s": 6.408,
+      "status": "success",
+      "actual_duration_s": 6.408,
+      "voiceover_text": "杨梦问你：你身边有没有那种特别努力，但一直没起来的人？他缺的到底是什么？",
+      "emotion": "shock"
+    }
+  ]
+}
