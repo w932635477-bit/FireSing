@@ -1,0 +1,282 @@
+{
+  "video_id": "outfit-day1-date",
+  "workflow": "sings",
+  "version": "2.0",
+  "created": "2026-04-23",
+  "status": "draft",
+  "strategy_notes": "小红书穿搭对比对唱第一期：初次约会穿搭。A套碎花裙+高跟(用力过猛) vs B套针织+牛仔(自然舒服)",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": 12345,
+    "style": "outfit_compare",
+    "color_temperature": "warm_bright",
+    "accent_color": "#e8a87c",
+    "bg_color": "#f5e6d3"
+  },
+
+  "lyrics": {
+    "bpm": 130,
+    "time_signature": "4/4",
+    "style": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "suno_tags": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["初次约会到底怎么穿", "太用力反而让人难堪"],
+        "rhyme": "an",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["A套碎花长裙细高跟", "精致是精致不像本人"],
+        "rhyme": "en",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["妆浓到走路不敢低头", "约会变成走红毯的秀"],
+        "rhyme": "ou",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["B套针织衫搭牛仔裤", "干净舒服自在不装酷"],
+        "rhyme": "u",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["小白鞋走哪都不紧张", "做自己就是最好的装"],
+        "rhyme": "ang",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["法则一 场合定基调", "约会穿太正式会吓跑"],
+        "rhyme": "ao",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["法则二 合身最重要", "穿得舒服才敢放开笑"],
+        "rhyme": "ao",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["初次约会你站A还是B", "评论区投票告诉我你的品味"],
+        "rhyme": "ei",
+        "segment_ref": "S05",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "初次约会穿搭：用力过猛 vs 自然舒服",
+    "source": "原创穿搭对比",
+    "hook_type": "scenario_question",
+    "cta_action": "投票A/B",
+    "cta_keyword": "评论区投票",
+    "outfit_a": {
+      "name": "碎花裙+高跟",
+      "description": "navy blue floral chiffon midi dress + beige kitten heels",
+      "keywords": ["碎花裙", "细高跟", "精致妆容"]
+    },
+    "outfit_b": {
+      "name": "针织+牛仔",
+      "description": "cream knit sweater + blue denim jeans + white sneakers",
+      "keywords": ["针织衫", "牛仔裤", "小白鞋"]
+    },
+    "fashion_rules": [
+      "场合定基调：约会不是走红毯，穿太正式适得其反",
+      "合身最重要：舒服才能做自己，做自己才最好看"
+    ],
+    "anti_ad_measures": [
+      "不提任何品牌或产品推荐",
+      "不引导私信、领取、关注",
+      "CTA用投票选择，激发评论互动",
+      "聚焦穿搭逻辑和审美，不卖任何东西"
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦 A套碎花裙全身 vs B套针织牛仔全身，咖啡馆背景",
+      "reference_prompt": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, paired with beige suede pointed-toe kitten heels, delicate gold chain necklace, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, hands clasped gently in front, confident but slightly nervous smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
+      "reference_prompt_b": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, paired with medium blue straight-leg denim jeans and clean white canvas sneakers, silver stud earrings, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, one hand in jeans pocket, relaxed natural smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
+      "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
+      "lyrics_refs": ["B01"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "confident",
+      "visual_description": "杨梦穿A套碎花裙中景特写，展示面料和版型细节",
+      "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, delicate gold chain necklace, chiffon fabric catching light with natural drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing with arms relaxed at sides, looking slightly to the side, natural daylight from left side, soft directional shadows on fabric texture, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
+      "motion_prompt": "slow turn, detail showcase, bright studio lighting",
+      "lyrics_refs": ["B02", "B03"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "elegant",
+      "visual_description": "杨梦穿B套针织衫牛仔裤中景特写，展示舒适自然风格",
+      "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, silver stud earrings, knit texture visible with natural yarn detail and soft drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing casually with one hand touching hair, natural confident smile, natural daylight from left side, soft shadows, warm skin tones, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
+      "motion_prompt": "slow turn, detail showcase, bright studio lighting",
+      "lyrics_refs": ["B04", "B05"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "text_card",
+      "emotion": "educational",
+      "visual_description": "穿搭法则文字卡",
+      "reference_prompt": "text_card",
+      "motion_prompt": "text_card",
+      "text_card_config": {
+        "lines": ["法则一 场合定基调", "法则二 合身最重要"],
+        "font_size": 48,
+        "font_color": "#2d2d2d",
+        "bg_color": "#f5e6d3",
+        "animation": "fade_in"
+      },
+      "lyrics_refs": ["B06", "B07"]
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "warm",
+      "visual_description": "杨梦穿B套微笑特写，直视镜头，CTA投票画面",
+      "reference_prompt": "Warm intimate fashion portrait, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing cream white ribbed knit sweater, natural minimal makeup, in a bright modern cafe, soft blurred background, direct eye contact with camera, warm genuine smile, slightly tilted head, natural daylight, soft catchlight in eyes, warm skin tones, close-up face and shoulders, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
+      "motion_prompt": "warm smile, direct eye contact, gentle movement",
+      "lyrics_refs": ["B08"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, wrinkled clothes, fabric distortion, texture error, stiff pose, cropped, cut off, out of frame, tilted, cluttered"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 2,
+    "motion_intensity": 4,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": true
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 0,
+    "lens_glow_intensity_pct": 5,
+    "saturation_adjust": 10,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -2,
+    "vignette": 0.05
+  },
+
+  "publishing": {
+    "platforms": ["xiaohongshu"],
+    "title_candidates": [
+      "初次约会穿A还是B？碎花裙vs针织牛仔",
+      "约会穿搭翻车现场：用力过猛反而输了",
+      "约会穿搭法则：场合定调 合身最重要"
+    ],
+    "tags": ["穿搭对比", "OOTD", "约会穿搭", "初次约会", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
+    "xiaohongshu_tags": ["穿搭对比", "OOTD", "约会穿搭", "初次约会", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦A/B穿搭对比 + '初次约会穿搭' 大字 + 明亮奶油色背景"
+  }
+}
