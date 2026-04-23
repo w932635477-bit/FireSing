@@ -466,6 +466,18 @@ S05 (情感收尾):
 - [ ] 情感收尾从名人转到观众自身（MUST）
 - [ ] CTA 是开放问题，不推销（MUST）
 
+#### 5.9 故事图规划（story_images）
+
+每段铁律在写脚本时同步规划 1-2 张故事场景图。故事图不包含角色肖像，而是展现文案提到的具体画面，让观众产生代入感。
+
+| 段落 | 故事图数量 | 内容来源 |
+|------|-----------|---------|
+| Hook | 1-2 | 钩子中的震撼画面（如工厂机器、数据爆发） |
+| 铁律段 | 2 | 铁律中的"对比画面"（如人力 vs AI） |
+| CTA | 0 | 角色特写已足够 |
+
+故事图写入 JSON config 的 `segments[].story_images` 数组，每条包含 `id`、`trigger_text`、`reference_prompt`、`motion_prompt`。故事图 prompt 遵循 6 层结构，但不包含 character_anchor。
+
 ---
 
 ## 6. Stage 2：参考图生成（Seedream 4.5）
@@ -486,6 +498,19 @@ S05 (情感收尾):
 | 画面中无文字 | AI 生成的文字一定是乱码，文字在后期加 |
 | 画面中无手部 | Seedream/Midjourney 手部生成有缺陷 |
 | 边缘干净 | 无重要元素靠近画框边缘（Kling 可能扭曲边缘） |
+
+### 6.4 故事图（Story Images）
+
+每段可有 0-3 张故事场景图，与主图（角色情绪锚点）穿插使用。
+
+| 规则 | 值 |
+|------|-----|
+| 每段可有 0-3 张故事图 | JSON config 中 `story_images` 数组 |
+| 故事图不包含角色锚定 | 不需要 character_anchor |
+| 故事图遵循 6 层 prompt 结构 | 摄影声明 + 场景主体 + 环境 + 光影 + 构图 |
+| 总图数 10-15 张/条视频 | 主图 5 张 + 故事图 5-10 张 |
+| 生成工具 | `python3 seedream-story-images.py --config {video_id}.json` |
+| 文件命名 | `S02-01.png`、`S02-02.png`（主图为 `S02.png`） |
 
 ### 6.3 Prompt 生成逻辑（MUST 阅读）
 
@@ -686,6 +711,8 @@ even skin tone, poreless skin
 | API 轮询 | POST 创建任务 → GET `/v1/tasks/{id}` 轮询，约 30-50s/段 |
 | 拒收标准 | 任何片段出现变形、闪烁、物体扭曲、面部异常 = 重新生成 |
 
+**故事图视频：** 加 `--include-stories` 参数，脚本自动为 `story_images` 中的每张图生成 Kling 视频。文件命名为 `S02-01.mp4`、`S02-02.mp4`。
+
 ### 7.3 SHOULD 规则
 
 | 规则 | 值 |
@@ -744,11 +771,13 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 | 优先级 | 引擎 | 费用 | 质量 | 脚本 |
 |--------|------|------|------|------|
 | 1 | **Gemini 3.1 Flash TTS** | 免费（有额度限制） | 最高 | `gemini-tts-batch.py` |
-| 2 | **Edge TTS** (YunxiNeural) | 完全免费，无限制 | 高 | `edge-tts-batch.py` |
-| 3 | Fish Audio S2 Pro | 按量付费 | 高 | `fish-audio-tts-batch.py` |
-| 4 | CosyVoice (DashScope) | 免费额度 | 中高 | `cosyvoice-tts-batch.py` |
+| 2 | **Doubao TTS 2.0** (自动降级) | 按量付费 | 高 | `gemini-tts-batch.py` 内置降级 |
+| 3 | **Edge TTS** (YunxiNeural) | 完全免费，无限制 | 高 | `edge-tts-batch.py` |
+| 4 | Fish Audio S2 Pro | 按量付费 | 高 | `fish-audio-tts-batch.py` |
 
-**选择规则：** Gemini 额度可用时用 Gemini。额度用尽后用 Edge TTS。质量优先于时长限制。
+**选择规则：** Gemini 额度可用时用 Gemini。Gemini 返回 429/403 时自动降级到 Doubao TTS（claire 声音克隆）。同一条视频不混用两个 TTS 引擎。
+
+**自动降级机制：** `gemini-tts-batch.py` 在 Gemini API 返回配额错误时自动切换到 Doubao TTS，无需手动干预。
 
 ### 8.3 MUST 规则
 
@@ -826,6 +855,18 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 | 配音音轨合并 | 不做任何音频处理 |
 | 不做滤镜、不做字幕、不做叠加 | MUST |
 | 不做色彩校正、不做去AI | MUST |
+
+### 9.2.1 多图段合成（story_images）
+
+当一段有多张图（主图 + 故事图）时：
+
+| 规则 | 值 |
+|------|-----|
+| 每张图均匀分配该段的配音时长 | audio_duration / num_clips |
+| 主图在前，故事图按 config 顺序排列 | MUST |
+| Kling 视频（5s）短于分配时长时循环播放（正播+倒播交替） | 自动处理 |
+| 所有图硬切拼接 | 无转场 |
+| 脚本 | `ffmpeg-compose-day1.py` 自动识别 `video_clips` |
 
 ### 9.3 FFmpeg 命令（简单版）
 
