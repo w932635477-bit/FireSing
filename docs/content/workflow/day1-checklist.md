@@ -31,7 +31,7 @@ python3 docs/content/scripts/seedream-batch.py --config config/day1-medvi-story.
 
 - [ ] 配置 voiceover.voice（Gemini 声音名，如 Charon）
 - [ ] 运行 TTS 脚本生成 7 段配音 + SRT 字幕
-- [ ] 检查总时长 30-45s
+- [ ] 检查总时长 30-60s
 
 ```bash
 source docs/content/.env
