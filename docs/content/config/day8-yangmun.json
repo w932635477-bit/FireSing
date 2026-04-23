@@ -50,12 +50,14 @@
         {
           "id": "S01-01",
           "trigger_text": "推下楼梯打到住院",
+          "reference_file": "day8-yangmun/S01-01.png",
           "reference_prompt": "35mm documentary film still grainy imperfect focus, a young boy lying hurt at the bottom of concrete school stairs, scattered books and a torn backpack beside him, other children's blurred feet walking past without stopping, cold harsh fluorescent school corridor light from above creating clinical shadows, muted desaturated tones with slight blue cast, visible film grain, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow zoom out from boy, subtle ambient dust particles in light"
         },
         {
           "id": "S01-02",
           "trigger_text": "不合群的人看到的",
+          "reference_file": "day8-yangmun/S01-02.png",
           "reference_prompt": "shot on Canon 5D Mark IV 24mm f/2.0 Kodak Portra 400, one person standing alone on a rooftop at dusk looking out at a vast cityscape where one building glows warm amber while all others are dark silhouettes, golden hour light from the horizon casting long shadows, the solitary figure illuminated from behind, visible film grain, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow push in on figure, city lights beginning to twinkle"
         }
@@ -77,12 +79,14 @@
         {
           "id": "S02-01",
           "trigger_text": "笑脸应酬群聊陪笑",
+          "reference_file": "day8-yangmun/S02-01.png",
           "reference_prompt": "iPhone 15 Pro photo slightly underexposed natural lighting, a dinner table seen from above with twelve people toasting with forced smiles, one person at the end of the table looking drained and disconnected staring at their phone under the table, warm restaurant pendant lights creating pools of amber light, visible film grain, subject lower two-thirds, vertical composition 9:16",
           "motion_prompt": "slow tilt from group to the disconnected person"
         },
         {
           "id": "S02-02",
           "trigger_text": "丢掉了你唯一的优势",
+          "reference_file": "day8-yangmun/S02-02.png",
           "reference_prompt": "shot on Sony A7III 85mm f/1.8 available light Fuji 400H, close-up of a person's hands holding a crumpled paper with handwritten words being dropped into a wastebasket, the paper catches warm side light revealing the word unique barely visible before it falls, dark room with only a desk lamp for light, visible film grain, subject center, vertical composition 9:16",
           "motion_prompt": "slow follow the paper falling, subtle camera drift downward"
         }
@@ -104,12 +108,14 @@
         {
           "id": "S03-01",
           "trigger_text": "特斯拉差点破产",
+          "reference_file": "day8-yangmun/S03-01.png",
           "reference_prompt": "35mm documentary film still grainy imperfect focus, Tesla factory parking lot in 2018 with rows of unsold Model 3 cars stretching into the distance, a single executive standing alone looking at financial charts on a clipboard, overcast grey sky with flat depressing light, visible film grain, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow zoom out revealing rows of unsold cars, clouds drifting"
         },
         {
           "id": "S03-02",
           "trigger_text": "不用同意人群的结论",
+          "reference_file": "day8-yangmun/S03-02.png",
           "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, one person sitting alone at a library desk surrounded by stacks of books and papers with diagrams and equations, in sharp focus while blurred behind them through a glass wall a crowd of people all moving in the same direction, warm desk lamp light on the thinker cold ambient light on the crowd, visible film grain, subject lower two-thirds, vertical composition 9:16",
           "motion_prompt": "slow rack focus from crowd to the lone thinker"
         }
@@ -131,12 +137,14 @@
         {
           "id": "S04-01",
           "trigger_text": "乔布斯被赶走",
+          "reference_file": "day8-yangmun/S04-01.png",
           "reference_prompt": "35mm documentary film still grainy imperfect focus, a man in a dark turtleneck walking out of a glass office building carrying a cardboard box with personal items, other employees visible through the glass watching from inside, overcast daylight creating flat cold tones, visible film grain, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow follow the figure walking away, glass reflections shifting"
         },
         {
           "id": "S04-02",
           "trigger_text": "你还没找到值得坚持的事",
+          "reference_file": "day8-yangmun/S04-02.png",
           "reference_prompt": "iPhone 15 Pro photo natural lighting, close-up of a person's hand holding a small flame or candle in a completely dark room, the warm golden light from the flame illuminating only the hand and a hint of determination in the person's eyes in the background, strong warm amber light with deep surrounding darkness, visible film grain, subject center, vertical composition 9:16",
           "motion_prompt": "slow push in on the flame, warm light flickering"
         }
