@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-23T18:14:26.624351",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day8-yangmun/S01-shock.png",
+      "task_id": "task-unified-1776939078-qhvg54nv",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day8-yangmun/S02-tension.png",
+      "task_id": "task-unified-1776939125-9xbthdzh",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day8-yangmun/S03-reversal.png",
+      "task_id": "task-unified-1776939143-ns7g0tpg",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day8-yangmun/S04-empowerment.png",
+      "task_id": "task-unified-1776939161-pyoa90ij",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day8-yangmun/S05-warm.png",
+      "task_id": "task-unified-1776939241-zztqex2p",
+      "status": "success"
+    }
+  ]
+}
