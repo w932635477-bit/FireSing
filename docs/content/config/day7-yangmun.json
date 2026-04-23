@@ -1,0 +1,184 @@
+{
+  "video_id": "day7-yangmun",
+  "version": "4.0",
+  "created": "2026-04-23",
+  "status": "script_draft",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day7 马斯克为什么你的努力没用。铁律三段式。流量优先策略，震撼→紧张→反转→恐惧→参与。全部素材重新生成，不复用Day4/5/6，防平台查重",
+
+  "global": {
+    "target_duration_sec": 50,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": 78901,
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "warm",
+    "accent_color": "#c9a96e"
+  },
+
+  "script": {
+    "topic": "马斯克：为什么你的努力没用",
+    "hook_type": "data_shock_plus_celebrity_quote",
+    "cta_action": "评论",
+    "cta_keyword": "他缺的到底是什么",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 7,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "reference_file": "day7-yangmun/S01-shock.png",
+      "reference_prompt": "35mm documentary film still grainy imperfect focus, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, intense direct gaze with furrowed brows lips pressed together tightly one eyebrow slightly raised higher than the other, dark charcoal background with no visible objects, cold directional side light from the left creating strong chiaroscuro effect with deep shadows on the right side of her face, visible film grain especially in shadow areas desaturated cool tones, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow zoom in, gentle ambient light pulse, cinematic",
+      "voiceover_text": "你每天做的事，80%机器已经能做了。马斯克说过：我宁愿乐观且错误，也不要悲观且正确。但方向错了，乐观也没用。",
+      "voiceover_pause_markers": "你每天做的事<#0.2#>80%机器已经能做了。<#0.5#>马斯克说过<#0.2#>我宁愿乐观且错误<#0.2#>也不要悲观且正确。<#0.5#>但方向错了<#0.2#>乐观也没用。",
+      "subtitle_text": "80%的工作 机器已经能做了"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion_arc": "tension",
+      "reference_file": "day7-yangmun/S02-tension.png",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Kodak Portra 400, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, tired but defiant expression one eye slightly more squinted than the other jaw slightly clenched with visible tension in the cheek muscle, blurred office workspace in background out-of-focus Dell monitor and messy papers on an IKEA desk, flat overhead fluorescent light with slight overexposure on top of head no dramatic shadows warm but muted tones, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle head movement, natural light shift",
+      "voiceover_text": "铁律一：忙碌是最隐蔽的偷懒。马斯克说过：我几乎所有时间都在思考，不是在做。你做100遍的表格，AI只要3秒。你熬夜改的PPT格式，AI一键就统一了。你在用忙碌，逃避真正重要的事。",
+      "voiceover_pause_markers": "铁律一<#0.3#>忙碌是最隐蔽的偷懒。<#0.5#>马斯克说过<#0.2#>我几乎所有时间都在思考<#0.2#>不是在做。<#0.5#>你做100遍的表格<#0.2#>AI只要3秒。<#0.3#>你熬夜改的PPT格式<#0.2#>AI一键就统一了。<#0.5#>你在用忙碌<#0.2#>逃避真正重要的事。",
+      "subtitle_text": "铁律一：忙碌是最隐蔽的偷懒"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 9,
+      "shot_type": "medium",
+      "emotion_arc": "reversal",
+      "reference_file": "day7-yangmun/S03-reversal.png",
+      "reference_prompt": "shot on Sony A7III 85mm f/1.8 available light Fuji 400H, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, thoughtful expression looking slightly upward hint of a knowing smile smile lines deeper on one side than the other, window with soft natural light to the right sheer white curtain partially visible, natural side light from the window on the right warm light beginning to mix with cool ambient gentle falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle head movement, natural light shift",
+      "voiceover_text": "铁律二：跑得快不如跑得对。他造火箭时，所有人都说回收不可能。但燃料成本只占总成本的0.3%。不是不可能，是没人重新算过。他没换方向，他换了方法。你跑的方向，三年后还在吗？",
+      "voiceover_pause_markers": "铁律二<#0.3#>跑得快不如跑得对。<#0.5#>他造火箭时<#0.2#>所有人都说回收不可能。<#0.3#>但燃料成本只占总成本的0.3%。<#0.5#>不是不可能<#0.2#>是没人重新算过。<#0.3#>他没换方向<#0.2#>他换了方法。<#0.5#>你跑的方向<#0.2#>三年后还在吗？",
+      "subtitle_text": "铁律二：跑得快不如跑得对"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion_arc": "fear",
+      "reference_file": "day7-yangmun/S04-fear-hope.png",
+      "reference_prompt": "cinematic portrait 85mm f/1.4 shallow depth of field, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, serious expression transitioning to slight relief one eyebrow slightly furrowed higher than the other lips slightly parted as if about to speak, warm blurred background out-of-focus warm-toned interior, warm amber front light with soft golden glow creating gentle halo on hair edges, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow zoom in, gentle ambient light pulse, cinematic",
+      "voiceover_text": "铁律三：你越忙，越容易被替代。因为忙，没时间学新东西。因为没时间学，只能继续忙。马斯克说过：当一件事足够重要，即使胜算不大你也该去做。但你连什么才重要都没时间想。把时间，留给机器做不到的事。",
+      "voiceover_pause_markers": "铁律三<#0.3#>你越忙<#0.2#>越容易被替代。<#0.5#>因为忙<#0.2#>没时间学新东西。<#0.3#>因为没时间学<#0.2#>只能继续忙。<#0.5#>马斯克说过<#0.2#>当一件事足够重要<#0.2#>即使胜算不大你也该去做。<#0.5#>但你连什么才重要都没时间想。<#0.3#>把时间<#0.2#>留给机器做不到的事。",
+      "subtitle_text": "铁律三：你越忙 越容易被替代"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 5,
+      "shot_type": "close-up",
+      "emotion_arc": "warm",
+      "reference_file": "day7-yangmun/S05-warm.png",
+      "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, warm genuine smile eyes soft relaxed slight head tilt, soft cream beige background with out-of-focus indoor plant leaves creating organic shapes, golden hour front light from left window with long warm shadows soft fill from right, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle lean forward, warm light steady",
+      "voiceover_text": "杨梦问你：你身边有没有那种特别努力，但一直没起来的人？他缺的到底是什么？",
+      "voiceover_pause_markers": "杨梦问你<#0.2#>你身边有没有那种特别努力<#0.2#>但一直没起来的人？<#0.5#>他缺的到底是什么？",
+      "subtitle_text": "他缺的到底是什么？"
+    }
+  ],
+
+  "voiceover": {
+    "engine": "doubao_tts",
+    "voice": "claire",
+    "ref_audio": "claire",
+    "emotion": "shock",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "女声克隆，全部使用 shock 情绪参数保持音色一致。S01开头数据冲击要稳，S02'忙碌是最隐蔽的偷懒'要有力量，S03'没人重新算过'带惊讶，S04死循环部分渐强，'把时间留给机器做不到的事'收束温暖，S05'他缺的到底是什么'真诚发问感"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/ambient_warm_01.mp3",
+    "bgm_volume_pct": 8,
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "马斯克一句话，点醒所有假装努力的人",
+      "你身边有没有那种特别努力但一直没起来的人",
+      "忙碌是最隐蔽的偷懒"
+    ],
+    "tags": ["马斯克", "努力", "方向", "认知升级", "职场", "拒绝内耗"],
+    "xiaohongshu_title_candidates": [
+      "被这句话点醒了：忙碌是最隐蔽的偷懒",
+      "马斯克的时间不花在做上，花在思考上",
+      "你越忙越容易被替代，扎心了"
+    ],
+    "xiaohongshu_tags": ["马斯克", "职场", "认知升级", "努力方向", "自我提升", "拒绝内耗", "AI时代"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "米白亚麻衫女性角色严肃眼神，暗色背景，文字'为什么你的努力没用'"
+  }
+}
