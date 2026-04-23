@@ -40,11 +40,11 @@ def image_to_data_uri(image_path: Path) -> str:
 
 def find_reference_image(shot_id: str, reference_file: str) -> Path | None:
     exact = REFERENCE_DIR / reference_file
-    if exact.exists():
+    if exact.exists() and exact.is_file():
         return exact
     basename = reference_file.split("/")[-1]
     exact2 = REFERENCE_DIR / basename
-    if exact2.exists():
+    if exact2.exists() and exact2.is_file():
         return exact2
     if REFERENCE_DIR.exists():
         for f in sorted(REFERENCE_DIR.iterdir()):
