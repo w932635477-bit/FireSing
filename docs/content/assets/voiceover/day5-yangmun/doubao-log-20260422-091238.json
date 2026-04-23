@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-04-22T09:12:38.774419",
+  "engine": "doubao-tts-2.0",
+  "voice_id": "zh_female_tvbnv_uranus_bigtts",
+  "video_id": "day5-yangmun",
+  "total_duration_s": 116.02,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S01.mp3",
+      "duration_s": 17.52,
+      "status": "success",
+      "actual_duration_s": 17.52,
+      "voiceover_text": "马斯克说过：当一件事足够重要，就算胜算是零，你也得干。2008年，SpaceX三次发射三次爆炸。特斯拉快破产了。他把自己最后的钱分成两份，投进去。所有人都说他疯了。",
+      "emotion": "shock"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S02.mp3",
+      "duration_s": 32.088,
+      "status": "success",
+      "actual_duration_s": 32.088,
+      "voiceover_text": "铁律一：否定你的人，说的是他自己，不是你。你想做一件事的时候，第一个说不行的是谁？爸妈？朋友？还是你自己？马斯克从来不跟嘲笑他的人辩论。2003年所有人说电动车不可能。他把车造出来了。2020年，特斯拉成了全球市值最高的车企。不是你做不到。是他们不敢。",
+      "emotion": "determined"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S03.mp3",
+      "duration_s": 25.224,
+      "status": "success",
+      "actual_duration_s": 25.224,
+      "voiceover_text": "铁律二：不反驳，只出货。SpaceX前三次发射全炸了。马斯克没有写长文解释，没有开发布会辩护。回去修火箭。第四次，最后一分钱，成了。你还在跟质疑你的人解释吗？别解释了。做出来，往桌上一放。",
+      "emotion": "power"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S04.mp3",
+      "duration_s": 25.512,
+      "status": "success",
+      "actual_duration_s": 25.512,
+      "voiceover_text": "铁律三：半成品就冲出去。你有没有一个做了很久、改了很多遍、但一直没发布的东西？马斯克在火箭没造完的时候，就签了发射合同。特斯拉没量产，就收了三十万台订金。你藏起来的那个东西，该放出来了。",
+      "emotion": "contemplative"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day5-yangmun/S05.mp3",
+      "duration_s": 15.672,
+      "status": "success",
+      "actual_duration_s": 15.672,
+      "voiceover_text": "马斯克不是天才。他只是比所有人都早动手了一步。你不需要准备好。你需要的是动手。你身边有没有一个人，一直在跟你说做不到？评论区聊聊。",
+      "emotion": "warm"
+    }
+  ]
+}

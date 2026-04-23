@@ -21,14 +21,14 @@
 | 工具 | 用途 | 两个工作流共用 |
 |------|------|--------------|
 | Seedream 4.5 | 参考图生成 | 是 |
-| Runway Gen-4 | 图生视频 | 是 |
+| Kling 3.0 | 图生视频 | 是 |
 | FFmpeg | 拼接+音频合并 | 是 |
 | 剪映 | 字幕+后期+精修 | 是 |
 
 ## 共用规范
 
 - [去AI味 4 步法](#去ai味-4-步法)（两个工作流通用）
-- [Runway 参数模板](runway-params-template.md)
+- [Kling 参数模板](kling-params-template.md)
 - [后期模板](post-production-template.md)
 - [预飞检查清单](pre-flight-checklist.md)
 
@@ -52,7 +52,7 @@
    - 不要一路平到底
 
 3. **画面驱动生成，不是堆提示词**
-   - 用参考图驱动 Runway 生成
+   - 用参考图驱动 Kling 生成
    - 提示词只写运动描述（slow pan, zoom in）
    - 不要写长篇画面描述
 

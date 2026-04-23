@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-22T09:13:46.452844",
+  "engine": "doubao-tts-2.0",
+  "voice_id": "zh_female_tianmeitaozi_mars_bigtts",
+  "video_id": "day5-yangmun",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "TTS error code 55000000: resource ID is mismatched with speaker related resource"
+    }
+  ]
+}

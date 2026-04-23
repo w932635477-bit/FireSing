@@ -15,7 +15,7 @@
 | S05 | 5s | 关键数据来了：2025 年，第一个完整财年，营收 4.01 亿美元，净利润 6500 万，净利率 16.2%。 | 数据卡片依次出现：$401M → $65M → 16.2%，深色背景金色数字 | 震撼/递进 | Fast cuts | data visualization dark background gold numbers finance cinematic |
 | S06 | 4s | 对比一下，行业巨头 Hims & Hers 有 2400 多名员工，净利率才 5.5%。 | 分屏对比：左边小办公室 2 人，右边大公司开放式办公区百人 | 对比 | Split screen wipe | corporate office hundreds employees vs small startup contrast |
 | S07 | 3s | 他用 2 个人，跑了同行 3 倍的利润率。 | 两个数据条对比动画：16.2% vs 5.5%，金色 vs 灰色 | 冲击 | Static with data animation | data comparison bar chart dark cinematic minimal |
-| S08 | 5s | 怎么做到的？全部用 AI 搭建。代码用 ChatGPT 和 Claude 写，广告素材用 Midjourney 和 Runway 生成，客服用 AI 机器人。 | 快速切换：ChatGPT 界面 → Claude 界面 → Midjourney 生成图 → AI 客服对话 | 节奏/展示 | Fast cuts 1s each | AI tools interface montage fast pace technology dark mode |
+| S08 | 5s | 怎么做到的？全部用 AI 搭建。代码用 ChatGPT 和 Claude 写，广告素材用 Midjourney 和 Kling 生成，客服用 AI 机器人。 | 快速切换：ChatGPT 界面 → Claude 界面 → Midjourney 生成图 → AI 客服对话 | 节奏/展示 | Fast cuts 1s each | AI tools interface montage fast pace technology dark mode |
 | S09 | 3s | 日营收超过 300 万美元。 | 数字 $3,000,000/day 大字闪烁，背景上升的曲线图 | 高潮 | Zoom out reveal | revenue number three million per day rising chart dramatic |
 | S10 | 5s | 这整套工具链，国内都有免费替代。想知道具体怎么用？关注我，接下来一条一条拆。私信"AI获客"，我发你完整工具清单。 | 品牌色卡片：抖音/小红书图标 + "私信 AI获客" | 转化/温暖 | Slow fade in | minimal call to action dark background gold text clean |
 

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-04-22T11:58:15.965140",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "shot": "S02-story-office",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-story-office.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-story-ymca",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-story-ymca.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-story-airplane",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-story-airplane.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-story-spacex",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-story-spacex.png",
+      "status": "success"
+    },
+    {
+      "shot": "S04-story-factory",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-story-factory.png",
+      "status": "success"
+    },
+    {
+      "shot": "S04-story-floor",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-story-floor.png",
+      "status": "success"
+    }
+  ]
+}

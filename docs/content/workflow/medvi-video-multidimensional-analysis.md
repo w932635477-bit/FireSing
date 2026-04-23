@@ -10,7 +10,7 @@ Status: Analysis + Production Guide
 ### 核心发现：不是数字人，是"氛围幻灯片"
 
 Medvi 的广告视频不是 HeyGen/Synthesia 那种 AI 数字人口播。
-实际做法是：**静态图片（AI 生成）→ Runway 图生视频 → AI 配音 → 字幕叠加**。
+实际做法是：**静态图片（AI 生成）→ Kling 图生视频 → AI 配音 → 字幕叠加**。
 
 这意味着：
 - 没有"说话的人"，只有"有氛围的图片在缓慢运动"
@@ -181,17 +181,17 @@ Medvi 的视频不是传统影视的景别调度，而是**信息密度驱动的
 ```
 远景/全景（Wide Shot）：
 - 用途：开场建立场景、转场、结尾开阔感
-- Runway 提示：slow pan, wide angle, establishing shot, cinematic
+- Kling 提示：slow pan, wide angle, establishing shot, cinematic
 - 情绪：宏大、客观、冷静
 
 中景（Medium Shot）：
 - 用途：展示人物/产品/工作场景
-- Runway 提示：medium shot, natural framing, documentary style
+- Kling 提示：medium shot, natural framing, documentary style
 - 情绪：自然、亲近、日常
 
 近景/特写（Close-up）：
 - 用途：放大关键数据、情感连接、制造紧迫感
-- Runway 提示：extreme close-up, shallow depth of field, intimate
+- Kling 提示：extreme close-up, shallow depth of field, intimate
 - 情绪：紧迫、聚焦、亲密
 
 纯文字（Text Overlay）：
@@ -243,7 +243,7 @@ Medvi 的视频不是传统影视的景别调度，而是**信息密度驱动的
 □ 分辨率是否足够？至少 1280x720，推荐 1920x1080
 ```
 
-**Step 2：Runway 视频生成质量控制**
+**Step 2：Kling 视频生成质量控制**
 
 ```
 检查项（每段视频必须通过）：
@@ -385,9 +385,9 @@ Medvi 使用的是高度标准化的脚本模板（NYT 报道原文："每项业
 
 ---
 
-## 七、维度 6：视频生成（Runway）参数分析
+## 七、维度 6：视频生成（Kling）参数分析
 
-### Medvi 的 Runway 使用方式
+### Medvi 的 Kling 使用方式
 
 从素材分析推断的使用参数：
 
@@ -395,17 +395,17 @@ Medvi 使用的是高度标准化的脚本模板（NYT 报道原文："每项业
 |------|---------------|------|
 | 模式 | Image-to-Video | 从静态图生成，不是纯文生 |
 | 分辨率 | 720x1280 (9:16) | TikTok/Reels 竖屏格式 |
-| 时长 | 5 秒/段 | Runway 标准长度 |
+| 时长 | 5 秒/段 | Kling 标准长度 |
 | Camera Pan | 缓慢平移/推进 | 不分散注意力 |
 | Motion | 低-中 | 保持画面稳定，避免变形 |
 | 风格 | 一致性 > 创意性 | 所有片段必须风格统一 |
 
-### 自用指南：Runway 参数模板
+### 自用指南：Kling 参数模板
 
 **标准参数（适用于 80% 的镜头）：**
 
 ```
-模式: gen4_turbo（Runway Gen-4 Turbo）
+模式: gen4_turbo（Kling 3.0 Turbo）
 分辨率: 720x1280
 时长: 5 秒
 Credits: 25/clip
@@ -439,7 +439,7 @@ Style:
   效果: 视觉"翻页"感
 
 实操演示型：
-  不使用 Runway（使用录屏素材）
+  不使用 Kling（使用录屏素材）
   效果: 真实工具操作画面
 
 方法论拆解型：
@@ -448,7 +448,7 @@ Style:
   效果: 稳定的"阅读"节奏
 ```
 
-**Runway 生成的质量底线：**
+**Kling 生成的质量底线：**
 
 - 如果 5 秒内出现明显变形/闪烁 → 重新生成（不要将就）
 - 每个镜头生成 3 个候选，选最好的
@@ -528,7 +528,7 @@ Medvi 使用 ElevenLabs，为不同"医生"使用不同的声音。关键特征�
   □ 分辨率是否 ≥ 1280x720？
   检查人：自己（放在同一画布上对比）
 
-把控点 3：Runway 视频生成质量
+把控点 3：Kling 视频生成质量
   □ 5 秒内是否有变形/闪烁？
   □ 运动是否自然且不过度？
   □ 风格是否和参考图一致？
@@ -583,7 +583,7 @@ Phase 2：参考图生成（10 分钟）
   3. 质量检查（手部、文字、面部、光影）
   4. 选定最佳候选
 
-Phase 3：Runway 视频生成（15 分钟）
+Phase 3：Kling 视频生成（15 分钟）
   1. 每张参考图生成 5 秒视频
   2. 每个镜头生成 3 个候选
   3. 质量检查（变形、闪烁、风格一致性）
@@ -624,7 +624,7 @@ Phase 7：最终检查（5 分钟）
 Day A（准备日）：一次性准备 5 条视频的素材
   - 写 5 条脚本（75 分钟）
   - 生成所有参考图（50 分钟）
-  - Runway 批量生成视频（75 分钟）
+  - Kling 批量生成视频（75 分钟）
   - 配音批量生成（25 分钟）
 
 Day B（制作日）：合成 + 精修 5 条视频

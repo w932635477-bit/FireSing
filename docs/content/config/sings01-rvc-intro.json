@@ -13,7 +13,7 @@
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "runway_seed": 42,
+    "kling_seed": 42,
     "style": "mv_rap_bouncy",
     "color_temperature": "bright_warm",
     "accent_color": "#ff69b4",
@@ -307,7 +307,7 @@
   },
 
   "video_generation": {
-    "engine": "runway_gen4",
+    "engine": "kling_v3",
     "mode": "image_to_video",
     "resolution": "720x1280",
     "duration_sec": 5,

@@ -1,11 +1,11 @@
 {
-  "video_id": "sings04-yangmun",
+  "video_id": "day6-sings",
   "workflow": "sings",
   "version": "1.0",
-  "created": "2026-04-21",
+  "created": "2026-04-22",
   "status": "draft",
-  "source_config": "day4-yangmun.json",
-  "strategy_notes": "Day4马斯克3条效率铁律的音乐版。V1主音轨(BPM99 mid-tempo pop)。文字卡+复用已有视频，不做新Runway",
+  "source_config": "day6-yangmun.json",
+  "strategy_notes": "Day6马斯克被嘲笑3件事的音乐版。文字卡+复用已有Day6 Medvi视频和马斯克视频，不做新Kling生成",
 
   "global": {
     "target_duration_sec": 37,
@@ -15,7 +15,7 @@
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "kling_seed": 56789,
+    "kling_seed": 67890,
     "style": "warm_textcard",
     "color_temperature": "warm",
     "accent_color": "#c9a96e",
@@ -31,47 +31,47 @@
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["淘汰自己 还是市场替你办", "六千人挥手 眼都不转"],
-        "rhyme": "an",
+        "lines": ["全世界笑你 别管他", "两万八飞加州 他敢啊"],
+        "rhyme": "a",
         "segment_ref": "S01",
         "type": "hook"
       },
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["三条铁律 你得看穿", "效率才是最后的答案"],
-        "rhyme": "an",
+        "lines": ["宁愿火星死 不安逸活", "没房没车没人认识 又如何"],
+        "rhyme": "e",
         "segment_ref": "S01",
         "type": "hook"
       },
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["凌晨三点 还在改稿", "人力打机器 效率怎么搞"],
-        "rhyme": "ao",
+        "lines": ["铁律一 别解释 干活", "睡地板写代码 YMCA洗过"],
+        "rhyme": "uo",
         "segment_ref": "S02",
         "type": "body"
       },
       {
         "id": "B04",
         "beat_count": 4,
-        "lines": ["Logo等三天 配色再等一轮", "最少资源做最多事 这才叫稳"],
-        "rhyme": "en",
+        "lines": ["投资人当面笑 凭什么", "没回嘴 三亿美金 两年够了"],
+        "rhyme": "uo",
         "segment_ref": "S02",
         "type": "body"
       },
       {
         "id": "B05",
         "beat_count": 4,
-        "lines": ["贵不是问题 慢才是", "十个人磨一月 一个人三天完事"],
-        "rhyme": "shi",
+        "lines": ["铁律二 被踢别回头", "蜜月飞机上 被自己人赶走"],
+        "rhyme": "ou",
         "segment_ref": "S03",
         "type": "body"
       },
       {
         "id": "B06",
         "beat_count": 4,
-        "lines": ["拖延是最大的成本你看", "省的不是钱 是你的人生和汗"],
+        "lines": ["PayPal他建的 董事偷投票", "不打官司 转身SpaceX就干"],
         "rhyme": "an",
         "segment_ref": "S03",
         "type": "body"
@@ -79,32 +79,32 @@
       {
         "id": "B07",
         "beat_count": 4,
-        "lines": ["SpaceX裁完人 火箭照发", "特斯拉裁完 车照样卖得下"],
-        "rhyme": "a",
+        "lines": ["铁律三 说你疯了笑回去", "一百二十小时 睡地板撑到底"],
+        "rhyme": "i",
         "segment_ref": "S04",
         "type": "body"
       },
       {
         "id": "B08",
         "beat_count": 4,
-        "lines": ["偏执狂才配留在场", "动作快的人 才有资格上场"],
-        "rhyme": "ang",
+        "lines": ["做空押倒闭 SEC逼他退", "Model 3最畅销 谁还笑话谁"],
+        "rhyme": "ei",
         "segment_ref": "S04",
         "type": "body"
       },
       {
         "id": "B09",
         "beat_count": 4,
-        "lines": ["马斯克说的 不是他的公司", "说的是你 每天干的什么事"],
-        "rhyme": "i",
+        "lines": ["嘲笑他的人 地板都没碰过", "你被笑最狠那次 后来怎样了"],
+        "rhyme": "uo",
         "segment_ref": "S05",
-        "type": "body"
+        "type": "cta"
       },
       {
         "id": "B10",
         "beat_count": 4,
-        "lines": ["你做的事 有多少自己都不想干", "评论区聊聊 看看谁是同款"],
-        "rhyme": "an",
+        "lines": ["身边有人被笑 还在干啊", "评论区聊聊 谁是同款啊"],
+        "rhyme": "a",
         "segment_ref": "S05",
         "type": "cta"
       }
@@ -112,9 +112,9 @@
   },
 
   "script": {
-    "topic": "马斯克的3条效率铁律：一个人的公司，比十个人跑得更快",
-    "source": "Day4 Medvi脚本改编",
-    "source_config": "day4-yangmun.json",
+    "topic": "马斯克被全世界嘲笑的时候，他做对了3件事",
+    "source": "Day6 Medvi脚本改编",
+    "source_config": "day6-yangmun.json",
     "hook_type": "celebrity_quote",
     "cta_action": "评论",
     "cta_keyword": "评论区聊聊",
@@ -133,8 +133,8 @@
       "duration_sec": 6,
       "shot_type": "reuse",
       "emotion": "shock",
-      "visual_description": "马斯克权威照片，深色背景，金色文字叠加",
-      "reuse_source": "musk-S01-authority.mp4",
+      "visual_description": "马斯克演讲/权威形象，深色背景",
+      "reuse_source": "day6-yangmun/musk-01-stage.mp4",
       "lyrics_refs": ["B01", "B02"]
     },
     {
@@ -143,11 +143,11 @@
       "duration_sec": 6,
       "shot_type": "text_card",
       "emotion": "determined",
-      "visual_description": "文字卡：铁律一，重复劳动浪费",
+      "visual_description": "文字卡：铁律一，别解释干活，Zip2三亿美金",
       "reference_prompt": "text_card",
       "motion_prompt": "text_card",
       "text_card_config": {
-        "lines": ["铁律一", "凌晨3点 还在改稿", "人力打机器 效率怎么搞"],
+        "lines": ["铁律一", "别解释 干活", "Zip2 三亿美金"],
         "font_size": 56,
         "font_color": "#c9a96e",
         "bg_color": "#0a0806",
@@ -161,11 +161,11 @@
       "duration_sec": 6,
       "shot_type": "text_card",
       "emotion": "power",
-      "visual_description": "文字卡：铁律二，10人磨1月 vs 1人+AI 3天",
+      "visual_description": "文字卡：铁律二，被踢别回头，蜜月飞机被赶走",
       "reference_prompt": "text_card",
       "motion_prompt": "text_card",
       "text_card_config": {
-        "lines": ["铁律二", "10个人磨1月", "1个人+AI 3天", "省的不是钱 是你的人生"],
+        "lines": ["铁律二", "被踢别回头", "蜜月飞机被赶走", "转身SpaceX"],
         "font_size": 52,
         "font_color": "#c9a96e",
         "bg_color": "#0a0806",
@@ -179,8 +179,8 @@
       "duration_sec": 6,
       "shot_type": "reuse",
       "emotion": "contemplative",
-      "visual_description": "女性角色沉思表情，暖色调，反思段落",
-      "reuse_source": "female-S04-contemplative.mp4",
+      "visual_description": "女性角色沉思表情，暖色调",
+      "reuse_source": "day6-yangmun/S04.mp4",
       "lyrics_refs": ["B07", "B08"]
     },
     {
@@ -190,7 +190,7 @@
       "shot_type": "reuse",
       "emotion": "warm",
       "visual_description": "女性角色温暖笑容，直视镜头，CTA",
-      "reuse_source": "female-S05-warm.mp4",
+      "reuse_source": "day6-yangmun/S05.mp4",
       "lyrics_refs": ["B09", "B10"]
     }
   ],
@@ -270,18 +270,18 @@
   "publishing": {
     "platforms": ["douyin", "xiaohongshu"],
     "title_candidates": [
-      "马斯克裁掉6000人后，火箭照发车照卖",
-      "1个人3天干完10个人的活，马斯克三条铁律",
-      "你每天做的事有多少自己都不想干"
+      "蜜月飞机上被自己公司开掉然后呢",
+      "被全世界嘲笑的时候他做对了3件事",
+      "嘲笑他的人连地板都没见过"
     ],
-    "tags": ["马斯克", "效率", "一人公司", "降本增效", "职场干货", "商业思维"],
+    "tags": ["马斯克", "创业", "逆袭", "坚持", "不被理解", "孤独"],
     "xiaohongshu_title_candidates": [
-      "马斯克3条铁律看完汗流浃背",
-      "10个人磨1月 vs 1个人3天",
-      "淘汰自己还是被市场淘汰"
+      "被所有人嘲笑的时候怎么办",
+      "蜜月飞机上被自己公司踢出局",
+      "嘲笑他的人连地板都没见过"
     ],
-    "xiaohongshu_tags": ["马斯克", "职场效率", "一人公司", "降本增效", "商业思维", "自我提升", "工作方法"],
+    "xiaohongshu_tags": ["马斯克", "逆袭", "坚持", "创业故事", "不被理解", "自我提升", "拒绝内耗"],
     "publish_times": ["12:00", "18:00"],
-    "cover_description": "霓虹紫粉高对比 人物+火箭剪影 + '3条铁律' 大字"
+    "cover_description": "暖金色调 马斯克剪影 + '被嘲笑的时候怎么办' 大字"
   }
 }

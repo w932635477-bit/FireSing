@@ -38,6 +38,10 @@ VOICES = {
     "taozi": "zh_female_tianmeitaozi_mars_bigtts",
 }
 
+# Voice clone reference audio (base speaker + ref_audio overrides timbre)
+REF_AUDIO_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "voiceover" / "_ref_audio"
+DEFAULT_REF_AUDIO = REF_AUDIO_DIR / "day4-gemini.mp3"
+
 # Emotion → speech_rate + context_texts (natural language emotion control)
 EMOTION_SETTINGS = {
     "shock": {
@@ -164,7 +168,10 @@ def build_headers(api_key: str) -> dict:
     }
 
 
-def build_body(text: str, speaker: str, emotion_params: dict) -> dict:
+def build_body(
+    text: str, speaker: str, emotion_params: dict,
+    ref_audio_b64: Optional[str] = None,
+) -> dict:
     additions_dict = {
         "post_process": {"pitch": emotion_params["pitch"]},
         "disable_markdown_filter": True,
@@ -173,6 +180,8 @@ def build_body(text: str, speaker: str, emotion_params: dict) -> dict:
     context = emotion_params.get("context_texts", [])
     if context:
         additions_dict["context_texts"] = context
+    if ref_audio_b64:
+        additions_dict["ref_audio"] = ref_audio_b64
 
     return {
         "user": {"uid": "doubao-tts-batch"},
@@ -192,12 +201,13 @@ def build_body(text: str, speaker: str, emotion_params: dict) -> dict:
 
 
 def synthesize_segment(
-    api_key: str, text: str, voice: str, emotion: str, output_path: Path
+    api_key: str, text: str, voice: str, emotion: str, output_path: Path,
+    ref_audio_b64: Optional[str] = None,
 ) -> dict:
     params = get_emotion_params(emotion)
     clean_text = pause_markers_to_punctuation(text)
     headers = build_headers(api_key)
-    body = build_body(clean_text, voice, params)
+    body = build_body(clean_text, voice, params, ref_audio_b64=ref_audio_b64)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -273,6 +283,14 @@ def main():
         "--voice", type=str, default="default_female",
         help=f"Voice name or ID ({', '.join(VOICES.keys())})"
     )
+    parser.add_argument(
+        "--ref-audio", type=str, default=None,
+        help="Reference audio for voice cloning (path or 'claire' for default)",
+    )
+    parser.add_argument(
+        "--emotion", type=str, default=None,
+        help="Force all segments to use this emotion (e.g., shock, determined)",
+    )
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--shot", type=str, help="Generate only this segment (e.g., S01)")
     parser.add_argument(
@@ -302,11 +320,30 @@ def main():
     output_dir = Path(args.output_dir) / video_id
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    ref_audio_b64: Optional[str] = None
+    if args.ref_audio:
+        ref_path = Path(args.ref_audio)
+        if ref_path.name == "claire" or not ref_path.suffix:
+            ref_path = DEFAULT_REF_AUDIO
+        if not ref_path.is_absolute():
+            ref_path = PROJECT_ROOT / ref_path
+        if not ref_path.exists():
+            print(f"ERROR: Ref audio not found: {ref_path}")
+            sys.exit(1)
+        with open(ref_path, "rb") as f:
+            ref_audio_b64 = base64.b64encode(f.read()).decode()
+        print(f"Ref audio: {ref_path.name} ({ref_path.stat().st_size // 1024}KB)")
+
     if args.shot:
         segments = [s for s in segments if s["id"] == args.shot.upper()]
         if not segments:
             print(f"Shot {args.shot} not found")
             sys.exit(1)
+
+    if args.emotion:
+        for seg in segments:
+            seg["emotion_arc"] = args.emotion
+        print(f"Uniform emotion: {args.emotion}")
 
     print(f"Doubao TTS 2.0 — {video_id}")
     print("=" * 50)
@@ -362,7 +399,7 @@ def main():
         print("  Synthesizing... ", end="", flush=True)
 
         try:
-            info = synthesize_segment(api_key, raw_text, voice, emotion, dest)
+            info = synthesize_segment(api_key, raw_text, voice, emotion, dest, ref_audio_b64=ref_audio_b64)
             total_duration += info["duration_s"]
             print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
             print(f"    speed={params['speech_rate']} loudness={params['loudness_rate']} pitch={params['pitch']}")

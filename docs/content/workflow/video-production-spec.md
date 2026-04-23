@@ -2,7 +2,7 @@
 
 > 适用范围：30-45 秒 AI 生成短视频，抖音/小红书竖版
 > 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
-> 工具链：Seedream 4.5 + Runway Gen-4 + Gemini 3.1 Flash TTS + FFmpeg + 剪映
+> 工具链：Seedream 4.5 + Kling 3.0 (Evolink) + Gemini 3.1 Flash TTS + FFmpeg + 剪映
 > 本文档是唯一权威标准，取代所有先前的工作流文档
 > 最后更新：2026-04-19
 
@@ -30,7 +30,7 @@ config/{video_id}.json  →  驱动全部 7 个阶段
 ```
 Stage 1: 脚本写作    →  编辑 JSON 配置文件
 Stage 2: 参考图生成  →  seedream-batch.py 读配置
-Stage 3: 视频生成    →  Runway 手动操作，参数来自配置
+Stage 3: 视频生成    →  Kling 3.0 API 批量生成，参数来自配置
 Stage 4: 配音生成    →  gemini-tts-batch.py 读配置
 Stage 5: 视频合成    →  compose-video.py 读配置
 Stage 6: 去AI化后期  →  FFmpeg 滤镜 + 剪映精修
@@ -57,9 +57,9 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 | 规则 | 标记 | 值 |
 |------|------|----|
 | 导出分辨率 1080x1920 | MUST | 9:16 竖版 |
-| Runway 输出 720x1280 | MUST | 后期升采样 |
+| Kling 输出 720x1280 | MUST | 后期升采样 |
 | 参考图 1440x2560 | MUST | Seedream API 原生 9:16 2K |
-| 帧率 24fps | MUST | Runway 原生输出，全程一致 |
+| 帧率 24fps | MUST | Kling 原生输出，全程一致 |
 | 编码 H.264 MP4 | MUST | |
 | 码率 ≥ 8Mbps | MUST | |
 | FFmpeg 导出参数 | MUST | `-c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p` |
@@ -77,14 +77,14 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 
 **景别定义：**
 
-| 景别 | 用途 | Runway 提示词方向 | 占比参考 |
+| 景别 | 用途 | Kling motion_prompt 方向 | 占比参考 |
 |------|------|------------------|---------|
 | 远景（Wide） | 开场/转场/结尾 | slow pan, wide angle, establishing shot | ~15% |
 | 中景（Medium） | 主体展示/工作场景 | medium shot, natural framing | ~45% |
 | 特写（Close-up） | 数据放大/情感连接 | extreme close-up, shallow depth of field | ~30% |
 | 文字卡片（Text） | 数据展示/对比/CTA | HTML/CSS 渲染 + Playwright 截图 | ~10% |
 
-**文字卡片自动路由：** `shot_type: text_card` 的段落跳过 Stage 2（Seedream）和 Stage 3（Runway），在 Stage 5（FFmpeg 合成）中由 `text-card-renderer.py` 通过 HTML/CSS + Playwright 自动渲染。支持渐变背景、文字发光、逐行动画、微粒子装饰。
+**文字卡片自动路由：** `shot_type: text_card` 的段落跳过 Stage 2（Seedream）和 Stage 3（Kling），在 Stage 5（FFmpeg 合成）中由 `text-card-renderer.py` 通过 HTML/CSS + Playwright 自动渲染。支持渐变背景、文字发光、逐行动画、微粒子装饰。
 
 **文字卡片配置（`text_card_config`）：**
 ```json
@@ -485,7 +485,7 @@ S05 (情感收尾):
 | 主体位置 | 居中偏下，上方留空间给运动和字幕 |
 | 画面中无文字 | AI 生成的文字一定是乱码，文字在后期加 |
 | 画面中无手部 | Seedream/Midjourney 手部生成有缺陷 |
-| 边缘干净 | 无重要元素靠近画框边缘（Runway 会扭曲边缘） |
+| 边缘干净 | 无重要元素靠近画框边缘（Kling 可能扭曲边缘） |
 
 ### 6.3 Prompt 生成逻辑（MUST 阅读）
 
@@ -665,12 +665,13 @@ even skin tone, poreless skin
 
 ---
 
-## 7. Stage 3：视频生成（Runway Gen-4）
+## 7. Stage 3：视频生成（Kling 3.0 via Evolink API）
 
 ### 7.1 输入/输出
 
 - 输入：参考图 + JSON 配置中的 `segments[].motion_prompt`
 - 输出：MP4 文件，720x1280，24fps，5 秒/段
+- 脚本：`kling-gen-batch.py --config <config> --include-stories`
 
 ### 7.2 MUST 规则
 
@@ -678,39 +679,50 @@ even skin tone, poreless skin
 |------|----|
 | 只使用 Image-to-Video | 绝不用纯文生视频 |
 | 提示词只写运动 | 不重复描述画面中已有的内容，最多 2 句 |
-| Fixed Seed 开启 | 全片用同一个 seed 值 |
+| model | `kling-v3-image-to-video` |
+| image_start 参数 | base64 data URI 直接传入，无需上传到公网 |
 | 分辨率 | 720x1280 (9:16) |
 | 每段时长 | 5 秒 |
+| API 轮询 | POST 创建任务 → GET `/v1/tasks/{id}` 轮询，约 30-50s/段 |
 | 拒收标准 | 任何片段出现变形、闪烁、物体扭曲、面部异常 = 重新生成 |
-| 每段候选数 | ≥ 3 个，选最佳 |
 
 ### 7.3 SHOULD 规则
 
 | 规则 | 值 |
 |------|----|
-| 迭代用 Gen-4 Turbo | 5 credits/s，速度快 |
-| 最终用 Gen-4 | 12 credits/s，质量最高 |
-| 运动强度 | 3-5/10，宁低勿高 |
+| 质量 720p | $0.079/s，性价比最高 |
+| 可选 1080p | $0.106/s，质量优先时 |
+| 运动强度 | prompt 控制在 subtle/slow 级别，宁低勿高 |
 | 景别匹配运动 | 见下表 |
 
-**景别对应 Camera 参数：**
+**景别对应 motion_prompt 模板：**
 
-| 景别 | Camera 运动 | 提示词模板 |
-|------|------------|-----------|
-| 远景 | slow pan 或 slow zoom out | `slow pan left, ambient atmosphere, cinematic motion` |
-| 中景 | slow push in 或微幅运动 | `subtle head movement, natural breathing, ambient light shift` |
-| 特写 | very slow zoom in | `slow zoom in, numbers glowing subtly, cinematic motion` |
-| 文字卡片 | gentle fade + 轻微视差 | `gentle fade in, slight parallax on text elements` |
+| 景别 | motion_prompt 模板 |
+|------|------------|
+| 远景 | `slow pan left, ambient atmosphere, cinematic motion` |
+| 中景 | `slow push in, subtle head movement, natural light shift` |
+| 特写 | `slow zoom in, gentle ambient light pulse, cinematic` |
+| 故事场景 | `slow subtle camera movement, {description}` |
+| 文字卡片 | 跳过（由 text-card-renderer.py 处理） |
 
-### 7.4 Runway 后处理（导出前）
+### 7.4 批量生成命令
+
+```bash
+source docs/content/.env
+python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.json --include-stories
+python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.json --shot S01  # 单段测试
+python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.json --dry-run     # 预览
+```
+
+### 7.5 后处理（剪映中完成）
 
 | 操作 | 标记 | 参数 |
 |------|------|------|
-| Retime → Trim | MUST | 裁掉首尾不稳定帧 |
-| Retime → Handheld Shake | MUST | 强度 10-15% |
-| 4K Upscale | SHOULD | 最终选中的片段 |
+| 裁剪首尾 | MUST | 去掉首尾不稳定帧 |
+| 手持抖动 | MUST | 剪映 → 特效 → 抖动，强度 10-15% |
+| 胶片颗粒 | SHOULD | 剪映 → 特效，增加质感 |
 
-### 7.5 质量检查
+### 7.6 质量检查
 
 - [ ] 5 秒内无变形/闪烁
 - [ ] 运动自然不卡顿
@@ -893,8 +905,8 @@ ffmpeg -i output.mp4 -metadata comment="本视频由AI生成合成，包含AI生
 
 | 条件 | 操作 |
 |------|------|
-| 已在 Runway Retime 加过 | 跳过 |
-| 未在 Runway 加 | 剪映 → 特效 → 抖动，强度 3-5% |
+| 已在 Kling 生成时处理 | 跳过 |
+| 未在 Kling 加 | 剪映 → 特效 → 抖动，强度 3-5% |
 
 ### 10.2 封面帧
 
@@ -1057,7 +1069,7 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "runway_seed": 67890,
+    "kling_seed": 67890,
     "style": "cinematic_documentary",
     "color_temperature": "cool_steel",
     "accent_color": "#4a90d9",
@@ -1117,15 +1129,15 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
   },
 
   "video_generation": {
-    "engine": "runway_gen4",
+    "engine": "kling_v3",
     "mode": "image_to_video",
+    "model": "kling-v3-image-to-video",
+    "api_base": "https://api.evolink.ai/v1",
     "resolution": "720x1280",
     "duration_sec": 5,
     "fps": 24,
-    "fixed_seed": true,
-    "iteration_model": "gen4_turbo",
-    "final_model": "gen4",
-    "candidates_per_segment": 3,
+    "quality": "720p",
+    "aspect_ratio": "9:16",
     "post_processing": {
       "trim_unstable_frames": true,
       "handheld_shake_pct": 12,
@@ -1224,7 +1236,7 @@ docs/content/
 |------|------|------|
 | 写 5 份配置文件 | 75 分钟 | 手动编辑 JSON |
 | 批量生成参考图 | 50 分钟 | `seedream-batch.py` |
-| Runway 批量生成视频 | 75 分钟 | 手动操作 Runway |
+| Kling 批量生成视频 | 15 分钟 | `kling-gen-batch.py` 自动化 |
 | 批量生成配音 | 25 分钟 | `gemini-tts-batch.py` |
 | **总计** | **225 分钟** | |
 

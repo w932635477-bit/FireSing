@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-22T20:19:55.180687",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-playful.png",
+      "task_id": "task-unified-1776860228-l37uu9ja",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-confident.png",
+      "task_id": "task-unified-1776860276-klrvfh3n",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-elegant.png",
+      "task_id": "task-unified-1776860331-kxy6ixi4",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-warm.png",
+      "task_id": "task-unified-1776860351-iiryt52x",
+      "status": "success"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 > 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
 > 本文档已被 video-production-spec.md 取代，保留作为参考
 > 去AI塑料味 4 步法 + 批量生产流程
-> 工具链：Runway Gen-4 + ElevenLabs + Seedream 4.5 + 剪映
+> 工具链：Kling 3.0 + ElevenLabs + Seedream 4.5 + 剪映
 > 最后更新：2026-04-17
 
 ---
@@ -94,7 +94,7 @@ python docs/content/scripts/seedream-batch.py --dry-run
 所有参考图统一：
 - **色调**：深色调为主，金色/暖色点缀（和 PDF 品牌色一致）
 - **风格**：电影级质感、纪录片风格
-- **画面比**：**9:16 竖版**（Runway Gen-4 原生支持，无需裁剪）
+- **画面比**：**9:16 竖版**（Kling 3.0 原生支持，无需裁剪）
 - **构图**：主体居中偏下，上方留空间给运动和字幕
 - **后缀**：提示词末尾加 `vertical composition 9:16`
 - **API 尺寸**：`1440x2560`（9:16 2K）
@@ -117,7 +117,7 @@ python docs/content/scripts/seedream-batch.py --dry-run
 
 **输入**：参考图（8-12 张）
 **输出**：视频片段（每个 5 秒）
-**工具**：Runway Gen-4 / Gen-4 Turbo
+**工具**：Kling 3.0 / Gen-4 Turbo
 
 ### 参数模板
 
@@ -146,7 +146,7 @@ python docs/content/scripts/seedream-batch.py --dry-run
 
 ### 操作步骤
 
-1. 上传参考图到 Runway
+1. 上传参考图到 Kling
 2. 设置运动参数
 3. 生成 2-3 个候选
 4. 选最自然的一个
@@ -255,9 +255,9 @@ python docs/content/scripts/minimax-tts-batch.py --dry-run
 
 ### 4 项后期处理
 
-#### 0. Runway 预处理
+#### 0. Kling 预处理
 
-在导入剪映前，先在 Runway 完成这些：
+在导入剪映前，先在 Kling 完成这些：
 
 - **4K Upscale**：选中的片段一键升 4K
 - **Retime → Handheld Shake**：强度 10-15%（内置比剪映更自然）
@@ -284,9 +284,9 @@ python docs/content/scripts/minimax-tts-batch.py --dry-run
   - 色温微调（统一所有镜头）
 - **可选**：套 LUT（推荐电影感 LUT）
 
-#### 4. 手持抖动（已在 Runway 完成）
+#### 4. 手持抖动（已在 Kling 完成）
 
-> 如果在 Runway Retime 里已加了 Handheld Shake，**跳过此步**。
+> 如果在 Kling Retime 里已加了 Handheld Shake，**跳过此步**。
 
 - **工具**：剪映 → 特效 → 扭曲 → 微抖
 - **参数**：强度 3-5%

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-22T13:12:49.128624",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-shock.png",
+      "task_id": "task-unified-1776834753-ujoawvts",
+      "status": "success"
+    }
+  ]
+}

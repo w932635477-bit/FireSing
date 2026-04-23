@@ -2,7 +2,7 @@
 
 > 视频ID: day1-medvi-story | 7段情感弧线 | 9:16 竖版
 > 预计总耗时：30-45 分钟（自动化脚本驱动）
-> 工具链：Seedream 4.5 → Runway Gen-4 → Gemini 3.1 Flash TTS → FFmpeg
+> 工具链：Seedream 4.5 → Kling 3.0 → Gemini 3.1 Flash TTS → FFmpeg
 > **起飞前必读**：`pre-flight-checklist.md`
 
 ---
@@ -41,7 +41,7 @@ python3 docs/content/scripts/gemini-tts-batch.py --config config/day1-medvi-stor
 
 ---
 
-## Phase 3: Runway Gen-4 视频生成（自动化）
+## Phase 3: Kling 3.0 视频生成（自动化）
 
 - [ ] S01: 共情 → slow push in, subtle ambient light shift
 - [ ] S02: 向往 → slow push in, screen glow flickers slightly
@@ -53,12 +53,12 @@ python3 docs/content/scripts/gemini-tts-batch.py --config config/day1-medvi-stor
 
 ```bash
 source docs/content/.env
-python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json --dry-run
-python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json --turbo
-python3 docs/content/scripts/runway-gen4-batch.py --config config/day1-medvi-story.json  # Gen-4 final
+python3 docs/content/scripts/kling-gen4-batch.py --config config/day1-medvi-story.json --dry-run
+python3 docs/content/scripts/kling-gen4-batch.py --config config/day1-medvi-story.json --turbo
+python3 docs/content/scripts/kling-gen4-batch.py --config config/day1-medvi-story.json  # Gen-4 final
 ```
 
-### 后处理（Runway UI 手动）
+### 后处理（Kling UI 手动）
 
 - [ ] 每个片段：Trim 裁掉不稳定帧
 - [ ] 每个片段：Handheld Shake 10-15%

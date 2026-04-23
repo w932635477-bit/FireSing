@@ -1,0 +1,232 @@
+{
+  "video_id": "day6-yangmun",
+  "version": "2.0",
+  "created": "2026-04-22",
+  "status": "script_draft",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day6 马斯克说孤独。主题：所有人都在笑你的时候怎么办。与Day4效率铁律、Day5逆袭法则形成系列但角度完全不同。故事线全部使用非SpaceX素材，避免与Day4/Day5重复",
+
+  "global": {
+    "target_duration_sec": 79,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": 67890,
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "warm",
+    "accent_color": "#c9a96e"
+  },
+
+  "script": {
+    "topic": "马斯克被全世界嘲笑的时候，他做对了3件事",
+    "hook_type": "celebrity_quote",
+    "cta_action": "评论",
+    "cta_keyword": "评论区聊聊",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 14,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "reference_file": "day6-yangmun/S01-shock.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, cinematic portrait 85mm f/1.4 shallow depth of field soft warm bokeh, eyes wide with quiet disbelief lips slightly parted, deep midnight blue background with a single warm amber spotlight from above, warm side light from the right casting gentle shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle ambient light shift",
+      "voiceover_text": "马斯克说过一句话：我宁愿在火星上死去，也不愿在一个没有冒险的世界里安逸地活着。1995年，他拿着两万八千美金飞到加州。没房，没车，没人认识他。他做了什么？",
+      "voiceover_pause_markers": "马斯克说过一句话<#0.3#>我宁愿在火星上死去<#0.2#>也不愿在一个没有冒险的世界里安逸地活着。<#0.5#>1995年<#0.2#>他拿着两万八千美金飞到加州。<#0.3#>没房<#0.2#>没车<#0.2#>没人认识他。<#0.5#>他做了什么？",
+      "subtitle_text": "\"我宁愿在火星上死去\\N也不愿安逸地活着\"",
+      "musk_overlay": {
+        "enabled": true,
+        "source": "docs/content/assets/references/musk/day6-musk-hook.jpg",
+        "duration_sec": 7,
+        "transition": "hard_cut",
+        "note": "找一张马斯克年轻时期(1995-1999年，Zip2/PayPal时代)的照片，裁为9:16后放入此路径"
+      }
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 22,
+      "shot_type": "close-up",
+      "emotion_arc": "determined",
+      "reference_file": "day6-yangmun/S02-determined.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, medium format portrait Hasselblad X2D natural skin rendering, confident direct gaze slight knowing smile chin slightly raised, muted olive green wall with a single warm desk lamp creating a cone of light, warm directional light from the left with soft falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, warm light shift",
+      "voiceover_text": "铁律一：别人笑你的时候，别解释，干活。1995年马斯克创办Zip2，穷到睡办公室地板。白天写代码，晚上去YMCA洗澡。投资人当面笑他：你一个南非来的移民，凭什么做互联网？他没回嘴。两年后，Zip2卖了三亿美金。嘲笑他的人，连他的起点都没够到。",
+      "voiceover_pause_markers": "铁律一<#0.3#>别人笑你的时候<#0.2#>别解释<#0.2#>干活。<#0.5#>1995年马斯克创办Zip2<#0.2#>穷到睡办公室地板。<#0.3#>白天写代码<#0.2#>晚上去YMCA洗澡。<#0.5#>投资人当面笑他<#0.2#>你一个南非来的移民<#0.2#>凭什么做互联网？<#0.5#>他没回嘴。<#0.3#>两年后<#0.2#>Zip2卖了三亿美金。<#0.5#>嘲笑他的人<#0.2#>连他的起点都没够到。",
+      "subtitle_text": "铁律一：别人笑你的时候别解释\\NZip2卖了三亿美金",
+      "story_images": [
+        {
+          "id": "S02-story-office",
+          "description": "Zip2时代：睡办公室地板，夜间写代码",
+          "reference_prompt": "cinematic still photography shot on Arri Alexa anamorphic, a small cluttered office at night with two glowing CRT monitors displaying green text on black background, takeout containers and empty coffee cups scattered on desk, a sleeping bag rolled out on the floor next to a desk, warm harsh overhead fluorescent light mixing with cool monitor glow, shallow depth of field focusing on the keyboard and monitors, visible film grain, no people in frame environment tells the story, vertical composition 9:16"
+        },
+        {
+          "id": "S02-story-ymca",
+          "description": "Zip2时代：晚上去YMCA洗澡",
+          "reference_prompt": "cinematic still photography shot on 35mm film Kodak Tri-X 400, a dimly lit YMCA locker room corridor with institutional white tile walls and metal lockers, a single towel hanging on a hook, water droplets on tile floor reflecting overhead light, warm amber fluorescent light casting long shadows, grainy documentary aesthetic, no people in frame just the environment, vertical composition 9:16"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 16,
+      "shot_type": "close-up",
+      "emotion_arc": "power",
+      "reference_file": "day6-yangmun/S03-power.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, editorial portrait photography soft window light film color science, strong direct eye contact jaw set with determination, deep charcoal background with warm copper rim light from behind, warm amber key light from upper right creating dramatic falloff, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "very slow drift, dramatic shadow shift",
+      "voiceover_text": "铁律二：被人踢出去的时候，别回头看。2000年，马斯克在度蜜月的飞机上被自己公司踢出局。PayPal是他创办的，董事会趁他不在投了票。换你，你会怎样？他没有打官司。转身就干了SpaceX。你的失败不是终点。是你的转折点。",
+      "voiceover_pause_markers": "铁律二<#0.3#>被人踢出去的时候<#0.2#>别回头看。<#0.5#>2000年<#0.2#>马斯克在度蜜月的飞机上被自己公司踢出局。<#0.5#>PayPal是他创办的<#0.2#>董事会趁他不在投了票。<#0.5#>换你<#0.2#>你会怎样？<#0.3#>他没有打官司。<#0.3#>转身就干了SpaceX。<#0.5#>你的失败不是终点。<#0.3#>是你的转折点。",
+      "subtitle_text": "铁律二：被踢出局别回头\\N蜜月飞机上被自己公司开掉",
+      "story_images": [
+        {
+          "id": "S03-story-airplane",
+          "description": "PayPal时代：蜜月飞机上被踢出局",
+          "reference_prompt": "cinematic still photography shot on Sony Venice anamorphic, airplane cabin interior at night, a single window with golden sunset clouds visible outside, empty seat next to it with a boarding pass left on the tray table, warm golden light from window contrasting with cool blue cabin overhead lights, intimate melancholic atmosphere shot from the aisle looking toward the window, visible film grain, no people in frame, vertical composition 9:16"
+        },
+        {
+          "id": "S03-story-spacex",
+          "description": "被踢后转身创办SpaceX",
+          "reference_prompt": "cinematic still photography shot on Hasselblad X2D natural light, a large industrial warehouse workshop with early rocket parts and tools scattered on workbenches, blueprints pinned to a corkboard, a single desk lamp illuminating technical drawings, warm tungsten desk light against cool warehouse fluorescent overhead, documentary style showing raw ambition and scrappy beginnings, visible film grain, no people in frame, vertical composition 9:16"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 15,
+      "shot_type": "close-up",
+      "emotion_arc": "contemplative",
+      "reference_file": "day6-yangmun/S04-contemplative.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Sony A7III 85mm f/1.8, looking slightly downward thoughtful expression hand near chin, soft warm taupe background with subtle textured plaster, warm golden hour light from behind left creating halo on hair, gentle fill light from the right, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow subtle sway, golden light gentle pulse",
+      "voiceover_text": "铁律三：全世界都说你疯了，你要笑回去。2018年，特斯拉产能地狱。马斯克睡在工厂地板上，每周工作120小时。做空机构押他倒闭，媒体说他快撑不住了。SEC逼他交出董事长位子。他没有倒下。当年底，Model 3成了全美最畅销电动车。嘲笑他的人，连他睡过的地板都没见过。",
+      "voiceover_pause_markers": "铁律三<#0.3#>全世界都说你疯了<#0.2#>你要笑回去。<#0.5#>2018年<#0.2#>特斯拉产能地狱。<#0.3#>马斯克睡在工厂地板上<#0.2#>每周工作120小时。<#0.5#>做空机构押他倒闭<#0.2#>媒体说他快撑不住了。<#0.3#>SEC逼他交出董事长位子。<#0.5#>他没有倒下。<#0.3#>当年底<#0.2#>Model 3成了全美最畅销电动车。<#0.5#>嘲笑他的人<#0.2#>连他睡过的地板都没见过。",
+      "subtitle_text": "铁律三：别人说你疯了笑回去\\N嘲笑他的人，连地板都没见过",
+      "story_images": [
+        {
+          "id": "S04-story-factory",
+          "description": "特斯拉2018产能地狱：工厂产线",
+          "reference_prompt": "cinematic still photography shot on Arri Alexa 65, a car factory production line at night with robotic welding arms and bright orange sparks flying, car chassis in various stages of assembly stretching into the distance, dramatic industrial lighting with warm orange sparks contrasting cool steel blue machinery, steam rising from the line creating atmospheric haze, low angle looking down the production line creating depth, visible film grain, no people in frame, vertical composition 9:16"
+        },
+        {
+          "id": "S04-story-floor",
+          "description": "特斯拉2018：睡在工厂地板上",
+          "reference_prompt": "cinematic still photography shot on 35mm film Kodak Portra 800 pushed, a makeshift sleeping spot on a concrete factory floor, a thin blanket and small pillow placed between two pieces of industrial machinery, a hard hat resting nearby on the concrete, warm red-orange glow from an emergency exit sign providing the only light source, stark contrast between cold industrial metal and human vulnerability, visible film grain heavy in shadows, no people in frame, vertical composition 9:16"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion_arc": "warm",
+      "reference_file": "day6-yangmun/S05-warm.png",
+      "reference_prompt": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar, shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, gentle warm smile eyes soft relaxed shoulders leaning slightly forward, soft out-of-focus indoor plant leaves in background creating organic shapes, warm late afternoon light from a window to the left with long shadows, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle lean forward, warm light steady",
+      "voiceover_text": "你身边有没有人，正被所有人嘲笑，但他还在干？评论区聊聊，你被嘲笑得最狠的那次，后来怎样了。",
+      "voiceover_pause_markers": "你身边有没有人<#0.2#>正被所有人嘲笑<#0.2#>但他还在干？<#0.5#>评论区聊聊<#0.2#>你被嘲笑得最狠的那次<#0.2#>后来怎样了。",
+      "subtitle_text": "你被嘲笑得最狠的那次\\N后来怎样了？"
+    }
+  ],
+
+  "voiceover": {
+    "engine": "gemini_tts",
+    "gemini_voice": "Charon",
+    "fallback_engine": "doubao_tts",
+    "fallback_ref_audio": "day4-gemini.mp3",
+    "fallback_emotion": "shock",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "统一使用Gemini TTS Charon声音，按emotion_arc切换Director's Notes。S01开场要有悬念感，S02'Zip2卖了三亿'要有爆发力，S03'度蜜月的飞机上'要慢要重，S04'他没有倒下'要短要干脆，S05温暖收尾"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "iteration_model": "gen4_turbo",
+    "final_model": "gen4",
+    "candidates_per_segment": 3,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/ambient_warm_01.mp3",
+    "bgm_volume_pct": 8,
+    "transitions": "hard_cut",
+    "transition_note": "S01 Musk到女性之间用硬切，保持冲击力",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "被全世界嘲笑的时候他做对了3件事",
+      "蜜月飞机上被自己公司开掉，然后呢",
+      "你被嘲笑得最狠的那次后来怎样了"
+    ],
+    "tags": ["马斯克", "创业", "逆袭", "孤独", "坚持", "不被理解"],
+    "xiaohongshu_title_candidates": [
+      "被所有人嘲笑的时候怎么办",
+      "蜜月飞机上被自己公司踢出局",
+      "你被嘲笑得最狠的那次后来怎样了"
+    ],
+    "xiaohongshu_tags": ["马斯克", "逆袭", "坚持", "创业故事", "不被理解", "自我提升", "拒绝内耗"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "米白亚麻衫女性角色震惊表情，深蓝背景，金色文字'被嘲笑的时候怎么办'"
+  }
+}

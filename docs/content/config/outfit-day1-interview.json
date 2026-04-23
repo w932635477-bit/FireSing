@@ -130,6 +130,7 @@
       "shot_type": "wide",
       "emotion": "playful",
       "visual_description": "杨梦两套面试穿搭并排对比",
+      "reference_file": "outfit-S01-playful.png",
       "reference_prompt": "A clean lookbook style photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, standing with one arm relaxed at side, confident smile looking slightly off-camera, wearing a well-fitted navy blue wool blazer, single-breasted two-button closure, structured shoulders, over a crisp white cotton button-down shirt with collar visible, dark tailored wool trousers, simple leather watch, small gold stud earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, soft natural daylight from large windows, bright and airy, no harsh shadows, shot on Nikon D850 with 35mm f/2.8 prime lens, slightly below eye level, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 film simulation, fashion lookbook style, sharp details, vertical composition 9:16",
       "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
       "lyrics_refs": ["B01"]
@@ -141,6 +142,7 @@
       "shot_type": "medium",
       "emotion": "confident",
       "visual_description": "杨梦穿A套：深蓝西装白衬衫，办公室背景",
+      "reference_file": "outfit-S02-confident.png",
       "reference_prompt": "A detailed fashion editorial photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, mid-body shot with slight turn to show garment drape, confident posture with arms relaxed at sides, gentle expression, wearing a well-fitted navy blue wool blazer with structured shoulders, single-breasted two-button closure, notch lapels, over a crisp white cotton button-down shirt, top button undone, dark tailored wool trousers with sharp crease, simple brown leather strap watch, small gold stud earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, polished concrete floor, soft natural daylight from large windows, bright and airy atmosphere, no harsh shadows, shot on Phase One XF with 85mm lens, shallow depth of field, f/2.8, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 colors, editorial quality, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B02", "B03"]
@@ -152,6 +154,7 @@
       "shot_type": "medium",
       "emotion": "elegant",
       "visual_description": "杨梦穿B套：针织衫深色裤，办公室背景",
+      "reference_file": "outfit-S03-elegant.png",
       "reference_prompt": "A detailed fashion editorial photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, mid-body shot, relaxed confident stance, one hand casually in pocket, genuine warm smile looking slightly off-camera, wearing a cream fine-gauge knit sweater with subtle ribbed texture, soft drape over shoulders, relaxed fit, paired with dark slim-fit cotton chinos with minimalist leather belt, delicate thin gold necklace, small hoop earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, polished concrete floor, soft natural daylight from large windows, bright and airy atmosphere, no harsh shadows, shot on Phase One XF with 85mm lens, shallow depth of field, f/2.8, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 colors, editorial quality, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
       "lyrics_refs": ["B04", "B05"]
@@ -181,6 +184,7 @@
       "shot_type": "close-up",
       "emotion": "warm",
       "visual_description": "杨梦直视镜头微笑，CTA投票引导",
+      "reference_file": "outfit-S05-warm.png",
       "reference_prompt": "An intimate warm portrait photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, looking directly at camera with warm inviting smile, close-up from chest up, wearing a cream fine-gauge knit sweater with soft drape, delicate thin gold necklace, bright cream-colored seamless paper background, no distractions, soft diffused beauty lighting, even illumination, warm tone, shot on Hasselblad H6D with 100mm lens, f/4, eye-level, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 film simulation, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle movement",
       "lyrics_refs": ["B08"]

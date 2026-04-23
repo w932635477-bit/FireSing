@@ -10,7 +10,7 @@
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
-    "runway_seed": 12345,
+    "kling_seed": 12345,
     "style": "yangmun_minimalist_portrait",
     "color_temperature": "warm",
     "accent_color": "#c9a96e"
@@ -102,7 +102,7 @@
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
   "video_generation": {
-    "engine": "runway_gen4",
+    "engine": "kling_v3",
     "mode": "image_to_video",
     "resolution": "720x1280",
     "duration_sec": 5,
