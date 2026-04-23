@@ -19,7 +19,7 @@ from pathlib import Path
 from datetime import datetime
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "references"
+REFERENCE_ROOT = PROJECT_ROOT / "docs" / "content" / "assets" / "references"
 DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 
 API_BASE = "https://api.evolink.ai/v1"
@@ -89,7 +89,7 @@ def download_image(url: str, dest: Path) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Generate story scene images from config")
     parser.add_argument("--config", type=str, required=True, help="Video config JSON file")
-    parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
+    parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -117,6 +117,7 @@ def main():
         print(f"  {shot['id']} ({shot['segment']}): {shot['description']}")
     print(f"Model: {MODEL}")
     print(f"Size: 1440x2560 (9:16 2K)")
+    print(f"Video ID: {config['video_id']}")
     print(f"Est. cost: ${len(shots) * 0.030:.2f}")
     print()
 
@@ -132,7 +133,7 @@ def main():
         print("  source docs/content/.env")
         sys.exit(1)
 
-    output_dir = Path(args.output_dir)
+    output_dir = Path(args.output_dir) if args.output_dir else REFERENCE_ROOT / config["video_id"]
     output_dir.mkdir(parents=True, exist_ok=True)
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
 

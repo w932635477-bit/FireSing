@@ -39,24 +39,15 @@ def image_to_data_uri(image_path: Path) -> str:
 
 
 def find_reference_image(shot_id: str, reference_file: str) -> Path | None:
-    if reference_file:
-        exact = REFERENCE_DIR / reference_file
-        if exact.exists() and exact.is_file():
-            return exact
-        basename = reference_file.split("/")[-1]
-        exact2 = REFERENCE_DIR / basename
-        if exact2.exists() and exact2.is_file():
-            return exact2
-    if REFERENCE_DIR.exists():
-        candidates = [
-            f for f in REFERENCE_DIR.iterdir()
-            if f.name.startswith(shot_id + "-") and f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
-        ]
-        if not candidates:
-            return None
-        non_numbered = [f for f in candidates if not f.stem.split("-")[-1].isdigit()]
-        chosen = non_numbered[0] if non_numbered else candidates[0]
-        return chosen
+    if not reference_file:
+        return None
+    exact = REFERENCE_DIR / reference_file
+    if exact.exists() and exact.is_file():
+        return exact
+    basename = reference_file.split("/")[-1]
+    exact2 = REFERENCE_DIR / basename
+    if exact2.exists() and exact2.is_file():
+        return exact2
     return None
 
 
@@ -218,7 +209,7 @@ def main():
     for shot in shots:
         ref_path = find_reference_image(shot["id"], shot["reference_file"])
         if not ref_path:
-            print(f"\n[SKIP] {shot['id']}: no reference image found")
+            print(f"\n[SKIP] {shot['id']}: no reference_file in config (exact path required, no fallback)")
             continue
 
         print(f"\n[{shot['id']}] {shot['name']}")

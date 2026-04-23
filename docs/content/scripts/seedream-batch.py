@@ -26,7 +26,7 @@ from pathlib import Path
 from datetime import datetime
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "references"
+REFERENCE_ROOT = PROJECT_ROOT / "docs" / "content" / "assets" / "references"
 DEFAULT_CONFIG_DIR = PROJECT_ROOT / "docs" / "content" / "config"
 
 API_BASE = "https://api.evolink.ai/v1"
@@ -212,7 +212,7 @@ def main():
     parser = argparse.ArgumentParser(description="Seedream 4.5 Batch Reference Image Generator")
     parser.add_argument("--config", type=str, help="Video config JSON file (relative to config/ or absolute)")
     parser.add_argument("--candidates", type=int, help="Override candidates per shot (1-15)")
-    parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
+    parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--shot", type=str, help="Generate only this shot (e.g., S01)")
     parser.add_argument("--dry-run", action="store_true", help="Show plan without generating")
     args = parser.parse_args()
@@ -239,6 +239,7 @@ def main():
     # Get candidates from config or CLI override
     with open(config_path) as f:
         config = json.load(f)
+    video_id = config["video_id"]
     candidates = args.candidates or config.get("reference_images", {}).get("candidates_per_segment", 2)
     negative_prompt = config.get("reference_images", {}).get("negative_prompt")
 
@@ -254,15 +255,18 @@ def main():
             sys.exit(1)
 
     total_images = len(shots) * candidates
+    output_dir = Path(args.output_dir) if args.output_dir else REFERENCE_ROOT / video_id
+
     print("Seedream 4.5 Batch Reference Image Generator")
     print("=" * 50)
     print(f"Config: {config_path.name}")
+    print(f"Video ID: {video_id}")
     print(f"Shots: {len(shots)} ({', '.join(s['id'] for s in shots)})")
     print(f"Candidates per shot: {candidates}")
     print(f"Total images: {total_images}")
     print(f"Model: {MODEL}")
     print(f"Size: 1440x2560 (9:16 2K)")
-    print(f"Output: {args.output_dir}")
+    print(f"Output: {output_dir}")
     print(f"Est. cost: ${total_images * 0.030:.2f}")
     print()
     print("Emotion arc:")
@@ -274,7 +278,7 @@ def main():
         print("DRY RUN - no generation will happen.")
         print("\nShot plan:")
         for shot in shots:
-            existing = (Path(args.output_dir) / shot["output_file"]).exists()
+            existing = (output_dir / shot["output_file"]).exists()
             status = "exists (will overwrite)" if existing else "new"
             print(f"  {shot['id']} [{shot.get('emotion_arc', '?')}]: {status}")
             print(f"    {shot['prompt'][:100]}...")
@@ -289,7 +293,7 @@ def main():
     run_batch(
         api_key=api_key,
         shots=shots,
-        output_dir=Path(args.output_dir),
+        output_dir=output_dir,
         candidates=candidates,
         negative_prompt=negative_prompt,
     )

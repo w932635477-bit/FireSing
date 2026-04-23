@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-04-23T09:33:54.837488",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-shock.png",
+      "task_id": "task-unified-1776907953-zlztx7sx",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-tension.png",
+      "task_id": "task-unified-1776907969-6j5em8p3",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-reversal.png",
+      "task_id": "task-unified-1776907985-sycdajoh",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-fear.png",
+      "task_id": "task-unified-1776908001-odbtpuo7",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S05-warm.png",
+      "task_id": "task-unified-1776908020-47fsmzyi",
+      "status": "success"
+    }
+  ]
+}

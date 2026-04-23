@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-04-23T10:19:38.517946",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "shot": "S01-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S01-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S01-02.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S02-02.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S03-02.png",
+      "status": "success"
+    },
+    {
+      "shot": "S04-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S04-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/S04-02.png",
+      "status": "success"
+    }
+  ]
+}
