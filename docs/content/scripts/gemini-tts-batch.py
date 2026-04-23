@@ -299,6 +299,37 @@ def main():
 
     client = genai.Client(api_key=api_key)
 
+    def _is_quota_error(error: Exception) -> bool:
+        msg = str(error).lower()
+        return any(kw in msg for kw in ["429", "quota", "resource_exhausted", "403", "permission"])
+
+    def _synthesize_doubao(seg: dict, dest: Path) -> dict:
+        """Fallback: synthesize via Doubao TTS. Returns {duration_s, file_size}."""
+        import base64
+        import importlib.util
+        # Import from sibling script
+        spec = importlib.util.spec_from_file_location(
+            "doubao_tts_batch",
+            str(Path(__file__).resolve().parent / "doubao-tts-batch.py"),
+        )
+        dtb = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(dtb)
+        doubao_key = os.environ.get("MODEL_SPEECH_API_KEY")
+        if not doubao_key:
+            raise RuntimeError("MODEL_SPEECH_API_KEY not set for Doubao fallback")
+        voice_id = dtb.resolve_voice("default_female")
+        emotion = seg.get("emotion", seg.get("emotion_arc", "shock"))
+        raw_text = seg.get("voiceover_pause_markers", seg.get("voiceover_text", ""))
+        ref_audio_b64 = None
+        voiceover_cfg = config.get("voiceover", {})
+        if voiceover_cfg.get("ref_audio") == "claire":
+            ref_path = PROJECT_ROOT / "docs" / "content" / "assets" / "voiceover" / "_ref_audio" / "day4-gemini.mp3"
+            if ref_path.exists():
+                with open(ref_path, "rb") as f:
+                    ref_audio_b64 = base64.b64encode(f.read()).decode()
+        return dtb.synthesize_segment(doubao_key, raw_text, voice_id, emotion, dest, ref_audio_b64=ref_audio_b64)
+
+    use_doubao = False
     results = []
     total_duration = 0.0
 
@@ -309,7 +340,7 @@ def main():
             print(f"  [{seg['id']}] SKIPPED — no text")
             continue
 
-        if i > 0:
+        if i > 0 and not use_doubao:
             print(f"  Waiting {args.delay}s (rate limit)...", flush=True)
             time.sleep(args.delay)
 
@@ -317,6 +348,25 @@ def main():
         prompt = build_prompt(seg, emotion)
 
         print(f"[{seg['id']}] [{seg.get('emotion_arc', '')}] {text[:50]}...")
+
+        if use_doubao:
+            # Already fallen back to Doubao
+            print("  Synthesizing (Doubao)... ", end="", flush=True)
+            try:
+                info = _synthesize_doubao(seg, dest)
+                total_duration += info["duration_s"]
+                print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
+                results.append({
+                    "segment": seg["id"], "file": str(dest),
+                    "duration_s": info["duration_s"], "status": "success",
+                    "actual_duration_s": info["duration_s"],
+                    "voiceover_text": text, "engine": "doubao_fallback",
+                })
+            except Exception as e:
+                print(f"failed: {e}")
+                results.append({"segment": seg["id"], "status": "error", "error": str(e)})
+            continue
+
         print("  Synthesizing... ", end="", flush=True)
 
         try:
@@ -333,8 +383,26 @@ def main():
                 "director_notes": ep.get("director", ""),
             })
         except Exception as e:
-            print(f"failed: {e}")
-            results.append({"segment": seg["id"], "status": "error", "error": str(e)})
+            if _is_quota_error(e):
+                use_doubao = True
+                print(f"\n  Gemini TTS quota exceeded, falling back to Doubao TTS")
+                print(f"  Retrying {seg['id']} with Doubao... ", end="", flush=True)
+                try:
+                    info = _synthesize_doubao(seg, dest)
+                    total_duration += info["duration_s"]
+                    print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
+                    results.append({
+                        "segment": seg["id"], "file": str(dest),
+                        "duration_s": info["duration_s"], "status": "success",
+                        "actual_duration_s": info["duration_s"],
+                        "voiceover_text": text, "engine": "doubao_fallback",
+                    })
+                except Exception as e2:
+                    print(f"Doubao fallback also failed: {e2}")
+                    results.append({"segment": seg["id"], "status": "error", "error": str(e2)})
+            else:
+                print(f"failed: {e}")
+                results.append({"segment": seg["id"], "status": "error", "error": str(e)})
 
     successful = [r for r in results if r["status"] == "success"]
 
@@ -362,8 +430,8 @@ def main():
     print(f"\n{'=' * 50}")
     print(f"Done: {len(successful)} succeeded, {len(results) - len(successful)} failed")
     print(f"Total: {total_duration:.1f}s")
-    if total_duration > 45:
-        print("WARNING: Exceeds 45s limit!")
+    if total_duration > 60:
+        print("WARNING: Exceeds 60s limit!")
     elif total_duration < 30:
         print("WARNING: Below 30s minimum!")
 
