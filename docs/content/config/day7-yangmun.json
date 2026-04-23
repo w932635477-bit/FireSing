@@ -45,7 +45,21 @@
       "motion_prompt": "slow zoom in, gentle ambient light pulse, cinematic",
       "voiceover_text": "你每天做的事，80%机器已经能做了。马斯克说过：我宁愿乐观且错误，也不要悲观且正确。但方向错了，乐观也没用。",
       "voiceover_pause_markers": "你每天做的事<#0.2#>80%机器已经能做了。<#0.5#>马斯克说过<#0.2#>我宁愿乐观且错误<#0.2#>也不要悲观且正确。<#0.5#>但方向错了<#0.2#>乐观也没用。",
-      "subtitle_text": "80%的工作 机器已经能做了"
+      "subtitle_text": "80%的工作 机器已经能做了",
+      "story_images": [
+        {
+          "id": "S01-01",
+          "trigger_text": "80%机器已经能做了",
+          "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, vast automated factory floor with robotic arms assembling products in precise rows, a single human worker in hard hat standing small among the machines looking overwhelmed, cold blue-white fluorescent industrial lighting from above creating long shadows, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow zoom out revealing scale of automation, machines subtly moving"
+        },
+        {
+          "id": "S01-02",
+          "trigger_text": "方向错了",
+          "reference_prompt": "iPhone 15 Pro photo slightly underexposed natural lighting, a person standing alone at a foggy crossroads with three diverging paths, only one path has faint warm light at the end while others fade into grey mist, overcast diffused light with muted tones, visible film grain, subject lower center, vertical composition 9:16",
+          "motion_prompt": "slow push in on figure, fog drifting gently across frame"
+        }
+      ]
     },
     {
       "id": "S02",
@@ -58,7 +72,21 @@
       "motion_prompt": "slow push in, subtle head movement, natural light shift",
       "voiceover_text": "铁律一：忙碌是最隐蔽的偷懒。马斯克说过：我几乎所有时间都在思考，不是在做。你做100遍的表格，AI只要3秒。你熬夜改的PPT格式，AI一键就统一了。你在用忙碌，逃避真正重要的事。",
       "voiceover_pause_markers": "铁律一<#0.3#>忙碌是最隐蔽的偷懒。<#0.5#>马斯克说过<#0.2#>我几乎所有时间都在思考<#0.2#>不是在做。<#0.5#>你做100遍的表格<#0.2#>AI只要3秒。<#0.3#>你熬夜改的PPT格式<#0.2#>AI一键就统一了。<#0.5#>你在用忙碌<#0.2#>逃避真正重要的事。",
-      "subtitle_text": "铁律一：忙碌是最隐蔽的偷懒"
+      "subtitle_text": "铁律一：忙碌是最隐蔽的偷懒",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "你做100遍的表格",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, exhausted office worker hunched over a cluttered IKEA desk with coffee cup rings and scattered papers, Dell monitor showing an endless spreadsheet with tiny cells, harsh overhead fluorescent light casting unflattering shadows under tired eyes, visible film grain, subject lower two-thirds, vertical composition 9:16",
+          "motion_prompt": "slow zoom out, papers subtly shifting, ambient office hum"
+        },
+        {
+          "id": "S02-02",
+          "trigger_text": "AI只要3秒",
+          "reference_prompt": "shot on Sony A7III 50mm f/1.4 available light, close-up of a laptop screen showing an AI chat interface instantly generating a formatted spreadsheet, the warm glow from the screen illuminating the keyboard and a cup of untouched coffee beside it, dark room with only screen light, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow push in on screen, text cursor blinking, data appearing"
+        }
+      ]
     },
     {
       "id": "S03",
@@ -71,7 +99,21 @@
       "motion_prompt": "slow push in, subtle head movement, natural light shift",
       "voiceover_text": "铁律二：跑得快不如跑得对。他造火箭时，所有人都说回收不可能。但燃料成本只占总成本的0.3%。不是不可能，是没人重新算过。他没换方向，他换了方法。你跑的方向，三年后还在吗？",
       "voiceover_pause_markers": "铁律二<#0.3#>跑得快不如跑得对。<#0.5#>他造火箭时<#0.2#>所有人都说回收不可能。<#0.3#>但燃料成本只占总成本的0.3%。<#0.5#>不是不可能<#0.2#>是没人重新算过。<#0.3#>他没换方向<#0.2#>他换了方法。<#0.5#>你跑的方向<#0.2#>三年后还在吗？",
-      "subtitle_text": "铁律二：跑得快不如跑得对"
+      "subtitle_text": "铁律二：跑得快不如跑得对",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "所有人都说回收不可能",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, a Falcon 9 rocket standing on a launchpad at dawn, small silhouettes of skeptical engineers and executives in the foreground shaking their heads, orange dawn light breaking through clouds behind the rocket creating dramatic backlight, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow tilt up from crowd to rocket, clouds drifting"
+        },
+        {
+          "id": "S03-02",
+          "trigger_text": "燃料成本只占总成本的0.3%",
+          "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.8, close-up of a whiteboard or screen showing a cost breakdown pie chart with a tiny 0.3% slice highlighted in red and the rest in grey, a hand with a red marker circling the tiny slice, warm side light from a desk lamp, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow push in on the 0.3% number, subtle camera drift"
+        }
+      ]
     },
     {
       "id": "S04",
@@ -84,7 +126,21 @@
       "motion_prompt": "slow zoom in, gentle ambient light pulse, cinematic",
       "voiceover_text": "铁律三：你越忙，越容易被替代。因为忙，没时间学新东西。因为没时间学，只能继续忙。马斯克说过：当一件事足够重要，即使胜算不大你也该去做。但你连什么才重要都没时间想。把时间，留给机器做不到的事。",
       "voiceover_pause_markers": "铁律三<#0.3#>你越忙<#0.2#>越容易被替代。<#0.5#>因为忙<#0.2#>没时间学新东西。<#0.3#>因为没时间学<#0.2#>只能继续忙。<#0.5#>马斯克说过<#0.2#>当一件事足够重要<#0.2#>即使胜算不大你也该去做。<#0.5#>但你连什么才重要都没时间想。<#0.3#>把时间<#0.2#>留给机器做不到的事。",
-      "subtitle_text": "铁律三：你越忙 越容易被替代"
+      "subtitle_text": "铁律三：你越忙 越容易被替代",
+      "story_images": [
+        {
+          "id": "S04-01",
+          "trigger_text": "因为忙没时间学新东西",
+          "reference_prompt": "shot on Sony A7III 24mm f/2.0 available light, one person drowning in a mountain of papers and sticky notes at a cramped cubicle while through a glass wall behind them three colleagues sit at clean desks with laptops open to an online course, cool fluorescent light on the busy person warm laptop glow on the learners, visible film grain, subject lower two-thirds, vertical composition 9:16",
+          "motion_prompt": "slow pan from paper mountain to learners behind glass"
+        },
+        {
+          "id": "S04-02",
+          "trigger_text": "把时间留给机器做不到的事",
+          "reference_prompt": "iPhone 15 Pro photo natural lighting, close-up of hands resting on a mechanical keyboard with warm golden afternoon light streaming through a window, a notebook with hand-drawn diagrams and creative sketches open beside the keyboard, warm amber light with long shadows, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow zoom out from hands, warm light subtly shifting"
+        }
+      ]
     },
     {
       "id": "S05",
