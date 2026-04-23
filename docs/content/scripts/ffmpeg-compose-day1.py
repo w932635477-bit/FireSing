@@ -128,22 +128,26 @@ def load_segments(config_path: Path) -> list[dict]:
 
         # Find voiceover audio
         audio_path = voiceover_dir / f"{seg_id}.mp3"
-        if not audio_path.exists():
-            audio_path = voiceover_dir / f"{seg_id}.mp3"
 
-        # Find video clip
-        video_path = None
-        for ext in [".mp4"]:
-            for p in video_dir.glob(f"{seg_id}*{ext}"):
-                video_path = p
-                break
-            if video_path:
-                break
+        # Collect all video clips: main + story images
+        video_clips = []
+        # Main video (exact match, e.g. S01.mp4)
+        main_video = video_dir / f"{seg_id}.mp4"
+        if main_video.exists():
+            video_clips.append({"path": main_video, "clip_id": seg_id, "type": "main"})
+
+        # Story videos (e.g. S01-01.mp4, S01-02.mp4)
+        for p in sorted(video_dir.glob(f"{seg_id}-*.mp4")):
+            video_clips.append({"path": p, "clip_id": p.stem, "type": "story"})
+
+        # Backwards compat: single video_path
+        video_path = video_clips[0]["path"] if video_clips else None
 
         segments.append({
             "id": seg_id,
             "audio_path": audio_path,
             "video_path": video_path,
+            "video_clips": video_clips,
             "subtitle_text": seg.get("subtitle_text", ""),
             "voiceover_text": seg.get("voiceover_text", ""),
             "duration_sec": seg.get("duration_sec", 5),
@@ -157,8 +161,71 @@ def load_segments(config_path: Path) -> list[dict]:
     return segments, video_id, post, compositing
 
 
+def _loop_clip_to_duration(clip_path: Path, target_dur: float, output_path: Path) -> None:
+    """Loop a video clip (forward+reverse) to fill target duration."""
+    clip_dur = get_duration(clip_path)
+    loops_needed = int(target_dur / clip_dur) + 1
+    parts = []
+    temp_dir = output_path.parent
+    for i in range(loops_needed):
+        part_path = temp_dir / f"{output_path.stem}_loop_{i}.mp4"
+        if i % 2 == 0:
+            cmd = ["ffmpeg", "-y", "-i", str(clip_path),
+                    "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+                    "-an", "-pix_fmt", "yuv420p", "-r", "24", str(part_path)]
+        else:
+            cmd = ["ffmpeg", "-y", "-i", str(clip_path),
+                    "-vf", "reverse",
+                    "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+                    "-an", "-pix_fmt", "yuv420p", "-r", "24", str(part_path)]
+        subprocess.run(cmd, check=True, capture_output=True)
+        parts.append(part_path)
+
+    concat_file = temp_dir / f"{output_path.stem}_loops.txt"
+    with open(concat_file, "w") as f:
+        for p in parts:
+            f.write(f"file '{p.resolve()}'\n")
+
+    cmd = [
+        "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+        "-i", str(concat_file),
+        "-t", str(target_dur),
+        "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+        "-pix_fmt", "yuv420p", "-r", "24",
+        str(output_path),
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+    for p in parts:
+        p.unlink(missing_ok=True)
+    concat_file.unlink(missing_ok=True)
+
+
+def _trim_or_loop_clip(clip_path: Path, target_dur: float, output_path: Path) -> None:
+    """Trim or loop a single clip to match target duration."""
+    clip_dur = get_duration(clip_path)
+
+    if target_dur <= clip_dur * 1.05:
+        cmd = ["ffmpeg", "-y", "-i", str(clip_path),
+                "-t", str(target_dur),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+                "-an", "-pix_fmt", "yuv420p", "-r", "24",
+                str(output_path)]
+        subprocess.run(cmd, check=True, capture_output=True)
+    elif target_dur <= clip_dur * 2.0:
+        speed = clip_dur / target_dur
+        cmd = ["ffmpeg", "-y", "-i", str(clip_path),
+                "-filter:v", f"setpts={1/speed}*PTS",
+                "-t", str(target_dur),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+                "-an", "-pix_fmt", "yuv420p", "-r", "24",
+                str(output_path)]
+        subprocess.run(cmd, check=True, capture_output=True)
+    else:
+        _loop_clip_to_duration(clip_path, target_dur, output_path)
+
+
 def prepare_segment(seg: dict, temp_dir: Path, output_path: Path, all_segs: list[dict] | None = None) -> None:
-    """Prepare a video segment matching audio duration."""
+    """Prepare a video segment matching audio duration, supporting multi-clip segments."""
     if not seg["audio_path"].exists():
         print(f"  {seg['id']}: SKIP — no audio ({seg['audio_path']})")
         return False
@@ -166,77 +233,58 @@ def prepare_segment(seg: dict, temp_dir: Path, output_path: Path, all_segs: list
     target_duration = get_duration(seg["audio_path"])
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Route 1: text_card → generate via FFmpeg drawtext
-    shot_type = seg.get("shot_type", "medium")
-    if shot_type == "text_card":
+    # Route 1: text_card
+    if seg.get("shot_type") == "text_card":
         print(f"  {seg['id']}: generating text_card ({target_duration:.1f}s)")
         return generate_text_card(seg, output_path, target_duration, all_segs=all_segs)
 
-    # Route 2: normal video from Runway, optionally with photo overlay
-    if not seg["video_path"] or not seg["video_path"].exists():
-        print(f"  {seg['id']}: SKIP — no video ({seg['video_path']})")
+    # Route 2: multi-clip segment (main + story images)
+    clips = seg.get("video_clips", [])
+    # Backwards compat: if no clips list, fall back to single video_path
+    if not clips and seg.get("video_path") and seg["video_path"].exists():
+        clips = [{"path": seg["video_path"], "clip_id": seg["id"], "type": "main"}]
+
+    clips = [c for c in clips if c["path"].exists()]
+    if not clips:
+        print(f"  {seg['id']}: SKIP — no video clips found")
         return False
 
-    video_duration = get_duration(seg["video_path"])
+    num_clips = len(clips)
+    per_clip_dur = target_duration / num_clips
+    print(f"  {seg['id']}: audio={target_duration:.1f}s, {num_clips} clips, {per_clip_dur:.1f}s/clip")
 
-    if target_duration <= video_duration * 1.05:
-        cmd = [
-            "ffmpeg", "-y",
-            "-i", str(seg["video_path"]),
-            "-t", str(target_duration),
-            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-            "-an", "-pix_fmt", "yuv420p", "-r", "24",
-            str(output_path),
-        ]
-        subprocess.run(cmd, check=True, capture_output=True)
-    elif target_duration <= video_duration * 2.0:
-        speed_factor = target_duration / video_duration
-        cmd = [
-            "ffmpeg", "-y",
-            "-i", str(seg["video_path"]),
-            "-filter:v", f"setpts={speed_factor}*PTS",
-            "-t", str(target_duration),
-            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-            "-an", "-pix_fmt", "yuv420p", "-r", "24",
-            str(output_path),
-        ]
-        subprocess.run(cmd, check=True, capture_output=True)
-    else:
-        # Loop video to fill duration
-        clip_duration = video_duration
-        loops_needed = int(target_duration / clip_duration) + 1
-        parts = []
-        for i in range(loops_needed):
-            part_path = temp_dir / f"{seg['id']}_loop_{i}.mp4"
-            if i % 2 == 0:
-                loop_cmd = ["ffmpeg", "-y", "-i", str(seg["video_path"]),
-                            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-                            "-an", "-pix_fmt", "yuv420p", "-r", "24", str(part_path)]
-            else:
-                loop_cmd = ["ffmpeg", "-y", "-i", str(seg["video_path"]),
-                            "-vf", "reverse",
-                            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-                            "-an", "-pix_fmt", "yuv420p", "-r", "24", str(part_path)]
-            subprocess.run(loop_cmd, check=True, capture_output=True)
-            parts.append(part_path)
+    # Prepare each clip to per_clip_dur
+    prepared_clips = []
+    for clip in clips:
+        clip_id = clip["clip_id"]
+        clip_path = clip["path"]
+        clip_out = temp_dir / f"{seg['id']}_{clip_id}_trimmed.mp4"
+        _trim_or_loop_clip(clip_path, per_clip_dur, clip_out)
+        prepared_clips.append(clip_out)
 
-        concat_file = temp_dir / f"{seg['id']}_loops.txt"
-        with open(concat_file, "w") as f:
-            for p in parts:
-                f.write(f"file '{p.resolve()}'\n")
+    # Single clip: just rename
+    if len(prepared_clips) == 1:
+        prepared_clips[0].rename(output_path)
+        return True
 
-        cmd = [
-            "ffmpeg", "-y",
-            "-f", "concat", "-safe", "0",
-            "-i", str(concat_file),
-            "-t", str(target_duration),
-            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-            "-pix_fmt", "yuv420p", "-r", "24",
-            str(output_path),
-        ]
-        subprocess.run(cmd, check=True, capture_output=True)
-        for p in parts:
-            p.unlink(missing_ok=True)
+    # Multiple clips: concat in order (main first, then stories)
+    concat_file = temp_dir / f"{seg['id']}_clips.txt"
+    with open(concat_file, "w") as f:
+        for p in prepared_clips:
+            f.write(f"file '{p.resolve()}'\n")
+
+    cmd = [
+        "ffmpeg", "-y", "-f", "concat", "-safe", "0",
+        "-i", str(concat_file),
+        "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+        "-pix_fmt", "yuv420p", "-r", "24",
+        str(output_path),
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+
+    for p in prepared_clips:
+        p.unlink(missing_ok=True)
+    concat_file.unlink(missing_ok=True)
 
     return True
 
@@ -270,7 +318,7 @@ def main():
     for seg in segments:
         audio_ok = seg["audio_path"].exists()
         is_text_card = seg.get("shot_type") == "text_card"
-        video_ok = seg["video_path"] is not None and seg["video_path"].exists()
+        video_ok = bool(seg.get("video_clips")) or (seg.get("video_path") and seg["video_path"].exists())
         if is_text_card:
             video_ok = True
         status = "text_card" if is_text_card else ("OK" if video_ok else "MISSING")
