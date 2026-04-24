@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-24T11:49:05.679499",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S01-shock.png",
+      "task_id": "task-unified-1777002470-l71cfe9a",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S02-tension.png",
+      "task_id": "task-unified-1777002496-laxhvd14",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S03-reversal.png",
+      "task_id": "task-unified-1777002511-pom8v5n0",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S04-warm.png",
+      "task_id": "task-unified-1777002528-ev1nt2z3",
+      "status": "success"
+    }
+  ]
+}

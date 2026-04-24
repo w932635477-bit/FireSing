@@ -1,0 +1,71 @@
+{
+  "video_id": "day9-yangmun",
+  "version": "1.0",
+  "created": "2026-04-24",
+  "status": "supplementary_ren_clips",
+  "strategy_notes": "Supplementary Ren Zhengfei video clips for Day9 insertion. Real photos, not AI-generated.",
+
+  "global": {
+    "target_duration_sec": 45,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "aspect_ratio": "9:16"
+  },
+
+  "segments": [
+    {
+      "id": "ren-01",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "shock",
+      "reference_file": "ren-zhengfei/cropped/ren-01-serious_9x16.jpg",
+      "motion_prompt": "slow push in on serious contemplative face, subtle ambient light shift, background slightly darkening",
+      "voiceover_text": "43岁的任正非被裁掉的那一刻"
+    },
+    {
+      "id": "ren-02",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "tension",
+      "reference_file": "ren-zhengfei/cropped/ren-02-determined_9x16.jpg",
+      "motion_prompt": "slow zoom in on crossed arms and resolute expression, subtle light warming from left",
+      "voiceover_text": "活下去是最低纲领也是最高纲领"
+    },
+    {
+      "id": "ren-03",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "reversal",
+      "reference_file": "ren-zhengfei/cropped/ren-03-success_9x16.jpg",
+      "motion_prompt": "slow zoom in from medium to close-up, warm light reveal, thumbs up gesture subtle movement",
+      "voiceover_text": "把华为做到了行业顶尖"
+    },
+    {
+      "id": "ren-04",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "contemplative",
+      "reference_file": "ren-zhengfei/cropped/ren-04-confident_9x16.jpg",
+      "motion_prompt": "slow profile pan, subtle depth of field shift, painting background softly glowing",
+      "voiceover_text": "外面阳光正好他在准备御寒"
+    },
+    {
+      "id": "ren-05",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "warm",
+      "reference_file": "ren-zhengfei/cropped/ren-05-warm_9x16.jpg",
+      "motion_prompt": "slow push in on warm smile, soft golden light intensifying, gentle warmth spreading",
+      "voiceover_text": "说给每一个正在扛的你"
+    }
+  ],
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true
+  }
+}

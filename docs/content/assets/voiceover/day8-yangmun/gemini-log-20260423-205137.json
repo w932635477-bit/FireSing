@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-23T20:51:37.741493",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day8-yangmun",
+  "total_duration_s": 18.92,
+  "results": [
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day8-yangmun/S04.mp3",
+      "duration_s": 18.92,
+      "status": "success",
+      "actual_duration_s": 18.92,
+      "voiceover_text": "铁律三：世界是被不合群的人改变的。乔布斯被自己公司赶走，回来做了iPhone。马斯克被嘲笑20年，公司值万亿。你不敢不合群，不是你弱，是你还没找到值得你坚持的那件事。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

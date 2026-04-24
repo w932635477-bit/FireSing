@@ -1,0 +1,71 @@
+{
+  "video_id": "day8-yangmun",
+  "version": "1.0",
+  "created": "2026-04-24",
+  "status": "supplementary_musk_clips",
+  "strategy_notes": "Supplementary Musk video clips for Day8 insertion. Real photos, not AI-generated.",
+
+  "global": {
+    "target_duration_sec": 41,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "aspect_ratio": "9:16"
+  },
+
+  "segments": [
+    {
+      "id": "musk-01",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "authority",
+      "reference_file": "musk-new/cropped/2023090713265753316985_9x16.jpg",
+      "motion_prompt": "slow zoom in on contemplative face, subtle ambient light shift, hands slightly moving near mouth",
+      "voiceover_text": "马斯克说过：我的童年非常孤独"
+    },
+    {
+      "id": "musk-02",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "future",
+      "reference_file": "musk-new/cropped/Elon_Musk_with_robots_266bdc037b_9x16.jpg",
+      "motion_prompt": "slow pan across robots, subtle particle effects, futuristic cityscape glowing in background",
+      "voiceover_text": "他看到的是燃油车的终局"
+    },
+    {
+      "id": "musk-03",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "serious",
+      "reference_file": "musk-new/cropped/0202_20231026143329_9x16.jpg",
+      "motion_prompt": "slow push in on serious expression, subtle head micro-movement, background light shift",
+      "voiceover_text": "马斯克被嘲笑20年"
+    },
+    {
+      "id": "musk-04",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "contemplative",
+      "reference_file": "musk-new/cropped/09isaacson-book-2-bpcw-master1050_9x16.jpg",
+      "motion_prompt": "slow profile pan, subtle depth of field shift, contemplative gaze movement",
+      "voiceover_text": "他把别人社交的时间全用在了思考上"
+    },
+    {
+      "id": "musk-05",
+      "type": "story",
+      "duration_sec": 5,
+      "emotion_arc": "power",
+      "reference_file": "musk-new/cropped/0e7692a38e872dca6555a85182059291u5_9x16.jpg",
+      "motion_prompt": "slow zoom in from medium to close-up, dramatic light reveal, subtle chin raise",
+      "voiceover_text": "公司值万亿"
+    }
+  ],
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true
+  }
+}

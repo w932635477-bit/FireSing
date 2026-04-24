@@ -36,11 +36,19 @@ VOICES = [
 ]
 
 # Unified narrator profile — same person throughout the whole video
-NARRATOR_PROFILE = (
+NARRATOR_PROFILE_MALE = (
     "You are a Chinese male narrator telling a compelling story in a Douyin short video. "
     "Speak Mandarin naturally and warmly, as if sharing an amazing discovery with a friend. "
     "You have a confident, grounded voice with natural emotional range."
 )
+
+NARRATOR_PROFILE_FEMALE = (
+    "You are a Chinese female narrator telling a compelling story in a Douyin short video. "
+    "Speak Mandarin naturally and warmly, as if sharing an amazing discovery with a friend. "
+    "You have a confident, clear voice with natural emotional range."
+)
+
+NARRATOR_PROFILE = NARRATOR_PROFILE_MALE
 
 NARRATOR_SCENE = "Narrating a short video about an underdog founder's incredible business success."
 
@@ -102,6 +110,22 @@ EMOTION_PROMPTS = {
         "scene": "Turning business lessons into a personal call to action.",
         "director": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure.",
     },
+    # Day7 emotion arcs
+    "tension": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Delivering an uncomfortable truth about busywork and wasted effort.",
+        "director": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict.",
+    },
+    "reversal": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Revealing a counterintuitive insight that changes the listener's perspective.",
+        "director": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure.",
+    },
+    "fear": {
+        "profile": NARRATOR_PROFILE,
+        "scene": "Describing a vicious cycle that traps people in mediocrity.",
+        "director": "Speak with controlled urgency. Use [seriously] for the cycle, then [softly] for the escape. Each repetition of the trap should feel heavier. End with quiet hope, not despair.",
+    },
 }
 
 AUDIO_TAGS = {
@@ -116,6 +140,9 @@ AUDIO_TAGS = {
     "power": ["[seriously]", "[impressed]"],
     "contemplative": ["[thoughtfully]", "[softly]"],
     "warm": ["[warmly]", "[gently]"],
+    "tension": ["[seriously]", "[confidently]"],
+    "reversal": ["[thoughtfully]", "[impressed]"],
+    "fear": ["[seriously]", "[softly]"],
 }
 
 
@@ -243,6 +270,7 @@ def main():
     parser.add_argument("--delay", type=float, default=25.0,
                         help="Delay between requests in seconds (free tier: 25s)")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--female", action="store_true", help="Use female narrator profile")
     args = parser.parse_args()
 
     config_path = Path(args.config)
@@ -263,6 +291,16 @@ def main():
 
     voice = args.voice
     output_dir = Path(args.output_dir) / video_id
+
+    if args.female:
+        global NARRATOR_PROFILE
+        NARRATOR_PROFILE = NARRATOR_PROFILE_FEMALE
+        # Update all emotion prompts to use female profile
+        for key in EMOTION_PROMPTS:
+            EMOTION_PROMPTS[key]["profile"] = NARRATOR_PROFILE
+        if not args.voice or args.voice == "Charon":
+            voice = "Aoede"
+            print(f"  Female mode: auto-selected voice '{voice}'")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if args.shot:
@@ -276,6 +314,7 @@ def main():
     print(f"Model: gemini-3.1-flash-tts-preview")
     print(f"Voice: {voice}")
     print(f"Output: {output_dir}")
+    print(f"Channel priority: Google → 云雾AI → Doubao")
     print()
 
     if args.dry_run:
@@ -291,17 +330,31 @@ def main():
             print()
         return
 
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        print("ERROR: GEMINI_API_KEY not set")
-        print("Get it from: https://aistudio.google.com/apikey")
+    google_key = os.environ.get("GEMINI_API_KEY")
+    yunwu_key = os.environ.get("YUNWU_API_KEY")
+    yunwu_base = os.environ.get("YUNWU_BASE_URL", "https://yunwu.ai")
+
+    if not google_key and not yunwu_key:
+        print("ERROR: No API key set (GEMINI_API_KEY or YUNWU_API_KEY)")
+        print("Get Google key: https://aistudio.google.com/apikey")
         sys.exit(1)
 
-    client = genai.Client(api_key=api_key)
+    google_client = genai.Client(api_key=google_key) if google_key else None
+    yunwu_client = (
+        genai.Client(api_key=yunwu_key, http_options={"base_url": yunwu_base})
+        if yunwu_key else None
+    )
+    client = google_client or yunwu_client
+    active_channel = "google"
+    print(f"Channel: Google (direct) → 云雾AI (fallback) → Doubao (last resort)")
+    if yunwu_client:
+        print(f"  云雾AI ready: {yunwu_base}")
+    else:
+        print("  云雾AI: not configured (no YUNWU_API_KEY)")
 
     def _is_quota_error(error: Exception) -> bool:
         msg = str(error).lower()
-        return any(kw in msg for kw in ["429", "quota", "resource_exhausted", "403", "permission"])
+        return any(kw in msg for kw in ["429", "quota", "resource_exhausted", "403", "permission", "503", "unavailable", "high demand"])
 
     def _synthesize_doubao(seg: dict, dest: Path) -> dict:
         """Fallback: synthesize via Doubao TTS. Returns {duration_s, file_size}."""
@@ -330,6 +383,7 @@ def main():
         return dtb.synthesize_segment(doubao_key, raw_text, voice_id, emotion, dest, ref_audio_b64=ref_audio_b64)
 
     use_doubao = False
+    use_yunwu = False
     results = []
     total_duration = 0.0
 
@@ -340,7 +394,7 @@ def main():
             print(f"  [{seg['id']}] SKIPPED — no text")
             continue
 
-        if i > 0 and not use_doubao:
+        if i > 0 and not use_doubao and not use_yunwu:
             print(f"  Waiting {args.delay}s (rate limit)...", flush=True)
             time.sleep(args.delay)
 
@@ -350,7 +404,6 @@ def main():
         print(f"[{seg['id']}] [{seg.get('emotion_arc', '')}] {text[:50]}...")
 
         if use_doubao:
-            # Already fallen back to Doubao
             print("  Synthesizing (Doubao)... ", end="", flush=True)
             try:
                 info = _synthesize_doubao(seg, dest)
@@ -367,10 +420,45 @@ def main():
                 results.append({"segment": seg["id"], "status": "error", "error": str(e)})
             continue
 
-        print("  Synthesizing... ", end="", flush=True)
+        if use_yunwu:
+            print("  Synthesizing (云雾AI)... ", end="", flush=True)
+            try:
+                info = synthesize(yunwu_client, prompt, voice, dest)
+                total_duration += info["duration_s"]
+                print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
+                results.append({
+                    "segment": seg["id"], "file": str(dest),
+                    "duration_s": info["duration_s"], "status": "success",
+                    "actual_duration_s": info["duration_s"],
+                    "voiceover_text": text, "engine": "yunwu_gemini",
+                })
+            except Exception as e:
+                if _is_quota_error(e) or "503" in str(e):
+                    print(f"云雾AI failed: {e}")
+                    print(f"  Falling back to Doubao TTS")
+                    use_doubao = True
+                    try:
+                        info = _synthesize_doubao(seg, dest)
+                        total_duration += info["duration_s"]
+                        print(f"  Doubao done ({info['duration_s']:.1f}s)")
+                        results.append({
+                            "segment": seg["id"], "file": str(dest),
+                            "duration_s": info["duration_s"], "status": "success",
+                            "actual_duration_s": info["duration_s"],
+                            "voiceover_text": text, "engine": "doubao_fallback",
+                        })
+                    except Exception as e2:
+                        print(f"  Doubao also failed: {e2}")
+                        results.append({"segment": seg["id"], "status": "error", "error": str(e2)})
+                else:
+                    print(f"failed: {e}")
+                    results.append({"segment": seg["id"], "status": "error", "error": str(e)})
+            continue
+
+        print(f"  Synthesizing (Google direct)... ", end="", flush=True)
 
         try:
-            info = synthesize(client, prompt, voice, dest)
+            info = synthesize(google_client, prompt, voice, dest)
             total_duration += info["duration_s"]
             print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
             ep = EMOTION_PROMPTS.get(emotion, {})
@@ -384,22 +472,53 @@ def main():
             })
         except Exception as e:
             if _is_quota_error(e):
-                use_doubao = True
-                print(f"\n  Gemini TTS quota exceeded, falling back to Doubao TTS")
-                print(f"  Retrying {seg['id']} with Doubao... ", end="", flush=True)
-                try:
-                    info = _synthesize_doubao(seg, dest)
-                    total_duration += info["duration_s"]
-                    print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
-                    results.append({
-                        "segment": seg["id"], "file": str(dest),
-                        "duration_s": info["duration_s"], "status": "success",
-                        "actual_duration_s": info["duration_s"],
-                        "voiceover_text": text, "engine": "doubao_fallback",
-                    })
-                except Exception as e2:
-                    print(f"Doubao fallback also failed: {e2}")
-                    results.append({"segment": seg["id"], "status": "error", "error": str(e2)})
+                print(f"\n  Google quota exceeded!")
+                if yunwu_client:
+                    use_yunwu = True
+                    print(f"  Retrying {seg['id']} with 云雾AI... ", end="", flush=True)
+                    try:
+                        info = synthesize(yunwu_client, prompt, voice, dest)
+                        total_duration += info["duration_s"]
+                        print(f"done ({info['duration_s']:.1f}s, {info['file_size'] // 1024}KB)")
+                        results.append({
+                            "segment": seg["id"], "file": str(dest),
+                            "duration_s": info["duration_s"], "status": "success",
+                            "actual_duration_s": info["duration_s"],
+                            "voiceover_text": text, "engine": "yunwu_gemini",
+                        })
+                    except Exception as e2:
+                        print(f"云雾AI failed: {e2}")
+                        print(f"  Falling back to Doubao TTS")
+                        use_doubao = True
+                        try:
+                            info = _synthesize_doubao(seg, dest)
+                            total_duration += info["duration_s"]
+                            print(f"  Doubao done ({info['duration_s']:.1f}s)")
+                            results.append({
+                                "segment": seg["id"], "file": str(dest),
+                                "duration_s": info["duration_s"], "status": "success",
+                                "actual_duration_s": info["duration_s"],
+                                "voiceover_text": text, "engine": "doubao_fallback",
+                            })
+                        except Exception as e3:
+                            print(f"  Doubao also failed: {e3}")
+                            results.append({"segment": seg["id"], "status": "error", "error": str(e3)})
+                else:
+                    print(f"  No 云雾AI configured, falling back to Doubao TTS")
+                    use_doubao = True
+                    try:
+                        info = _synthesize_doubao(seg, dest)
+                        total_duration += info["duration_s"]
+                        print(f"  Doubao done ({info['duration_s']:.1f}s)")
+                        results.append({
+                            "segment": seg["id"], "file": str(dest),
+                            "duration_s": info["duration_s"], "status": "success",
+                            "actual_duration_s": info["duration_s"],
+                            "voiceover_text": text, "engine": "doubao_fallback",
+                        })
+                    except Exception as e2:
+                        print(f"  Doubao also failed: {e2}")
+                        results.append({"segment": seg["id"], "status": "error", "error": str(e2)})
             else:
                 print(f"failed: {e}")
                 results.append({"segment": seg["id"], "status": "error", "error": str(e)})

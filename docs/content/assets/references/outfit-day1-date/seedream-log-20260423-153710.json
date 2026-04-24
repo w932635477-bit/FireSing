@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-23T15:37:10.382133",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S05",
+      "file": "docs/content/assets/references/outfit-day1-date/S05-warm.png",
+      "task_id": "task-unified-1776929779-vnhae6eg",
+      "status": "success"
+    }
+  ]
+}

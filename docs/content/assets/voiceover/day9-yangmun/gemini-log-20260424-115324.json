@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-04-24T11:53:24.709892",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day9-yangmun",
+  "total_duration_s": 75.88,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day9-yangmun/S01.mp3",
+      "duration_s": 16.56,
+      "status": "success",
+      "actual_duration_s": 16.56,
+      "voiceover_text": "手指悬在辞职信上面，迟迟不敢按发送。怕的不是辞职，是辞了以后什么都没有了。43岁的任正非，被裁掉的那一刻，连这封辞职信都不用写。别人替他写好了。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day9-yangmun/S02.mp3",
+      "duration_s": 19.880249,
+      "status": "success",
+      "actual_duration_s": 19.880249,
+      "voiceover_text": "但他没有去投简历。借了两万块钱，在深圳一间破厂房里，做一件没人看好的事。最困难的时候，他说：活下去，是华为的最低纲领，也是最高纲领。不是口号——他说这话的时候，是真的在活不活的边缘。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day9-yangmun/S03.mp3",
+      "duration_s": 20.64,
+      "status": "success",
+      "actual_duration_s": 20.64,
+      "voiceover_text": "那间破厂房里出来的人，后来把华为做到了行业顶尖。但就在最好的那一年，他写了《华为的冬天》。外面阳光正好，他在准备御寒。一年后行业寒冬，无数公司倒下，华为活了下来。",
+      "director_notes": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day9-yangmun/S04.mp3",
+      "duration_s": 18.8,
+      "status": "success",
+      "actual_duration_s": 18.8,
+      "voiceover_text": "他写的不是华为的冬天，是所有正在扛的人的冬天。活下去——这三个字，43岁那年他对自己说的，今天说给每一个正在扛的你。评论区聊聊，你最难的日子已经过去了，还是正在经历？",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

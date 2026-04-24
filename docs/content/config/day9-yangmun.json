@@ -1,0 +1,212 @@
+{
+  "video_id": "day9-yangmun",
+  "version": "1.0",
+  "created": "2026-04-24",
+  "status": "script_approved",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day9 任正非活下去。自由叙事结构（非铁律三段式）。shock→tension→reversal→warm四段。80分投产。",
+  "eval_score": 80,
+
+  "global": {
+    "target_duration_sec": 45,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": 49217,
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "cool_warm_shift",
+    "accent_color": "#8b7355"
+  },
+
+  "script": {
+    "topic": "活下去",
+    "hook_type": "scene_immersion",
+    "cta_action": "评论",
+    "cta_keyword": "最难的日子",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用二选一问题，降低互动门槛",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "reference_file": "day9-yangmun/S01-shock.png",
+      "reference_prompt": "35mm documentary film still grainy imperfect focus, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, eyes wide with unspoken fear lips slightly parted as if frozen mid-thought one hand raised near her chest fingers hovering, dark slate background with no visible objects, cold overhead fluorescent light casting unflattering shadows under eyes and cheekbones creating a trapped feeling, visible film grain especially in shadow areas desaturated cool blue-grey tones, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow zoom in on hovering hand, subtle freeze, cold light flicker",
+      "voiceover_text": "手指悬在辞职信上面，迟迟不敢按发送。怕的不是辞职，是辞了以后什么都没有了。43岁的任正非，被裁掉的那一刻，连这封辞职信都不用写。别人替他写好了。",
+      "voiceover_pause_markers": "手指悬在辞职信上面<#0.3#>迟迟不敢按发送。<#0.8#>怕的不是辞职<#0.2#>是辞了以后什么都没有了。<#0.6#>43岁的任正非<#0.2#>被裁掉的那一刻<#0.3#>连这封辞职信都不用写。<#0.5#>别人替他写好了。",
+      "subtitle_text": "怕的不是辞职 是辞了以后什么都没有了",
+      "story_images": [
+        {
+          "id": "S01-01",
+          "trigger_text": "手指悬在辞职信上面",
+          "reference_file": "day9-yangmun/S01-01.png",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, close-up of a person's index finger hovering above a mouse cursor on a laptop screen showing a resignation email draft in Chinese, the finger trembling slightly frozen mid-click, dark room illuminated only by the blue laptop screen light creating harsh shadows on the hand, visible film grain especially in shadow areas, subject center, vertical composition 9:16",
+          "motion_prompt": "slow zoom in on hovering finger, subtle tremble, screen glow pulsing"
+        },
+        {
+          "id": "S01-02",
+          "trigger_text": "别人替他写好了",
+          "reference_file": "day9-yangmun/S01-02.png",
+          "reference_prompt": "iPhone 15 Pro photo natural lighting slightly underexposed, an empty office desk with a single cardboard box someone's packed belongings visible inside a closed laptop and a printed termination letter on top, harsh overhead office fluorescent light creating clinical sterile atmosphere, muted desaturated grey-green tones, visible film grain, subject lower two-thirds, vertical composition 9:16",
+          "motion_prompt": "slow tilt down to the termination letter, ambient office hum"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 13,
+      "shot_type": "medium",
+      "emotion_arc": "tension",
+      "reference_file": "day9-yangmun/S02-tension.png",
+      "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Kodak Portra 400, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, jaw clenched with grim determination eyes narrow and focused staring straight ahead like she is about to walk into a storm she knows will hurt, dark industrial background with faint suggestions of concrete walls and bare lightbulbs, harsh warm overhead single bulb light casting deep shadows around eyes like a noir interrogation, visible film grain especially in shadow areas warm but oppressive amber tones, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle jaw tighten, single bulb flickering",
+      "voiceover_text": "但他没有去投简历。借了两万块钱，在深圳一间破厂房里，做一件没人看好的事。最困难的时候，他说：活下去，是华为的最低纲领，也是最高纲领。不是口号——他说这话的时候，是真的在活不活的边缘。",
+      "voiceover_pause_markers": "但他没有去投简历。<#0.5#>借了两万块钱<#0.2#>在深圳一间破厂房里<#0.2#>做一件没人看好的事。<#0.8#>最困难的时候<#0.2#>他说<#0.3#>活下去<#0.3#>是华为的最低纲领<#0.2#>也是最高纲领。<#0.5#>不是口号<#0.5#>他说这话的时候<#0.2#>是真的在活不活的边缘。",
+      "subtitle_text": "活下去 是最低纲领 也是最高纲领",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "破厂房里",
+          "reference_file": "day9-yangmun/S02-01.png",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, interior of a dilapidated factory space in 1987 Shenzhen with peeling concrete walls exposed rebar and a single bare lightbulb hanging from the ceiling, a wooden desk with scattered papers and a landline phone, dust particles floating in the harsh light beam, warm amber from the bulb mixing with cold grey concrete, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow pan across the factory space, dust particles drifting in light"
+        },
+        {
+          "id": "S02-02",
+          "trigger_text": "活不活的边缘",
+          "reference_file": "day9-yangmun/S02-02.png",
+          "reference_prompt": "shot on Sony A7III 85mm f/1.8 available light Fuji 400H, extreme close-up of a person's hands gripping the edge of a rough wooden desk so tightly the knuckles are white, a single landline phone just out of reach, harsh amber light from above casting the hands in dramatic shadow, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow zoom in on white knuckles, subtle tension in grip"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 13,
+      "shot_type": "medium",
+      "emotion_arc": "reversal",
+      "reference_file": "day9-yangmun/S03-reversal.png",
+      "reference_prompt": "shot on Sony A7III 85mm f/1.8 available light Fuji 400H, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, calm knowing expression eyes looking slightly upward and to the right as if she can see something others cannot a faint almost-invisible smile, warm golden window light from the left mixing with cool blue ambient from the right creating a split warm-cold lighting effect on her face, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "slow push in, subtle gaze shift to the right, warm light intensifying cold receding",
+      "voiceover_text": "那间破厂房里出来的人，后来把华为做到了行业顶尖。但就在最好的那一年，他写了《华为的冬天》。外面阳光正好，他在准备御寒。一年后行业寒冬，无数公司倒下，华为活了下来。",
+      "voiceover_pause_markers": "那间破厂房里出来的人<#0.2#>后来把华为做到了行业顶尖。<#0.8#>但就在最好的那一年<#0.2#>他写了《华为的冬天》。<#0.5#>外面阳光正好<#0.5#>他在准备御寒。<#0.5#>一年后行业寒冬<#0.2#>无数公司倒下<#0.3#>华为活了下来。",
+      "subtitle_text": "外面阳光正好 他在准备御寒",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "阳光正好他在准备御寒",
+          "reference_file": "day9-yangmun/S03-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, a person standing at a bright sunlit office window on a beautiful clear day but their hands are methodically placing thick winter coats and emergency supplies into a bag visible through the glass behind them colleagues laughing and enjoying the weather completely unaware, golden sunlight streaming through window creating warm glow inside, visible film grain, subject lower two-thirds, vertical composition 9:16",
+          "motion_prompt": "slow rack focus from sunny window to the person packing winter supplies"
+        },
+        {
+          "id": "S03-02",
+          "trigger_text": "无数公司倒下华为活了下来",
+          "reference_file": "day9-yangmun/S03-02.png",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, a row of dark empty office buildings with For Sale signs and broken windows while at the end of the row one building has warm lights glowing inside through the windows like a lighthouse in the darkness, cold blue-grey winter light with one warm amber beacon, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow pan along dark buildings ending on the one lit building"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 9,
+      "shot_type": "close-up",
+      "emotion_arc": "warm",
+      "reference_file": "day9-yangmun/S04-warm.png",
+      "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, a young Chinese woman in her late 20s round face short black bob haircut with straight bangs just above eyebrows wearing a simple cream-colored linen shirt with a small collar, warm empathetic smile eyes soft with genuine understanding one hand slightly extended toward camera as if reaching out to the viewer, soft cream beige background with faint warm bokeh, golden hour front light from left creating catchlights in eyes and a gentle warm halo, visible film grain especially in shadow areas, subject in lower two-thirds, vertical composition 9:16",
+      "motion_prompt": "gentle lean forward, hand reaching toward camera, warm light steady",
+      "voiceover_text": "他写的不是华为的冬天，是所有正在扛的人的冬天。活下去——这三个字，43岁那年他对自己说的，今天说给每一个正在扛的你。评论区聊聊，你最难的日子已经过去了，还是正在经历？",
+      "voiceover_pause_markers": "他写的不是华为的冬天<#0.2#>是所有正在扛的人的冬天。<#0.8#>活下去<#0.8#>这三个字<#0.2#>43岁那年他对自己说的<#0.3#>今天说给每一个正在扛的你。<#0.5#>评论区聊聊<#0.2#>你最难的日子已经过去了<#0.2#>还是正在经历？",
+      "subtitle_text": "活下去 说给每一个正在扛的你"
+    }
+  ],
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts-preview",
+    "voice": "Aoede",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "女声，全部使用Aoede声音保持一致性。S01开头'手指悬在'要轻而紧张，'怕的不是辞职'加重语气，'什么都没有了'压低声线带绝望，'别人替他写好了'冷酷收束。S02'但他没有去投简历'坚定有力，'活下去'三个字要重要慢每个字之间有呼吸，'不是口号'短暂停顿后用低沉声音说'是真的在活不活的边缘'。S03'行业顶尖'上扬，'华为的冬天'突然降低温度，'外面阳光正好'明亮语气，'他在准备御寒'迅速转为沉重，'华为活了下来'简洁有力。S04'所有正在扛的人的冬天'温暖包容，'活下去'三个字回响第一人称对自己说的感觉，'说给每一个正在扛的你'目光转向观众，CTA自然友好"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "bgm_file": "assets/bgm/ambient_warm_01.mp3",
+    "bgm_volume_pct": 8,
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_script"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
+  },
+
+  "publishing": {
+    "platforms": ["douyin"],
+    "title_candidates": [
+      "43岁被裁 任正非说了一句话",
+      "外面阳光正好 他在准备御寒",
+      "活下去 这三个字说给正在扛的你"
+    ],
+    "tags": ["任正非", "华为", "活下去", "职场", "低谷", "撑住"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "米白亚麻衫女性角色温暖眼神，暖色背景，文字'活下去'"
+  }
+}

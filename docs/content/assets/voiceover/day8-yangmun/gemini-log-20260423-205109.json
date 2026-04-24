@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-23T20:51:09.815154",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day8-yangmun",
+  "total_duration_s": 13.8,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day8-yangmun/S01.mp3",
+      "duration_s": 13.8,
+      "status": "success",
+      "actual_duration_s": 13.8,
+      "voiceover_text": "你装合群，装了多少年？马斯克说过：我的童年非常孤独。他小学被推下楼梯打到住院。但不合群的人，看到的和你不一样。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    }
+  ]
+}

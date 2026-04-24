@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-04-23T20:50:35.450696",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day8-yangmun",
+  "total_duration_s": 49.6,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day8-yangmun/S02.mp3",
+      "duration_s": 20.52,
+      "status": "success",
+      "actual_duration_s": 20.52,
+      "voiceover_text": "铁律一：你为了合群放弃了什么。马斯克从来不合群，他把别人社交的时间全用在了思考上。而你呢？笑脸、应酬、群聊、陪笑。换来一张好人卡，丢掉了你唯一的优势。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day8-yangmun/S03.mp3",
+      "duration_s": 19.96,
+      "status": "success",
+      "actual_duration_s": 19.96,
+      "voiceover_text": "铁律二：孤独的人看到别人看不到的。2018年特斯拉差点破产，所有分析师都说他完了。但他看到的是燃油车的终局。不是他更聪明，是他不用同意人群的结论。",
+      "director_notes": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure."
+    },
+    {
+      "segment": "S04",
+      "status": "error",
+      "error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day8-yangmun/S05.mp3",
+      "duration_s": 9.12,
+      "status": "success",
+      "actual_duration_s": 9.12,
+      "voiceover_text": "杨梦问你：评论区打出你最不合群的那件事。不合群，不是你的错，是你的开始。",
+      "director_notes": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure."
+    }
+  ]
+}

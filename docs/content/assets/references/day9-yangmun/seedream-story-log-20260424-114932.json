@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-04-24T11:49:32.818570",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "shot": "S01-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S01-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S01-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S01-02.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S02-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S02-02.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S03-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day9-yangmun/S03-02.png",
+      "status": "success"
+    }
+  ]
+}
