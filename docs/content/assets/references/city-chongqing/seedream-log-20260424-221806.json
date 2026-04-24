@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-04-24T22:18:06.319463",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S01",
+      "status": "error",
+      "error": "HTTP Error 400: Bad Request"
+    },
+    {
+      "shot": "S02",
+      "status": "error",
+      "error": "HTTP Error 400: Bad Request"
+    },
+    {
+      "shot": "S03",
+      "status": "error",
+      "error": "HTTP Error 400: Bad Request"
+    },
+    {
+      "shot": "S04",
+      "status": "error",
+      "error": "HTTP Error 400: Bad Request"
+    }
+  ]
+}

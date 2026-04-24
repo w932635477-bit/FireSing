@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-24T22:24:07.713468",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S02-surprised.png",
+      "task_id": "task-unified-1777040497-cqcybe7o",
+      "status": "success"
+    }
+  ]
+}

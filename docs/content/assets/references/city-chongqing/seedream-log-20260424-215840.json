@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-24T21:58:40.161286",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S01-playful.png",
+      "task_id": "task-unified-1777038598-wdeo641b",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S02-surprised.png",
+      "task_id": "task-unified-1777038735-exgrpi8t",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S03-excited.png",
+      "task_id": "task-unified-1777038848-pgrrbc69",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S04-warm.png",
+      "task_id": "task-unified-1777038991-aot76lx2",
+      "status": "success"
+    }
+  ]
+}

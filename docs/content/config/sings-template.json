@@ -22,10 +22,10 @@
   },
 
   "lyrics": {
-    "bpm": 130,
+    "bpm": 125,
     "time_signature": "4/4",
-    "style": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
-    "suno_tags": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "style": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
+    "suno_tags": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
     "bars": [
       {
         "id": "B01",
@@ -190,8 +190,8 @@
   "audio": {
     "engine": "suno_ai",
     "mode": "custom",
-    "style_prompt": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
-    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody",
+    "style_prompt": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune",
     "style_weight": 0.9,
     "weirdness_constraint": 0.3,
     "output_format": "mp3",

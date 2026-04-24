@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-04-24T22:09:54.266381",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chongqing/S04-warm.png",
+      "task_id": "task-unified-1777039709-zw04i7op",
+      "status": "success"
+    }
+  ]
+}
