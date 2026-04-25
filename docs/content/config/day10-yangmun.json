@@ -1,0 +1,170 @@
+{
+  "video_id": "day10-yangmun",
+  "version": "2.0",
+  "created": "2026-04-25",
+  "status": "script_approved",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day10 任正非备胎转正。自由叙事结构。shock→tension→reversal→warm。Medvi v2工作流：无主参考图，3张故事图，杨梦素材从已有库选取混剪。",
+  "eval_score": 90,
+  "global": {
+    "target_duration_sec": 43,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "cool_warm_shift",
+    "accent_color": "#8b7355"
+  },
+  "script": {
+    "topic": "备胎转正",
+    "hook_type": "scene_immersion",
+    "cta_action": "评论",
+    "cta_keyword": "备胎准备了几年",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "yangmun_clip_hint": "day5-yangmun/S01-shock.mp4",
+      "story_images": [
+        {
+          "id": "S01-01",
+          "trigger_text": "美国对华为实施全面制裁",
+          "reference_file": "day10-yangmun/S01-01.png",
+          "reference_prompt": "iPhone 15 Pro photo natural lighting slightly underexposed, close-up of a phone screen at night showing a breaking news push notification in Chinese about US sanctions on a major tech company, the phone held in a dark room illuminated only by the blue-white screen light casting harsh shadows on the holder's hand, visible film grain especially in shadow areas, subject center, vertical composition 9:16",
+          "motion_prompt": "slow zoom in on phone screen, notification banner sliding in, screen glow pulsing"
+        }
+      ],
+      "voiceover_text": "半夜里手机突然亮了。一条推送：美国对华为实施全面制裁。芯片，断了。操作系统，锁了。供应商，撤了。三天之内，华为从全球第二，变成了一个不知道还能不能活下去的公司。",
+      "voiceover_pause_markers": "半夜里手机突然亮了。<#0.3#>一条推送<#0.5#>美国对华为实施全面制裁。<#0.5#>芯片<#0.3#>断了。<#0.2#>操作系统<#0.3#>锁了。<#0.2#>供应商<#0.3#>撤了。<#0.6#>三天之内<#0.2#>华为从全球第二<#0.2#>变成了一个不知道还能不能活下去的公司。",
+      "subtitle_text": "三天之内 从全球第二变成不知道能不能活"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 11,
+      "shot_type": "medium",
+      "emotion_arc": "tension",
+      "yangmun_clip_hint": "day5-yangmun/S02-determined.mp4",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "从来没有被真正依赖过",
+          "reference_file": "day10-yangmun/S02-01.png",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, interior of a high-tech chip fabrication laboratory late at night, rows of silicon wafers and testing equipment, a single researcher sitting alone at a workstation in the background barely visible through blue-tinted clean room lighting, cold sterile fluorescent light mixing with warm amber from a desk lamp, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow pan across lab equipment, dust particles drifting in light beam, subtle machine hum"
+        }
+      ],
+      "voiceover_text": "十年前，华为成立了一家叫海思的公司。投了上百亿，造芯片。造出来的芯片，从来没有被真正依赖过。有人说浪费。有人说疯了。但任正非什么也没说。",
+      "voiceover_pause_markers": "十年前<#0.3#>华为成立了一家叫海思的公司。<#0.5#>投了上百亿<#0.2#>造芯片。<#0.5#>造出来的芯片<#0.2#>从来没有被真正依赖过。<#0.5#>有人说浪费。<#0.3#>有人说疯了。<#0.8#>但任正非<#0.3#>什么也没说。",
+      "subtitle_text": "上百亿造芯片 从来没有被真正依赖过"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion_arc": "reversal",
+      "yangmun_clip_hint": "day6-yangmun/S03.mp4",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "一夜之间全部转正",
+          "reference_file": "day10-yangmun/S03-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, extreme close-up of a single silicon chip glowing with warm amber light from within, held between two fingers in a completely dark room, the golden light from the chip illuminating only the fingertips and casting dramatic shadows, warm amber core with cool blue edges, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow push in on glowing chip, warm light intensifying, darkness receding"
+        }
+      ],
+      "voiceover_text": "制裁第二天，海思总裁何庭波发了一封内部信。信里只有一句话让人记住：所有我们曾经打造的备胎，一夜之间全部转正。十年。没有人鼓掌，没有人看见。但它一直在那里。",
+      "voiceover_pause_markers": "制裁第二天<#0.3#>海思总裁何庭波发了一封内部信。<#0.5#>信里只有一句话让人记住<#0.5#>所有我们曾经打造的备胎<#0.3#>一夜之间全部转正。<#1.0#>十年。<#0.8#>没有人鼓掌<#0.3#>没有人看见。<#0.5#>但它一直在那里。",
+      "subtitle_text": "所有备胎 一夜之间全部转正"
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion_arc": "warm",
+      "yangmun_clip_hint": "day5-yangmun/S05-warm.mp4",
+      "story_images": [],
+      "voiceover_text": "任正非后来说过一句话：没有伤痕累累，哪来皮糙肉厚。备胎不只是芯片。那些年不被看见的准备，那些年没人理解的坚持，都是你的海思。评论区聊聊，你的备胎准备了几年？",
+      "voiceover_pause_markers": "任正非后来说过一句话<#0.3#>没有伤痕累累<#0.2#>哪来皮糙肉厚。<#0.8#>备胎不只是芯片。<#0.5#>那些年不被看见的准备<#0.2#>那些年没人理解的坚持<#0.2#>都是你的海思。<#0.5#>评论区聊聊<#0.2#>你的备胎准备了几年？",
+      "subtitle_text": "没有伤痕累累 哪来皮糙肉厚"
+    }
+  ],
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts-preview",
+    "voice": "Aoede",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "女声，全部使用Aoede声音保持一致性。S01开头'半夜里手机突然亮了'用低沉近乎耳语，'断了/锁了/撤了'三个词逐个加重，'全球第二'上扬，'不知道能不能活'压低带颤抖。S02'十年前'缓慢，'上百亿'稍加重量，'从来没有被真正依赖过'带一丝心疼，'有人说浪费有人说疯了'稍快带讽刺，'但任正非什么也没说'完全停顿后用极轻声音说出。S03'制裁第二天'中速清晰，何庭波信原文要读得庄重有力仿佛在宣读宣言，'十年'单字读完后长停顿(1秒)，'没有人鼓掌没有人看见'放慢每个短句后都有呼吸，'但它一直在那里'轻而坚定。S04'没有伤痕累累哪来皮糙肉厚'温暖有力像长辈对晚辈说话，'备胎不只是芯片'转换语气像在跟朋友聊天，'都是你的海思'温暖停顿，CTA自然友好带微笑感"
+  },
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true
+  },
+  "compositing": {
+    "engine": "剪映",
+    "note": "v2工作流：不使用FFmpeg拼接。所有素材在剪映手动混剪。杨梦表情视频+故事视频+TTS配音在剪映中交替剪辑。",
+    "subtitle_source": "auto_from_script",
+    "subtitle_style": "ktv_dynamic"
+  },
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成。v2工作流：杨梦(shock)→故事视频(S01)→杨梦(tension)→故事视频(S02)→杨梦(reversal)→故事视频(S03)→杨梦(warm+CTA)"
+  },
+  "publishing": {
+    "platforms": ["douyin"],
+    "title_candidates": [
+      "备胎转正那天 全世界都安静了",
+      "十年没有名字 但它一直在那里",
+      "被制裁那天 任正非什么也没说"
+    ],
+    "tags": ["任正非", "华为", "备胎", "芯片", "海思", "逆袭", "自强"],
+    "xiaohongshu_tags": ["任正非", "华为", "备胎转正", "逆袭", "自强", "自我提升"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦冷暖交替光影，文字'备胎转正'"
+  }
+}
