@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-04-25T16:25:41.318890",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "shot": "S01-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day10-yangmun/S01-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S02-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day10-yangmun/S02-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/day10-yangmun/S03-01.png",
+      "status": "success"
+    }
+  ]
+}

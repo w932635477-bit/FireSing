@@ -60,22 +60,20 @@ def load_shots(config_path: Path, include_stories: bool = False) -> list[dict]:
 
     for seg in config.get("segments", []):
         motion_prompt = seg.get("motion_prompt", "")
-        if not motion_prompt or motion_prompt == "text_card":
-            continue
+        if motion_prompt and motion_prompt != "text_card":
+            emotion_arc = seg.get("emotion_arc", seg.get("emotion", ""))
+            name = f"{emotion_arc}-{seg['id']}" if emotion_arc else seg["id"]
+            ref_file = seg.get("reference_file", "")
 
-        emotion_arc = seg.get("emotion_arc", seg.get("emotion", ""))
-        name = f"{emotion_arc}-{seg['id']}" if emotion_arc else seg["id"]
-        ref_file = seg.get("reference_file", "")
-
-        shots.append({
-            "id": seg["id"],
-            "name": name,
-            "prompt": motion_prompt,
-            "reference_file": ref_file,
-            "emotion_arc": emotion_arc,
-            "duration": min(video_cfg.get("duration_sec", 5), 10),
-            "type": "character",
-        })
+            shots.append({
+                "id": seg["id"],
+                "name": name,
+                "prompt": motion_prompt,
+                "reference_file": ref_file,
+                "emotion_arc": emotion_arc,
+                "duration": min(video_cfg.get("duration_sec", 5), 10),
+                "type": "character",
+            })
 
         if include_stories:
             for story in seg.get("story_images", []):
