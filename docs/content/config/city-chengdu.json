@@ -1,0 +1,229 @@
+{
+  "video_id": "city-chengdu",
+  "workflow": "sings",
+  "version": "3.0",
+  "created": "2026-04-25",
+  "status": "production",
+  "series": "sings-travel",
+  "strategy_notes": "城市对唱第3期：成都。职场反差切入（996 vs 慢生活），熊猫+火锅+盖碗茶，125 BPM",
+
+  "global": {
+    "target_duration_sec": 45,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "style": "travel_edu_duet",
+    "color_temperature": "warm_bright",
+    "accent_color": "#e8a87c",
+    "bg_color": "#f5e6d3"
+  },
+
+  "lyrics": {
+    "bpm": 125,
+    "time_signature": "4/4",
+    "suno_tags": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 你敢不敢关了手机 来成都坐一坐",
+          "[Male] 天府之国教你的第一课叫做洒脱"
+        ],
+        "rhyme": "uo",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 排了三小时只看它翻了个身",
+          "[Male] 你飞了四个小时它还在那儿打盹"
+        ],
+        "rhyme": "en",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 你加班到秃头 它打盹到下班",
+          "[Male] 最卷的打工人跑来跟团子学偷懒"
+        ],
+        "rhyme": "an",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 凌晨两点火锅店 红油锅还在冒",
+          "[Male] 北上广的朋友惊了 这个点只剩外卖可以叫"
+        ],
+        "rhyme": "ao",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 十块钱盖碗茶坐到天黑 老板不赶你走",
+          "[Male] 你996拼了命赚的钱 来学怎么享受"
+        ],
+        "rhyme": "ou",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": [
+          "[Both] 下一个城市你来选 评论区告诉我",
+          "[Both] 杨梦带你唱遍中国每一处烟火"
+        ],
+        "rhyme": "uo",
+        "segment_ref": "S04",
+        "type": "hook"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "成都城市名片：慢生活之城",
+    "source": "城市科普对唱",
+    "hook_type": "lifestyle_challenge",
+    "cta_action": "投票下一站城市",
+    "city": "成都",
+    "highlights": [
+      {"name": "大熊猫繁育基地", "type": "attraction"},
+      {"name": "火锅+盖碗茶慢生活", "type": "food_lifestyle"}
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦在成都宽窄巷子入口，阳光明媚，开场hook",
+      "reference_file": "city-chengdu/S01-playful.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a white T-shirt and denim shorts with a small panda headband, standing at the entrance of a traditional Chengdu alley with bamboo fences and grey brick walls, bright natural sunlight, dappled shadows from bamboo leaves, looking at camera with a playful challenging smile, one hand on hip, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "playful smile, one hand on hip, looking directly at camera with challenge, dappled light moving",
+      "lyrics_refs": ["B01"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "surprised",
+      "visual_description": "杨梦在熊猫基地，背后有熊猫在睡觉，她表情无奈又好笑",
+      "reference_file": "city-chengdu/S02-surprised.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a white T-shirt and denim shorts with a small panda headband, at the Chengdu Research Base of Giant Panda Breeding, behind her through glass a large panda is sprawled on its back fast asleep, she looks at camera with a helpless amused expression hands slightly raised, indoor viewing area with soft diffused light, a few flyaway hairs, uneven skin tone, natural shine on forehead, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "looking at camera with amused helpless expression, hands raised slightly, panda sleeping behind",
+      "lyrics_refs": ["B02", "B03"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "excited",
+      "visual_description": "杨梦在街边火锅桌前，红油火锅沸腾冒泡，凌晨氛围",
+      "reference_file": "city-chengdu/S03-excited.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a floral sundress and straw hat, sitting at a late-night Chengdu street hotpot table, a bubbling red chili oil hotpot in front of her with steam rising, bamboo chopsticks picking up a slice of beef, small plastic stools and other late-night diners in background, warm amber overhead lighting mixing with night darkness, slight sweat glow on face from spice, a few flyaway hairs, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "picking up food with chopsticks excitedly, steam rising from hotpot, about to eat with anticipation",
+      "lyrics_refs": ["B04", "B05"]
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "warm",
+      "visual_description": "杨梦在人民公园竹椅上端着盖碗茶，直视镜头微笑",
+      "reference_file": "city-chengdu/S04-warm.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a floral sundress and straw hat, sitting in a bamboo chair at Chengdu Renmin Park tea house, holding a traditional gaiwan covered teacup with both hands, direct eye contact with camera, warm genuine relaxed smile, bamboo trees and other tea drinkers in soft bokeh background, dappled afternoon sunlight filtering through bamboo leaves, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "holding gaiwan teacup with both hands, warm smile, direct eye contact, dappled light filtering through bamboo",
+      "lyrics_refs": ["B06"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "你敢不敢关了手机在成都待一周",
+      "成都教你的第一课叫做洒脱",
+      "996的你需要来成都学一课"
+    ],
+    "tags": ["成都", "城市名片", "旅行科普", "大熊猫", "成都火锅", "慢生活", "成都旅游"],
+    "xiaohongshu_tags": ["成都旅游", "成都打卡", "大熊猫基地", "成都火锅", "城市名片", "旅行攻略", "杨梦旅行"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦在成都宽窄巷子 + '成都' 大字 + 慢生活氛围"
+  }
+}
