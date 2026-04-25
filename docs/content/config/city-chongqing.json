@@ -116,6 +116,7 @@
       "shot_type": "wide",
       "emotion": "playful",
       "visual_description": "杨梦站在重庆高处俯瞰城市夜景，开场hook",
+      "reference_file": "city-chongqing/S01-playful.png",
       "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a cream-colored linen shirt, waist-up, standing on a hillside observation deck with blurred Chongqing city lights behind her, golden hour warm light on her face, wind gently moving her hair, a few flyaway hairs, looking out with wonder and excitement, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, natural color temperature, NOT retouched, NOT posed, vertical composition 9:16",
       "motion_prompt": "gentle wind, looking around with wonder, city lights twinkling behind",
       "lyrics_refs": ["B01"]
@@ -127,6 +128,7 @@
       "shot_type": "medium",
       "emotion": "surprised",
       "visual_description": "杨梦在李子坝轻轨站月台，抬头看轻轨穿过居民楼",
+      "reference_file": "city-chongqing/S02-surprised.png",
       "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a cream-colored linen shirt, standing on Liziba monorail station platform in Chongqing, looking up with curiosity and amazement, a white monorail train passing directly through the residential building above, concrete pillars and platform railing in foreground, natural daylight with slight overcast, a few flyaway hairs, uneven skin tone, natural shine on forehead, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
       "motion_prompt": "looking up in amazement, slight gasp expression, train passing through building above",
       "lyrics_refs": ["B02", "B03"]
@@ -138,6 +140,7 @@
       "shot_type": "medium",
       "emotion": "excited",
       "visual_description": "杨梦坐在街边火锅桌前，九宫格火锅沸腾冒烟",
+      "reference_file": "city-chongqing/S03-excited.png",
       "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a cream-colored linen shirt, sitting at an outdoor street-side hotpot table in Chongqing, a traditional nine-grid divided red chili oil hotpot boiling in front of her, steam rising from the bubbling broth, bamboo chopsticks in hand, red chili peppers floating in the broth, other diners blurred in background, warm amber lighting from overhead lanterns, steam catching the light, a few flyaway hairs sticking to forehead from steam, slight sweat glow on face, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
       "motion_prompt": "picking up food with chopsticks, steam rising, excited expression, about to eat",
       "lyrics_refs": ["B04", "B05"]
@@ -149,6 +152,7 @@
       "shot_type": "close-up",
       "emotion": "warm",
       "visual_description": "杨梦直视镜头微笑，背景虚化的重庆夜景，洪崖洞可见",
+      "reference_file": "city-chongqing/S04-warm.png",
       "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a cream-colored linen shirt, direct eye contact with camera, warm genuine smile, slightly tilted head, blurred Chongqing night cityscape behind her with Hongyadong cliffside buildings in soft warm bokeh, Yangtze River reflecting city lights, soft natural eye reflection, warm skin tones, no harsh highlights, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle head tilt, city lights twinkling behind",
       "lyrics_refs": ["B06"]
