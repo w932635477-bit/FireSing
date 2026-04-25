@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-25T20:22:33.697924",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chengdu/S01-playful.png",
+      "task_id": "task-unified-1777119102-0tvhd0iy",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chengdu/S02-surprised.png",
+      "task_id": "task-unified-1777119295-b13ec6sx",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chengdu/S03-excited.png",
+      "task_id": "task-unified-1777119422-njr86qhb",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-chengdu/S04-warm.png",
+      "task_id": "task-unified-1777119608-gf8wkhg1",
+      "status": "success"
+    }
+  ]
+}

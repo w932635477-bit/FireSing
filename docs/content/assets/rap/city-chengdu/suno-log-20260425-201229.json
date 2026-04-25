@@ -1,0 +1,14 @@
+{
+  "video_id": "city-chengdu",
+  "timestamp": "2026-04-25T20:12:29.739108",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 125,
+  "bars": 6,
+  "style": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
+  "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune",
+  "style_weight": 0.9,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1777119088-t081p4si",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/city-chengdu"
+}
