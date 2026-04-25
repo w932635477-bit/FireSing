@@ -1,10 +1,10 @@
-# AI 短视频生产规范 v2.0 — Medvi 工作流
+# AI 短视频生产规范 v3.0 — Medvi 工作流
 
 > 适用范围：30-60 秒 AI 生成短视频，抖音/小红书竖版
 > 工作流类型：**Medvi**（电影纪录片风格商业内容，旁白驱动）
 > 工具链：Seedream 4.5 + Kling 3.0 (Evolink) + Gemini 3.1 Flash TTS + FFmpeg + 剪映
 > 本文档是唯一权威标准，取代所有先前的工作流文档
-> 最后更新：2026-04-23
+> 最后更新：2026-04-25
 
 ---
 
@@ -36,6 +36,26 @@ Stage 5: 视频合成    →  compose-video.py 读配置
 Stage 6: 去AI化后期  →  FFmpeg 滤镜 + 剪映精修
 Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 ```
+
+### Medvi v2 工作流（Day10 起生效）
+
+> v2 核心变更：跳过 Seedream 主参考图 + Kling 杨梦视频，只生成故事图。杨梦表情素材从已有库选取，在剪映混剪。
+
+**v2 适用标记：** JSON config 中 `global.workflow_version` 为 `"2.0"` 时按 v2 规则执行。
+
+| 阶段 | v1 | v2 | 说明 |
+|------|-----|-----|------|
+| Stage 2 参考图 | Seedream 主图(4) + 故事图(6) | **只生成故事图(3)** | 跳过 seedream-batch.py，只运行 seedream-story-images.py |
+| Stage 3 视频 | Kling 杨梦(4) + 故事(6) | **只生成故事视频(3)** | kling-gen-batch.py --include-stories |
+| Stage 5 合成 | FFmpeg 拼接 | **跳过，剪映混剪** | 不运行 FFmpeg compose 脚本 |
+
+**v2 Config JSON 结构：** 每个 segment 不含 `reference_file`/`reference_prompt`/`motion_prompt`，新增 `yangmun_clip_hint` 指示选用哪个已有杨梦表情视频。故事图 S01/S02/S03 各 0-1 张（共 3 张），S04 无。
+
+**v2 剪映混剪模式：** 杨梦(shock) → 故事视频(S01) → 杨梦(tension) → 故事视频(S02) → 杨梦(reversal) → 故事视频(S03) → 杨梦(warm+CTA)
+
+**v2 成本：** 每条约 $0.33（3张 Seedream + 3个 Kling），比 v1 节省 70%。
+
+**杨梦素材库：** shock=`day5-yangmun/S01-shock.mp4`, tension=`day5-yangmun/S02-determined.mp4`, power=`day5-yangmun/S03-power.mp4`, contemplative=`day5-yangmun/S04-contemplative.mp4`, warm=`day5-yangmun/S05-warm.mp4`, Day6全套=`day6-yangmun/S01-S05.mp4`
 
 ---
 
@@ -482,6 +502,8 @@ S05 (情感收尾):
 
 ## 6. Stage 2：参考图生成（Seedream 4.5）
 
+> **v2 模式：** 当 `workflow_version: "2.0"` 时，跳过主参考图生成（seedream-batch.py），只运行 seedream-story-images.py 生成故事场景图（3张）。每个 segment 的 reference_prompt 字段不存在。
+
 ### 6.1 输入/输出
 
 - 输入：JSON 配置文件中的 `segments[].reference_prompt`
@@ -692,6 +714,8 @@ even skin tone, poreless skin
 
 ## 7. Stage 3：视频生成（Kling 3.0 via Evolink API）
 
+> **v2 模式：** 当 `workflow_version: "2.0"` 时，跳过主视频生成，只生成故事图视频（--include-stories，3个）。脚本会自动发现无主参考图可生成。
+
 ### 7.1 输入/输出
 
 - 输入：参考图 + JSON 配置中的 `segments[].motion_prompt`
@@ -837,6 +861,8 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 ---
 
 ## 9. Stage 5：视频合成
+
+> **v2 模式：** 当 `workflow_version: "2.0"` 时，完全跳过 FFmpeg 合成。所有素材（杨梦表情视频 + 故事视频 + TTS 配音）在剪映中手动混剪。
 
 ### 9.0 核心原则：FFmpeg 只做拼接+音频合并
 
