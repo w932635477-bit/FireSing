@@ -48,7 +48,7 @@ NARRATOR_PROFILE_FEMALE = (
     "You have a confident, clear voice with natural emotional range."
 )
 
-NARRATOR_PROFILE = NARRATOR_PROFILE_MALE
+NARRATOR_PROFILE = NARRATOR_PROFILE_FEMALE
 
 NARRATOR_SCENE = "Narrating a short video about an underdog founder's incredible business success."
 
@@ -263,7 +263,7 @@ def concatenate_audio(segment_files: list[Path], output_path: Path) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Gemini TTS (config-driven)")
     parser.add_argument("--config", type=str, required=True, help="Video config JSON file")
-    parser.add_argument("--voice", type=str, default="Charon",
+    parser.add_argument("--voice", type=str, default="Aoede",
                         help=f"Voice name ({', '.join(VOICES[:5])} recommended)")
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--shot", type=str, help="Generate only this segment (e.g., S01)")
@@ -293,14 +293,7 @@ def main():
     output_dir = Path(args.output_dir) / video_id
 
     if args.female:
-        global NARRATOR_PROFILE
-        NARRATOR_PROFILE = NARRATOR_PROFILE_FEMALE
-        # Update all emotion prompts to use female profile
-        for key in EMOTION_PROMPTS:
-            EMOTION_PROMPTS[key]["profile"] = NARRATOR_PROFILE
-        if not args.voice or args.voice == "Charon":
-            voice = "Aoede"
-            print(f"  Female mode: auto-selected voice '{voice}'")
+        print(f"  Note: Female mode is now the default (Aoede voice)")
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if args.shot:

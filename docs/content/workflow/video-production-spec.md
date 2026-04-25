@@ -817,9 +817,11 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 | 参数 | 值 |
 |------|----|
 | 模型 | gemini-3.1-flash-tts-preview |
-| 声音 | Charon（深沉男声）或 Orus（温暖男声） |
+| 声音 | **Aoede（女声）** — 强制要求，禁止使用男声 |
 | 批量命令 | `python3 gemini-tts-batch.py --config config/{video_id}.json` |
 | 需要环境变量 | `GEMINI_API_KEY` |
+
+**强制规则：** 所有 Medvi 视频统一使用 Aoede 女声配音，禁止使用男声（Charon、Orus 等）。声音一致性是品牌标识的一部分。
 
 **特点：** 支持 Director's Notes 精细控制情绪，音频标签（[amazed], [warmly]），质量最接近真人。
 
@@ -827,8 +829,8 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 
 | 参数 | 值 |
 |------|----|
-| 声音 | `zh-CN-YunxiNeural`（推荐，年轻温暖男声） |
-| 声音备选 | `zh-CN-YunjianNeural`（沉稳新闻风格） |
+| 声音 | `zh-CN-XiaoxiaoNeural`（推荐，温暖女声） |
+| 声音备选 | `zh-CN-XiaoyiNeural`（活力女声） |
 | 批量命令 | `python3 edge-tts-batch.py --config config/{video_id}.json` |
 | 需要环境变量 | 无 |
 

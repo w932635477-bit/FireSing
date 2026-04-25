@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-04-25T17:31:05.548447",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day10-yangmun",
+  "total_duration_s": 75.32,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day10-yangmun/S01.mp3",
+      "duration_s": 18.04,
+      "status": "success",
+      "actual_duration_s": 18.04,
+      "voiceover_text": "半夜里手机突然亮了。一条推送：美国对华为实施全面制裁。芯片，断了。操作系统，锁了。供应商，撤了。三天之内，华为从全球第二，变成了一个不知道还能不能活下去的公司。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day10-yangmun/S02.mp3",
+      "duration_s": 16.44,
+      "status": "success",
+      "actual_duration_s": 16.44,
+      "voiceover_text": "十年前，华为成立了一家叫海思的公司。投了上百亿，造芯片。造出来的芯片，从来没有被真正依赖过。有人说浪费。有人说疯了。但任正非什么也没说。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day10-yangmun/S03.mp3",
+      "duration_s": 22.16,
+      "status": "success",
+      "actual_duration_s": 22.16,
+      "voiceover_text": "制裁第二天，海思总裁何庭波发了一封内部信。信里只有一句话让人记住：所有我们曾经打造的备胎，一夜之间全部转正。十年。没有人鼓掌，没有人看见。但它一直在那里。",
+      "director_notes": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day10-yangmun/S04.mp3",
+      "duration_s": 18.68,
+      "status": "success",
+      "actual_duration_s": 18.68,
+      "voiceover_text": "任正非后来说过一句话：没有伤痕累累，哪来皮糙肉厚。备胎不只是芯片。那些年不被看见的准备，那些年没人理解的坚持，都是你的海思。评论区聊聊，你的备胎准备了几年？",
+      "director_notes": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure."
+    }
+  ]
+}
