@@ -1,21 +1,28 @@
 {
-  "video_id": "sings-outfit-template",
+  "video_id": "sings-travel-template",
   "workflow": "sings",
-  "version": "2.0",
-  "created": "2026-04-22",
+  "version": "3.0",
+  "created": "2026-04-25",
   "status": "template",
-  "strategy_notes": "小红书穿搭对比对唱模板。每期一个场景，杨梦展示两套穿搭A/B，男女对唱讲穿搭逻辑",
+  "series": "sings-travel",
+  "strategy_notes": "城市科普对唱模板。每期一个城市，杨梦用对唱介绍2个亮点，125 BPM，Seedream casual snapshot + Suno duet",
+
+  "city": "[城市名]",
+  "highlights": [
+    {"name": "[亮点A名称]", "type": "[attraction|food|culture]"},
+    {"name": "[亮点B名称]", "type": "[attraction|food|culture]"}
+  ],
 
   "global": {
-    "target_duration_sec": 37,
-    "max_duration_sec": 45,
+    "target_duration_sec": 45,
+    "max_duration_sec": 60,
     "min_duration_sec": 30,
     "resolution": "1080x1920",
     "fps": 24,
     "codec": "h264",
     "aspect_ratio": "9:16",
     "kling_seed": null,
-    "style": "outfit_compare",
+    "style": "travel_edu_duet",
     "color_temperature": "warm_bright",
     "accent_color": "#e8a87c",
     "bg_color": "#f5e6d3"
@@ -24,13 +31,12 @@
   "lyrics": {
     "bpm": 125,
     "time_signature": "4/4",
-    "style": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
     "suno_tags": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. catchy mid-tempo pop, sing-song storytelling, educational pop, TikTok viral Chinese pop, light electronic beat, acoustic guitar, whistle, 125 bpm",
     "bars": [
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["[场景提问 ≤12字]", "[女声回应 ≤12字]"],
+        "lines": ["[Female] [城市震撼点提问 ≤14字]", "[Male] [城市趣味回应 ≤14字]"],
         "rhyme": "a",
         "segment_ref": "S01",
         "type": "hook"
@@ -38,7 +44,7 @@
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["[A套描述 ≤12字]", "[A套点评 ≤10字]"],
+        "lines": ["[Female] [亮点A体验描述 ≤12字]", "[Male] [亮点A知识背景 ≤12字]"],
         "rhyme": "e",
         "segment_ref": "S02",
         "type": "body"
@@ -46,7 +52,7 @@
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["[A套细节/缺点 ≤12字]", "[A套总结 ≤10字 押韵]"],
+        "lines": ["[Female] [亮点A细节感受 ≤12字]", "[Male] [亮点A总结回应 ≤12字]"],
         "rhyme": "e",
         "segment_ref": "S02",
         "type": "body"
@@ -54,7 +60,7 @@
       {
         "id": "B04",
         "beat_count": 4,
-        "lines": ["[B套描述 ≤12字]", "[B套点评 ≤10字]"],
+        "lines": ["[Female] [亮点B体验描述 ≤12字]", "[Male] [亮点B知识背景 ≤12字]"],
         "rhyme": "i",
         "segment_ref": "S03",
         "type": "body"
@@ -62,7 +68,7 @@
       {
         "id": "B05",
         "beat_count": 4,
-        "lines": ["[B套优点 ≤12字]", "[B套总结 ≤10字 押韵]"],
+        "lines": ["[Female] [亮点B细节感受 ≤12字]", "[Male] [亮点B总结回应 ≤12字]"],
         "rhyme": "i",
         "segment_ref": "S03",
         "type": "body"
@@ -70,56 +76,19 @@
       {
         "id": "B06",
         "beat_count": 4,
-        "lines": ["[穿搭法则1 ≤12字]", "[法则1解释 ≤10字 押韵]"],
-        "rhyme": "ao",
+        "lines": ["[Both] [城市总结 ≤14字]", "[Both] [CTA投票下一站 ≤12字]"],
+        "rhyme": "ou",
         "segment_ref": "S04",
-        "type": "body"
-      },
-      {
-        "id": "B07",
-        "beat_count": 4,
-        "lines": ["[穿搭法则2 ≤12字]", "[法则2解释 ≤10字 押韵]"],
-        "rhyme": "ao",
-        "segment_ref": "S04",
-        "type": "body"
-      },
-      {
-        "id": "B08",
-        "beat_count": 4,
-        "lines": ["[CTA提问 ≤12字]", "[CTA引导 ≤10字 押韵]"],
-        "rhyme": "a",
-        "segment_ref": "S05",
         "type": "cta"
       }
     ]
   },
 
   "script": {
-    "topic": "[选题：穿搭场景名称]",
-    "source": "原创穿搭对比",
-    "hook_type": "scenario_question",
-    "cta_action": "投票A/B",
-    "cta_keyword": "评论区投票",
-    "outfit_a": {
-      "name": "[A套名称]",
-      "description": "[A套描述]",
-      "keywords": ["[关键词1]", "[关键词2]", "[关键词3]"]
-    },
-    "outfit_b": {
-      "name": "[B套名称]",
-      "description": "[B套描述]",
-      "keywords": ["[关键词1]", "[关键词2]", "[关键词3]"]
-    },
-    "fashion_rules": [
-      "[穿搭法则1]",
-      "[穿搭法则2]"
-    ],
-    "anti_ad_measures": [
-      "不提任何品牌或产品推荐",
-      "不引导私信、领取、关注",
-      "CTA用投票选择，激发评论互动",
-      "聚焦穿搭逻辑和审美，不卖任何东西"
-    ]
+    "topic": "[选题：城市名+标签]",
+    "source": "城市科普对唱",
+    "hook_type": "city_challenge",
+    "cta_action": "投票下一站城市"
   },
 
   "segments": [
@@ -129,61 +98,43 @@
       "duration_sec": 6,
       "shot_type": "wide",
       "emotion": "playful",
-      "visual_description": "[杨梦全身两套穿搭并排/快速切换对比]",
-      "reference_prompt": "[杨梦穿搭对比参考图prompt]",
-      "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
+      "visual_description": "[杨梦在城市地标前，开场hook]",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing {outfit}, standing on a hillside observation deck with blurred {city} city lights behind her, golden hour warm light on her face, wind gently moving her hair, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, natural color temperature, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "gentle wind, looking around with wonder, city lights twinkling behind",
       "lyrics_refs": ["B01"]
     },
     {
       "id": "S02",
       "type": "body",
-      "duration_sec": 6,
+      "duration_sec": 8,
       "shot_type": "medium",
-      "emotion": "confident",
-      "visual_description": "[杨梦穿A套特写，展示细节]",
-      "reference_prompt": "[A套参考图prompt]",
-      "motion_prompt": "slow turn, detail showcase, bright studio lighting",
+      "emotion": "surprised",
+      "visual_description": "[杨梦在亮点A场景，体验+惊叹]",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing {outfit}, at {highlightA location}, looking with curiosity and amazement, {specific scene elements}, natural daylight, a few flyaway hairs, uneven skin tone, natural shine on forehead, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "looking with amazement, slight gasp expression, scene activity around",
       "lyrics_refs": ["B02", "B03"]
     },
     {
       "id": "S03",
       "type": "body",
-      "duration_sec": 6,
+      "duration_sec": 8,
       "shot_type": "medium",
-      "emotion": "elegant",
-      "visual_description": "[杨梦穿B套特写，展示细节]",
-      "reference_prompt": "[B套参考图prompt]",
-      "motion_prompt": "slow turn, detail showcase, bright studio lighting",
+      "emotion": "excited",
+      "visual_description": "[杨梦在亮点B场景，兴奋体验]",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing {outfit}, at {highlightB location}, {specific scene elements}, warm ambient lighting, a few flyaway hairs, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "engaged with scene, excited expression, natural interaction",
       "lyrics_refs": ["B04", "B05"]
     },
     {
       "id": "S04",
-      "type": "body",
-      "duration_sec": 6,
-      "shot_type": "text_card",
-      "emotion": "educational",
-      "visual_description": "穿搭法则文字卡",
-      "reference_prompt": "text_card",
-      "motion_prompt": "text_card",
-      "text_card_config": {
-        "lines": ["[穿搭法则1]", "[穿搭法则2]"],
-        "font_size": 48,
-        "font_color": "#2d2d2d",
-        "bg_color": "#f5e6d3",
-        "animation": "fade_in"
-      },
-      "lyrics_refs": ["B06", "B07"]
-    },
-    {
-      "id": "S05",
       "type": "cta",
       "duration_sec": 6,
       "shot_type": "close-up",
       "emotion": "warm",
-      "visual_description": "[杨梦直视镜头微笑，CTA画面]",
-      "reference_prompt": "[杨梦微笑参考图prompt]",
-      "motion_prompt": "warm smile, direct eye contact, gentle movement",
-      "lyrics_refs": ["B08"]
+      "visual_description": "[杨梦直视镜头微笑，背景虚化城市夜景]",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing {outfit}, direct eye contact with camera, warm genuine smile, slightly tilted head, blurred {city} night cityscape behind her in soft warm bokeh, soft natural eye reflection, warm skin tones, no harsh highlights, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "warm smile, direct eye contact, gentle head tilt, city lights twinkling behind",
+      "lyrics_refs": ["B06"]
     }
   ],
 
@@ -214,9 +165,9 @@
   "reference_images": {
     "engine": "seedream_4.5",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
-    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain"
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine"
   },
 
   "video_generation": {
@@ -226,9 +177,7 @@
     "duration_sec": 5,
     "fps": 24,
     "fixed_seed": true,
-    "iteration_model": "gen4_turbo",
-    "final_model": "gen4",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "motion_intensity": 4
   },
 
@@ -250,25 +199,16 @@
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
   },
 
-  "post_production": {
-    "film_grain_intensity_pct": 0,
-    "lens_glow_intensity_pct": 5,
-    "saturation_adjust": 10,
-    "contrast_adjust": 5,
-    "sharpness_adjust": -2,
-    "vignette": 0.05
-  },
-
   "publishing": {
-    "platforms": ["xiaohongshu"],
+    "platforms": ["douyin", "xiaohongshu"],
     "title_candidates": [
-      "[标题1：场景+提问]",
-      "[标题2：穿搭对比]",
-      "[标题3：法则/结论]"
+      "[标题1：城市+震撼点]",
+      "[标题2：亮点描述]",
+      "[标题3：知识揭秘]"
     ],
-    "tags": ["穿搭对比", "OOTD", "杨梦穿搭", "场景穿搭", "穿搭法则"],
-    "xiaohongshu_tags": ["穿搭对比", "OOTD", "面试穿搭", "职场穿搭", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
+    "tags": ["城市名片", "旅行科普", "杨梦旅行"],
+    "xiaohongshu_tags": ["城市名片", "旅行攻略", "杨梦旅行"],
     "publish_times": ["12:00", "18:00"],
-    "cover_description": "杨梦A/B穿搭对比 + 场景关键词大字 + 明亮奶油色背景"
+    "cover_description": "杨梦在城市地标前 + 城市名大字 + 旅行氛围"
   }
 }
