@@ -1,0 +1,191 @@
+{
+  "video_id": "day11-yangmun",
+  "version": "2.0",
+  "created": "2026-04-27",
+  "status": "script_approved",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day11 马斯克停产Model S/X转投机器人。自由叙事结构。shock→tension→reversal→warm。Medvi v2工作流：无主参考图，3张故事图，杨梦素材从已有库选取混剪。外国人物规避名誉权风险。",
+  "eval_score": 90,
+  "global": {
+    "target_duration_sec": 47,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "cool_warm_shift",
+    "accent_color": "#c9a96e"
+  },
+  "script": {
+    "topic": "造车只是热身",
+    "hook_type": "scene_immersion",
+    "cta_action": "评论",
+    "cta_keyword": "热爱还是习惯",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 11,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "yangmun_clip_hint": "day5-yangmun/S01-shock.mp4",
+      "story_images": [
+        {
+          "id": "S01-01",
+          "trigger_text": "Model X最后一辆车下线",
+          "reference_file": "day11-yangmun/S01-01.png",
+          "reference_prompt": "35mm documentary film still grainy imperfect focus, interior of an empty Tesla factory assembly line at night, a single white Model X sitting alone under harsh fluorescent lights with no workers around, the production line behind it dark and still, cold sterile light from above creating sharp shadows on the white car body, visible film grain especially in dark areas, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow zoom in on the lone Model X, fluorescent lights flickering slightly, dust in light beams"
+        },
+        {
+          "id": "S01-02",
+          "trigger_text": "沉默比任何话都响",
+          "reference_file": "day11-yangmun/S01-02.png",
+          "reference_prompt": "iPhone 15 Pro photo slightly underexposed natural lighting, close-up of a phone screen at night showing a breaking news notification in English about Tesla Model X discontinued, the phone held in a dark room illuminated only by the cold blue-white screen light, the notification casting a pale glow on the holder's thumb, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow push in on phone screen, notification sliding down, screen glow steady"
+        }
+      ],
+      "voiceover_text": "Model X 的最后一辆车下线了。没有仪式。没有掌声。就像关上一扇门，连灯都没开。马斯克什么也没说。他的沉默，比任何话都响。",
+      "voiceover_pause_markers": "Model X 的最后一辆车下线了。<#0.5#>没有仪式。<#0.3#>没有掌声。<#0.5#>就像关上一扇门<#0.2#>连灯都没开。<#0.8#>马斯克什么也没说。<#0.5#>他的沉默<#0.3#>比任何话都响。",
+      "subtitle_text": "没有仪式 没有掌声"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion_arc": "tension",
+      "yangmun_clip_hint": "day5-yangmun/S02-determined.mp4",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "外面炸了 销量在跌",
+          "reference_file": "day11-yangmun/S02-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, wide shot of a nearly empty Tesla showroom with rows of unsold cars and no customers, a single salesperson standing alone looking at their phone, harsh overhead showroom lights creating flat unflattering illumination mixed with cool daylight through glass walls, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow pan across empty showroom, fluorescent lights humming, no movement"
+        },
+        {
+          "id": "S02-02",
+          "trigger_text": "所有人都在喊他完了",
+          "reference_file": "day11-yangmun/S02-02.png",
+          "reference_prompt": "iPhone 15 Pro photo natural lighting slightly underexposed, close-up of multiple phone and tablet screens showing negative financial news headlines about Tesla stock decline, screens stacked at different angles creating a chaotic composition, cold blue light from screens contrasting with warm amber from a desk lamp in background, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "subtle screen flickering, slow zoom out revealing more screens"
+        }
+      ],
+      "voiceover_text": "Model S 也只剩最后一批。外面炸了。销量在跌。所有人都在喊他完了。马斯克说过：我宁愿乐观地犯错，也不愿悲观地正确。他什么也没解释。",
+      "voiceover_pause_markers": "Model S 也只剩最后一批。<#0.5#>外面炸了。<#0.3#>销量在跌。<#0.5#>所有人都在喊他完了。<#0.8#>马斯克说过<#0.2#>我宁愿乐观地犯错<#0.2#>也不愿悲观地正确。<#0.8#>他什么也没解释。",
+      "subtitle_text": "所有人都在喊他完了"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion_arc": "reversal",
+      "yangmun_clip_hint": "day6-yangmun/S03.mp4",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "机器人的手比人手还灵活",
+          "reference_file": "day11-yangmun/S03-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, extreme close-up of a humanoid robot hand with articulated fingers holding a small delicate object like a coin or egg, warm amber light from below illuminating the metallic fingers creating dramatic shadows, completely dark background, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow push in on robot hand, fingers delicately rotating the object, warm light pulsing"
+        },
+        {
+          "id": "S03-02",
+          "trigger_text": "从改变汽车到改变一切",
+          "reference_file": "day11-yangmun/S03-02.png",
+          "reference_prompt": "shot on Sony A7III 24mm f/2.0 available light Fuji 400H, a futuristic autonomous taxi seen through rain-covered glass at night, the vehicle's smooth metallic surface reflecting neon city lights in wet streaks, the warm glow from inside the cabin barely visible through tinted windows, rain droplets on the glass creating bokeh of the city behind, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "rain streaking down glass, autonomous taxi lights pulsing softly, city bokeh shifting"
+        }
+      ],
+      "voiceover_text": "Optimus 机器人的手，比人手还灵活。Cybercab 出租车量产在加速。从改变汽车，到改变一切。造车，只是热身。",
+      "voiceover_pause_markers": "Optimus 机器人的手<#0.2#>比人手还灵活。<#0.5#>Cybercab 出租车量产在加速。<#0.8#>从改变汽车<#0.3#>到改变一切。<#1.0#>造车<#0.3#>只是热身。",
+      "subtitle_text": "造车 只是热身"
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 12,
+      "shot_type": "close-up",
+      "emotion_arc": "warm",
+      "yangmun_clip_hint": "day5-yangmun/S05-warm.mp4",
+      "story_images": [],
+      "voiceover_text": "马斯克说过：当一件事足够重要，即使胜算不大，你也该去做。他砍掉的不是车，是过去的自己。你攥着不放的，是热爱，还是习惯？评论区聊聊。",
+      "voiceover_pause_markers": "马斯克说过<#0.2#>当一件事足够重要<#0.2#>即使胜算不大<#0.2#>你也该去做。<#0.8#>他砍掉的不是车<#0.2#>是过去的自己。<#0.8#>你攥着不放的<#0.3#>是热爱<#0.2#>还是习惯？<#0.5#>评论区聊聊。",
+      "subtitle_text": "你攥着不放的 是热爱还是习惯"
+    }
+  ],
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts-preview",
+    "voice": "Aoede",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "女声，全部使用Aoede声音保持一致性。S01'Model X最后一辆车下线了'用平缓叙述，'没有仪式'稍顿，'没有掌声'再顿，'就像关上一扇门'放慢，'连灯都没开'压低带失落，'马斯克什么也没说'轻描淡写，'他的沉默比任何话都响'加重'沉默'二字后停顿。S02'Model S也只剩最后一批'中速，'外面炸了'稍快，'销量在跌'加重，'所有人都在喊他完了'语速加快带焦虑感，名人原话'我宁愿乐观地犯错'要稳重有力，'也不愿悲观地正确'上扬带自信，'他什么也没解释'回到平静。S03'Optimus机器人的手'中速清晰，'比人手还灵活'微微惊讶，'Cybercab出租车量产在加速'节奏紧凑，'从改变汽车'放慢，'到改变一切'每个字清晰有力停顿，'造车'短暂停顿，'只是热身'轻描淡写但分量极重。S04名人原话'当一件事足够重要'温暖有力，'你也该去做'鼓励语气，'他砍掉的不是车'转为叙事，'是过去的自己'温暖带理解，'你攥着不放的'转为对观众说话，'是热爱'停顿，'还是习惯'真诚发问，CTA自然友好"
+  },
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true
+  },
+  "compositing": {
+    "engine": "剪映",
+    "note": "v2工作流：不使用FFmpeg拼接。所有素材在剪映手动混剪。杨梦表情视频+故事视频+TTS配音在剪映中交替剪辑。",
+    "subtitle_source": "auto_from_script",
+    "subtitle_style": "ktv_dynamic"
+  },
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成。v2工作流：杨梦(shock)→故事视频(S01)→杨梦(tension)→故事视频(S02)→杨梦(reversal)→故事视频(S03)→杨梦(warm+CTA)"
+  },
+  "publishing": {
+    "platforms": ["douyin"],
+    "title_candidates": [
+      "造车 只是热身",
+      "马斯克亲手砍掉自己的亲儿子",
+      "从改变汽车 到改变一切"
+    ],
+    "tags": ["马斯克", "特斯拉", "Optimus", "机器人", "Cybercab", "创新", "勇气"],
+    "xiaohongshu_tags": ["马斯克", "特斯拉", "Optimus", "创新", "自我突破", "勇气"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦冷暖交替光影，文字'造车只是热身'"
+  }
+}
