@@ -1,0 +1,216 @@
+{
+  "video_id": "city-xiamen",
+  "workflow": "sings",
+  "version": "3.0",
+  "created": "2026-04-27",
+  "status": "script_approved",
+  "series": "sings-travel",
+  "strategy_notes": "城市对唱：厦门。v3歌词（毒舌+情绪对唱），135 BPM洗脑节奏，70%真实素材+30% AI杨梦，福州话背景氛围",
+
+  "global": {
+    "target_duration_sec": 35,
+    "max_duration_sec": 45,
+    "min_duration_sec": 25,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "style": "travel_edu_duet",
+    "color_temperature": "warm_bright",
+    "accent_color": "#6bb5c9",
+    "bg_color": "#e8f4f8"
+  },
+
+  "lyrics": {
+    "bpm": 135,
+    "time_signature": "4/4",
+    "suno_tags": "Duet (Alternating). Female: sassy, playful, slightly bratty tone. Male: deadpan, witty, correcting with humor. Strong upbeat dance beat from bar 1. Catchy synth hook that repeats throughout. 135 bpm. TikTok viral Chinese pop. Punchy bass. Short 2-bar intro then vocals immediately. Bright production. NOT ballad, NOT slow, NOT acoustic",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune, acoustic guitar, whisper, gentle, lullaby",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 厦门的海太蓝 我把工作群全关了",
+          "[Male] 鼓浪屿连车都没有 你卷给谁看"
+        ],
+        "rhyme": "an",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 岛上全是猫 我都快变成猫了",
+          "[Male] 满岛的钢琴你不弹 你只会喵"
+        ],
+        "rhyme": "ao",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": [
+          "[Female] 沙茶面吃了三碗 还说一般般",
+          "[Male] 你的嘴巴会骗人 但筷子不会"
+        ],
+        "rhyme": "loose",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": [
+          "[Both] 厦门的海风 替你批了请假单",
+          "[Both] 下一站去哪 你来拍板我来唱完"
+        ],
+        "rhyme": "an",
+        "segment_ref": "S04",
+        "type": "hook"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "厦门城市名片：海风替你请假",
+    "source": "城市毒舌对唱 v3",
+    "hook_type": "dramatic_action",
+    "cta_action": "投票下一站城市",
+    "city": "厦门",
+    "highlights": [
+      {"name": "鼓浪屿（无车+钢琴+猫）", "type": "attraction"},
+      {"name": "沙茶面", "type": "food"}
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "真实素材：厦门海景/鼓浪屿航拍，配合杨梦关手机的动作（用户混剪处理）",
+      "reference_file": "",
+      "reference_prompt": "",
+      "motion_prompt": "",
+      "lyrics_refs": ["B01"],
+      "note": "用户用真实素材混剪，不需要 AI 生成"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "surprised",
+      "visual_description": "杨梦在鼓浪屿小巷里，周围有猫，表情惊讶又好笑",
+      "reference_file": "city-xiamen/S02-surprised.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light blue cotton dress, standing in a narrow stone-paved alley on Gulangyu Island, several stray cats sitting on stone walls and steps around her, looking at the camera with a surprised amused expression, one hand covering her mouth as if just discovering something, colonial-era brick buildings with vines in background, dappled afternoon sunlight through banyan tree leaves, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "surprised expression, one hand covering mouth, cats moving around lazily, dappled light shifting",
+      "lyrics_refs": ["B02"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "excited",
+      "visual_description": "真实素材：沙茶面制作/沸腾特写/街头小吃摊（用户混剪处理）",
+      "reference_file": "",
+      "reference_prompt": "",
+      "motion_prompt": "",
+      "lyrics_refs": ["B03"],
+      "note": "用户用真实素材混剪，不需要 AI 生成"
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "warm",
+      "visual_description": "杨梦在海边，夕阳下直视镜头微笑，海风吹头发",
+      "reference_file": "city-xiamen/S04-warm.png",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light blue cotton dress, standing on a seaside path in Xiamen, golden sunset light hitting her face from the side, sea breeze blowing her hair naturally with several flyaway strands across her face, direct eye contact with camera, warm relaxed genuine smile, blurred ocean and distant fishing boats in soft golden bokeh background, warm skin tones with natural glow, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "warm smile, direct eye contact, hair blowing in sea breeze, golden light shifting, subtle head tilt",
+      "lyrics_refs": ["B04"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "Duet (Alternating). Female: sassy, playful, slightly bratty tone. Male: deadpan, witty, correcting with humor. Strong upbeat dance beat from bar 1. Catchy synth hook that repeats throughout. 135 bpm. TikTok viral Chinese pop. Punchy bass. Short 2-bar intro then vocals immediately. Bright production. NOT ballad, NOT slow, NOT acoustic",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune, acoustic guitar, whisper, gentle, lullaby",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "剪映",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "publishing": {
+    "platforms": ["douyin"],
+    "title_candidates": [
+      "厦门海太蓝 我把工作群全关了",
+      "你的嘴巴会骗人 但筷子不会",
+      "鼓浪屿连车都没有 你卷给谁看"
+    ],
+    "tags": ["厦门", "鼓浪屿", "沙茶面", "城市对唱", "逃离工作", "厦门旅游", "海风"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "厦门海景 + '我把工作群全关了' 大字"
+  }
+}

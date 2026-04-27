@@ -1,0 +1,14 @@
+{
+  "video_id": "city-xiamen",
+  "timestamp": "2026-04-27T10:51:57.352434",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 135,
+  "bars": 4,
+  "style": "Duet (Alternating). Female: sassy, playful, slightly bratty tone. Male: deadpan, witty, correcting with humor. Strong upbeat dance beat from bar 1. Catchy synth hook that repeats throughout. 135 bpm. TikTok viral Chinese pop. Punchy bass. Short 2-bar intro then vocals immediately. Bright production. NOT ballad, NOT slow, NOT acoustic",
+  "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune, acoustic guitar, whisper, gentle, lullaby",
+  "style_weight": 0.9,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1777258260-gmu0rw33",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/city-xiamen"
+}

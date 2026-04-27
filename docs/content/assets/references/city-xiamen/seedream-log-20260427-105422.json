@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-04-27T10:54:22.362032",
+  "model": "doubao-seedream-4.5",
+  "shots": 2,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-xiamen/S02-surprised.png",
+      "task_id": "task-unified-1777258395-9bdgccj3",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/city-xiamen/S04-warm.png",
+      "task_id": "task-unified-1777258447-xwh0s4dv",
+      "status": "success"
+    }
+  ]
+}
