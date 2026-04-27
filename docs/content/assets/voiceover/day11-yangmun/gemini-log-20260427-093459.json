@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-04-27T09:34:59.346545",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day11-yangmun",
+  "total_duration_s": 55.12,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day11-yangmun/S01.mp3",
+      "duration_s": 13.2,
+      "status": "success",
+      "actual_duration_s": 13.2,
+      "voiceover_text": "Model X 的最后一辆车下线了。没有仪式。没有掌声。就像关上一扇门，连灯都没开。马斯克什么也没说。他的沉默，比任何话都响。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day11-yangmun/S02.mp3",
+      "duration_s": 15.68,
+      "status": "success",
+      "actual_duration_s": 15.68,
+      "voiceover_text": "Model S 也只剩最后一批。外面炸了。销量在跌。所有人都在喊他完了。马斯克说过：我宁愿乐观地犯错，也不愿悲观地正确。他什么也没解释。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day11-yangmun/S03.mp3",
+      "duration_s": 11.92,
+      "status": "success",
+      "actual_duration_s": 11.92,
+      "voiceover_text": "Optimus 机器人的手，比人手还灵活。Cybercab 出租车量产在加速。从改变汽车，到改变一切。造车，只是热身。",
+      "director_notes": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day11-yangmun/S04.mp3",
+      "duration_s": 14.32,
+      "status": "success",
+      "actual_duration_s": 14.32,
+      "voiceover_text": "马斯克说过：当一件事足够重要，即使胜算不大，你也该去做。他砍掉的不是车，是过去的自己。你攥着不放的，是热爱，还是习惯？评论区聊聊。",
+      "director_notes": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure."
+    }
+  ]
+}

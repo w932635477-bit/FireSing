@@ -47,13 +47,6 @@
           "reference_file": "day11-yangmun/S01-01.png",
           "reference_prompt": "35mm documentary film still grainy imperfect focus, interior of an empty Tesla factory assembly line at night, a single white Model X sitting alone under harsh fluorescent lights with no workers around, the production line behind it dark and still, cold sterile light from above creating sharp shadows on the white car body, visible film grain especially in dark areas, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow zoom in on the lone Model X, fluorescent lights flickering slightly, dust in light beams"
-        },
-        {
-          "id": "S01-02",
-          "trigger_text": "沉默比任何话都响",
-          "reference_file": "day11-yangmun/S01-02.png",
-          "reference_prompt": "iPhone 15 Pro photo slightly underexposed natural lighting, close-up of a phone screen at night showing a breaking news notification in English about Tesla Model X discontinued, the phone held in a dark room illuminated only by the cold blue-white screen light, the notification casting a pale glow on the holder's thumb, visible film grain, subject center, vertical composition 9:16",
-          "motion_prompt": "slow push in on phone screen, notification sliding down, screen glow steady"
         }
       ],
       "voiceover_text": "Model X 的最后一辆车下线了。没有仪式。没有掌声。就像关上一扇门，连灯都没开。马斯克什么也没说。他的沉默，比任何话都响。",
@@ -74,13 +67,6 @@
           "reference_file": "day11-yangmun/S02-01.png",
           "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, wide shot of a nearly empty Tesla showroom with rows of unsold cars and no customers, a single salesperson standing alone looking at their phone, harsh overhead showroom lights creating flat unflattering illumination mixed with cool daylight through glass walls, visible film grain, subject lower third, vertical composition 9:16",
           "motion_prompt": "slow pan across empty showroom, fluorescent lights humming, no movement"
-        },
-        {
-          "id": "S02-02",
-          "trigger_text": "所有人都在喊他完了",
-          "reference_file": "day11-yangmun/S02-02.png",
-          "reference_prompt": "iPhone 15 Pro photo natural lighting slightly underexposed, close-up of multiple phone and tablet screens showing negative financial news headlines about Tesla stock decline, screens stacked at different angles creating a chaotic composition, cold blue light from screens contrasting with warm amber from a desk lamp in background, visible film grain, subject center, vertical composition 9:16",
-          "motion_prompt": "subtle screen flickering, slow zoom out revealing more screens"
         }
       ],
       "voiceover_text": "Model S 也只剩最后一批。外面炸了。销量在跌。所有人都在喊他完了。马斯克说过：我宁愿乐观地犯错，也不愿悲观地正确。他什么也没解释。",
@@ -101,13 +87,6 @@
           "reference_file": "day11-yangmun/S03-01.png",
           "reference_prompt": "shot on Canon 5D Mark IV 85mm f/1.4 Kodak Portra 400, extreme close-up of a humanoid robot hand with articulated fingers holding a small delicate object like a coin or egg, warm amber light from below illuminating the metallic fingers creating dramatic shadows, completely dark background, visible film grain, subject center, vertical composition 9:16",
           "motion_prompt": "slow push in on robot hand, fingers delicately rotating the object, warm light pulsing"
-        },
-        {
-          "id": "S03-02",
-          "trigger_text": "从改变汽车到改变一切",
-          "reference_file": "day11-yangmun/S03-02.png",
-          "reference_prompt": "shot on Sony A7III 24mm f/2.0 available light Fuji 400H, a futuristic autonomous taxi seen through rain-covered glass at night, the vehicle's smooth metallic surface reflecting neon city lights in wet streaks, the warm glow from inside the cabin barely visible through tinted windows, rain droplets on the glass creating bokeh of the city behind, visible film grain, subject lower third, vertical composition 9:16",
-          "motion_prompt": "rain streaking down glass, autonomous taxi lights pulsing softly, city bokeh shifting"
         }
       ],
       "voiceover_text": "Optimus 机器人的手，比人手还灵活。Cybercab 出租车量产在加速。从改变汽车，到改变一切。造车，只是热身。",
