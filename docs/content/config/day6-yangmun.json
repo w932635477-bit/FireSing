@@ -5,7 +5,6 @@
   "status": "script_draft",
   "strategy": "yangmun-emotion-ip",
   "strategy_notes": "Day6 马斯克说孤独。主题：所有人都在笑你的时候怎么办。与Day4效率铁律、Day5逆袭法则形成系列但角度完全不同。故事线全部使用非SpaceX素材，避免与Day4/Day5重复",
-
   "global": {
     "target_duration_sec": 79,
     "resolution": "1080x1920",
@@ -17,7 +16,6 @@
     "color_temperature": "warm",
     "accent_color": "#c9a96e"
   },
-
   "script": {
     "topic": "马斯克被全世界嘲笑的时候，他做对了3件事",
     "hook_type": "celebrity_quote",
@@ -30,9 +28,7 @@
       "聚焦名人的故事和情绪，不卖任何东西"
     ]
   },
-
   "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
-
   "segments": [
     {
       "id": "S01",
@@ -143,7 +139,6 @@
       "subtitle_text": "你被嘲笑得最狠的那次\\N后来怎样了？"
     }
   ],
-
   "voiceover": {
     "engine": "gemini_tts",
     "gemini_voice": "Charon",
@@ -155,16 +150,14 @@
     "normalize": true,
     "director_notes": "统一使用Gemini TTS Charon声音，按emotion_arc切换Director's Notes。S01开场要有悬念感，S02'Zip2卖了三亿'要有爆发力，S03'度蜜月的飞机上'要慢要重，S04'他没有倒下'要短要干脆，S05温暖收尾"
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -174,14 +167,13 @@
     "fixed_seed": true,
     "iteration_model": "gen4_turbo",
     "final_model": "gen4",
-    "candidates_per_segment": 3,
+    "candidates_per_segment": 1,
     "post_processing": {
       "trim_unstable_frames": true,
       "handheld_shake_pct": 5,
       "upscale_4k": false
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "bgm_file": "assets/bgm/ambient_warm_01.mp3",
@@ -190,7 +182,6 @@
     "transition_note": "S01 Musk到女性之间用硬切，保持冲击力",
     "subtitle_source": "auto_from_script"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -201,7 +192,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 8,
     "lens_glow_intensity_pct": 8,
@@ -211,22 +201,42 @@
     "vignette": 0.3,
     "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
   },
-
   "publishing": {
-    "platforms": ["douyin", "xiaohongshu"],
+    "platforms": [
+      "douyin",
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "被全世界嘲笑的时候他做对了3件事",
       "蜜月飞机上被自己公司开掉，然后呢",
       "你被嘲笑得最狠的那次后来怎样了"
     ],
-    "tags": ["马斯克", "创业", "逆袭", "孤独", "坚持", "不被理解"],
+    "tags": [
+      "马斯克",
+      "创业",
+      "逆袭",
+      "孤独",
+      "坚持",
+      "不被理解"
+    ],
     "xiaohongshu_title_candidates": [
       "被所有人嘲笑的时候怎么办",
       "蜜月飞机上被自己公司踢出局",
       "你被嘲笑得最狠的那次后来怎样了"
     ],
-    "xiaohongshu_tags": ["马斯克", "逆袭", "坚持", "创业故事", "不被理解", "自我提升", "拒绝内耗"],
-    "publish_times": ["12:00", "18:00"],
+    "xiaohongshu_tags": [
+      "马斯克",
+      "逆袭",
+      "坚持",
+      "创业故事",
+      "不被理解",
+      "自我提升",
+      "拒绝内耗"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "米白亚麻衫女性角色震惊表情，深蓝背景，金色文字'被嘲笑的时候怎么办'"
   }
 }

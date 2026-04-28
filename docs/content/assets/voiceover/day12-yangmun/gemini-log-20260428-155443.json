@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-04-28T15:54:43.959889",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "day12-yangmun",
+  "total_duration_s": 80.96,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day12-yangmun/S01.mp3",
+      "duration_s": 17.84,
+      "status": "success",
+      "actual_duration_s": 17.84,
+      "voiceover_text": "马斯克说过：\"我每天醒来都觉得今天可能破产。\"但2000年，他连醒来的机会都没有。在飞机上度蜜月，落地打开手机——自己已经不是CEO了。他创办的公司，趁他不在，把他踢了出去。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day12-yangmun/S02.mp3",
+      "duration_s": 25.96,
+      "status": "success",
+      "actual_duration_s": 25.96,
+      "voiceover_text": "铁律一：你的位子，不是你的。2026年，AI不是在抢你的饭碗。它已经坐了你的位子。工作12年，通知用了3分钟。钉钉群一退，你就不是这个公司的人了。马斯克说过：\"失败是一个选项。如果你没有失败过，说明你创新不够。\"",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day12-yangmun/S03.mp3",
+      "duration_s": 23.720249,
+      "status": "success",
+      "actual_duration_s": 23.720249,
+      "voiceover_text": "铁律二：被开除不是终点，是系统的局限。马斯克被踢出PayPal那年，瘦了30斤，在路边吃冰淇淋，没人搭理他。后来PayPal市值涨了10倍，但把他赶走的那些人，没有一个名字被记住。马斯克说：\"我不放弃，除非我死了。\"",
+      "director_notes": "Start with the conventional wisdom, then flip it. Use [thoughtfully] for the setup, [impressed] for the reveal. The data point should feel like a plot twist. Slow down before the key figure."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/day12-yangmun/S04.mp3",
+      "duration_s": 13.44,
+      "status": "success",
+      "actual_duration_s": 13.44,
+      "voiceover_text": "马斯克说的不是PayPal。说的是你。你被裁掉不是因为你不行。是因为那个系统，看不到你的价值。你还没有死。评论区聊聊。",
+      "director_notes": "Drop the authority. Use [warmly] and speak like a friend who genuinely cares. The shift from business data to 'you' should feel natural. End with gentle invitation, not pressure."
+    }
+  ]
+}

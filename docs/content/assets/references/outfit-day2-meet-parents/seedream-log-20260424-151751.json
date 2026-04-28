@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-24T15:17:51.956296",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/outfit-day2-meet-parents/S01-playful.png",
+      "task_id": "task-unified-1777014842-5rcfjdwu",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/outfit-day2-meet-parents/S02-confident.png",
+      "task_id": "task-unified-1777014900-8a8zbknn",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/outfit-day2-meet-parents/S03-elegant.png",
+      "task_id": "task-unified-1777014974-elgsx055",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/outfit-day2-meet-parents/S05-warm.png",
+      "task_id": "task-unified-1777015009-csi97jm8",
+      "status": "success"
+    }
+  ]
+}

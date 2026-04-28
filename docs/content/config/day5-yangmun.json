@@ -5,7 +5,6 @@
   "status": "script_draft",
   "strategy": "yangmun-emotion-ip",
   "strategy_notes": "Day5 马斯克被说100次不可能的3条逆袭法则。流量优先策略，恐惧+赋能双驱动。全部素材重新生成，不复用Day4，防平台查重",
-
   "global": {
     "target_duration_sec": 79,
     "resolution": "1080x1920",
@@ -17,7 +16,6 @@
     "color_temperature": "warm",
     "accent_color": "#c9a96e"
   },
-
   "script": {
     "topic": "马斯克被说了100次不可能：3条逆袭法则",
     "hook_type": "celebrity_quote",
@@ -30,9 +28,7 @@
       "聚焦名人的故事和情绪，不卖任何东西"
     ]
   },
-
   "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
-
   "segments": [
     {
       "id": "S01",
@@ -107,7 +103,6 @@
       "subtitle_text": "他只是比所有人都早动手了一步\\N你身边谁一直在说你做不到？"
     }
   ],
-
   "voiceover": {
     "engine": "edge_tts",
     "voice": "zh-CN-YunxiNeural",
@@ -117,16 +112,14 @@
     "normalize": true,
     "director_notes": "沉稳男声，语速偏慢，Yang Mun 式节奏，S02的'爸妈朋友'部分放慢加重，S03的'做出来往桌上一放'要有力量感，S04的'该放出来了'带紧迫感"
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -136,14 +129,13 @@
     "fixed_seed": true,
     "iteration_model": "gen4_turbo",
     "final_model": "gen4",
-    "candidates_per_segment": 3,
+    "candidates_per_segment": 1,
     "post_processing": {
       "trim_unstable_frames": true,
       "handheld_shake_pct": 5,
       "upscale_4k": false
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "bgm_file": "assets/bgm/ambient_warm_01.mp3",
@@ -152,7 +144,6 @@
     "transition_note": "S01 Musk到女性之间用硬切，保持冲击力",
     "subtitle_source": "auto_from_script"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -163,7 +154,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 8,
     "lens_glow_intensity_pct": 8,
@@ -173,22 +163,42 @@
     "vignette": 0.3,
     "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
   },
-
   "publishing": {
-    "platforms": ["douyin", "xiaohongshu"],
+    "platforms": [
+      "douyin",
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "马斯克被说了100次不可能，然后呢",
       "你身边有没有人一直在跟你说做不到",
       "否定你的人，说的是他自己不是你"
     ],
-    "tags": ["马斯克", "逆袭", "不可能", "行动力", "拒绝躺平", "励志"],
+    "tags": [
+      "马斯克",
+      "逆袭",
+      "不可能",
+      "行动力",
+      "拒绝躺平",
+      "励志"
+    ],
     "xiaohongshu_title_candidates": [
       "被人说做不到的时候看看这个",
       "马斯克被嘲笑了一万次然后呢",
       "你藏起来的那个东西该放出来了"
     ],
-    "xiaohongshu_tags": ["马斯克", "励志", "行动力", "逆袭", "自我提升", "拒绝内耗", "不可能"],
-    "publish_times": ["12:00", "18:00"],
+    "xiaohongshu_tags": [
+      "马斯克",
+      "励志",
+      "行动力",
+      "逆袭",
+      "自我提升",
+      "拒绝内耗",
+      "不可能"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "米白亚麻衫女性角色坚定眼神，暗色背景，金色文字'3条逆袭法则'"
   }
 }

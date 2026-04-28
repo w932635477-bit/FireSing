@@ -5,7 +5,6 @@
   "status": "script_draft",
   "strategy": "yangmun-emotion-ip",
   "strategy_notes": "Day7 马斯克为什么你的努力没用。铁律三段式。流量优先策略，震撼→紧张→反转→恐惧→参与。全部素材重新生成，不复用Day4/5/6，防平台查重",
-
   "global": {
     "target_duration_sec": 50,
     "resolution": "1080x1920",
@@ -17,7 +16,6 @@
     "color_temperature": "warm",
     "accent_color": "#c9a96e"
   },
-
   "script": {
     "topic": "马斯克：为什么你的努力没用",
     "hook_type": "data_shock_plus_celebrity_quote",
@@ -30,9 +28,7 @@
       "聚焦名人的故事和情绪，不卖任何东西"
     ]
   },
-
   "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
-
   "segments": [
     {
       "id": "S01",
@@ -156,7 +152,6 @@
       "subtitle_text": "他缺的到底是什么？"
     }
   ],
-
   "voiceover": {
     "engine": "doubao_tts",
     "voice": "claire",
@@ -167,16 +162,14 @@
     "normalize": true,
     "director_notes": "女声克隆，全部使用 shock 情绪参数保持音色一致。S01开头数据冲击要稳，S02'忙碌是最隐蔽的偷懒'要有力量，S03'没人重新算过'带惊讶，S04死循环部分渐强，'把时间留给机器做不到的事'收束温暖，S05'他缺的到底是什么'真诚发问感"
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -190,7 +183,6 @@
       "upscale_4k": false
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "bgm_file": "assets/bgm/ambient_warm_01.mp3",
@@ -198,7 +190,6 @@
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_script"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -209,7 +200,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 8,
     "lens_glow_intensity_pct": 8,
@@ -219,22 +209,42 @@
     "vignette": 0.3,
     "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
   },
-
   "publishing": {
-    "platforms": ["douyin", "xiaohongshu"],
+    "platforms": [
+      "douyin",
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "马斯克一句话，点醒所有假装努力的人",
       "你身边有没有那种特别努力但一直没起来的人",
       "忙碌是最隐蔽的偷懒"
     ],
-    "tags": ["马斯克", "努力", "方向", "认知升级", "职场", "拒绝内耗"],
+    "tags": [
+      "马斯克",
+      "努力",
+      "方向",
+      "认知升级",
+      "职场",
+      "拒绝内耗"
+    ],
     "xiaohongshu_title_candidates": [
       "被这句话点醒了：忙碌是最隐蔽的偷懒",
       "马斯克的时间不花在做上，花在思考上",
       "你越忙越容易被替代，扎心了"
     ],
-    "xiaohongshu_tags": ["马斯克", "职场", "认知升级", "努力方向", "自我提升", "拒绝内耗", "AI时代"],
-    "publish_times": ["12:00", "18:00"],
+    "xiaohongshu_tags": [
+      "马斯克",
+      "职场",
+      "认知升级",
+      "努力方向",
+      "自我提升",
+      "拒绝内耗",
+      "AI时代"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "米白亚麻衫女性角色严肃眼神，暗色背景，文字'为什么你的努力没用'"
   }
 }

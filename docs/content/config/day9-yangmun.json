@@ -6,7 +6,6 @@
   "strategy": "yangmun-emotion-ip",
   "strategy_notes": "Day9 任正非活下去。自由叙事结构（非铁律三段式）。shock→tension→reversal→warm四段。80分投产。",
   "eval_score": 80,
-
   "global": {
     "target_duration_sec": 45,
     "resolution": "1080x1920",
@@ -18,7 +17,6 @@
     "color_temperature": "cool_warm_shift",
     "accent_color": "#8b7355"
   },
-
   "script": {
     "topic": "活下去",
     "hook_type": "scene_immersion",
@@ -31,9 +29,7 @@
       "聚焦名人的故事和情绪，不卖任何东西"
     ]
   },
-
   "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
-
   "segments": [
     {
       "id": "S01",
@@ -136,7 +132,6 @@
       "subtitle_text": "活下去 说给每一个正在扛的你"
     }
   ],
-
   "voiceover": {
     "engine": "gemini-3.1-flash-tts-preview",
     "voice": "Aoede",
@@ -145,16 +140,14 @@
     "normalize": true,
     "director_notes": "女声，全部使用Aoede声音保持一致性。S01开头'手指悬在'要轻而紧张，'怕的不是辞职'加重语气，'什么都没有了'压低声线带绝望，'别人替他写好了'冷酷收束。S02'但他没有去投简历'坚定有力，'活下去'三个字要重要慢每个字之间有呼吸，'不是口号'短暂停顿后用低沉声音说'是真的在活不活的边缘'。S03'行业顶尖'上扬，'华为的冬天'突然降低温度，'外面阳光正好'明亮语气，'他在准备御寒'迅速转为沉重，'华为活了下来'简洁有力。S04'所有正在扛的人的冬天'温暖包容，'活下去'三个字回响第一人称对自己说的感觉，'说给每一个正在扛的你'目光转向观众，CTA自然友好"
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -168,7 +161,6 @@
       "upscale_4k": false
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "bgm_file": "assets/bgm/ambient_warm_01.mp3",
@@ -176,7 +168,6 @@
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_script"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -187,7 +178,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 8,
     "lens_glow_intensity_pct": 8,
@@ -197,16 +187,27 @@
     "vignette": 0.3,
     "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
   },
-
   "publishing": {
-    "platforms": ["douyin"],
+    "platforms": [
+      "douyin"
+    ],
     "title_candidates": [
       "43岁被裁 任正非说了一句话",
       "外面阳光正好 他在准备御寒",
       "活下去 这三个字说给正在扛的你"
     ],
-    "tags": ["任正非", "华为", "活下去", "职场", "低谷", "撑住"],
-    "publish_times": ["12:00", "18:00"],
+    "tags": [
+      "任正非",
+      "华为",
+      "活下去",
+      "职场",
+      "低谷",
+      "撑住"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "米白亚麻衫女性角色温暖眼神，暖色背景，文字'活下去'"
   }
 }

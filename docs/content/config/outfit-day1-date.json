@@ -5,7 +5,6 @@
   "created": "2026-04-23",
   "status": "draft",
   "strategy_notes": "小红书穿搭对比对唱第一期：初次约会穿搭。A套碎花裙+高跟(用力过猛) vs B套针织+牛仔(自然舒服)",
-
   "global": {
     "target_duration_sec": 37,
     "max_duration_sec": 45,
@@ -20,7 +19,6 @@
     "accent_color": "#e8a87c",
     "bg_color": "#f5e6d3"
   },
-
   "lyrics": {
     "bpm": 130,
     "time_signature": "4/4",
@@ -30,7 +28,10 @@
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["初次约会到底怎么穿", "太用力反而让人难堪"],
+        "lines": [
+          "初次约会到底怎么穿",
+          "太用力反而让人难堪"
+        ],
         "rhyme": "an",
         "segment_ref": "S01",
         "type": "hook"
@@ -38,7 +39,10 @@
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["A套碎花长裙细高跟", "精致是精致不像本人"],
+        "lines": [
+          "A套碎花长裙细高跟",
+          "精致是精致不像本人"
+        ],
         "rhyme": "en",
         "segment_ref": "S02",
         "type": "body"
@@ -46,7 +50,10 @@
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["妆浓到走路不敢低头", "约会变成走红毯的秀"],
+        "lines": [
+          "妆浓到走路不敢低头",
+          "约会变成走红毯的秀"
+        ],
         "rhyme": "ou",
         "segment_ref": "S02",
         "type": "body"
@@ -54,7 +61,10 @@
       {
         "id": "B04",
         "beat_count": 4,
-        "lines": ["B套针织衫搭牛仔裤", "干净舒服自在不装酷"],
+        "lines": [
+          "B套针织衫搭牛仔裤",
+          "干净舒服自在不装酷"
+        ],
         "rhyme": "u",
         "segment_ref": "S03",
         "type": "body"
@@ -62,7 +72,10 @@
       {
         "id": "B05",
         "beat_count": 4,
-        "lines": ["小白鞋走哪都不紧张", "做自己就是最好的装"],
+        "lines": [
+          "小白鞋走哪都不紧张",
+          "做自己就是最好的装"
+        ],
         "rhyme": "ang",
         "segment_ref": "S03",
         "type": "body"
@@ -70,7 +83,10 @@
       {
         "id": "B06",
         "beat_count": 4,
-        "lines": ["法则一 场合定基调", "约会穿太正式会吓跑"],
+        "lines": [
+          "法则一 场合定基调",
+          "约会穿太正式会吓跑"
+        ],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -78,7 +94,10 @@
       {
         "id": "B07",
         "beat_count": 4,
-        "lines": ["法则二 合身最重要", "穿得舒服才敢放开笑"],
+        "lines": [
+          "法则二 合身最重要",
+          "穿得舒服才敢放开笑"
+        ],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -86,14 +105,16 @@
       {
         "id": "B08",
         "beat_count": 4,
-        "lines": ["初次约会你站A还是B", "评论区投票告诉我你的品味"],
+        "lines": [
+          "初次约会你站A还是B",
+          "评论区投票告诉我你的品味"
+        ],
         "rhyme": "ei",
         "segment_ref": "S05",
         "type": "cta"
       }
     ]
   },
-
   "script": {
     "topic": "初次约会穿搭：用力过猛 vs 自然舒服",
     "source": "原创穿搭对比",
@@ -103,12 +124,20 @@
     "outfit_a": {
       "name": "碎花裙+高跟",
       "description": "navy blue floral chiffon midi dress + beige kitten heels",
-      "keywords": ["碎花裙", "细高跟", "精致妆容"]
+      "keywords": [
+        "碎花裙",
+        "细高跟",
+        "精致妆容"
+      ]
     },
     "outfit_b": {
       "name": "针织+牛仔",
       "description": "cream knit sweater + blue denim jeans + white sneakers",
-      "keywords": ["针织衫", "牛仔裤", "小白鞋"]
+      "keywords": [
+        "针织衫",
+        "牛仔裤",
+        "小白鞋"
+      ]
     },
     "fashion_rules": [
       "场合定基调：约会不是走红毯，穿太正式适得其反",
@@ -121,7 +150,6 @@
       "聚焦穿搭逻辑和审美，不卖任何东西"
     ]
   },
-
   "segments": [
     {
       "id": "S01",
@@ -134,7 +162,9 @@
       "reference_prompt": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, paired with beige suede pointed-toe kitten heels, delicate gold chain necklace, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, hands clasped gently in front, confident but slightly nervous smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
       "reference_prompt_b": "Bright fashion lookbook editorial, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, paired with medium blue straight-leg denim jeans and clean white canvas sneakers, silver stud earrings, standing in a bright modern cafe with cream white walls, wooden tables, and green potted plants, one hand in jeans pocket, relaxed natural smile, natural daylight streaming through large windows, soft warm shadows, 5500K white balance, full-body shot, 50mm lens, model centered with negative space above, vertical composition 9:16",
       "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
-      "lyrics_refs": ["B01"]
+      "lyrics_refs": [
+        "B01"
+      ]
     },
     {
       "id": "S02",
@@ -146,7 +176,10 @@
       "reference_file": "outfit-day1-date/S02-confident.png",
       "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a navy blue floral print chiffon midi dress with V-neckline and flutter sleeves, delicate gold chain necklace, chiffon fabric catching light with natural drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing with arms relaxed at sides, looking slightly to the side, natural daylight from left side, soft directional shadows on fabric texture, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
-      "lyrics_refs": ["B02", "B03"]
+      "lyrics_refs": [
+        "B02",
+        "B03"
+      ]
     },
     {
       "id": "S03",
@@ -158,7 +191,10 @@
       "reference_file": "outfit-day1-date/S03-elegant.png",
       "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white ribbed knit sweater with relaxed fit, silver stud earrings, knit texture visible with natural yarn detail and soft drape, in a bright modern cafe, blurred cream white background with warm bokeh, standing casually with one hand touching hair, natural confident smile, natural daylight from left side, soft shadows, warm skin tones, waist-up shot, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
-      "lyrics_refs": ["B04", "B05"]
+      "lyrics_refs": [
+        "B04",
+        "B05"
+      ]
     },
     {
       "id": "S04",
@@ -170,13 +206,19 @@
       "reference_prompt": "text_card",
       "motion_prompt": "text_card",
       "text_card_config": {
-        "lines": ["法则一 场合定基调", "法则二 合身最重要"],
+        "lines": [
+          "法则一 场合定基调",
+          "法则二 合身最重要"
+        ],
         "font_size": 48,
         "font_color": "#2d2d2d",
         "bg_color": "#f5e6d3",
         "animation": "fade_in"
       },
-      "lyrics_refs": ["B06", "B07"]
+      "lyrics_refs": [
+        "B06",
+        "B07"
+      ]
     },
     {
       "id": "S05",
@@ -188,10 +230,11 @@
       "reference_file": "outfit-day1-date/S05-warm.png",
       "reference_prompt": "Warm intimate fashion portrait, a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing cream white ribbed knit sweater, natural minimal makeup, in a bright modern cafe, soft blurred background, direct eye contact with camera, warm genuine smile, slightly tilted head, natural daylight, soft catchlight in eyes, warm skin tones, upper body facing camera straight-on, shoulders centered and relaxed, chest and shoulders filling the lower half of frame vertically, face in upper two-thirds, close-up face and shoulders, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle movement",
-      "lyrics_refs": ["B08"]
+      "lyrics_refs": [
+        "B08"
+      ]
     }
   ],
-
   "audio": {
     "engine": "suno_ai",
     "api": "evolink",
@@ -209,23 +252,20 @@
       "vocal_gender": "m"
     }
   },
-
   "beat_sync": {
     "enabled": true,
     "align_to": "bar_lines",
     "min_cut_interval_beats": 2,
     "max_cut_interval_beats": 4
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, wrinkled clothes, fabric distortion, texture error, stiff pose, cropped, cut off, out of frame, tilted, cluttered"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -235,7 +275,7 @@
     "fixed_seed": true,
     "iteration_model": "gen4_turbo",
     "final_model": "gen4",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "motion_intensity": 4,
     "post_processing": {
       "trim_unstable_frames": true,
@@ -243,14 +283,12 @@
       "upscale_4k": true
     }
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_lyrics",
     "subtitle_style": "ktv_dynamic"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -261,7 +299,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 0,
     "lens_glow_intensity_pct": 5,
@@ -270,17 +307,39 @@
     "sharpness_adjust": -2,
     "vignette": 0.05
   },
-
   "publishing": {
-    "platforms": ["xiaohongshu"],
+    "platforms": [
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "初次约会穿A还是B？碎花裙vs针织牛仔",
       "约会穿搭翻车现场：用力过猛反而输了",
       "约会穿搭法则：场合定调 合身最重要"
     ],
-    "tags": ["穿搭对比", "OOTD", "约会穿搭", "初次约会", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
-    "xiaohongshu_tags": ["穿搭对比", "OOTD", "约会穿搭", "初次约会", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
-    "publish_times": ["12:00", "18:00"],
+    "tags": [
+      "穿搭对比",
+      "OOTD",
+      "约会穿搭",
+      "初次约会",
+      "杨梦穿搭",
+      "场景穿搭",
+      "穿搭法则",
+      "每日穿搭"
+    ],
+    "xiaohongshu_tags": [
+      "穿搭对比",
+      "OOTD",
+      "约会穿搭",
+      "初次约会",
+      "杨梦穿搭",
+      "场景穿搭",
+      "穿搭法则",
+      "每日穿搭"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "杨梦A/B穿搭对比 + '初次约会穿搭' 大字 + 明亮奶油色背景"
   }
 }

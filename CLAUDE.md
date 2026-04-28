@@ -51,3 +51,11 @@ Sprint 6: Frontend
 - LRC lyrics required. No Whisper in MVP.
 - Single GPU, single user, no auth.
 - pydub/FFmpeg are sync — wrap in asyncio.to_thread().
+
+## GBrain Configuration (configured by /setup-gbrain)
+- Engine: pglite
+- Config file: ~/.gbrain/config.json (mode 0600)
+- Setup date: 2026-04-28
+- MCP registered: yes
+- Memory sync: full
+- Current repo policy: read-write

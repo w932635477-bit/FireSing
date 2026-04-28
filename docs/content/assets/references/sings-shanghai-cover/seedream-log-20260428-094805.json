@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-28T09:48:05.714953",
+  "model": "doubao-seedream-4.5",
+  "shots": 4,
+  "candidates_per_shot": 1,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-shanghai-cover/S01-playful.png",
+      "task_id": "task-unified-1777340753-w633b1g7",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-shanghai-cover/S02-surprised.png",
+      "task_id": "task-unified-1777340801-raaxs9rd",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-shanghai-cover/S03-excited.png",
+      "task_id": "task-unified-1777340820-ieneixd4",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-shanghai-cover/S04-warm.png",
+      "task_id": "task-unified-1777340839-4coa733p",
+      "status": "success"
+    }
+  ]
+}

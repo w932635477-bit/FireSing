@@ -97,7 +97,7 @@
     "engine": "seedream_4.5",
     "api": "evolink",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
   },
@@ -110,7 +110,7 @@
     "fixed_seed": true,
     "iteration_model": "gen4_turbo",
     "final_model": "gen4",
-    "candidates_per_segment": 3,
+    "candidates_per_segment": 1,
     "post_processing": {
       "trim_unstable_frames": true,
       "handheld_shake_pct": 5,
@@ -144,14 +144,26 @@
     "note": "在剪映完成，FFmpeg 只做拼接+音频合并"
   },
   "publishing": {
-    "platforms": ["douyin", "xiaohongshu"],
+    "platforms": [
+      "douyin",
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "AI替代10人设计团队，月成本8万降到3千",
       "1个人干10个人的活，月成本只要3千",
       "月成本8万→3千，AI正在改写规则"
     ],
-    "tags": ["AI替代", "一人公司", "AI设计", "降本增效", "AI工具"],
-    "publish_times": ["12:00", "18:00"],
+    "tags": [
+      "AI替代",
+      "一人公司",
+      "AI设计",
+      "降本增效",
+      "AI工具"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "米白亚麻衫女性角色，暗色背景，金色文字叠加"
   }
 }

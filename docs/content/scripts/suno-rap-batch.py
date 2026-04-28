@@ -217,6 +217,7 @@ def generate_rap(
     output_dir: Path,
     dry_run: bool = False,
     shot_filter: str | None = None,
+    max_count: int = 1,
 ) -> None:
     """Generate rap audio from config."""
     video_id = config.get("video_id", "unknown")
@@ -332,6 +333,7 @@ def generate_rap(
 
     # Handle single result or list
     audio_items = task_data if isinstance(task_data, list) else [task_data]
+    audio_items = audio_items[:max_count]
 
     for i, item in enumerate(audio_items):
         audio_url = item.get("audio_url", "")
@@ -403,6 +405,12 @@ def main() -> None:
         type=str,
         help="Generate only a specific shot (e.g. S01)",
     )
+    parser.add_argument(
+        "--count",
+        type=int,
+        default=1,
+        help="Number of songs to keep (default: 1)",
+    )
 
     args = parser.parse_args()
 
@@ -439,6 +447,7 @@ def main() -> None:
         output_dir=output_dir,
         dry_run=args.dry_run,
         shot_filter=args.shot,
+        max_count=args.count,
     )
 
 

@@ -1,0 +1,284 @@
+{
+  "video_id": "outfit-day2-meet-parents",
+  "workflow": "sings",
+  "version": "2.0",
+  "created": "2026-04-24",
+  "status": "draft",
+  "strategy_notes": "小红书穿搭对比对唱第二期：见家长穿搭。A套露肩亮片短裙(翻车) vs B套针织半裙(得体讨喜)",
+
+  "global": {
+    "target_duration_sec": 37,
+    "max_duration_sec": 45,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": 67890,
+    "style": "outfit_compare",
+    "color_temperature": "warm_bright",
+    "accent_color": "#e8a87c",
+    "bg_color": "#f5e6d3"
+  },
+
+  "lyrics": {
+    "bpm": 130,
+    "time_signature": "4/4",
+    "style": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "suno_tags": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["见家长到底怎么穿", "穿错了一秒就冷场"],
+        "rhyme": "an",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["A套黑上衣露着肩", "婆婆眼神往下看了两眼"],
+        "rhyme": "an",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["亮片短裙配红唇", "像走红毯不像见家人"],
+        "rhyme": "en",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": ["B套米白针织配半裙", "温柔得体像邻家的人"],
+        "rhyme": "un",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["卡其A字配平底鞋", "干干净净笑容特别甜"],
+        "rhyme": "ie",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B06",
+        "beat_count": 4,
+        "lines": ["法则一 露太多减分", "见家长不是走红毯的门"],
+        "rhyme": "en",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B07",
+        "beat_count": 4,
+        "lines": ["法则二 质感加三分", "干净利落最讨长辈心"],
+        "rhyme": "in",
+        "segment_ref": "S04",
+        "type": "body"
+      },
+      {
+        "id": "B08",
+        "beat_count": 4,
+        "lines": ["见家长你站A还是B", "评论区投票别客气"],
+        "rhyme": "i",
+        "segment_ref": "S05",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "见家长穿搭：翻车现场 vs 得体讨喜",
+    "source": "原创穿搭对比",
+    "hook_type": "scenario_question",
+    "cta_action": "投票A/B",
+    "cta_keyword": "评论区投票",
+    "outfit_a": {
+      "name": "露肩亮片短裙",
+      "description": "black off-shoulder fitted top + silver sequin mini skirt + black stiletto heels + bold red lipstick",
+      "keywords": ["露肩", "亮片短裙", "红唇"]
+    },
+    "outfit_b": {
+      "name": "针织+半裙",
+      "description": "cream white round-neck knit sweater + khaki A-line midi skirt + nude ballet flats",
+      "keywords": ["米白针织", "卡其半裙", "平底鞋"]
+    },
+    "fashion_rules": [
+      "露太多减分：见家长不是走红毯，保守得体才对",
+      "质感加三分：干净利落比花哨重要，细节见品味"
+    ],
+    "anti_ad_measures": [
+      "不提任何品牌或产品推荐",
+      "不引导私信、领取、关注",
+      "CTA用投票选择，激发评论互动",
+      "聚焦穿搭逻辑和审美，不卖任何东西"
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦 A套露肩亮片全身 vs B套针织半裙全身，家庭客厅背景",
+      "reference_file": "outfit-day2-meet-parents/S01-playful.png",
+      "reference_prompt": "Bright fashion lookbook editorial, a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, warm complexion, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a black off-shoulder fitted top and silver sequin mini skirt with black stiletto heels, bold red lipstick, standing in a warm Chinese family living room with traditional wooden sofa set and tea table, hands clasped nervously, full-body shot, 50mm lens, warm indoor lighting, vertical composition 9:16",
+      "reference_prompt_b": "Bright fashion lookbook editorial, a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, warm complexion, wearing minimal jewelry, natural makeup, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white round-neck knit sweater and khaki beige A-line midi skirt with nude ballet flats, natural pink lipstick, standing in a warm Chinese family living room with traditional wooden sofa set and tea table, one hand touching hair naturally, warm relaxed smile, full-body shot, 50mm lens, warm indoor lighting, vertical composition 9:16",
+      "motion_prompt": "gentle sway, fashion lookbook style, warm indoor lighting",
+      "lyrics_refs": ["B01"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "confident",
+      "visual_description": "杨梦穿A套露肩亮片中景特写，展示面料和版型细节",
+      "reference_file": "outfit-day2-meet-parents/S02-confident.png",
+      "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing minimal jewelry, bold red lipstick, confident expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a black off-shoulder fitted top showing bare shoulders and collarbone, silver sequin mini skirt catching light with sparkle detail, delicate gold chain necklace, in a warm Chinese family living room, blurred wooden furniture background with warm bokeh, standing with one hand on hip, waist-up shot, 85mm portrait lens, shallow depth of field, warm indoor lighting, vertical composition 9:16",
+      "motion_prompt": "slow turn, detail showcase, warm indoor lighting",
+      "lyrics_refs": ["B02", "B03"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "medium",
+      "emotion": "elegant",
+      "visual_description": "杨梦穿B套针织半裙中景特写，展示温柔得体风格",
+      "reference_file": "outfit-day2-meet-parents/S03-elegant.png",
+      "reference_prompt": "Fashion lookbook detail shot, a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing minimal jewelry, natural pink lipstick, warm gentle smile, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing a cream white round-neck knit sweater with soft ribbed texture visible, natural yarn detail and soft drape, silver stud earrings, in a warm Chinese family living room, blurred warm background with soft bokeh, standing casually with hands relaxed at sides, natural confident smile, warm skin tones, waist-up shot, 85mm portrait lens, shallow depth of field, warm indoor lighting, vertical composition 9:16",
+      "motion_prompt": "slow turn, detail showcase, warm indoor lighting",
+      "lyrics_refs": ["B04", "B05"]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 6,
+      "shot_type": "text_card",
+      "emotion": "educational",
+      "visual_description": "穿搭法则文字卡",
+      "reference_prompt": "text_card",
+      "motion_prompt": "text_card",
+      "text_card_config": {
+        "lines": ["法则一 露太多减分", "法则二 质感加三分"],
+        "font_size": 48,
+        "font_color": "#2d2d2d",
+        "bg_color": "#f5e6d3",
+        "animation": "fade_in"
+      },
+      "lyrics_refs": ["B06", "B07"]
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "warm",
+      "visual_description": "杨梦穿B套微笑特写，直视镜头，CTA投票画面",
+      "reference_file": "outfit-day2-meet-parents/S05-warm.png",
+      "reference_prompt": "Warm intimate fashion portrait, a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing minimal jewelry, natural pink lipstick, warm and approachable expression, shot on Kodak Portra 400, natural skin texture, visible pores, fine hair strands, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, wearing cream white round-neck knit sweater, natural minimal makeup, in a warm family living room, soft blurred background, direct eye contact with camera, warm genuine smile, slightly tilted head, warm indoor lighting, soft catchlight in eyes, warm skin tones, close-up face and shoulders, 85mm portrait lens, shallow depth of field, vertical composition 9:16",
+      "motion_prompt": "warm smile, direct eye contact, gentle movement",
+      "lyrics_refs": ["B08"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "api": "evolink",
+    "mode": "custom",
+    "style_prompt": "catchy mid-tempo pop, male female duet, playful melody, bouncy rhythm, sing-song storytelling, cute, fashion, TikTok viral Chinese pop, light electronic beat, xylophone, whistle, 130 bpm",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, wrinkled clothes, fabric distortion, texture error, stiff pose, cropped, cut off, out of frame, tilted, cluttered"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4,
+    "post_processing": {
+      "trim_unstable_frames": true,
+      "handheld_shake_pct": 5,
+      "upscale_4k": false
+    }
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "post_production": {
+    "film_grain_intensity_pct": 0,
+    "lens_glow_intensity_pct": 5,
+    "saturation_adjust": 10,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -2,
+    "vignette": 0.05
+  },
+
+  "publishing": {
+    "platforms": ["xiaohongshu"],
+    "title_candidates": [
+      "见家长穿A还是B？露肩亮片vs针织半裙",
+      "见家长穿搭翻车：婆婆全程黑脸",
+      "见家长穿搭法则：露太多减分 质感加分"
+    ],
+    "tags": ["穿搭对比", "OOTD", "见家长穿搭", "见婆婆", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
+    "xiaohongshu_tags": ["穿搭对比", "OOTD", "见家长穿搭", "见婆婆穿什么", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦A/B穿搭对比 + '见家长穿搭' 大字 + 温暖家庭客厅背景"
+  }
+}

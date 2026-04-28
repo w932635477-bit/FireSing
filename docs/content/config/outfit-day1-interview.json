@@ -5,7 +5,6 @@
   "created": "2026-04-22",
   "status": "draft",
   "strategy_notes": "小红书穿搭对比第1集：面试穿搭A vs B。杨梦穿深蓝西装 vs 针织衫，讲面试穿搭法则",
-
   "global": {
     "target_duration_sec": 37,
     "max_duration_sec": 45,
@@ -20,7 +19,6 @@
     "accent_color": "#e8a87c",
     "bg_color": "#f5e6d3"
   },
-
   "lyrics": {
     "bpm": 130,
     "time_signature": "4/4",
@@ -30,7 +28,10 @@
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["面试穿西装还是休闲", "评委看第一眼 定你行不行"],
+        "lines": [
+          "面试穿西装还是休闲",
+          "评委看第一眼 定你行不行"
+        ],
         "rhyme": "an",
         "segment_ref": "S01",
         "type": "hook"
@@ -38,7 +39,10 @@
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["A套 深蓝西装白衬衫", "经典不出错 但太正式"],
+        "lines": [
+          "A套 深蓝西装白衬衫",
+          "经典不出错 但太正式"
+        ],
         "rhyme": "an",
         "segment_ref": "S02",
         "type": "body"
@@ -46,7 +50,10 @@
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["这条领带像去银行", "科技公司穿成这样太紧张"],
+        "lines": [
+          "这条领带像去银行",
+          "科技公司穿成这样太紧张"
+        ],
         "rhyme": "ang",
         "segment_ref": "S02",
         "type": "body"
@@ -54,7 +61,10 @@
       {
         "id": "B04",
         "beat_count": 4,
-        "lines": ["B套 针织衫搭深色裤", "干净有层次 不装成熟"],
+        "lines": [
+          "B套 针织衫搭深色裤",
+          "干净有层次 不装成熟"
+        ],
         "rhyme": "u",
         "segment_ref": "S03",
         "type": "body"
@@ -62,7 +72,10 @@
       {
         "id": "B05",
         "beat_count": 4,
-        "lines": ["做你自己就够自信", "不用西装也能赢"],
+        "lines": [
+          "做你自己就够自信",
+          "不用西装也能赢"
+        ],
         "rhyme": "in",
         "segment_ref": "S03",
         "type": "body"
@@ -70,7 +83,10 @@
       {
         "id": "B06",
         "beat_count": 4,
-        "lines": ["法则一 看行业定基调", "金融正式 互联网太拘谨反而不妙"],
+        "lines": [
+          "法则一 看行业定基调",
+          "金融正式 互联网太拘谨反而不妙"
+        ],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -78,7 +94,10 @@
       {
         "id": "B07",
         "beat_count": 4,
-        "lines": ["法则二 合身比品牌重要", "肩膀对不上号 大牌也像借来的搞笑"],
+        "lines": [
+          "法则二 合身比品牌重要",
+          "肩膀对不上号 大牌也像借来的搞笑"
+        ],
         "rhyme": "ao",
         "segment_ref": "S04",
         "type": "body"
@@ -86,14 +105,16 @@
       {
         "id": "B08",
         "beat_count": 4,
-        "lines": ["面试穿搭你站A还是B", "评论区投票 告诉我你的品味"],
+        "lines": [
+          "面试穿搭你站A还是B",
+          "评论区投票 告诉我你的品味"
+        ],
         "rhyme": "i",
         "segment_ref": "S05",
         "type": "cta"
       }
     ]
   },
-
   "script": {
     "topic": "面试穿搭：西装正式 vs 针织干练",
     "source": "原创穿搭对比",
@@ -103,12 +124,20 @@
     "outfit_a": {
       "name": "深蓝西装白衬衫",
       "description": "经典正式，适合金融/传统行业面试",
-      "keywords": ["正式", "经典", "专业"]
+      "keywords": [
+        "正式",
+        "经典",
+        "专业"
+      ]
     },
     "outfit_b": {
       "name": "针织衫深色裤",
       "description": "干练有层次，适合科技/创意行业面试",
-      "keywords": ["干练", "层次", "自信"]
+      "keywords": [
+        "干练",
+        "层次",
+        "自信"
+      ]
     },
     "fashion_rules": [
       "看行业定基调：金融正式，互联网太拘谨反而不好",
@@ -121,7 +150,6 @@
       "聚焦穿搭逻辑和审美，不卖任何东西"
     ]
   },
-
   "segments": [
     {
       "id": "S01",
@@ -133,7 +161,9 @@
       "reference_file": "outfit-day1-interview/outfit-S01-playful.png",
       "reference_prompt": "A clean lookbook style photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, standing with one arm relaxed at side, confident smile looking slightly off-camera, wearing a well-fitted navy blue wool blazer, single-breasted two-button closure, structured shoulders, over a crisp white cotton button-down shirt with collar visible, dark tailored wool trousers, simple leather watch, small gold stud earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, soft natural daylight from large windows, bright and airy, no harsh shadows, shot on Nikon D850 with 35mm f/2.8 prime lens, slightly below eye level, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 film simulation, fashion lookbook style, sharp details, vertical composition 9:16",
       "motion_prompt": "gentle sway, fashion lookbook style, bright lighting",
-      "lyrics_refs": ["B01"]
+      "lyrics_refs": [
+        "B01"
+      ]
     },
     {
       "id": "S02",
@@ -145,7 +175,10 @@
       "reference_file": "outfit-day1-interview/outfit-S02-confident.png",
       "reference_prompt": "A detailed fashion editorial photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, mid-body shot with slight turn to show garment drape, confident posture with arms relaxed at sides, gentle expression, wearing a well-fitted navy blue wool blazer with structured shoulders, single-breasted two-button closure, notch lapels, over a crisp white cotton button-down shirt, top button undone, dark tailored wool trousers with sharp crease, simple brown leather strap watch, small gold stud earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, polished concrete floor, soft natural daylight from large windows, bright and airy atmosphere, no harsh shadows, shot on Phase One XF with 85mm lens, shallow depth of field, f/2.8, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 colors, editorial quality, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
-      "lyrics_refs": ["B02", "B03"]
+      "lyrics_refs": [
+        "B02",
+        "B03"
+      ]
     },
     {
       "id": "S03",
@@ -157,7 +190,10 @@
       "reference_file": "outfit-day1-interview/outfit-S03-elegant.png",
       "reference_prompt": "A detailed fashion editorial photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, mid-body shot, relaxed confident stance, one hand casually in pocket, genuine warm smile looking slightly off-camera, wearing a cream fine-gauge knit sweater with subtle ribbed texture, soft drape over shoulders, relaxed fit, paired with dark slim-fit cotton chinos with minimalist leather belt, delicate thin gold necklace, small hoop earrings, standing in a bright modern office lobby with floor-to-ceiling windows, cream white walls, polished concrete floor, soft natural daylight from large windows, bright and airy atmosphere, no harsh shadows, shot on Phase One XF with 85mm lens, shallow depth of field, f/2.8, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 colors, editorial quality, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "slow turn, detail showcase, bright studio lighting",
-      "lyrics_refs": ["B04", "B05"]
+      "lyrics_refs": [
+        "B04",
+        "B05"
+      ]
     },
     {
       "id": "S04",
@@ -169,13 +205,20 @@
       "reference_prompt": "text_card",
       "motion_prompt": "text_card",
       "text_card_config": {
-        "lines": ["面试穿搭法则", "① 看行业定基调", "② 合身比品牌重要"],
+        "lines": [
+          "面试穿搭法则",
+          "① 看行业定基调",
+          "② 合身比品牌重要"
+        ],
         "font_size": 48,
         "font_color": "#2d2d2d",
         "bg_color": "#f5e6d3",
         "animation": "fade_in"
       },
-      "lyrics_refs": ["B06", "B07"]
+      "lyrics_refs": [
+        "B06",
+        "B07"
+      ]
     },
     {
       "id": "S05",
@@ -187,10 +230,11 @@
       "reference_file": "outfit-day1-interview/outfit-S05-warm.png",
       "reference_prompt": "An intimate warm portrait photograph of a young Chinese woman, mid-twenties, warm complexion, subtle freckles, shoulder-length black hair with soft waves, wearing minimal jewelry, natural makeup, warm and approachable expression, slight asymmetry, authentic beauty, NOT perfect, NOT retouched, looking directly at camera with warm inviting smile, close-up from chest up, wearing a cream fine-gauge knit sweater with soft drape, delicate thin gold necklace, bright cream-colored seamless paper background, no distractions, soft diffused beauty lighting, even illumination, warm tone, shot on Hasselblad H6D with 100mm lens, f/4, eye-level, natural skin texture, visible pores, fine hair strands, Kodak Portra 400 film simulation, fashion lookbook style, vertical composition 9:16",
       "motion_prompt": "warm smile, direct eye contact, gentle movement",
-      "lyrics_refs": ["B08"]
+      "lyrics_refs": [
+        "B08"
+      ]
     }
   ],
-
   "audio": {
     "engine": "suno_ai",
     "mode": "custom",
@@ -207,22 +251,19 @@
       "vocal_gender": "m"
     }
   },
-
   "beat_sync": {
     "enabled": true,
     "align_to": "bar_lines",
     "min_cut_interval_beats": 2,
     "max_cut_interval_beats": 4
   },
-
   "reference_images": {
     "engine": "seedream_4.5",
     "resolution": "1440x2560",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "style_suffix": "vertical composition 9:16",
     "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, wrinkled clothing, unnatural fabric folds, distorted patterns, unrealistic texture, deformed, bad anatomy, poorly drawn hands, extra limb, ugly"
   },
-
   "video_generation": {
     "engine": "kling_v3",
     "mode": "image_to_video",
@@ -232,17 +273,15 @@
     "fixed_seed": true,
     "iteration_model": "gen4_turbo",
     "final_model": "gen4",
-    "candidates_per_segment": 2,
+    "candidates_per_segment": 1,
     "motion_intensity": 4
   },
-
   "compositing": {
     "engine": "ffmpeg",
     "transitions": "hard_cut",
     "subtitle_source": "auto_from_lyrics",
     "subtitle_style": "ktv_dynamic"
   },
-
   "ai_labeling": {
     "enabled": true,
     "watermark_text": "AI生成内容",
@@ -253,7 +292,6 @@
     "metadata_key": "comment",
     "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
   },
-
   "post_production": {
     "film_grain_intensity_pct": 0,
     "lens_glow_intensity_pct": 5,
@@ -262,17 +300,36 @@
     "sharpness_adjust": -2,
     "vignette": 0.05
   },
-
   "publishing": {
-    "platforms": ["xiaohongshu"],
+    "platforms": [
+      "xiaohongshu"
+    ],
     "title_candidates": [
       "面试穿A还是B 一秒定胜负",
       "面试穿搭两套对比 你站哪边",
       "面试穿搭法则 看行业定基调"
     ],
-    "tags": ["穿搭对比", "OOTD", "面试穿搭", "职场穿搭", "杨梦穿搭"],
-    "xiaohongshu_tags": ["穿搭对比", "OOTD", "面试穿搭", "职场穿搭", "杨梦穿搭", "场景穿搭", "穿搭法则", "每日穿搭"],
-    "publish_times": ["12:00", "18:00"],
+    "tags": [
+      "穿搭对比",
+      "OOTD",
+      "面试穿搭",
+      "职场穿搭",
+      "杨梦穿搭"
+    ],
+    "xiaohongshu_tags": [
+      "穿搭对比",
+      "OOTD",
+      "面试穿搭",
+      "职场穿搭",
+      "杨梦穿搭",
+      "场景穿搭",
+      "穿搭法则",
+      "每日穿搭"
+    ],
+    "publish_times": [
+      "12:00",
+      "18:00"
+    ],
     "cover_description": "杨梦面试A/B穿搭对比 + '面试穿搭' 大字 + 奶油白背景"
   }
 }
