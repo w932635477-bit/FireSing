@@ -527,9 +527,9 @@ Stage 1: 脚本写作 → Stage 1.5: 文案评估 → 通过(≥90分) → Stage
 
 | 段落 | 故事图数量 | 内容来源 |
 |------|-----------|---------|
-| Hook | 1-2 | 钩子中的震撼画面（如工厂机器、数据爆发） |
-| 铁律段 | 2 | 铁律中的"对比画面"（如人力 vs AI） |
-| CTA | 0 | 角色特写已足够 |
+| 前置高潮 | 1-2 | 反差画面（困境 vs 成果暗示） |
+| 设定/崩塌/转念 | 2 | 故事中的具体生活画面（简历、通讯录、空房间） |
+| 收尾/互动 | 0 | 角色特写已足够 |
 
 故事图写入 JSON config 的 `segments[].story_images` 数组，每条包含 `id`、`trigger_text`、`reference_prompt`、`motion_prompt`。故事图 prompt 遵循 6 层结构，但不包含 character_anchor。
 
@@ -885,7 +885,7 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 | 规则 | 值 |
 |------|----|
 | 生成方式 | 同时生成分段文件（用于合成）+ 完整文件（用于参考） |
-| 时长超 60s | 优先保证质量，可通过剪映调速 |
+| 时长超 90s | 优先保证质量，可通过剪映调速 |
 
 ### 8.7 质量检查
 
@@ -969,7 +969,7 @@ ffmpeg -i output.mp4 -metadata comment="本视频由AI生成合成，包含AI生
 
 ### 9.6 质量检查
 
-- [ ] ffprobe 时长 ≤ 60.0s 且 ≥ 30.0s
+- [ ] ffprobe 时长 ≤ 120.0s 且 ≥ 60.0s
 - [ ] 音画同步（抽查 3 个时间点）
 - [ ] 片段间无黑帧
 
@@ -1057,7 +1057,7 @@ ffmpeg -i output.mp4 -metadata comment="本视频由AI生成合成，包含AI生
 
 ### 11.1 时长门控
 
-- [ ] ffprobe 报告时长 ≤ 60.0s 且 ≥ 30.0s（MUST）
+- [ ] ffprobe 报告时长 ≤ 120.0s 且 ≥ 60.0s（MUST）
 - 不通过 → 返回 Stage 1（脚本）或 Stage 5（合成）
 
 ### 11.2 内容完整性门控
@@ -1163,12 +1163,12 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
   "version": "2.0",
   "created": "2026-04-19",
   "status": "draft",
-  "strategy_notes": "流量优先策略：不考虑转化，只追求完播率。名人叙事+情绪冲击，不提Agent/代运营/任何业务",
+  "strategy_notes": "共鸣优先策略：纯情绪共鸣不提产品。真实失业者故事+SPR-L结构+多钩子设计，不提Agent/代运营/任何业务",
 
   "global": {
-    "target_duration_sec": 45,
-    "max_duration_sec": 60,
-    "min_duration_sec": 30,
+    "target_duration_sec": 75,
+    "max_duration_sec": 120,
+    "min_duration_sec": 60,
     "resolution": "1080x1920",
     "fps": 24,
     "codec": "h264",
@@ -1183,7 +1183,7 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
   "script": {
     "topic": "马斯克裁了6000人用AI替代，公司效率反升",
     "source": "Yahoo Finance 2025, InfoQ 2025",
-    "hook_type": "celebrity_shock",
+    "hook_type": "preemptive_highlight",
     "cta_action": "讨论",
     "cta_keyword": "",
     "cta_deliverable": "",
@@ -1191,7 +1191,7 @@ AI隐性标识：        [ ] PASS  [ ] FAIL  ← 法规强制
       "不提AI Agent、代运营、智能体等业务关键词",
       "不引导私信、领取、关注",
       "CTA用开放式问题，激发评论互动",
-      "聚焦名人的故事和情绪，不卖任何东西",
+      "聚焦失业者的真实故事和情绪，不卖任何东西",
       "避免出现'工具''方案''服务'等营销词汇"
     ]
   },
@@ -1361,7 +1361,7 @@ docs/content/
 
 | 失败 | 根因 | 修复 |
 |------|------|------|
-| 视频 > 60s | 脚本太长或镜头 > 5s | 砍掉最弱数据点，强制 5s/镜头上限 |
+| 视频 > 120s | 脚本太长 | 拆分为两条视频 |
 | 景别单一 | 分镜表无景别字段 | 配置文件有 shot_type，Stage 7 检查 ≥ 2 种 |
 | 字幕缺失 | 手动流程被遗忘 | 从配置自动生成 SRT |
 | AI 痕迹明显 | 未做帧级检查 | Stage 7 强制逐帧检查 |
@@ -1387,7 +1387,7 @@ docs/content/
 
 ## 附录 C：配色系统
 
-### 色系 A：冷钢蓝（流量优先 / 名人叙事型）
+### 色系 A：冷钢蓝（共鸣优先 / 失业系列型）
 
 | 用途 | 色值 | 使用场景 |
 |------|------|---------|
