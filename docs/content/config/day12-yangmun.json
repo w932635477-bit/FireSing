@@ -1,0 +1,170 @@
+{
+  "video_id": "day12-yangmun",
+  "version": "2.0",
+  "created": "2026-04-28",
+  "status": "script_approved",
+  "strategy": "yangmun-emotion-ip",
+  "strategy_notes": "Day12 马斯克被PayPal开除→映射2026 AI替代+80后裁员。铁律结构：你的位子不是你的/被开除是系统的局限。shock→tension→reversal→warm。Medvi v2工作流：无主参考图，3张故事图，杨梦素材从已有库选取混剪。",
+  "eval_score": 90,
+  "global": {
+    "target_duration_sec": 50,
+    "max_duration_sec": 60,
+    "min_duration_sec": 40,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "yangmun_minimalist_portrait",
+    "color_temperature": "cool_warm_shift",
+    "accent_color": "#c9a96e"
+  },
+  "script": {
+    "topic": "马斯克被自己公司赶出门",
+    "hook_type": "celebrity_quote_immersion",
+    "cta_action": "评论",
+    "cta_keyword": "你还没有死",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦名人的故事和情绪，不卖任何东西"
+    ]
+  },
+  "character_anchor": "a young Chinese woman in her late 20s, round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar",
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 12,
+      "shot_type": "close-up",
+      "emotion_arc": "shock",
+      "yangmun_clip_hint": "day5-yangmun/S01-shock.mp4",
+      "story_images": [
+        {
+          "id": "S01-01",
+          "trigger_text": "飞机蜜月落地被开除",
+          "reference_file": "day12-yangmun/S01-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 35mm f/2.0 Kodak Portra 400, interior of a commercial airplane cabin window seat, a phone screen glowing with a notification visible but unreadable, uneaten airplane meal on the tray table, warm golden sunset light through the oval window casting long shadows across empty seats, a wedding ring visible on the hand holding the phone, visible film grain, subject lower third, vertical composition 9:16",
+          "motion_prompt": "slow push toward the glowing phone screen, golden light shifting through window, uneaten food on tray"
+        }
+      ],
+      "voiceover_text": "马斯克说过：\"我每天醒来都觉得今天可能破产。\"但2000年，他连醒来的机会都没有。在飞机上度蜜月，落地打开手机——自己已经不是CEO了。他创办的公司，趁他不在，把他踢了出去。",
+      "voiceover_pause_markers": "马斯克说过<#0.2#>\"我每天醒来都觉得今天可能破产。\"<#0.8#>但2000年<#0.3#>他连醒来的机会都没有。<#0.5#>在飞机上度蜜月<#0.2#>落地打开手机<#0.8#>自己已经不是CEO了。<#0.5#>他创办的公司<#0.2#>趁他不在<#0.3#>把他踢了出去。",
+      "subtitle_text": "趁他不在 把他踢了出去"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 15,
+      "shot_type": "medium",
+      "emotion_arc": "tension",
+      "yangmun_clip_hint": "day5-yangmun/S02-determined.mp4",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "AI上线整个部门消失",
+          "reference_file": "day12-yangmun/S02-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 24mm f/2.8 Kodak Portra 400, split composition left side shows rows of empty office desks with monitors still on but screens black, right side shows cold blue server racks with blinking LED lights, a single coffee mug left on one desk, harsh fluorescent light on office side versus cool blue glow on server side, visible film grain, subject center, vertical composition 9:16",
+          "motion_prompt": "slow pan from empty desks to glowing server racks, a monitor screen flickers off"
+        }
+      ],
+      "voiceover_text": "铁律一：你的位子，不是你的。2026年，AI不是在抢你的饭碗。它已经坐了你的位子。工作12年，通知用了3分钟。钉钉群一退，你就不是这个公司的人了。马斯克说过：\"失败是一个选项。如果你没有失败过，说明你创新不够。\"",
+      "voiceover_pause_markers": "铁律一<#0.3#>你的位子<#0.2#>不是你的。<#0.8#>2026年<#0.3#>AI不是在抢你的饭碗。<#0.5#>它已经坐了你的位子。<#0.8#>工作12年<#0.2#>通知用了3分钟。<#0.5#>钉钉群一退<#0.2#>你就不是这个公司的人了。<#1.0#>马斯克说过<#0.2#>\"失败是一个选项。<#0.3#>如果你没有失败过<#0.2#>说明你创新不够。\"",
+      "subtitle_text": "工作12年 通知用了3分钟"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 15,
+      "shot_type": "medium",
+      "emotion_arc": "reversal",
+      "yangmun_clip_hint": "day6-yangmun/S03.mp4",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "马斯克路边吃冰淇淋",
+          "reference_file": "day12-yangmun/S03-01.png",
+          "reference_prompt": "shot on Canon 5D Mark IV 50mm f/1.4 Kodak Portra 400, documentary style street scene, a single melting ice cream cone sitting on a concrete bench in harsh afternoon sunlight, no people visible, just the abandoned cone casting a small shadow, cracked pavement, a blurred city street behind, warm harsh light with deep shadows, visible film grain, subject lower center, vertical composition 9:16",
+          "motion_prompt": "slow zoom on melting ice cream, afternoon light shifting, a drop slowly falls"
+        }
+      ],
+      "voiceover_text": "铁律二：被开除不是终点，是系统的局限。马斯克被踢出PayPal那年，瘦了30斤，在路边吃冰淇淋，没人搭理他。后来PayPal市值涨了10倍，但把他赶走的那些人，没有一个名字被记住。马斯克说：\"我不放弃，除非我死了。\"",
+      "voiceover_pause_markers": "铁律二<#0.3#>被开除不是终点<#0.2#>是系统的局限。<#0.8#>马斯克被踢出PayPal那年<#0.2#>瘦了30斤<#0.2#>在路边吃冰淇淋<#0.2#>没人搭理他。<#1.0#>后来PayPal市值涨了10倍<#0.3#>但把他赶走的那些人<#0.2#>没有一个名字被记住。<#0.8#>马斯克说<#0.2#>\"我不放弃<#0.2#>除非我死了。\"",
+      "subtitle_text": "把他赶走的人 没有一个被记住"
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion_arc": "warm",
+      "yangmun_clip_hint": "day5-yangmun/S05-warm.mp4",
+      "story_images": [],
+      "voiceover_text": "马斯克说的不是PayPal。说的是你。你被裁掉不是因为你不行。是因为那个系统，看不到你的价值。你还没有死。评论区聊聊。",
+      "voiceover_pause_markers": "马斯克说的不是PayPal。<#0.5#>说的是你。<#0.8#>你被裁掉不是因为你不行。<#0.5#>是因为那个系统<#0.2#>看不到你的价值。<#0.8#>你还没有死。<#0.3#>评论区聊聊。",
+      "subtitle_text": "你还没有死"
+    }
+  ],
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts-preview",
+    "voice": "Aoede",
+    "sample_rate": 24000,
+    "format": "mp3",
+    "normalize": true,
+    "director_notes": "女声，全部使用Aoede声音保持一致性。S01'马斯克说过'平缓开场带权威感，'我每天醒来'加重'每天'二字，'但2000年'语调突变带出意外，'他连醒来的机会都没有'放慢每个字，'在飞机上度蜜月'温暖，'落地打开手机'加快节奏，'自己已经不是CEO了'压低声音，'趁他不在'咬牙，'把他踢了出去'冷。S02'铁律一'沉稳有力，'你的位子'停顿，'不是你的'决绝，'2026年'中速，'AI不是在抢你的饭碗'加快，'它已经坐了你的位子'加重'已经'和'坐了'，'工作12年'平缓，'通知用了3分钟'加快带讽刺，'钉钉群一退'干脆，'马斯克说过'回到沉稳，名人原话'失败是一个选项'加重'选项'，'如果你没有失败过'节奏紧凑，'说明你创新不够'上扬带挑战。S03'铁律二'沉稳，'被开除不是终点'平静，'是系统的局限'加重'系统'，'瘦了30斤'放慢，'在路边吃冰淇淋'画面感，'没人搭理他'压低，'PayPal市值涨了10倍'中速带事实感，'但把他赶走的那些人'加重'但'，'没有一个名字被记住'每个字清晰，'我不放弃'坚定，'除非我死了'极轻但有力。S04'马斯克说的不是PayPal'平静，'说的是你'直视观众感，'你被裁掉不是因为你不行'温暖带力量，'是因为那个系统'加重'系统'，'看不到你的价值'带理解，'你还没有死'极轻极短但极有力，停顿后'评论区聊聊'自然友好"
+  },
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, perfect facial symmetry, symmetric face, centered perfectly symmetrical features, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, oil painting, watermark, text, logo, oversaturated, hyperrealistic, mannequin, doll-like, flawless, magazine cover, retouched, even skin tone, poreless skin, multiple people, group shot, changing face, different person, inconsistent features, aged, child, cartoon character, hands, hand visible"
+  },
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true
+  },
+  "compositing": {
+    "engine": "剪映",
+    "note": "v2工作流：不使用FFmpeg拼接。所有素材在剪映手动混剪。杨梦表情视频+故事视频+TTS配音在剪映中交替剪辑。",
+    "subtitle_source": "auto_from_script",
+    "subtitle_style": "ktv_dynamic"
+  },
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和配音"
+  },
+  "post_production": {
+    "film_grain_intensity_pct": 8,
+    "lens_glow_intensity_pct": 8,
+    "saturation_adjust": 5,
+    "contrast_adjust": 5,
+    "sharpness_adjust": -3,
+    "vignette": 0.3,
+    "note": "在剪映完成。v2工作流：杨梦(shock)→故事视频(S01)→杨梦(tension)→故事视频(S02)→杨梦(reversal)→故事视频(S03)→杨梦(warm+CTA)"
+  },
+  "publishing": {
+    "platforms": ["douyin"],
+    "title_candidates": [
+      "马斯克被自己公司赶出门",
+      "工作12年 通知用了3分钟",
+      "你还没有死"
+    ],
+    "tags": ["马斯克", "失业", "80后", "裁员", "AI替代", "职场"],
+    "xiaohongshu_tags": ["马斯克", "失业", "80后", "职场困境", "AI替代"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦冷暖交替光影，文字'你还没有死'"
+  }
+}
