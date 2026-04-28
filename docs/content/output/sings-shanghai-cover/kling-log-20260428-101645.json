@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-04-28T10:16:45.447348",
+  "model": "kling-v3-image-to-video",
+  "video_id": "sings-shanghai-cover",
+  "quality": "720p",
+  "duration": 5,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/output/sings-shanghai-cover/S01.mp4",
+      "task_id": "task-unified-1777342352-ztqprakw",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/output/sings-shanghai-cover/S02.mp4",
+      "task_id": "task-unified-1777342413-2omz8qwj",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/output/sings-shanghai-cover/S03.mp4",
+      "task_id": "task-unified-1777342474-36bix44p",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/output/sings-shanghai-cover/S04.mp4",
+      "task_id": "task-unified-1777342558-f4ajtxv6",
+      "status": "success"
+    }
+  ]
+}
