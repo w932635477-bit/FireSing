@@ -1,0 +1,206 @@
+{
+  "video_id": "sings-shanghai-cover",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-28",
+  "status": "script_approved",
+  "series": "sings-cover",
+  "strategy_notes": "上海冷知识对唱翻唱。用《今天你要嫁给我》旋律，歌词完全重写为上海冷知识揭秘。杨梦女声+男声伴唱，'去过但不知道这些'角度",
+
+  "original_song": "今天你要嫁给我",
+  "original_artists": ["陶喆", "蔡依林"],
+  "cover_approach": "suno-cover",
+  "city": "上海",
+  "highlights": [
+    {"name": "下海庙（上海/下海对称）", "type": "culture"},
+    {"name": "九曲桥18弯", "type": "culture"},
+    {"name": "棉花（最早市花）", "type": "culture"},
+    {"name": "马路（洋人骑马）", "type": "culture"},
+    {"name": "石库门（宁波话误读）", "type": "culture"},
+    {"name": "肉馒头=肉包", "type": "food"}
+  ],
+
+  "global": {
+    "target_duration_sec": 45,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": null,
+    "style": "cover_cold_knowledge_duet",
+    "color_temperature": "warm_bright",
+    "accent_color": "#e8a87c",
+    "bg_color": "#f5e6d3"
+  },
+
+  "lyrics": {
+    "bpm": 90,
+    "time_signature": "4/4",
+    "file": "docs/content/assets/cover/sings-shanghai-cover-lyrics.txt",
+    "suno_tags": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. sweet Chinese pop duet, mid-tempo, catchy, playful, romantic pop feel, 90 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": ["[Female] 你去过上海几次了", "[Male] 去过 但我发现之前白去了"],
+        "type": "intro",
+        "segment_ref": "S01"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": ["[Female] 你知道有上海还有下海吗", "[Male] 提篮桥那边真的有座下海庙"],
+        "type": "body",
+        "segment_ref": "S02"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": ["[Female] 豫园九曲桥其实有十八个弯", "[Male] 上海最早的市花居然是棉花"],
+        "type": "body",
+        "segment_ref": "S02"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": [
+          "[Both] 今天你才知道上海",
+          "[Both] 这座城市藏了太多意外",
+          "[Female] 马路这个名字来自洋人骑马",
+          "[Male] 石库门其实是宁波话的误读啊",
+          "[Both] 今天你才知道上海",
+          "[Both] 你以为你懂了其实重来"
+        ],
+        "type": "chorus",
+        "segment_ref": "S03"
+      },
+      {
+        "id": "B05",
+        "beat_count": 4,
+        "lines": ["[Female] 下次去上海记得来找下海庙", "[Male] 帮我带个肉馒头 就是肉包"],
+        "type": "outro",
+        "segment_ref": "S04"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "上海冷知识对唱 — 去过但不知道的上海",
+    "source": "suno-cover: 今天你要嫁给我",
+    "hook_type": "cold_knowledge_reveal",
+    "cta_action": "评论区说你家乡的冷知识"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "intro",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦在上海外滩天际线前，轻松开场",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, standing on the Bund promenade with Pudong skyline behind her, golden hour warm light, wind gently moving her hair, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, natural color temperature, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "looking at city skyline, turning to camera with a knowing smile, wind in hair",
+      "lyrics_refs": ["B01"],
+      "reference_file": "sings-shanghai-cover/S01-playful.png"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion": "surprised",
+      "visual_description": "杨梦在豫园九曲桥/老城厢，发现冷知识",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, walking on the zigzag bridge at Yuyuan Garden, traditional Chinese architecture around, duck pond below, natural daylight, looking with curiosity and mild surprise, a few flyaway hairs, uneven skin tone, natural shine on forehead, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "walking on zigzag bridge, counting turns with fingers, looking surprised",
+      "lyrics_refs": ["B02", "B03"],
+      "reference_file": "sings-shanghai-cover/S02-surprised.png"
+    },
+    {
+      "id": "S03",
+      "type": "chorus",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion": "excited",
+      "visual_description": "杨梦在石库门弄堂/上海老街，知识揭秘高潮",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, standing in a traditional Shanghai shikumen alley, red brick gate frames, old stone archway behind her, warm afternoon light filtering through, excited expression, a few flyaway hairs, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "gesturing excitedly, pointing at architecture details, animated expression",
+      "lyrics_refs": ["B04"],
+      "reference_file": "sings-shanghai-cover/S03-excited.png"
+    },
+    {
+      "id": "S04",
+      "type": "outro",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "warm",
+      "visual_description": "杨梦在上海街头，轻松收尾+肉馒头彩蛋",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, holding a steaming bamboo steamer basket with buns, standing on a lively Shanghai street, warm evening light, direct eye contact with camera, playful smile, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "holding steamer basket, playful wink at camera, steam rising from buns",
+      "lyrics_refs": ["B05"],
+      "reference_file": "sings-shanghai-cover/S04-warm.png"
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_cover",
+    "mode": "cover",
+    "original_audio_file": "TBD",
+    "style_prompt": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. sweet Chinese pop duet, mid-tempo, catchy, playful, romantic pop feel, 90 bpm",
+    "audio_weight": 0.8,
+    "model": "V4_5",
+    "output_format": "mp3"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "title_candidates": [
+      "上海冷知识：去过但不知道的6个秘密",
+      "上海人自己都不知道的上海",
+      "今天你才知道上海"
+    ],
+    "tags": ["上海冷知识", "城市科普", "杨梦旅行", "上海旅行"],
+    "xiaohongshu_tags": ["上海攻略", "冷知识", "旅行科普", "杨梦旅行"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦在上海外滩 + '今天你才知道上海' 大字 + 冷知识氛围"
+  }
+}
