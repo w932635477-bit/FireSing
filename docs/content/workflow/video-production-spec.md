@@ -318,16 +318,17 @@ python3 scripts/text-card-renderer.py --lines "文字1" "文字2" --style sings 
 
 ### 5.7 质量检查
 
-- [ ] 大声朗读计时：___ 秒（MUST：30-60s）
-- [ ] 字数：___ 字（MUST：100-200 字）
+- [ ] 大声朗读计时：___ 秒（MUST：60-120s）
+- [ ] 字数：___ 字（MUST：200-500 字）
 - [ ] CTA 动作数量：___ 个（MUST：= 1）
 - [ ] 最长单句：___ 字（MUST：≤ 15）
 - [ ] 每段有 emotion_arc 标签（MUST）
 - [ ] 每段有 subtitle_text（MUST）
-- [ ] 流量优先视频：anti_ad_measures 全部通过（MUST）
-- [ ] 流量优先视频：无营销词汇、无转化引导（MUST）
+- [ ] 共鸣优先视频：anti_ad_measures 全部通过（MUST）
+- [ ] 共鸣优先视频：无营销词汇、无转化引导（MUST）
 - [ ] 转化优先视频：数字数量 ≥ 3（MUST）
-- [ ] "名人说＋情绪拉动"方法论全项通过（MUST，见 5.8）
+- [ ] "真实痛点＋情绪共振"方法论全项通过（MUST，见 5.8）
+- [ ] Stage 1.5 文案评估分数 ≥ 90（MUST，见 5.9）
 
 ### 5.8 "名人说＋情绪拉动"写作方法论（MUST）
 
