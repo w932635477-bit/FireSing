@@ -53,7 +53,7 @@ Sprint 6: Frontend
 - pydub/FFmpeg are sync — wrap in asyncio.to_thread().
 
 ## GBrain Configuration (configured by /setup-gbrain)
-- Engine: pglite
+- Engine: postgres (Supabase)
 - Config file: ~/.gbrain/config.json (mode 0600)
 - Setup date: 2026-04-28
 - MCP registered: yes
