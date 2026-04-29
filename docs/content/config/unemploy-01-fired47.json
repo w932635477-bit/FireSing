@@ -62,8 +62,9 @@
       "scene": "凌晨台灯下的简历",
       "reference_prompt": "iPhone 15 snapshot, a desk lamp illuminating a printed resume on a wooden desk, 2am ambient warm light, coffee ring stain on paper, no people visible, no text visible, casual framing slightly off-center, untouched, vertical 9:16",
       "motion_prompt": "slow subtle flicker of desk lamp light, slight camera drift",
-      "output_file": "unemploy-01-fired47/AT01-lamp-resume.png",
+      "output_file": "unemploy-01-fired47/S02-01.png",
       "video_file": "unemploy-01-fired47/AT01-lamp-resume.mp4",
+      "reference_file": "unemploy-01-fired47/S02-01.png",
       "segment": "S02"
     },
     {
@@ -71,8 +72,9 @@
       "scene": "空荡办公区",
       "reference_prompt": "iPhone 15 snapshot, empty open-plan office at night, fluorescent ceiling lights casting harsh shadows on vacant desks, one desk still has a potted plant and a coffee mug, no people visible, no text, untouched, vertical 9:16",
       "motion_prompt": "slow pan across empty desks, fluorescent light buzzes slightly",
-      "output_file": "unemploy-01-fired47/AT02-empty-office.png",
+      "output_file": "unemploy-01-fired47/S03-01.png",
       "video_file": "unemploy-01-fired47/AT02-empty-office.mp4",
+      "reference_file": "unemploy-01-fired47/S03-01.png",
       "segment": "S03"
     },
     {
@@ -80,8 +82,9 @@
       "scene": "暖光通讯录",
       "reference_prompt": "iPhone 15 snapshot, warm ambient light from a phone screen illuminating a dark room, the screen shows a contacts list with many entries, cozy atmosphere, no people visible, no text readable, casual framing, untouched, vertical 9:16",
       "motion_prompt": "phone screen gently glows brighter then settles, subtle warmth shift",
-      "output_file": "unemploy-01-fired47/AT03-contacts-glow.png",
+      "output_file": "unemploy-01-fired47/S04-01.png",
       "video_file": "unemploy-01-fired47/AT03-contacts-glow.mp4",
+      "reference_file": "unemploy-01-fired47/S04-01.png",
       "segment": "S04"
     }
   ],
@@ -107,7 +110,7 @@
         {
           "id": "S02-01",
           "trigger_text": "凌晨台灯下的简历",
-          "reference_file": "unemploy-01-fired47/AT01-lamp-resume.png",
+          "reference_file": "unemploy-01-fired47/S02-01.png",
           "reference_prompt": "iPhone 15 snapshot, a desk lamp illuminating a printed resume on a wooden desk, 2am ambient warm light, coffee ring stain on paper, no people visible, no text visible, casual framing slightly off-center, untouched, vertical 9:16",
           "motion_prompt": "slow subtle flicker of desk lamp light, slight camera drift"
         }
@@ -125,7 +128,7 @@
         {
           "id": "S03-01",
           "trigger_text": "空荡办公区",
-          "reference_file": "unemploy-01-fired47/AT02-empty-office.png",
+          "reference_file": "unemploy-01-fired47/S03-01.png",
           "reference_prompt": "iPhone 15 snapshot, empty open-plan office at night, fluorescent ceiling lights casting harsh shadows on vacant desks, one desk still has a potted plant and a coffee mug, no people visible, no text, untouched, vertical 9:16",
           "motion_prompt": "slow pan across empty desks, fluorescent light buzzes slightly"
         }
@@ -143,7 +146,7 @@
         {
           "id": "S04-01",
           "trigger_text": "暖光通讯录",
-          "reference_file": "unemploy-01-fired47/AT03-contacts-glow.png",
+          "reference_file": "unemploy-01-fired47/S04-01.png",
           "reference_prompt": "iPhone 15 snapshot, warm ambient light from a phone screen illuminating a dark room, the screen shows a contacts list with many entries, cozy atmosphere, no people visible, no text readable, casual framing, untouched, vertical 9:16",
           "motion_prompt": "phone screen gently glows brighter then settles, subtle warmth shift"
         }
