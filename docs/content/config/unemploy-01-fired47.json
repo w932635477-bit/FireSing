@@ -2,9 +2,25 @@
   "video_id": "unemploy-01-fired47",
   "version": "2.0",
   "created": "2026-04-29",
-  "status": "script_approved",
+  "status": "script_reviewed",
   "strategy": "unemployment-corecore",
   "strategy_notes": "失业系列第1条：被裁第47天赚5000。SPR-L结构，纯共鸣不提产品。Corecore蒙太奇：Playwright截图+Seedream空镜，无杨梦角色。",
+  "review": {
+    "score": 91,
+    "dimensions": {
+      "emotion_authenticity": 23,
+      "immersion": 19,
+      "turning_point_credibility": 18,
+      "hook_density": 14,
+      "structure_completeness": 9,
+      "prohibition_check": 8
+    },
+    "suggestions": [
+      "S05力量段可改为更具体的行动指引，用事实传递力量而非反问句煽情",
+      "S03第二段可改为更生活化的失败细节（HR已读不回、35岁年龄筛选）"
+    ],
+    "status": "pass"
+  },
   "global": {
     "target_duration_sec": 75,
     "max_duration_sec": 120,
