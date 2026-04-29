@@ -1,0 +1,153 @@
+{
+  "video_id": "unemploy-01-fired47",
+  "version": "2.0",
+  "created": "2026-04-29",
+  "status": "script_approved",
+  "strategy": "unemployment-corecore",
+  "strategy_notes": "失业系列第1条：被裁第47天赚5000。SPR-L结构，纯共鸣不提产品。Corecore蒙太奇：Playwright截图+Seedream空镜，无杨梦角色。",
+  "global": {
+    "target_duration_sec": 75,
+    "max_duration_sec": 120,
+    "min_duration_sec": 60,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "corecore_montage",
+    "color_temperature": "cool_to_warm_shift",
+    "accent_color": "#ffffff"
+  },
+  "script": {
+    "topic": "38岁外企人被裁47天后靠翻通讯录赚到第一个5000块",
+    "hook_type": "preemptive_highlight",
+    "cta_action": "评论",
+    "cta_keyword": "你投了多少份",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦失业者的真实故事和情绪，不卖任何东西",
+      "避免出现'工具''方案''服务'等营销词汇"
+    ]
+  },
+  "character_anchor": null,
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-boss-search", "output_file": "unemploy-01-fired47/SS01-boss-search.png", "segment": "S01"},
+    {"id": "SS02", "template": "tpl-dingtalk-leave", "output_file": "unemploy-01-fired47/SS02-dingtalk-leave.png", "segment": "S02"},
+    {"id": "SS03", "template": "tpl-resume-stats", "output_file": "unemploy-01-fired47/SS03-resume-stats.png", "segment": "S03"},
+    {"id": "SS04", "template": "tpl-wechat-reject", "output_file": "unemploy-01-fired47/SS04-wechat-reject.png", "segment": "S03"},
+    {"id": "SS05", "template": "tpl-wechat-positive", "output_file": "unemploy-01-fired47/SS05-wechat-positive.png", "segment": "S04"},
+    {"id": "SS06", "template": "tpl-douyin-comment", "output_file": "unemploy-01-fired47/SS06-douyin-comment.png", "segment": "S06"}
+  ],
+  "atmosphere_shots": [
+    {
+      "id": "AT01",
+      "scene": "凌晨台灯下的简历",
+      "reference_prompt": "iPhone 15 snapshot, a desk lamp illuminating a printed resume on a wooden desk, 2am ambient warm light, coffee ring stain on paper, no people visible, no text visible, casual framing slightly off-center, untouched, vertical 9:16",
+      "motion_prompt": "slow subtle flicker of desk lamp light, slight camera drift",
+      "output_file": "unemploy-01-fired47/AT01-lamp-resume.png",
+      "video_file": "unemploy-01-fired47/AT01-lamp-resume.mp4",
+      "segment": "S02"
+    },
+    {
+      "id": "AT02",
+      "scene": "空荡办公区",
+      "reference_prompt": "iPhone 15 snapshot, empty open-plan office at night, fluorescent ceiling lights casting harsh shadows on vacant desks, one desk still has a potted plant and a coffee mug, no people visible, no text, untouched, vertical 9:16",
+      "motion_prompt": "slow pan across empty desks, fluorescent light buzzes slightly",
+      "output_file": "unemploy-01-fired47/AT02-empty-office.png",
+      "video_file": "unemploy-01-fired47/AT02-empty-office.mp4",
+      "segment": "S03"
+    },
+    {
+      "id": "AT03",
+      "scene": "暖光通讯录",
+      "reference_prompt": "iPhone 15 snapshot, warm ambient light from a phone screen illuminating a dark room, the screen shows a contacts list with many entries, cozy atmosphere, no people visible, no text readable, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "phone screen gently glows brighter then settles, subtle warmth shift",
+      "output_file": "unemploy-01-fired47/AT03-contacts-glow.png",
+      "video_file": "unemploy-01-fired47/AT03-contacts-glow.mp4",
+      "segment": "S04"
+    }
+  ],
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 4,
+      "emotion_arc": "好奇",
+      "subtitle_text": "被裁47天 赚了5000",
+      "voiceover_text": "被裁第47天，我赚到了第一个5000块。不是靠投简历。是靠翻通讯录。",
+      "voiceover_pause_markers": "被裁第47天<#0.3#>我赚到了第一个5000块。<#0.5#>不是靠投简历。<#0.3#>是靠翻通讯录。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 12,
+      "emotion_arc": "代入",
+      "subtitle_text": "38岁 外企15年 一通电话全没了",
+      "voiceover_text": "38岁，外企15年。一通电话，全没了。HR说\"公司战略调整\"，翻译过来就是——你太贵了。",
+      "voiceover_pause_markers": "38岁<#0.2#>外企15年。<#0.5#>一通电话<#0.3#>全没了。<#0.8#>HR说\"公司战略调整\"<#0.3#>翻译过来就是——<#0.5#>你太贵了。",
+      "story_images": [
+        {
+          "id": "S02-01",
+          "trigger_text": "凌晨台灯下的简历",
+          "reference_file": "unemploy-01-fired47/AT01-lamp-resume.png",
+          "reference_prompt": "iPhone 15 snapshot, a desk lamp illuminating a printed resume on a wooden desk, 2am ambient warm light, coffee ring stain on paper, no people visible, no text visible, casual framing slightly off-center, untouched, vertical 9:16",
+          "motion_prompt": "slow subtle flicker of desk lamp light, slight camera drift"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 24,
+      "emotion_arc": "共鸣",
+      "subtitle_text": "40份简历 0回复",
+      "voiceover_text": "第一个星期，投了40份简历。回复0。第二个星期，降薪30%。回复0。第三个星期，连降薪都不敢写了。房贷每月1万2，孩子幼儿园5000，我妈的降压药不能停。那段时间每天最怕的就是早上醒来——因为醒来就要面对一天。",
+      "voiceover_pause_markers": "第一个星期<#0.2#>投了40份简历。<#0.3#>回复0。<#0.8#>第二个星期<#0.2#>降薪30%。<#0.3#>回复0。<#0.8#>第三个星期<#0.2#>连降薪都不敢写了。<#0.5#>房贷每月1万2<#0.2#>孩子幼儿园5000<#0.2#>我妈的降压药不能停。<#1.0#>那段时间每天最怕的就是早上醒来——<#0.5#>因为醒来就要面对一天。",
+      "story_images": [
+        {
+          "id": "S03-01",
+          "trigger_text": "空荡办公区",
+          "reference_file": "unemploy-01-fired47/AT02-empty-office.png",
+          "reference_prompt": "iPhone 15 snapshot, empty open-plan office at night, fluorescent ceiling lights casting harsh shadows on vacant desks, one desk still has a potted plant and a coffee mug, no people visible, no text, untouched, vertical 9:16",
+          "motion_prompt": "slow pan across empty desks, fluorescent light buzzes slightly"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 15,
+      "emotion_arc": "希望",
+      "subtitle_text": "我找的是你 不是你们公司",
+      "voiceover_text": "有天老客户打电话问我那个项目怎么跟进。我说我已经不在了。他说了一句话：\"我找的是你，不是你们公司。\"那天晚上我翻了翻通讯录，200个客户关系。原来这些东西，一直都在。只是以前绑在公司身上。",
+      "voiceover_pause_markers": "有天老客户打电话问我那个项目怎么跟进。<#0.5#>我说我已经不在了。<#0.8#>他说了一句话：<#0.3#>\"我找的是你，不是你们公司。\"<#1.0#>那天晚上我翻了翻通讯录<#0.3#>200个客户关系。<#0.5#>原来这些东西<#0.2#>一直都在。<#0.3#>只是以前绑在公司身上。",
+      "story_images": [
+        {
+          "id": "S04-01",
+          "trigger_text": "暖光通讯录",
+          "reference_file": "unemploy-01-fired47/AT03-contacts-glow.png",
+          "reference_prompt": "iPhone 15 snapshot, warm ambient light from a phone screen illuminating a dark room, the screen shows a contacts list with many entries, cozy atmosphere, no people visible, no text readable, casual framing, untouched, vertical 9:16",
+          "motion_prompt": "phone screen gently glows brighter then settles, subtle warmth shift"
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 15,
+      "emotion_arc": "力量",
+      "subtitle_text": "你身上的东西比你以为的多",
+      "voiceover_text": "你身上有多少值钱的东西，你自己都没看到？你的经验，你的人脉，你的行业嗅觉——这些不会因为一通电话就消失。"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 5,
+      "emotion_arc": "参与",
+      "subtitle_text": "你投了多少份了？",
+      "voiceover_text": "你投了多少份简历了？评论区说说。"
+    }
+  ]
+}
