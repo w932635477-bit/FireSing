@@ -34,6 +34,7 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "docs" / "content" / "assets" / "cover"
 SCRIPTS_DIR = Path(__file__).resolve().parent
 
 SUNO_API_BASE = "https://api.sunoapi.org/api/v1"
+FILE_UPLOAD_BASE = "https://sunoapiorg.redpandaai.co"
 
 # Adapted lyrics for 上弦月 melody (from sings01-上弦月改编.md)
 DEFAULT_LYRICS = """[Verse]
@@ -101,7 +102,9 @@ def upload_file_base64(api_key: str, audio_path: Path) -> str:
     mime_type = mime_map.get(ext, "audio/mpeg")
 
     payload = {
-        "file": f"data:{mime_type};base64,{b64_data}",
+        "base64Data": f"data:{mime_type};base64,{b64_data}",
+        "uploadPath": "audio",
+        "fileName": audio_path.name,
     }
 
     headers = {
@@ -110,7 +113,7 @@ def upload_file_base64(api_key: str, audio_path: Path) -> str:
         "User-Agent": "FireSing/1.0",
     }
 
-    url = f"{SUNO_API_BASE}/generate/upload-file-base-64"
+    url = f"{FILE_UPLOAD_BASE}/api/file-base64-upload"
     body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(url, data=body, headers=headers, method="POST")
 
@@ -124,9 +127,9 @@ def upload_file_base64(api_key: str, audio_path: Path) -> str:
         print(f"  Response: {body_text[:500]}")
         sys.exit(1)
 
-    upload_url = result.get("data", {}).get("uploadUrl", "")
+    upload_url = result.get("data", {}).get("downloadUrl", "")
     if not upload_url:
-        print(f"ERROR: No uploadUrl in response: {json.dumps(result, indent=2)[:500]}")
+        print(f"ERROR: No downloadUrl in response: {json.dumps(result, indent=2)[:500]}")
         sys.exit(1)
 
     return upload_url
@@ -153,6 +156,7 @@ def generate_cover(
         "title": title,
         "audioWeight": audio_weight,
         "vocalGender": vocal_gender,
+        "callBackUrl": "https://api.sunoapi.org/callback",
     }
 
     headers = {
@@ -175,7 +179,8 @@ def generate_cover(
         print(f"  Response: {body_text[:500]}")
         sys.exit(1)
 
-    task_id = result.get("data", {}).get("taskId", "")
+    print(f"  API response: {json.dumps(result, indent=2, ensure_ascii=False)[:1000]}")
+    task_id = (result.get("data") or {}).get("taskId", "")
     if not task_id:
         print(f"ERROR: No taskId in response: {json.dumps(result, indent=2)[:500]}")
         sys.exit(1)
@@ -374,7 +379,7 @@ def main() -> None:
             print(f"  Version {i + 1}: No audio URL")
             continue
 
-        output_name = f"sings01_上弦月_cover_v{i + 1}.mp3"
+        output_name = f"sings-shanghai-cover_v{i + 1}.mp3"
         output_path = output_dir / output_name
         print(f"  Downloading v{i + 1} → {output_name}...")
 
