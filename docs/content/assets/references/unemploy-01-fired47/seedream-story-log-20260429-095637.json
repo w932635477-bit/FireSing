@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-04-29T09:56:37.013624",
+  "model": "doubao-seedream-4.5",
+  "results": [
+    {
+      "shot": "S02-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-01-fired47/S02-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S03-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-01-fired47/S03-01.png",
+      "status": "success"
+    },
+    {
+      "shot": "S04-01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-01-fired47/S04-01.png",
+      "status": "success"
+    }
+  ]
+}
