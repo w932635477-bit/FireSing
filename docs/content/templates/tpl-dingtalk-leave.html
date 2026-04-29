@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #ededed; width: 1080px; height: 1920px; overflow: hidden; }
+.header { background: #2f88ff; padding: 40px 30px 20px; display: flex; align-items: center; color: #fff; }
+.back { font-size: 32px; margin-right: 16px; }
+.title { font-size: 32px; font-weight: 600; }
+.chat-area { padding: 30px; display: flex; flex-direction: column; gap: 16px; }
+.time-divider { text-align: center; color: #bbb; font-size: 22px; padding: 20px 0; }
+.gray-system { background: rgba(0,0,0,0.05); border-radius: 12px; padding: 16px 20px; text-align: center; color: #999; font-size: 26px; }
+.system-msg { text-align: center; padding: 12px 0; }
+.system-msg-box { background: #fff; border-radius: 16px; padding: 24px 28px; display: inline-block; color: #999; font-size: 26px; line-height: 1.6; }
+.system-sub { font-size: 20px; color: #bbb; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="back">&lt;</span>
+  <span class="title">公司全员群 (386)</span>
+</div>
+<div class="chat-area">
+  <div class="time-divider">昨天 14:32</div>
+  <div class="gray-system">张*理 修改了群名称</div>
+  <div class="time-divider">昨天 16:15</div>
+  <div class="gray-system">王*华 退出了群聊</div>
+  <div class="time-divider">今天 09:23</div>
+  <div class="system-msg">
+    <div class="system-msg-box">
+      您已被管理员移出群聊
+      <div class="system-sub">群主已将你移除，你无法查看群内消息</div>
+    </div>
+  </div>
+  <div class="time-divider">今天 09:23</div>
+  <div class="gray-system">你已退出群聊</div>
+</div>
+</body>
+</html>

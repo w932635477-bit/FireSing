@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f5f5; width: 1080px; height: 1920px; overflow: hidden; }
+.header { background: #202020; padding: 40px 30px 20px; }
+.search-bar { background: #333; border-radius: 20px; padding: 16px 24px; color: #fff; font-size: 28px; display: flex; align-items: center; gap: 12px; }
+.search-icon { color: #999; font-size: 24px; }
+.filter-tags { display: flex; gap: 12px; padding: 16px 30px; background: #fff; }
+.tag { background: #f0f0f0; color: #666; padding: 8px 20px; border-radius: 16px; font-size: 22px; }
+.tag.active { background: #e8f5e9; color: #00b38a; }
+.results-info { padding: 16px 30px; color: #999; font-size: 22px; background: #fff; border-bottom: 1px solid #eee; }
+.job-list { padding: 0 30px; }
+.job-card { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 12px; border: 1px solid #f0f0f0; }
+.job-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.job-title { font-size: 28px; font-weight: 600; color: #222; }
+.salary { font-size: 26px; color: #ff6633; font-weight: 600; }
+.company-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.company-name { font-size: 24px; color: #666; }
+.company-tag { font-size: 20px; color: #999; background: #f5f5f5; padding: 4px 10px; border-radius: 8px; }
+.tags-row { display: flex; gap: 8px; }
+.job-tag { font-size: 20px; color: #00b38a; background: #e8f5e9; padding: 4px 12px; border-radius: 8px; }
+.status-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.read-status { font-size: 22px; color: #ff4444; font-weight: 500; }
+.time-ago { font-size: 20px; color: #ccc; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="search-bar">
+    <span class="search-icon">&#128269;</span>
+    <span class="search-text">运营总监</span>
+  </div>
+</div>
+<div class="filter-tags">
+  <span class="tag active">不限经验</span>
+  <span class="tag">本科</span>
+  <span class="tag">15-25K</span>
+  <span class="tag">上市公司</span>
+</div>
+<div class="results-info">为你推荐 15 个职位</div>
+<div class="job-list" id="job-list"></div>
+<script>
+const jobs = [
+  {title:"运营总监",company:"某互联网大厂",tag:"已上市",salary:"25-40K",status:"已读",time:"3天前"},
+  {title:"运营总监",company:"某跨境电商",tag:"C轮",salary:"20-35K",status:"已读",time:"5天前"},
+  {title:"高级运营经理",company:"某教育科技",tag:"B轮",salary:"18-30K",status:"已读",time:"1周前"},
+  {title:"运营总监",company:"某新能源",tag:"A轮",salary:"22-38K",status:"已读",time:"2周前"},
+  {title:"运营负责人",company:"某消费品牌",tag:"已上市",salary:"30-50K",status:"已读",time:"3周前"},
+  {title:"运营总监",company:"某医疗健康",tag:"B轮",salary:"20-35K",status:"已读",time:"1月前"},
+];
+const list = document.getElementById("job-list");
+jobs.forEach(j => {
+  list.innerHTML += `<div class="job-card"><div class="job-title-row"><span class="job-title">${j.title}</span><span class="salary">${j.salary}</span></div><div class="company-row"><span class="company-name">${j.company}</span><span class="company-tag">${j.tag}</span></div><div class="tags-row"><span class="job-tag">Boss活跃</span></div><div class="status-row"><span class="read-status">${j.status}不回</span><span class="time-ago">${j.time}</span></div></div>`;
+});
+</script>
+</body>
+</html>

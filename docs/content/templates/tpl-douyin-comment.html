@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: rgba(0,0,0,0.85); width: 1080px; height: 1920px; overflow: hidden; }
+.comment-panel { position: absolute; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-radius: 24px 24px 0 0; padding: 30px; max-height: 1200px; }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.panel-title { font-size: 28px; color: #fff; font-weight: 600; }
+.panel-count { font-size: 24px; color: #999; }
+.comment-list { display: flex; flex-direction: column; gap: 28px; }
+.comment-item { display: flex; gap: 16px; }
+.comment-avatar { width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0; }
+.comment-body { flex: 1; }
+.comment-user { font-size: 22px; color: #999; margin-bottom: 6px; }
+.comment-text { font-size: 28px; color: #fff; line-height: 1.5; }
+.comment-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.comment-time { font-size: 20px; color: #666; }
+.comment-like { color: #666; font-size: 22px; }
+</style>
+</head>
+<body>
+<div class="comment-panel">
+  <div class="panel-header">
+    <span class="panel-title">评论</span>
+    <span class="panel-count">128条评论</span>
+  </div>
+  <div class="comment-list">
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:#e9967a"></div>
+      <div class="comment-body">
+        <div class="comment-user">加油的小李</div>
+        <div class="comment-text">投了300份了，已读不回290份</div>
+        <div class="comment-meta"><span class="comment-time">2小时前</span><span class="comment-like">&#9825; 2.3w</span></div>
+      </div>
+    </div>
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:#87ceeb"></div>
+      <div class="comment-body">
+        <div class="comment-user">第五个月了</div>
+        <div class="comment-text">第五个月了，已经开始怀疑人生</div>
+        <div class="comment-meta"><span class="comment-time">3小时前</span><span class="comment-like">&#9825; 1.8w</span></div>
+      </div>
+    </div>
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:#dda0dd"></div>
+      <div class="comment-body">
+        <div class="comment-user">38岁的老王</div>
+        <div class="comment-text">38岁被裁，投了两个月一个面试都没有</div>
+        <div class="comment-meta"><span class="comment-time">5小时前</span><span class="comment-like">&#9825; 9876</span></div>
+      </div>
+    </div>
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:#90ee90"></div>
+      <div class="comment-body">
+        <div class="comment-user">前外企人</div>
+        <div class="comment-text">外企15年出来发现什么都不值钱了</div>
+        <div class="comment-meta"><span class="comment-time">6小时前</span><span class="comment-like">&#9825; 5621</span></div>
+      </div>
+    </div>
+    <div class="comment-item">
+      <div class="comment-avatar" style="background:#f0e68c"></div>
+      <div class="comment-body">
+        <div class="comment-user">新的一天</div>
+        <div class="comment-text">每天醒来最怕的就是打开Boss直聘</div>
+        <div class="comment-meta"><span class="comment-time">8小时前</span><span class="comment-like">&#9825; 3421</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

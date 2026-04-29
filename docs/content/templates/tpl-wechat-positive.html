@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #ededed; width: 1080px; height: 1920px; overflow: hidden; }
+.header { background: #ededed; padding: 40px 30px 16px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #d9d9d9; }
+.header-title { font-size: 32px; font-weight: 600; color: #222; }
+.chat-area { padding: 30px; display: flex; flex-direction: column; gap: 24px; }
+.time-divider { text-align: center; color: #999; font-size: 22px; padding: 16px 0; }
+.msg-row { display: flex; align-items: flex-start; gap: 12px; }
+.msg-row.me { flex-direction: row-reverse; }
+.avatar { width: 64px; height: 64px; border-radius: 8px; flex-shrink: 0; }
+.bubble { max-width: 680px; padding: 20px 24px; border-radius: 12px; font-size: 28px; line-height: 1.6; }
+.bubble.other { background: #fff; color: #222; }
+.bubble.me { background: #95ec69; color: #222; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="header-title">王总-XX集团</span>
+</div>
+<div class="chat-area">
+  <div class="time-divider">今天 19:42</div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">老陈，上次那个项目二期怎么跟进？</div>
+  </div>
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">王总，我已经不在公司了</div>
+  </div>
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">上个月走的</div>
+  </div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">？？？</div>
+  </div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">那项目还得有人跟啊</div>
+  </div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">我找的是你，不是你们公司</div>
+  </div>
+</div>
+</body>
+</html>
