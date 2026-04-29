@@ -1,23 +1,24 @@
 {
   "video_id": "sings-shanghai-cover",
   "workflow": "sings",
-  "version": "1.0",
+  "version": "2.0",
   "created": "2026-04-28",
   "status": "script_approved",
   "series": "sings-cover",
-  "strategy_notes": "上海冷知识对唱翻唱。用《今天你要嫁给我》旋律，歌词完全重写为上海冷知识揭秘。杨梦女声+男声伴唱，'去过但不知道这些'角度",
+  "strategy_notes": "上海吵架段位表对唱翻唱。用《今天你要嫁给我》旋律，歌词完全重写为上海吵架10段位。男声挑衅+女声反击。尖锐毒舌+争议槽点。",
 
   "original_song": "今天你要嫁给我",
   "original_artists": ["陶喆", "蔡依林"],
   "cover_approach": "suno-cover",
   "city": "上海",
   "highlights": [
-    {"name": "下海庙（上海/下海对称）", "type": "culture"},
-    {"name": "九曲桥18弯", "type": "culture"},
-    {"name": "棉花（最早市花）", "type": "culture"},
-    {"name": "马路（洋人骑马）", "type": "culture"},
-    {"name": "石库门（宁波话误读）", "type": "culture"},
-    {"name": "肉馒头=肉包", "type": "food"}
+    {"name": "脑子瓦特了（骂人还是关心）", "type": "controversy"},
+    {"name": "上海话吵架（听不懂）", "type": "controversy"},
+    {"name": "弄堂阿姨（街坊广播）", "type": "controversy"},
+    {"name": "生煎vs小笼（谁正宗）", "type": "food_war"},
+    {"name": "上海是美食荒漠（最大争议）", "type": "food_war"},
+    {"name": "葱油饼排队（凌晨四点）", "type": "food"},
+    {"name": "上海话消失（文化痛点）", "type": "culture"}
   ],
 
   "global": {
@@ -29,7 +30,7 @@
     "codec": "h264",
     "aspect_ratio": "9:16",
     "kling_seed": null,
-    "style": "cover_cold_knowledge_duet",
+    "style": "cover_argue_duet",
     "color_temperature": "warm_bright",
     "accent_color": "#e8a87c",
     "bg_color": "#f5e6d3"
@@ -44,42 +45,28 @@
       {
         "id": "B01",
         "beat_count": 4,
-        "lines": ["[Female] 你去过上海几次了", "[Male] 去过 但我发现之前白去了"],
+        "lines": ["[Male] 你知道上海人吵架分几个段位吗", "[Female] 十个段位 外地人扛不过三级"],
         "type": "intro",
         "segment_ref": "S01"
       },
       {
         "id": "B02",
         "beat_count": 4,
-        "lines": ["[Female] 你知道有上海还有下海吗", "[Male] 提篮桥那边真的有座下海庙"],
+        "lines": ["[Male] 一级\"你脑子瓦特了\" 外地人以为在骂人", "[Female] 那是关心你懂不懂", "[Male] 二级上海话开骂 语速快到像念咒", "[Female] 三级弄堂阿姨开嗓 街坊全知道你欠了菜钱"],
         "type": "body",
         "segment_ref": "S02"
       },
       {
         "id": "B03",
         "beat_count": 4,
-        "lines": ["[Female] 豫园九曲桥其实有十八个弯", "[Male] 上海最早的市花居然是棉花"],
-        "type": "body",
-        "segment_ref": "S02"
-      },
-      {
-        "id": "B04",
-        "beat_count": 4,
-        "lines": [
-          "[Both] 今天你才知道上海",
-          "[Both] 这座城市藏了太多意外",
-          "[Female] 马路这个名字来自洋人骑马",
-          "[Male] 石库门其实是宁波话的误读啊",
-          "[Both] 今天你才知道上海",
-          "[Both] 你以为你懂了其实重来"
-        ],
+        "lines": ["[Both] 上海人的嘴 段位一直在升", "[Both] 吵着吵着就变成文化课了", "[Male] 四级生煎小笼谁正宗 有人说上海是美食荒漠", "[Female] 那是他没凌晨四点排过葱油饼的队"],
         "type": "chorus",
         "segment_ref": "S03"
       },
       {
-        "id": "B05",
+        "id": "B04",
         "beat_count": 4,
-        "lines": ["[Female] 下次去上海记得来找下海庙", "[Male] 帮我带个肉馒头 就是肉包"],
+        "lines": ["[Male] 十级 上海话快没人会说了", "[Female] 你们那里吵架什么段位 来评论区比"],
         "type": "outro",
         "segment_ref": "S04"
       }
@@ -87,11 +74,20 @@
   },
 
   "script": {
-    "topic": "上海冷知识对唱 — 去过但不知道的上海",
+    "topic": "上海吵架段位表 — 10级递进争议吐槽",
     "source": "suno-cover: 今天你要嫁给我",
-    "hook_type": "cold_knowledge_reveal",
-    "cta_action": "评论区说你家乡的冷知识"
+    "hook_type": "controversy_challenge",
+    "cta_action": "评论区说你家乡吵架什么段位",
+    "cta_keyword": "你们那里吵架什么段位",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦争议话题和城市文化，不卖任何东西"
+    ]
   },
+
+  "character_anchor": "yangmun",
 
   "segments": [
     {
@@ -100,9 +96,9 @@
       "duration_sec": 6,
       "shot_type": "wide",
       "emotion": "playful",
-      "visual_description": "杨梦在上海外滩天际线前，轻松开场",
-      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, standing on the Bund promenade with Pudong skyline behind her, golden hour warm light, wind gently moving her hair, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, natural color temperature, NOT retouched, NOT posed, vertical composition 9:16",
-      "motion_prompt": "looking at city skyline, turning to camera with a knowing smile, wind in hair",
+      "visual_description": "杨梦在外滩，俏皮开场，'你知道上海人吵架分几个段位吗'",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a trendy blazer over a graphic tee and jeans, standing on the Bund promenade with Pudong skyline behind her, arms crossed with a smug knowing look, golden hour warm light, wind gently moving her hair, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, natural color temperature, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "arms crossed confidently, looking directly at camera with a smirk, wind in hair, slight head tilt",
       "lyrics_refs": ["B01"],
       "reference_file": "sings-shanghai-cover/S01-playful.png"
     },
@@ -111,11 +107,11 @@
       "type": "body",
       "duration_sec": 10,
       "shot_type": "medium",
-      "emotion": "surprised",
-      "visual_description": "杨梦在豫园九曲桥/老城厢，发现冷知识",
-      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, walking on the zigzag bridge at Yuyuan Garden, traditional Chinese architecture around, duck pond below, natural daylight, looking with curiosity and mild surprise, a few flyaway hairs, uneven skin tone, natural shine on forehead, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
-      "motion_prompt": "walking on zigzag bridge, counting turns with fingers, looking surprised",
-      "lyrics_refs": ["B02", "B03"],
+      "emotion": "exaggerated",
+      "visual_description": "杨梦在老石库门弄堂里，夸张吵架表情，模拟上海话吵架场景",
+      "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a casual hoodie, standing in a narrow Shanghai shikumen alley, red brick walls and stone archway, pointing finger aggressively as if mid-argument, exaggerated facial expression with wide eyes and open mouth, arms gesturing wildly, laundry hanging on bamboo poles overhead, messy uncombed hair, uneven skin tone, natural daylight, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "pointing finger, exaggerated arguing gesture, animated hand movements, shifting weight between feet",
+      "lyrics_refs": ["B02"],
       "reference_file": "sings-shanghai-cover/S02-surprised.png"
     },
     {
@@ -123,11 +119,11 @@
       "type": "chorus",
       "duration_sec": 12,
       "shot_type": "medium",
-      "emotion": "excited",
-      "visual_description": "杨梦在石库门弄堂/上海老街，知识揭秘高潮",
-      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, standing in a traditional Shanghai shikumen alley, red brick gate frames, old stone archway behind her, warm afternoon light filtering through, excited expression, a few flyaway hairs, uneven skin tone, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
-      "motion_prompt": "gesturing excitedly, pointing at architecture details, animated expression",
-      "lyrics_refs": ["B04"],
+      "emotion": "heated",
+      "visual_description": "杨梦在夜市美食街，手持生煎，激动地为上海美食辩护",
+      "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a warm jacket, holding a paper bag of shengjian bao pan-fried buns from a street stall, standing in front of a bustling Shanghai night food street with steam and neon lights, passionate defensive expression as if proving a point, a few flyaway hairs, food grease stain on jacket sleeve, uneven skin tone, warm artificial lighting mixed with neon, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "holding up food bag triumphantly, gesturing with one hand while holding food, passionate expression, steam rising from food stall behind",
+      "lyrics_refs": ["B03"],
       "reference_file": "sings-shanghai-cover/S03-excited.png"
     },
     {
@@ -135,11 +131,11 @@
       "type": "outro",
       "duration_sec": 6,
       "shot_type": "close-up",
-      "emotion": "warm",
-      "visual_description": "杨梦在上海街头，轻松收尾+肉馒头彩蛋",
-      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light linen blouse and jeans, holding a steaming bamboo steamer basket with buns, standing on a lively Shanghai street, warm evening light, direct eye contact with camera, playful smile, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
-      "motion_prompt": "holding steamer basket, playful wink at camera, steam rising from buns",
-      "lyrics_refs": ["B05"],
+      "emotion": "challenging",
+      "visual_description": "杨梦特写，直接对镜头挑衅，'你们那里吵架什么段位'",
+      "reference_prompt": "Casual snapshot, portrait orientation, close-up portrait of a young Chinese woman, mid-twenties, round face, short black bob haircut, looking directly into camera with a challenging competitive smirk, one eyebrow slightly raised, finger pointing at viewer, blurred Shanghai street background with passing pedestrians, soft natural evening light, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "pointing finger directly at camera, raising eyebrow, challenging smirk, leaning slightly forward",
+      "lyrics_refs": ["B04"],
       "reference_file": "sings-shanghai-cover/S04-warm.png"
     }
   ],
@@ -147,7 +143,7 @@
   "audio": {
     "engine": "suno_cover",
     "mode": "cover",
-    "original_audio_file": "TBD",
+    "cover_audio_file": "docs/content/assets/cover/今天你要嫁给我_45s.mp3",
     "style_prompt": "Duet (Alternating). Female lead is airy and playful. Male lead is grounded and warm. Clear turn-taking each line. One shared hook in chorus only. sweet Chinese pop duet, mid-tempo, catchy, playful, romantic pop feel, 90 bpm",
     "audio_weight": 0.8,
     "model": "V4_5",
@@ -194,13 +190,13 @@
   "publishing": {
     "platforms": ["douyin", "xiaohongshu"],
     "title_candidates": [
-      "上海冷知识：去过但不知道的6个秘密",
-      "上海人自己都不知道的上海",
-      "今天你才知道上海"
+      "上海人吵架10个段位 你扛到几级",
+      "外地人扛不过上海人吵架三级",
+      "上海是美食荒漠？吵给你看"
     ],
-    "tags": ["上海冷知识", "城市科普", "杨梦旅行", "上海旅行"],
-    "xiaohongshu_tags": ["上海攻略", "冷知识", "旅行科普", "杨梦旅行"],
+    "tags": ["上海吵架", "上海冷知识", "段位表", "美食荒漠", "上海话", "城市争议"],
+    "xiaohongshu_tags": ["上海攻略", "冷知识", "城市争议", "段位表", "上海话"],
     "publish_times": ["12:00", "18:00"],
-    "cover_description": "杨梦在上海外滩 + '今天你才知道上海' 大字 + 冷知识氛围"
+    "cover_description": "杨梦在外滩+大字'上海人吵架10个段位'+争议氛围"
   }
 }
