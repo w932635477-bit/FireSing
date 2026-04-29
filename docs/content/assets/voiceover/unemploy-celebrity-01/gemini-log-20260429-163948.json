@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-29T16:39:48.478716",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-01",
+  "total_duration_s": 51.48,
+  "results": [
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-01/S03.mp3",
+      "duration_s": 51.48,
+      "status": "success",
+      "actual_duration_s": 51.48,
+      "voiceover_text": "但他没有跳。棚屋里六口人的脸，把他从楼顶拉了回来。不是想通了，是没有资格死。第二天，他继续跑客户。没资源，他用人海战术——招应届毕业生，肯干。没技术，他去偷师——跑到国外运营商的展会上，一个产品一个产品地拆、看、学。没市场，他打农村包围城市——巨头不做的偏远地区，他做。早期华为的销售，背着一台交换机，坐大巴去县城。住最便宜的旅馆，请客户吃饭，喝到吐，拿到订单。三十年后，那个从棚屋出发的公司，成了全球通信设备第一。但这不是鸡汤。这不是说任正非行你也行。这是一个问题——那个年代的黑暗里，至少还能看到路。现在呢？",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    }
+  ]
+}

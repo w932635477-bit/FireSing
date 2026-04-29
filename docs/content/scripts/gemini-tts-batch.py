@@ -48,9 +48,16 @@ NARRATOR_PROFILE_FEMALE = (
     "You have a confident, clear voice with natural emotional range."
 )
 
-NARRATOR_PROFILE = NARRATOR_PROFILE_FEMALE
+# Unemployment series narrator — first person, male, 38yo laid-off worker
+NARRATOR_PROFILE_UNEMPLOY = (
+    "你是一个38岁的中国男性，在外企工作了15年后被裁员。"
+    "你在讲述自己的真实经历，不是旁白，是第一人称自述。"
+    "语气自然，像跟老朋友聊天，不要播音腔。声音沉稳但带着真实情感。"
+)
 
-NARRATOR_SCENE = "Narrating a short video about an underdog founder's incredible business success."
+NARRATOR_PROFILE = NARRATOR_PROFILE_UNEMPLOY
+
+NARRATOR_SCENE = "第一人称讲述被裁47天后靠翻通讯录赚到第一个5000块的经历。"
 
 # Emotion arc → Director's Notes only (same narrator, different emotional delivery)
 EMOTION_PROMPTS = {
@@ -126,6 +133,37 @@ EMOTION_PROMPTS = {
         "scene": "Describing a vicious cycle that traps people in mediocrity.",
         "director": "Speak with controlled urgency. Use [seriously] for the cycle, then [softly] for the escape. Each repetition of the trap should feel heavier. End with quiet hope, not despair.",
     },
+    # Unemployment series emotions (first-person male)
+    "好奇": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "开场告诉朋友一个意外的结果。",
+        "director": "像跟朋友说'你猜怎么着'一样开场。语气轻松带悬念，不要太沉重。说完数字后稍微停顿，让听众消化。结尾'翻通讯录'三个字稍微加重，制造好奇。",
+    },
+    "代入": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "平淡回忆被裁那天的事。",
+        "director": "像回忆一件已经过去的事，不激动也不委屈。数字'38岁'、'15年'轻轻带过。'全没了'之后要有一个明显的停顿。HR那句话用稍微不同的语气模仿，然后'你太贵了'要轻，不要咬牙切齿，要轻得像刀子。",
+    },
+    "共鸣": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "讲述求职失败和经济压力。",
+        "director": "压力递增。每个'回复0'比上一个更沉重，像一块块石头往上加。房贷、幼儿园、降压药三连要快，要窒息。最后一句'醒来就要面对一天'要慢下来，声音要空，像说完就没力气了。",
+    },
+    "希望": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "转折点，老客户的一句话改变了一切。",
+        "director": "语气从沉重自然变暖。老客户那句话'我找的是你，不是你们公司'要带着温暖和意外，像第一次听到时那种感动。翻通讯录那段微微上扬，'原来这些东西一直都在'要有发现宝藏的感觉。",
+    },
+    "力量": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "从过来人的角度给同样处境的人力量。",
+        "director": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。",
+    },
+    "参与": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "放下故事，直接问听众。",
+        "director": "从讲故事切换到直接对话。语气放松，像朋友问一句'你投了多少了？'。不要严肃，不要煽情，就一个自然的邀请。最后'评论区说说'要轻松，像随口一说。",
+    },
 }
 
 AUDIO_TAGS = {
@@ -143,6 +181,12 @@ AUDIO_TAGS = {
     "tension": ["[seriously]", "[confidently]"],
     "reversal": ["[thoughtfully]", "[impressed]"],
     "fear": ["[seriously]", "[softly]"],
+    "好奇": ["[curious]", "[gently]"],
+    "代入": ["[softly]", "[thoughtfully]"],
+    "共鸣": ["[seriously]", "[softly]"],
+    "希望": ["[warmly]", "[gently]"],
+    "力量": ["[confidently]", "[warmly]"],
+    "参与": ["[cheerfully]", "[warmly]"],
 }
 
 
@@ -263,7 +307,7 @@ def concatenate_audio(segment_files: list[Path], output_path: Path) -> None:
 def main():
     parser = argparse.ArgumentParser(description="Gemini TTS (config-driven)")
     parser.add_argument("--config", type=str, required=True, help="Video config JSON file")
-    parser.add_argument("--voice", type=str, default="Aoede",
+    parser.add_argument("--voice", type=str, default="Charon",
                         help=f"Voice name ({', '.join(VOICES[:5])} recommended)")
     parser.add_argument("--output-dir", type=str, default=str(DEFAULT_OUTPUT_DIR))
     parser.add_argument("--shot", type=str, help="Generate only this segment (e.g., S01)")
@@ -293,7 +337,9 @@ def main():
     output_dir = Path(args.output_dir) / video_id
 
     if args.female:
-        print(f"  Note: Female mode is now the default (Aoede voice)")
+        print(f"  Note: Using female narrator profile (Aoede voice)")
+        global NARRATOR_PROFILE
+        NARRATOR_PROFILE = NARRATOR_PROFILE_FEMALE
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if args.shot:

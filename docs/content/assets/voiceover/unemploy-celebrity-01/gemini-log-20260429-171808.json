@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-29T17:18:08.538586",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-01",
+  "total_duration_s": 42.48,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-01/S01.mp3",
+      "duration_s": 42.48,
+      "status": "success",
+      "actual_duration_s": 42.48,
+      "voiceover_text": "二零二六年，华为营收八千六百亿。全球十七万员工，一百七十个国家的订单源源不断。但一九八七年，这个男人四十三岁。他刚被国企开除。被骗走两百万。老婆签了离婚协议。父母弟妹六口人，挤在深圳一间棚屋里，夏天像蒸笼，雨天漏水。四十三岁。没有工作。没有存款。没有老婆。一家老小等着吃饭。那个站在楼顶往下看的人，和今天华为总部里那个掌舵的人，是同一个人。",
+      "director_notes": "像跟朋友说'你猜怎么着'一样开场。语气轻松带悬念，不要太沉重。说完数字后稍微停顿，让听众消化。结尾'翻通讯录'三个字稍微加重，制造好奇。"
+    }
+  ]
+}

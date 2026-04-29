@@ -112,7 +112,7 @@
       "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a casual hoodie, standing in a narrow Shanghai shikumen alley, red brick walls and stone archway, pointing finger aggressively as if mid-argument, exaggerated facial expression with wide eyes and open mouth, arms gesturing wildly, laundry hanging on bamboo poles overhead, messy uncombed hair, uneven skin tone, natural daylight, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
       "motion_prompt": "pointing finger, exaggerated arguing gesture, animated hand movements, shifting weight between feet",
       "lyrics_refs": ["B02"],
-      "reference_file": "sings-shanghai-cover/S02-surprised.png"
+      "reference_file": "sings-shanghai-cover/S02-exaggerated.png"
     },
     {
       "id": "S03",
@@ -124,7 +124,7 @@
       "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a warm jacket, holding a paper bag of shengjian bao pan-fried buns from a street stall, standing in front of a bustling Shanghai night food street with steam and neon lights, passionate defensive expression as if proving a point, a few flyaway hairs, food grease stain on jacket sleeve, uneven skin tone, warm artificial lighting mixed with neon, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
       "motion_prompt": "holding up food bag triumphantly, gesturing with one hand while holding food, passionate expression, steam rising from food stall behind",
       "lyrics_refs": ["B03"],
-      "reference_file": "sings-shanghai-cover/S03-excited.png"
+      "reference_file": "sings-shanghai-cover/S03-heated.png"
     },
     {
       "id": "S04",
@@ -136,7 +136,7 @@
       "reference_prompt": "Casual snapshot, portrait orientation, close-up portrait of a young Chinese woman, mid-twenties, round face, short black bob haircut, looking directly into camera with a challenging competitive smirk, one eyebrow slightly raised, finger pointing at viewer, blurred Shanghai street background with passing pedestrians, soft natural evening light, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
       "motion_prompt": "pointing finger directly at camera, raising eyebrow, challenging smirk, leaning slightly forward",
       "lyrics_refs": ["B04"],
-      "reference_file": "sings-shanghai-cover/S04-warm.png"
+      "reference_file": "sings-shanghai-cover/S04-challenging.png"
     }
   ],
 

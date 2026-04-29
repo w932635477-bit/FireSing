@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-29T16:41:54.940008",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-01",
+  "total_duration_s": 69.96,
+  "results": [
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-01/S05.mp3",
+      "duration_s": 69.96,
+      "status": "success",
+      "actual_duration_s": 69.96,
+      "voiceover_text": "有人说：别拿任正非骗自己了。那个年代是草莽年代，胆子大就行。四十三岁被骗两百万，借两万块钱就能翻身。现在呢？AI替代你的时候，你连两万块钱的生意都找不到。普通人没有资源、没有资本、没有信息差，拼有什么用？时代红利吃完了，别做梦了。也有人说：任正非当年哪有什么红利？他被开除的时候，体制是铁饭碗，他连饭碗都没了。他创业的时候，没人觉得通信行业有机会——行业老大哥是爱立信、诺基亚，一个中国小公司凭什么？凭什么就是答案。每次技术革命，淘汰一批人的同时确实会创造新赛道。当年进通信行业的门槛是胆子，今天进AI行业的门槛可能是会用工具。AI淘汰旧岗位的同时，也在创造会用AI的人这个新物种。越混乱的时候，越有重新洗牌的机会。跟年代没关系，跟你敢不敢重新定义自己有关系。",
+      "director_notes": ""
+    }
+  ]
+}

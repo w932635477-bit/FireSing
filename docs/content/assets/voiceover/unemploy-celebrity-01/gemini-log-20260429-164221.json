@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-29T16:42:21.799349",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-01",
+  "total_duration_s": 24.24,
+  "results": [
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-01/S06.mp3",
+      "duration_s": 24.24,
+      "status": "success",
+      "actual_duration_s": 24.24,
+      "voiceover_text": "一九八七年的棚屋里，四十三岁的任正非不知道自己能不能活下去。二零二四年的出租屋里，你也不知道。区别是——他的黑暗里，好歹看得到路。你的黑暗里，连路都没有了。还是说……其实有，只是你还没看到？",
+      "director_notes": ""
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-04-29T17:19:19.908039",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-01",
+  "total_duration_s": 83.12,
+  "results": [
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-01/S04.mp3",
+      "duration_s": 83.12,
+      "status": "success",
+      "actual_duration_s": 83.12,
+      "voiceover_text": "一九八七年，任正非被体制抛弃。没有工作，没有技能，连生存都成问题。二零二六年，轮到你了。世界经济论坛说，到二零三零年，全球九千两百万个岗位会被AI替代。高盛的报告说，每个月有一万六千个工作岗位在消失。斯坦福的研究更狠——AI渗透率最高的行业，二十二到二十五岁年轻人的就业率直接下降了百分之十三。任正非那个年代，被开除了还能摆地摊、做倒爷、搞基建。那个年代有粗放的红利，有野蛮生长的空间。现在？你的简历先被AI筛选一轮，不合格的连HR的面都见不到。你的技能，AI三个月就能学会。你的岗位，可能在你看到这条视频的时候已经被优化掉了。同样是被时代抛弃。四十三岁的任正非，和三十五岁的你，面对的是同一片黑暗。任正非后来翻盘，靠的是踩中了通信行业崛起的浪潮。每一次技术革命，砸碎一批饭碗的同时，确实会催生新的赛道。AI也不例外。但问题是——当年通信行业的门槛，是胆子和体力。今天AI赛道的门槛，是算力和算法。普通人够得着吗？",
+      "director_notes": ""
+    }
+  ]
+}
