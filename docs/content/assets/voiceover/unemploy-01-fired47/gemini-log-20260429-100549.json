@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-04-29T10:05:49.974720",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Aoede",
+  "video_id": "unemploy-01-fired47",
+  "total_duration_s": 81.56,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S01.mp3",
+      "duration_s": 7.56,
+      "status": "success",
+      "actual_duration_s": 7.56,
+      "voiceover_text": "被裁第47天，我赚到了第一个5000块。不是靠投简历。是靠翻通讯录。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S02.mp3",
+      "duration_s": 11.16,
+      "status": "success",
+      "actual_duration_s": 11.16,
+      "voiceover_text": "38岁，外企15年。一通电话，全没了。HR说\"公司战略调整\"，翻译过来就是——你太贵了。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S03.mp3",
+      "duration_s": 27.04,
+      "status": "success",
+      "actual_duration_s": 27.04,
+      "voiceover_text": "第一个星期，投了40份简历。回复0。第二个星期，降薪30%。回复0。第三个星期，连降薪都不敢写了。房贷每月1万2，孩子幼儿园5000，我妈的降压药不能停。那段时间每天最怕的就是早上醒来——因为醒来就要面对一天。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S04.mp3",
+      "duration_s": 20.96,
+      "status": "success",
+      "actual_duration_s": 20.96,
+      "voiceover_text": "有天老客户打电话问我那个项目怎么跟进。我说我已经不在了。他说了一句话：\"我找的是你，不是你们公司。\"那天晚上我翻了翻通讯录，200个客户关系。原来这些东西，一直都在。只是以前绑在公司身上。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S05.mp3",
+      "duration_s": 11.6,
+      "status": "success",
+      "actual_duration_s": 11.6,
+      "voiceover_text": "你身上有多少值钱的东西，你自己都没看到？你的经验，你的人脉，你的行业嗅觉——这些不会因为一通电话就消失。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-01-fired47/S06.mp3",
+      "duration_s": 3.240249,
+      "status": "success",
+      "actual_duration_s": 3.240249,
+      "voiceover_text": "你投了多少份简历了？评论区说说。",
+      "director_notes": ""
+    }
+  ]
+}
