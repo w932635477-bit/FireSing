@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-04-30T09:19:00.206192",
+  "model": "doubao-seedream-4.5",
+  "shots": 6,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S01-好奇.png",
+      "task_id": "task-unified-1777511690-hwzako61",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S02-压抑.png",
+      "task_id": "task-unified-1777511763-lhrfrj8s",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S03-力量.png",
+      "task_id": "task-unified-1777511784-coysya77",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S04-反转.png",
+      "task_id": "task-unified-1777511840-ci0zj870",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S05-对立.png",
+      "task_id": "task-unified-1777511878-7v69estj",
+      "status": "success"
+    },
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-celebrity-02/S06-留白.png",
+      "task_id": "task-unified-1777511910-c2oktcg3",
+      "status": "success"
+    }
+  ]
+}

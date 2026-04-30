@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-04-30T09:22:56.980071",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-03",
+  "total_duration_s": 241.0,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S01.mp3",
+      "duration_s": 31.400249,
+      "status": "success",
+      "actual_duration_s": 31.400249,
+      "voiceover_text": "阿里巴巴，巅峰市值超过三万亿。淘宝、支付宝、菜鸟、阿里云，渗透进每一个中国人的日常。全球超过十亿用户。但一九九几年，这个男人去杭州第一家肯德基面试。二十四个人应聘，录用了二十三个。只有他，被拒了。中国互联网教父，当年连炸鸡都不配卖。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S02.mp3",
+      "duration_s": 47.32,
+      "status": "success",
+      "actual_duration_s": 47.32,
+      "voiceover_text": "他叫马云。杭州人。高考考了三次，数学第一次考了一分。杭州师范学院毕业，工资八十九块。他去应聘酒店服务员，被拒。肯德基招人，二十四个人面试录了二十三个，他落选。一九九五年，他去了美国。第一次见到互联网。他在搜索框里打了五个字母：China。什么都没有。他回国了，搞了个中国黄页。所有人指着鼻子说他是骗子。一九九五年杭州电视台拍过一个新闻：一个瘦小的男人骑自行车追了六个偷井盖的，被当成多管闲事。那个男人就是马云。被全世界拒绝的人，反而在替别人守着井盖。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S03.mp3",
+      "duration_s": 53.72,
+      "status": "success",
+      "actual_duration_s": 53.72,
+      "voiceover_text": "一九九九年，杭州湖畔花园。一套普通小区里的毛坯房。十八个人，挤在客厅地上。他站在白板前，讲了三个小时。他说：我们要建世界上最大的互联网公司。所有人觉得他疯了。这十八个人，后来被称为十八罗汉。他们凑了五十万。五十万人民币，折合六万美元。这就是阿里巴巴的全部启动资金。二零零零年，互联网泡沫破裂。全球互联网公司倒闭了一半。阿里巴巴差点死掉。裁员，收缩，退回杭州。在最黑暗的时候，孙正义来了。两个人见面六分钟。孙正义投了两千万美金。六分钟，换来了后来万亿帝国的入场券。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S04.mp3",
+      "duration_s": 33.2,
+      "status": "success",
+      "actual_duration_s": 33.2,
+      "voiceover_text": "两千万美金之后，是淘宝击败eBay。eBay当时砸了十几个亿想拿下中国市场，被一个免费策略打得灰头土脸。然后是支付宝，改变了中国人的支付方式。然后是阿里云，中国云计算的基础设施。从一个被KFC拒绝的人，到一个让全球零售业颤抖的人。但这个故事的重点不是他有多牛。重点是——他翻盘的那个年代，和现在不一样了。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S05.mp3",
+      "duration_s": 63.16,
+      "status": "success",
+      "actual_duration_s": 63.16,
+      "voiceover_text": "现在AI来了。九千两百万岗位将被替代。马云公开说：AI不是威胁，是机会。但他说这话的时候，他已经不用打工了。有人说：马云考了三次高考照样翻身，但那个年代没学历还能创业。现在呢？AI筛选简历，你连面试都进不去。他当年被人叫骗子还能继续干，现在你被优化了连下一份工作都找不到。时代红利吃完了，别拿他的故事骗自己。也有人说：马云当年被二十四个人集体拒绝。如果那时候他相信时代不一样了放弃了呢？一九九五年搞互联网，所有人都说是骗局。二零零零年泡沫破裂，公司差点死掉。他哪一步赶上了好时候？每次技术革命，都是旧的淘汰、新的出现。关键是——你在不在场。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-03/S06.mp3",
+      "duration_s": 12.200249,
+      "status": "success",
+      "actual_duration_s": 12.200249,
+      "voiceover_text": "马云被拒绝了二十几次，后来成了中国首富。但现在有人说：他的时代已经过去了。你觉得，是时代的问题，还是你自己的问题？",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

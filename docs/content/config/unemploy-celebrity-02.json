@@ -1,0 +1,161 @@
+{
+  "video_id": "unemploy-celebrity-02",
+  "version": "2.0",
+  "created": "2026-04-30",
+  "status": "script_ready_for_review",
+  "strategy": "unemployment-celebrity",
+  "strategy_notes": "失业名人堂第2条：俞敏洪60岁双减灭顶×AI失业潮。双减一夜蒸发2000亿市值→60岁直播带货翻身→AI时代9200万岗位危。氛围空镜+文字卡片+Charon男声旁白。",
+  "review": {
+    "score": null,
+    "status": "pending"
+  },
+  "global": {
+    "target_duration_sec": 110,
+    "max_duration_sec": 180,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "celebrity_atmosphere",
+    "color_temperature": "cool_to_warm_shift",
+    "accent_color": "#ffffff"
+  },
+  "script": {
+    "topic": "俞敏洪60岁双减政策一夜蒸发2000亿6万裁员，直播带货翻盘，现在说60%岗位将消失",
+    "hook_type": "flashback_bomb",
+    "cta_action": "评论站队",
+    "cta_keyword": "你是60%还是40%",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "绝不说名人能行你也能",
+      "永远呈现两派观点，让观众吵架"
+    ]
+  },
+  "character_anchor": null,
+  "screenshots": [],
+  "atmosphere_shots": [
+    {
+      "id": "AT01",
+      "scene": "北京中关村夜景新东方总部",
+      "reference_prompt": "iPhone 15 snapshot, nighttime city skyline of Beijing Zhongguancun district, a large illuminated glass office tower with cool blue-white light, surrounding buildings with scattered warm window lights, wet pavement reflecting lights, no people visible, no text, casual framing slightly off-center, untouched, vertical 9:16",
+      "motion_prompt": "slow camera drift upward along the tower, office lights flicker gently",
+      "output_file": "unemploy-celebrity-02/AT01-zhongguancun-night.png",
+      "video_file": "unemploy-celebrity-02/AT01-zhongguancun-night.mp4",
+      "reference_file": "unemploy-celebrity-02/AT01-zhongguancun-night.png",
+      "segment": "S01"
+    },
+    {
+      "id": "AT02",
+      "scene": "空教室课桌搬走",
+      "reference_prompt": "iPhone 15 snapshot, empty classroom with white walls, rows of desk brackets bolted to floor but desktops removed, dust outlines on floor where desks used to be, a single forgotten textbook on windowsill, afternoon gray light through dusty windows, melancholy abandoned atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "slow horizontal pan across empty floor brackets, dust particles float in afternoon light",
+      "output_file": "unemploy-celebrity-02/AT02-empty-classroom.png",
+      "video_file": "unemploy-celebrity-02/AT02-empty-classroom.mp4",
+      "reference_file": "unemploy-celebrity-02/AT02-empty-classroom.png",
+      "segment": "S02"
+    },
+    {
+      "id": "AT03",
+      "scene": "小直播间设备",
+      "reference_prompt": "iPhone 15 snapshot, small cramped room converted into a live-streaming studio, ring light on a cheap tripod, phone mounted on a flimsy holder, a few agricultural products casually placed on a folding table, cardboard boxes stacked against wall, cramped amateur setup, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "ring light flickers once, slight camera shake as if bumped",
+      "output_file": "unemploy-celebrity-02/AT03-livestream-room.png",
+      "video_file": "unemploy-celebrity-02/AT03-livestream-room.mp4",
+      "reference_file": "unemploy-celebrity-02/AT03-livestream-room.png",
+      "segment": "S03"
+    },
+    {
+      "id": "AT04",
+      "scene": "城市日出",
+      "reference_prompt": "iPhone 15 snapshot, city rooftop at dawn, golden-orange sun rising behind dense urban skyline, morning haze softening building silhouettes, a single pigeon perched on rooftop railing in foreground, hopeful but quiet atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "sun slowly rising above skyline, golden light spreading across buildings, pigeon shifts on railing",
+      "output_file": "unemploy-celebrity-02/AT04-city-sunrise.png",
+      "video_file": "unemploy-celebrity-02/AT04-city-sunrise.mp4",
+      "reference_file": "unemploy-celebrity-02/AT04-city-sunrise.png",
+      "segment": "S06"
+    }
+  ],
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 18,
+      "emotion_arc": "好奇",
+      "reference_prompt": "iPhone 15 snapshot, nighttime city skyline of Beijing Zhongguancun district, a large illuminated glass office tower with cool blue-white light, surrounding buildings with scattered warm window lights, wet pavement reflecting lights, no people visible, no text, casual framing slightly off-center, untouched, vertical 9:16",
+      "motion_prompt": "slow camera drift upward along the tower, office lights flicker gently",
+      "reference_file": "unemploy-celebrity-02/S01-好奇.png",
+      "subtitle_text": "东方甄选市值百亿 但2021年7月蒸发2000亿",
+      "voiceover_text": "二零二二年十二月，一个叫董宇辉的英语老师，在直播间里边卖大米边讲莎士比亚。一夜之间全网刷屏。东方甄选市值冲上几百亿。俞敏洪，六十岁，从废墟里站起来了。但在二零二一年七月，新东方市值蒸发两千亿。六万人被裁。一千多个教学中心关门。他用二十八年建起来的帝国，一周之内塌了。",
+      "voiceover_pause_markers": "二零二二年十二月<#0.3#>一个叫董宇辉的英语老师<#0.2#>在直播间里边卖大米边讲莎士比亚。<#0.5#>一夜之间全网刷屏。<#0.5#>东方甄选市值冲上几百亿。<#0.8#>俞敏洪<#0.3#>六十岁<#0.3#>从废墟里站起来了。<#1.2#>但在二零二一年七月<#0.5#>新东方市值蒸发两千亿。<#0.5#>六万人被裁。<#0.3#>一千多个教学中心关门。<#0.8#>他用二十八年建起来的帝国<#0.3#>一周之内塌了。",
+      "director_notes": "开场像念新闻——董宇辉、东方甄选、几百亿。语气轻松，像在讲一个励志故事。但在二零二一年七月突然转折，语气变冷变沉。两千亿、六万人、一千个——每个数字之间停顿，让数字的重量砸下来。最后一句一周之内塌了，声音放低，留一秒空白。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 28,
+      "emotion_arc": "压抑",
+      "reference_prompt": "iPhone 15 snapshot, empty classroom with white walls, rows of desk brackets bolted to floor but desktops removed, dust outlines on floor where desks used to be, a single forgotten textbook on windowsill, afternoon gray light through dusty windows, melancholy abandoned atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "slow horizontal pan across empty floor brackets, dust particles float in afternoon light",
+      "reference_file": "unemploy-celebrity-02/S02-压抑.png",
+      "subtitle_text": "双减一夜 千亿帝国归零",
+      "voiceover_text": "二零二一年七月二十四日。双减政策落地。校外培训机构不得上市融资，不得资本化运作。周末、寒暑假、节假日，全面禁止补课。这一条政策，直接把一个两千亿的行业判了死刑。新东方股价，从最高一百五十块港币，跌到十块以下。跌掉百分之九十三。六万名员工，一纸通知，走人。一千五百七十三个教学中心，关门。教了十几年的老师，收拾东西走人的时候连纸箱都来不及买，用塑料袋装教材。俞敏洪做了什么？他把八万多套桌椅，捐给了农村学校。不是因为他伟大。是因为那些桌椅，已经没有用了。一个六十岁的男人，用二十八年建了一个教育帝国。从一间小教室，做到全国最大的民办教育公司。然后一周之内，什么都没了。他说：我老了，但新东方的精神不老。但他说这话的时候，眼睛是红的。",
+      "voiceover_pause_markers": "二零二一年七月二十四日。<#0.8#>双减政策落地。<#0.5#>校外培训机构不得上市融资<#0.2#>不得资本化运作。<#0.5#>周末、寒暑假、节假日<#0.2#>全面禁止补课。<#1.0#>这一条政策<#0.3#>直接把一个两千亿的行业判了死刑。<#0.8#>新东方股价<#0.2#>从最高一百五十块港币<#0.3#>跌到十块以下。<#0.5#>跌掉百分之九十三。<#0.8#>六万名员工<#0.2#>一纸通知<#0.2#>走人。<#0.5#>一千五百七十三个教学中心<#0.2#>关门。<#0.8#>教了十几年的老师<#0.2#>收拾东西走人的时候连纸箱都来不及买<#0.2#>用塑料袋装教材。<#1.0#>俞敏洪做了什么？<#0.5#>他把八万多套桌椅<#0.2#>捐给了农村学校。<#0.8#>不是因为他伟大。<#0.5#>是因为那些桌椅<#0.3#>已经没有用了。<#1.0#>一个六十岁的男人<#0.2#>用二十八年建了一个教育帝国。<#0.5#>从一间小教室<#0.2#>做到全国最大的民办教育公司。<#0.5#>然后一周之内<#0.3#>什么都没了。<#0.8#>他说：<#0.3#>我老了<#0.2#>但新东方的精神不老。<#0.5#>但他说这话的时候<#0.3#>眼睛是红的。",
+      "director_notes": "冷静叙述政策，像播报新闻。判了死刑四个字加重。数字部分每个数字单独一句，间隔停顿让重量累积。不是因为他伟大——轻声否定，停顿后是因为那些桌椅已经没有用了，语气平淡反而更残忍。我老了但新东方的精神不老语气带一点颤抖，最后眼睛是红的极轻，说完留一秒。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 18,
+      "emotion_arc": "力量",
+      "reference_prompt": "iPhone 15 snapshot, small cramped room converted into a live-streaming studio, ring light on a cheap tripod, phone mounted on a flimsy holder, a few agricultural products casually placed on a folding table, cardboard boxes stacked against wall, cramped amateur setup, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "ring light flickers once, slight camera shake as if bumped",
+      "reference_file": "unemploy-celebrity-02/S03-力量.png",
+      "subtitle_text": "60岁 从零开始直播带货",
+      "voiceover_text": "但六千万人走完之后，他没走。六十岁，他坐在镜头前。卖农产品。一开始直播间只有几十个人。曾经的上市公司董事长，对着手机镜头介绍玉米和大米。有人嘲笑他：俞敏洪沦落到直播带货了。他没回应。他只是继续播。每一天。从几十人，到几百人，到几千人。没人看的时候他也在播。他在等一个人。后来等到了。",
+      "voiceover_pause_markers": "但六千万人走完之后<#0.3#>他没走。<#0.8#>六十岁<#0.3#>他坐在镜头前。<#0.3#>卖农产品。<#0.8#>一开始直播间只有几十个人。<#0.5#>曾经的上市公司董事长<#0.2#>对着手机镜头介绍玉米和大米。<#0.8#>有人嘲笑他：<#0.3#>俞敏洪沦落到直播带货了。<#0.5#>他没回应。<#0.5#>他只是继续播。<#0.8#>每一天。<#0.5#>从几十人<#0.2#>到几百人<#0.2#>到几千人。<#0.8#>没人看的时候他也在播。<#0.5#>他在等一个人。<#1.0#>后来等到了。",
+      "director_notes": "语气平静但有力。六十岁他坐在镜头前——停顿让画面感出来。卖农产品三个字简短，像是在说一件微不足道的事。俞敏洪沦落到直播带货了——语气带一点嘲讽的模仿。每一天单独成句，说完停顿。从几十人到几千人递进加速。他在等一个人留悬念，停一秒后轻声说后来等到了。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 18,
+      "emotion_arc": "反转",
+      "reference_prompt": "iPhone 15 snapshot, modern office building atrium at dusk, large digital screen displaying upward-trending charts in green, glass elevator visible in background, warm evening light streaming through glass ceiling, ambient glow of monitors reflected on polished floor, quiet after-hours success atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "digital chart lines animate upward, warm light pulses gently, slow camera drift forward",
+      "reference_file": "unemploy-celebrity-02/S04-反转.png",
+      "subtitle_text": "董宇辉一夜封神 百亿市值回来了",
+      "voiceover_text": "二零二二年十二月。董宇辉在直播间里，把一袋大米讲出了诗。观众从几千暴涨到几千万。东方甄选一个月GMV破十亿。股价从谷底翻了十倍。从两千亿蒸发，到几百亿回来。俞敏洪花了十六个月。六十岁，从上市教育公司董事长，变成直播带货主播，再变成一家新上市公司的掌舵人。同一个人。同一家公司。不同的赛道。但他自己说：二零二四年，百分之六十的岗位会在十年内消失。",
+      "voiceover_pause_markers": "二零二二年十二月。<#0.5#>董宇辉在直播间里<#0.2#>把一袋大米讲出了诗。<#0.8#>观众从几千暴涨到几千万。<#0.5#>东方甄选一个月GMV破十亿。<#0.5#>股价从谷底翻了十倍。<#0.8#>从两千亿蒸发<#0.2#>到几百亿回来。<#0.5#>俞敏洪花了十六个月。<#1.0#>六十岁<#0.2#>从上市教育公司董事长<#0.2#>变成直播带货主播<#0.2#>再变成一家新上市公司的掌舵人。<#0.8#>同一个人。<#0.3#>同一家公司。<#0.3#>不同的赛道。<#1.0#>但他自己说：<#0.5#>二零二四年<#0.2#>百分之六十的岗位会在十年内消失。",
+      "director_notes": "语速偏快，像在快速翻页。数字递进——几千万、十亿、十倍——加速推进带出逆袭感。同一个人、同一家公司、不同的赛道三个短句节奏铿锵。但他自己说之后突然放慢，百分之六十的岗位会在十年内消失——从胜利回到现实，语气转冷。"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 22,
+      "emotion_arc": "对立",
+      "reference_prompt": "iPhone 15 snapshot, rooftop view at dusk over Beijing, left side shows glowing CCTV tower and modern CBD skyscrapers lit bright, right side shows older low-rise residential blocks with dark or dimly lit windows, golden hour contrast between wealth and ordinariness, divided cityscape, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "golden light fading, CBD lights brighten on left while residential windows stay dim on right",
+      "reference_file": "unemploy-celebrity-02/S05-对立.png",
+      "subtitle_text": "直播带货退路没了 vs 60岁都能翻身你怕什么",
+      "voiceover_text": "现在AI来了。政策一夜摧毁一个行业，AI一夜替代一个岗位。俞敏洪那个年代，双减砸了教育，好歹还有直播带货。互联网还在红利期，流量还不要钱，六十岁还能重新站起来。有人说：那个年代还有退路。双减砸了教育，可以直播带货。但AI来了，你直播的活儿都被AI干了。AI能写文案、能剪视频、能做主播。退路在哪？普通人连退路都没有了。也有人说：俞敏洪六十岁从零开始，你三十五岁就放弃了？双减的时候所有人说教育完了。他没听。现在所有人说AI要淘汰所有人，你信了？AI淘汰的是不会用AI的人，不是所有人。俞敏洪翻盘不是靠运气，是靠他不认输。",
+      "voiceover_pause_markers": "现在AI来了。<#0.8#>政策一夜摧毁一个行业<#0.2#>AI一夜替代一个岗位。<#0.8#>俞敏洪那个年代<#0.2#>双减砸了教育<#0.2#>好歹还有直播带货。<#0.5#>互联网还在红利期<#0.2#>流量还不要钱<#0.2#>六十岁还能重新站起来。<#1.0#>有人说：<#0.5#>那个年代还有退路。<#0.5#>双减砸了教育<#0.2#>可以直播带货。<#0.5#>但AI来了<#0.2#>你直播的活儿都被AI干了。<#0.3#>AI能写文案<#0.2#>能剪视频<#0.2#>能做主播。<#0.5#>退路在哪？<#0.5#>普通人连退路都没有了。<#1.0#>也有人说：<#0.5#>俞敏洪六十岁从零开始<#0.2#>你三十五岁就放弃了？<#0.5#>双减的时候所有人说教育完了。<#0.3#>他没听。<#0.5#>现在所有人说AI要淘汰所有人<#0.2#>你信了？<#0.8#>AI淘汰的是不会用AI的人<#0.3#>不是所有人。<#0.5#>俞敏洪翻盘不是靠运气<#0.3#>是靠他不认输。",
+      "director_notes": "A派语气略带绝望和冷嘲——退路在哪？是真正的疑问。普通人连退路都没有了低沉收尾。B派语气从质疑转坚定——你三十五岁就放弃了？带挑衅。他没听短促有力。不是所有人语气上扬。最后是靠他不认输收束，但不是说教，是陈述事实。"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 10,
+      "emotion_arc": "留白",
+      "reference_prompt": "iPhone 15 snapshot, city rooftop at dawn, golden-orange sun rising behind dense urban skyline, morning haze softening building silhouettes, a single pigeon perched on rooftop railing in foreground, hopeful but quiet atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "sun slowly rising above skyline, golden light spreading across buildings, pigeon shifts on railing",
+      "reference_file": "unemploy-celebrity-02/S06-留白.png",
+      "subtitle_text": "政策一夜摧毁一个行业 AI一夜替代一个岗位",
+      "voiceover_text": "政策一夜摧毁一个行业。AI一夜替代一个岗位。俞敏洪说，百分之六十的岗位会消失。你觉得，你是被淘汰的百分之六十，还是剩下的百分之四十？",
+      "voiceover_pause_markers": "政策一夜摧毁一个行业。<#0.5#>AI一夜替代一个岗位。<#1.0#>俞敏洪说<#0.3#>百分之六十的岗位会消失。<#1.0#>你觉得<#0.5#>你是被淘汰的百分之六十<#0.3#>还是剩下的百分之四十？",
+      "director_notes": "平静开场，两句并列像在摆事实。俞敏洪说之后停顿，让60%这个数字的重量落地。你觉得——长停顿——你是被淘汰的60%还是剩下的40%？语调上扬但不是挑衅，是真正在问。说完后留两秒空白再结束。"
+    }
+  ]
+}

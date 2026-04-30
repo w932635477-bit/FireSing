@@ -1,0 +1,14 @@
+{
+  "video_id": "sings-qingdao-argue",
+  "timestamp": "2026-04-30T09:29:19.072185",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 110,
+  "bars": 4,
+  "style": "Duet (Alternating). Male lead sings in bold, powerful folk style like 好汉歌 with strong chest voice and dramatic phrasing. Female lead counters with playful, sharp, quick-witted comebacks. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+  "negative_tags": "",
+  "style_weight": null,
+  "weirdness_constraint": null,
+  "task_id": "task-unified-1777512483-mnapxvmi",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/sings-qingdao-argue"
+}

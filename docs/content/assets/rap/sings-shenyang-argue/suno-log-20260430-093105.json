@@ -1,0 +1,14 @@
+{
+  "video_id": "sings-shenyang-argue",
+  "timestamp": "2026-04-30T09:31:05.223457",
+  "api": "evolink",
+  "model": "suno-v4.5",
+  "bpm": 110,
+  "bars": 4,
+  "style": "Duet (Alternating). Male lead sings in bold, commanding folk style like 好汉歌 with powerful chest voice and dramatic phrasing. Female lead counters with sharp, quick-witted comebacks and playful sarcasm. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+  "negative_tags": "rap, hip hop, EDM, electronic, autotune, slow ballad, sad, romantic, sweet, gentle, R&B, jazz, acoustic guitar",
+  "style_weight": 0.9,
+  "weirdness_constraint": 0.3,
+  "task_id": "task-unified-1777512602-yirj53rj",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/rap/sings-shenyang-argue"
+}

@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-04-30T09:18:47.458643",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-celebrity-02",
+  "total_duration_s": 250.68,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S01.mp3",
+      "duration_s": 34.6,
+      "status": "success",
+      "actual_duration_s": 34.6,
+      "voiceover_text": "二零二二年十二月，一个叫董宇辉的英语老师，在直播间里边卖大米边讲莎士比亚。一夜之间全网刷屏。东方甄选市值冲上几百亿。俞敏洪，六十岁，从废墟里站起来了。但在二零二一年七月，新东方市值蒸发两千亿。六万人被裁。一千多个教学中心关门。他用二十八年建起来的帝国，一周之内塌了。",
+      "director_notes": "像跟朋友说'你猜怎么着'一样开场。语气轻松带悬念，不要太沉重。说完数字后稍微停顿，让听众消化。结尾'翻通讯录'三个字稍微加重，制造好奇。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S02.mp3",
+      "duration_s": 65.6,
+      "status": "success",
+      "actual_duration_s": 65.6,
+      "voiceover_text": "二零二一年七月二十四日。双减政策落地。校外培训机构不得上市融资，不得资本化运作。周末、寒暑假、节假日，全面禁止补课。这一条政策，直接把一个两千亿的行业判了死刑。新东方股价，从最高一百五十块港币，跌到十块以下。跌掉百分之九十三。六万名员工，一纸通知，走人。一千五百七十三个教学中心，关门。教了十几年的老师，收拾东西走人的时候连纸箱都来不及买，用塑料袋装教材。俞敏洪做了什么？他把八万多套桌椅，捐给了农村学校。不是因为他伟大。是因为那些桌椅，已经没有用了。一个六十岁的男人，用二十八年建了一个教育帝国。从一间小教室，做到全国最大的民办教育公司。然后一周之内，什么都没了。他说：我老了，但新东方的精神不老。但他说这话的时候，眼睛是红的。",
+      "director_notes": ""
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S03.mp3",
+      "duration_s": 34.52,
+      "status": "success",
+      "actual_duration_s": 34.52,
+      "voiceover_text": "但六千万人走完之后，他没走。六十岁，他坐在镜头前。卖农产品。一开始直播间只有几十个人。曾经的上市公司董事长，对着手机镜头介绍玉米和大米。有人嘲笑他：俞敏洪沦落到直播带货了。他没回应。他只是继续播。每一天。从几十人，到几百人，到几千人。没人看的时候他也在播。他在等一个人。后来等到了。",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S04.mp3",
+      "duration_s": 41.28,
+      "status": "success",
+      "actual_duration_s": 41.28,
+      "voiceover_text": "二零二二年十二月。董宇辉在直播间里，把一袋大米讲出了诗。观众从几千暴涨到几千万。东方甄选一个月GMV破十亿。股价从谷底翻了十倍。从两千亿蒸发，到几百亿回来。俞敏洪花了十六个月。六十岁，从上市教育公司董事长，变成直播带货主播，再变成一家新上市公司的掌舵人。同一个人。同一家公司。不同的赛道。但他自己说：二零二四年，百分之六十的岗位会在十年内消失。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S05.mp3",
+      "duration_s": 60.04,
+      "status": "success",
+      "actual_duration_s": 60.04,
+      "voiceover_text": "现在AI来了。政策一夜摧毁一个行业，AI一夜替代一个岗位。俞敏洪那个年代，双减砸了教育，好歹还有直播带货。互联网还在红利期，流量还不要钱，六十岁还能重新站起来。有人说：那个年代还有退路。双减砸了教育，可以直播带货。但AI来了，你直播的活儿都被AI干了。AI能写文案、能剪视频、能做主播。退路在哪？普通人连退路都没有了。也有人说：俞敏洪六十岁从零开始，你三十五岁就放弃了？双减的时候所有人说教育完了。他没听。现在所有人说AI要淘汰所有人，你信了？AI淘汰的是不会用AI的人，不是所有人。俞敏洪翻盘不是靠运气，是靠他不认输。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-celebrity-02/S06.mp3",
+      "duration_s": 14.64,
+      "status": "success",
+      "actual_duration_s": 14.64,
+      "voiceover_text": "政策一夜摧毁一个行业。AI一夜替代一个岗位。俞敏洪说，百分之六十的岗位会消失。你觉得，你是被淘汰的百分之六十，还是剩下的百分之四十？",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}
