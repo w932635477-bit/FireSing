@@ -1,0 +1,231 @@
+{
+  "video_id": "sings-shenyang-argue",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-30",
+  "status": "script_ready_for_review",
+  "series": "sings-argue",
+  "strategy_notes": "沈阳吵架段位表对唱。好汉歌风，原创非翻唱。男声如刘欢般豪迈霸气，女声犀利反击。东北话吵架文化+沈阳争议槽点（大连 rivalry）。110 BPM，4 bars ~40s。",
+
+  "city": "沈阳",
+  "highlights": [
+    {"name": "你瞅啥瞅你咋地（全国第一吵架公式）", "type": "controversy"},
+    {"name": "烧烤摊（撸串是神圣的）", "type": "food"},
+    {"name": "洗浴中心（沈阳人的精神殿堂）", "type": "culture"},
+    {"name": "东北菜太咸（饮食战争）", "type": "food_war"},
+    {"name": "沈阳不是省会？（地理核弹）", "type": "controversy"},
+    {"name": "东北人都是社会人（刻板印象）", "type": "controversy"},
+    {"name": "沈阳不如大连/哈尔滨（三城互不服）", "type": "controversy"}
+  ],
+
+  "global": {
+    "target_duration_sec": 40,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": null,
+    "style": "argue_duet",
+    "color_temperature": "cold_warm_contrast",
+    "accent_color": "#d4563a",
+    "bg_color": "#1a1520"
+  },
+
+  "lyrics": {
+    "bpm": 110,
+    "time_signature": "4/4",
+    "suno_tags": "Duet (Alternating). Male lead sings in bold, commanding folk style like 好汉歌 with powerful chest voice and dramatic phrasing. Female lead counters with sharp, quick-witted comebacks and playful sarcasm. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 东北人吵架分十段 你知道怎么开局吗",
+          "[Female] 全国都知道——你瞅啥 瞅你咋地"
+        ],
+        "type": "intro",
+        "segment_ref": "S01"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 一段 你瞅啥 经典开局 东北标配",
+          "[Female] 瞅你咋地 二段回应 不服你再来",
+          "[Male] 三段 烧烤摊撸串被人抢了 那是宣战",
+          "[Female] 四段 洗浴中心抢搓澡师傅 你搓着了吗"
+        ],
+        "type": "body",
+        "segment_ref": "S02"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": [
+          "[Both] 东北人的嘴 越吵越带劲",
+          "[Both] 吵着吵着就变成城市保卫战了",
+          "[Male] 五段 你说东北菜太咸 你舌头有毛病吧",
+          "[Female] 六段 你说沈阳不是省会 地理体育老师教的吗",
+          "[Male] 七段 东北人都是社会人 你从哪看的短视频",
+          "[Female] 八段 你踩了我锅包又 虎啊你 赔"
+        ],
+        "type": "chorus",
+        "segment_ref": "S03"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 九段 你说东北没文化 沈阳故宫三百年的堂",
+          "[Female] 十段 你说沈阳不如大连 大连是啥 东北老大让了？",
+          "[Both] 你们那里吵架什么段位 评论区亮亮"
+        ],
+        "type": "outro",
+        "segment_ref": "S04"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "沈阳吵架段位表 — 10级东北吵架递进争议",
+    "source": "suno-original: 好汉歌风",
+    "hook_type": "controversy_challenge",
+    "cta_action": "评论区说你家乡吵架什么段位",
+    "cta_keyword": "你们那里吵架什么段位",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦争议话题和东北文化，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "yangmun",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "intro",
+      "duration_sec": 8,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦在沈阳中街步行街，俏皮开场，'你知道东北人吵架怎么开局吗'",
+      "reference_prompt": "Casual winter snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a thick padded winter coat with a fur collar and a knit beanie, standing on Shenyang Middle Street pedestrian mall with red lantern decorations and historic European-style storefronts behind her, arms spread wide in a bold playful gesture, breath visible in cold air, rosy cheeks from the cold, wind gently moving her hair under the beanie, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid moment, slightly imperfect framing, cold winter daylight, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "arms spread wide confidently, breath visible in cold air, looking at camera with bold playful expression, wind in hair",
+      "lyrics_refs": ["B01"],
+      "reference_file": "sings-shenyang-argue/S01-playful.png"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion": "exaggerated",
+      "visual_description": "杨梦在沈阳烧烤摊前，夸张吵架手势，模拟东北撸串领地保卫战",
+      "reference_prompt": "Casual winter snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing an oversized hoodie under a puffer vest, standing in front of a Shenyang BBQ street stall at night with red neon signs glowing and smoke rising from charcoal grills, pointing finger aggressively as if mid-argument about stolen skewers, animated wide-eyed expression, grease smudge on cheek, messy windblown hair, uneven skin tone, warm orange neon lighting mixed with cold night air, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "pointing finger aggressively, animated arguing gestures, smoke rising behind, leaning forward with intensity",
+      "lyrics_refs": ["B02"],
+      "reference_file": "sings-shenyang-argue/S02-exaggerated.png"
+    },
+    {
+      "id": "S03",
+      "type": "chorus",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion": "heated",
+      "visual_description": "杨梦在沈阳洗浴中心门口，激动地为东北正名，捍卫沈阳尊严",
+      "reference_prompt": "Casual winter snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a towel wrapped over shoulders like a cape on top of her winter coat, standing at the entrance of a grand Shenyang bathhouse with golden neon signage and marble columns, fierce defensive expression with clenched fist raised, steam rising behind her from the bathhouse entrance, rosy cheeks, a few flyaway hairs, uneven skin tone, warm golden lighting from the entrance mixed with cold winter air, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "clenched fist raised passionately, fierce defensive expression, steam rising behind, stomping foot for emphasis",
+      "lyrics_refs": ["B03"],
+      "reference_file": "sings-shenyang-argue/S03-heated.png"
+    },
+    {
+      "id": "S04",
+      "type": "outro",
+      "duration_sec": 10,
+      "shot_type": "close-up",
+      "emotion": "challenging",
+      "visual_description": "杨梦特写，直接对镜头挑衅，'你说沈阳不如大连？大连是啥？'",
+      "reference_prompt": "Casual winter snapshot, portrait orientation, close-up portrait of a young Chinese woman, mid-twenties, round face, short black bob haircut, looking directly into camera with a challenging competitive smirk, one eyebrow raised, index finger pointing at viewer, blurred Shenyang street background with snow falling softly, cold winter evening light, rosy cheeks, a few flyaway hairs, uneven skin tone, natural shine on nose from cold, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "pointing finger directly at camera, raising eyebrow with challenging smirk, leaning slightly forward, snow falling softly",
+      "lyrics_refs": ["B04"],
+      "reference_file": "sings-shenyang-argue/S04-challenging.png"
+    }
+  ],
+
+  "audio": {
+    "engine": "suno",
+    "mode": "original",
+    "style_prompt": "Duet (Alternating). Male lead sings in bold, commanding folk style like 好汉歌 with powerful chest voice and dramatic phrasing. Female lead counters with sharp, quick-witted comebacks and playful sarcasm. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+    "negative_tags": "rap, hip hop, EDM, electronic, autotune, slow ballad, sad, romantic, sweet, gentle, R&B, jazz, acoustic guitar",
+    "style_weight": 0.9,
+    "weirdness_constraint": 0.3,
+    "output_format": "mp3",
+    "extract_beats": true,
+    "beat_tool": "librosa",
+    "generation": {
+      "model": "suno-v4.5",
+      "custom_mode": true,
+      "vocal_gender": "m"
+    }
+  },
+
+  "beat_sync": {
+    "enabled": true,
+    "align_to": "bar_lines",
+    "min_cut_interval_beats": 2,
+    "max_cut_interval_beats": 4
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine, summer, beach, tropical, green trees, warm weather, sunny day"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "publishing": {
+    "platforms": ["xiaohongshu"],
+    "title_candidates": [
+      "沈阳吵架10个段位 你能扛到第几级",
+      "你瞅啥 瞅你咋地 东北吵架段位表",
+      "沈阳不如大连？东北人表示不服"
+    ],
+    "tags": ["沈阳吵架", "东北段位表", "你瞅啥", "东北话", "城市争议", "沈阳大连", "东北文化", "洗浴中心"],
+    "xiaohongshu_tags": ["沈阳攻略", "东北冷知识", "段位表", "你瞅啥", "东北话", "城市争议", "沈阳vs大连"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦在沈阳中街+大字'东北吵架10个段位'+挑衅表情+冬季氛围"
+  }
+}

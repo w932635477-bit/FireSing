@@ -1,0 +1,163 @@
+{
+  "video_id": "unemploy-celebrity-03",
+  "version": "2.0",
+  "created": "2026-04-30",
+  "status": "script_ready_for_review",
+  "strategy": "unemployment-celebrity",
+  "strategy_notes": "失业名人堂第3条：马云KFC唯一被拒×AI失业潮。名人真实失败细节+AI失业现实+两派对立观点。氛围空镜+文字卡片+Charon男声旁白。",
+  "review": {
+    "score": null,
+    "status": "revised_pending_re_review",
+    "previous_score": 86,
+    "previous_issues_fixed": ["S02列表式罗列→井盖故事+精选2个失败深入", "CTA偏B派→中立项'时代的问题还是你自己的问题'"]
+  },
+  "global": {
+    "target_duration_sec": 110,
+    "max_duration_sec": 180,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "workflow_version": "2.0",
+    "style": "celebrity_atmosphere",
+    "color_temperature": "cool_to_warm_shift",
+    "accent_color": "#ffffff"
+  },
+  "script": {
+    "topic": "马云高考3次落榜KFC唯一被拒，后来做了阿里万亿帝国",
+    "hook_type": "flashback_bomb",
+    "cta_action": "评论站队",
+    "cta_keyword": "你被拒绝几次就放弃了",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "绝不说名人能行你也能",
+      "永远呈现两派观点，让观众吵架"
+    ]
+  },
+  "character_anchor": null,
+  "screenshots": [],
+  "atmosphere_shots": [
+    {
+      "id": "AT01",
+      "scene": "杭州西湖清晨",
+      "reference_prompt": "iPhone 15 snapshot, West Lake in Hangzhou at early dawn, mist rising from still water surface, distant hills silhouetted in soft blue-gray light, a lone stone bridge railing in foreground with morning dew, willow branches drooping into frame from top right, serene and quiet atmosphere, no people visible, no text, casual framing slightly off-center, untouched, vertical 9:16",
+      "motion_prompt": "mist slowly drifts across water surface, willow branches sway gently in morning breeze, light gradually brightens",
+      "output_file": "unemploy-celebrity-03/AT01-westlake-dawn.png",
+      "video_file": "unemploy-celebrity-03/AT01-westlake-dawn.mp4",
+      "reference_file": "unemploy-celebrity-03/AT01-westlake-dawn.png",
+      "segment": "S01"
+    },
+    {
+      "id": "AT02",
+      "scene": "湖畔花园小公寓",
+      "reference_prompt": "iPhone 15 snapshot, interior of a small cramped apartment at night, low ceiling with fluorescent tube light casting harsh white glow, bare concrete walls, floor covered with thin mattresses and sleeping bags pushed against walls, a cheap folding table with scattered instant noodle cups and papers, cramped lived-in feeling, late 1990s Chinese urban apartment, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "fluorescent light flickers slightly, curtain moves from breeze through cracked window, slow camera push inward",
+      "output_file": "unemploy-celebrity-03/AT02-apartment-interior.png",
+      "video_file": "unemploy-celebrity-03/AT02-apartment-interior.mp4",
+      "reference_file": "unemploy-celebrity-03/AT02-apartment-interior.png",
+      "segment": "S02"
+    },
+    {
+      "id": "AT03",
+      "scene": "旧电脑桌",
+      "reference_prompt": "iPhone 15 snapshot, old computer desk with a bulky beige CRT monitor glowing faintly in a dim room, keyboard with yellowed keys, stack of old newspapers and phone directories beside monitor, tangled cables on floor, a chipped tea mug with dark tea stains, nicotine-yellowed ceiling above, cramped and dated workspace, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "CRT screen flickers with static, cursor blinks on screen, slow horizontal drift across desk surface",
+      "output_file": "unemploy-celebrity-03/AT03-old-computer-desk.png",
+      "video_file": "unemploy-celebrity-03/AT03-old-computer-desk.mp4",
+      "reference_file": "unemploy-celebrity-03/AT03-old-computer-desk.png",
+      "segment": "S03"
+    },
+    {
+      "id": "AT04",
+      "scene": "城市夜景",
+      "reference_prompt": "iPhone 15 snapshot, modern city nightscape from elevated viewpoint, rows of illuminated high-rise buildings stretching to horizon, blue and white LED lights reflecting off glass facades, busy highway with streaking car lights in middle ground, cold urban glow, no people visible, no text, casual framing slightly tilted, untouched, vertical 9:16",
+      "motion_prompt": "car lights streak across highway, building lights twinkle gently, slow upward tilt revealing more skyline",
+      "output_file": "unemploy-celebrity-03/AT04-city-night.png",
+      "video_file": "unemploy-celebrity-03/AT04-city-night.mp4",
+      "reference_file": "unemploy-celebrity-03/AT04-city-night.png",
+      "segment": "S06"
+    }
+  ],
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 18,
+      "emotion_arc": "好奇",
+      "reference_prompt": "iPhone 15 snapshot, West Lake in Hangzhou at early dawn, mist rising from still water surface, distant hills silhouetted in soft blue-gray light, a lone stone bridge railing in foreground with morning dew, willow branches drooping into frame from top right, serene and quiet atmosphere, no people visible, no text, casual framing slightly off-center, untouched, vertical 9:16",
+      "motion_prompt": "mist slowly drifts across water surface, willow branches sway gently in morning breeze, light gradually brightens",
+      "reference_file": "unemploy-celebrity-03/S01-好奇.png",
+      "subtitle_text": "阿里市值万亿 但他去KFC面试被拒了",
+      "voiceover_text": "阿里巴巴，巅峰市值超过三万亿。淘宝、支付宝、菜鸟、阿里云，渗透进每一个中国人的日常。全球超过十亿用户。但一九九几年，这个男人去杭州第一家肯德基面试。二十四个人应聘，录用了二十三个。只有他，被拒了。中国互联网教父，当年连炸鸡都不配卖。",
+      "voiceover_pause_markers": "阿里巴巴<#0.3#>巅峰市值超过三万亿。<#0.5#>淘宝、支付宝、菜鸟、阿里云<#0.2#>渗透进每一个中国人的日常。<#0.5#>全球超过十亿用户。<#1.0#>但一九九几年<#0.3#>这个男人去杭州第一家肯德基面试。<#0.5#>二十四个人应聘<#0.2#>录用了二十三个。<#0.8#>只有他<#0.3#>被拒了。<#1.0#>中国互联网教父<#0.3#>当年连炸鸡都不配卖。",
+      "director_notes": "开场平静，像念新闻一样报阿里市值。到但一九九几年突然放慢。二十四个人应聘，录用了二十三个。只有他，被拒了。数字对比要有力量，停顿让这个荒诞的事实沉淀。最后一句连炸鸡都不配卖用轻蔑的语气，带一丝黑色幽默。说完后留一秒空白。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 28,
+      "emotion_arc": "压抑",
+      "reference_prompt": "iPhone 15 snapshot, interior of a small cramped apartment at night, low ceiling with fluorescent tube light casting harsh white glow, bare concrete walls, floor covered with thin mattresses and sleeping bags pushed against walls, a cheap folding table with scattered instant noodle cups and papers, cramped lived-in feeling, late 1990s Chinese urban apartment, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "fluorescent light flickers slightly, curtain moves from breeze through cracked window, slow camera push inward",
+      "reference_file": "unemploy-celebrity-03/S02-压抑.png",
+      "subtitle_text": "高考3次落榜 数学1分 被所有人拒绝",
+      "voiceover_text": "他叫马云。杭州人。高考考了三次，数学第一次考了一分。杭州师范学院毕业，工资八十九块。他去应聘酒店服务员，被拒。肯德基招人，二十四个人面试录了二十三个，他落选。一九九五年，他去了美国。第一次见到互联网。他在搜索框里打了五个字母：China。什么都没有。他回国了，搞了个中国黄页。所有人指着鼻子说他是骗子。一九九五年杭州电视台拍过一个新闻：一个瘦小的男人骑自行车追了六个偷井盖的，被当成多管闲事。那个男人就是马云。被全世界拒绝的人，反而在替别人守着井盖。",
+      "voiceover_pause_markers": "他叫马云。杭州人。<#0.5#>高考考了三次<#0.2#>数学第一次考了一分。<#0.8#>杭州师范学院毕业<#0.2#>工资八十九块。<#0.5#>他去应聘酒店服务员<#0.2#>被拒。<#0.3#>肯德基招人<#0.2#>二十四个人面试录了二十三个<#0.3#>他落选。<#1.0#>一九九五年<#0.3#>他去了美国。<#0.3#>第一次见到互联网。<#0.5#>他在搜索框里打了五个字母：China。<#0.5#>什么都没有。<#0.5#>他回国了<#0.2#>搞了个中国黄页。<#0.5#>所有人指着鼻子说他是骗子。<#1.0#>一九九五年杭州电视台拍过一个新闻：<#0.3#>一个瘦小的男人骑自行车追了六个偷井盖的<#0.2#>被当成多管闲事。<#0.8#>那个男人就是马云。<#0.5#>被全世界拒绝的人<#0.3#>反而在替别人守着井盖。",
+      "director_notes": "不再是简历式罗列，选两个失败（KFC+被叫骗子）深入。井盖故事是鲜为人知的真实细节（1995年杭州电视台确有此新闻），取代陈词滥调的KFC故事。被全世界拒绝的人反而在替别人守着井盖是情感转折，语气从压抑转向一丝温度。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 18,
+      "emotion_arc": "力量",
+      "reference_prompt": "iPhone 15 snapshot, old computer desk with a bulky beige CRT monitor glowing faintly in a dim room, keyboard with yellowed keys, stack of old newspapers and phone directories beside monitor, tangled cables on floor, a chipped tea mug with dark tea stains, nicotine-yellowed ceiling above, cramped and dated workspace, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "CRT screen flickers with static, cursor blinks on screen, slow horizontal drift across desk surface",
+      "reference_file": "unemploy-celebrity-03/S03-力量.png",
+      "subtitle_text": "湖畔花园18人 凑了六万块",
+      "voiceover_text": "一九九九年，杭州湖畔花园。一套普通小区里的毛坯房。十八个人，挤在客厅地上。他站在白板前，讲了三个小时。他说：我们要建世界上最大的互联网公司。所有人觉得他疯了。这十八个人，后来被称为十八罗汉。他们凑了五十万。五十万人民币，折合六万美元。这就是阿里巴巴的全部启动资金。二零零零年，互联网泡沫破裂。全球互联网公司倒闭了一半。阿里巴巴差点死掉。裁员，收缩，退回杭州。在最黑暗的时候，孙正义来了。两个人见面六分钟。孙正义投了两千万美金。六分钟，换来了后来万亿帝国的入场券。",
+      "voiceover_pause_markers": "一九九九年<#0.3#>杭州湖畔花园。<#0.5#>一套普通小区里的毛坯房。<#0.5#>十八个人<#0.2#>挤在客厅地上。<#0.5#>他站在白板前<#0.2#>讲了三个小时。<#0.8#>他说：<#0.3#>我们要建世界上最大的互联网公司。<#0.5#>所有人觉得他疯了。<#0.8#>这十八个人<#0.2#>后来被称为十八罗汉。<#0.5#>他们凑了五十万。<#0.3#>五十万人民币<#0.2#>折合六万美元。<#0.5#>这就是阿里巴巴的全部启动资金。<#1.0#>二零零零年<#0.3#>互联网泡沫破裂。<#0.5#>全球互联网公司倒闭了一半。<#0.3#>阿里巴巴差点死掉。<#0.3#>裁员<#0.2#>收缩<#0.2#>退回杭州。<#0.8#>在最黑暗的时候<#0.3#>孙正义来了。<#0.5#>两个人见面六分钟。<#0.3#>孙正义投了两千万美金。<#0.5#>六分钟<#0.2#>换来了后来万亿帝国的入场券。",
+      "director_notes": "叙事段，节奏从缓慢递进到加速。十八个人、五十万用数字制造画面感。所有人觉得他疯了用平淡语气说出，反差感更强。互联网泡沫破裂段加速，短句推进。六分钟，换来了后来万亿帝国的入场券要慢，每个字都有重量。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "duration_sec": 17,
+      "emotion_arc": "尖锐",
+      "reference_prompt": "iPhone 15 snapshot, modern city nightscape from elevated viewpoint, rows of illuminated high-rise buildings stretching to horizon, blue and white LED lights reflecting off glass facades, busy highway with streaking car lights in middle ground, cold urban glow, no people visible, no text, casual framing slightly tilted, untouched, vertical 9:16",
+      "motion_prompt": "car lights streak across highway, building lights twinkle gently, slow upward tilt revealing more skyline",
+      "reference_file": "unemploy-celebrity-03/S04-尖锐.png",
+      "subtitle_text": "淘宝击败eBay 支付宝改变中国",
+      "voiceover_text": "两千万美金之后，是淘宝击败eBay。eBay当时砸了十几个亿想拿下中国市场，被一个免费策略打得灰头土脸。然后是支付宝，改变了中国人的支付方式。然后是阿里云，中国云计算的基础设施。从一个被KFC拒绝的人，到一个让全球零售业颤抖的人。但这个故事的重点不是他有多牛。重点是——他翻盘的那个年代，和现在不一样了。",
+      "voiceover_pause_markers": "两千万美金之后<#0.2#>是淘宝击败eBay。<#0.5#>eBay当时砸了十几个亿想拿下中国市场<#0.2#>被一个免费策略打得灰头土脸。<#0.5#>然后是支付宝<#0.2#>改变了中国人的支付方式。<#0.5#>然后是阿里云<#0.2#>中国云计算的基础设施。<#0.8#>从一个被KFC拒绝的人<#0.3#>到一个让全球零售业颤抖的人。<#1.0#>但这个故事的重点<#0.2#>不是他有多牛。<#0.5#>重点是——<#0.3#>他翻盘的那个年代<#0.2#>和现在不一样了。",
+      "director_notes": "简短有力的回顾段。三个然后是排比加速推进。从一个被KFC拒绝的人到一个让全球零售业颤抖的人，这句对比要有重量。但之后语气急转，和现在不一样了说完后停顿。"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "duration_sec": 22,
+      "emotion_arc": "对立",
+      "reference_prompt": "iPhone 15 snapshot, rooftop view at dusk, left side shows modern glass office towers lit up brightly with corporate logos, right side shows old residential buildings with dark windows and laundry hanging outside, golden hour light creating strong contrast between the two halves, divided cityscape, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "golden light slowly fading, office lights brighten on left while residential windows stay dark on right, wind moves laundry slightly",
+      "reference_file": "unemploy-celebrity-03/S05-对立.png",
+      "subtitle_text": "时代不一样了 vs 每次革命都一样",
+      "voiceover_text": "现在AI来了。九千两百万岗位将被替代。马云公开说：AI不是威胁，是机会。但他说这话的时候，他已经不用打工了。有人说：马云考了三次高考照样翻身，但那个年代没学历还能创业。现在呢？AI筛选简历，你连面试都进不去。他当年被人叫骗子还能继续干，现在你被优化了连下一份工作都找不到。时代红利吃完了，别拿他的故事骗自己。也有人说：马云当年被二十四个人集体拒绝。如果那时候他相信时代不一样了放弃了呢？一九九五年搞互联网，所有人都说是骗局。二零零零年泡沫破裂，公司差点死掉。他哪一步赶上了好时候？每次技术革命，都是旧的淘汰、新的出现。关键是——你在不在场。",
+      "voiceover_pause_markers": "现在AI来了。<#0.5#>九千两百万岗位将被替代。<#0.8#>马云公开说：AI不是威胁<#0.2#>是机会。<#0.5#>但他说这话的时候<#0.3#>他已经不用打工了。<#1.0#>有人说：<#0.3#>马云考了三次高考照样翻身<#0.2#>但那个年代没学历还能创业。<#0.5#>现在呢？<#0.3#>AI筛选简历<#0.2#>你连面试都进不去。<#0.5#>他当年被人叫骗子还能继续干<#0.2#>现在你被优化了连下一份工作都找不到。<#0.5#>时代红利吃完了<#0.2#>别拿他的故事骗自己。<#1.0#>也有人说：<#0.5#>马云当年被二十四个人集体拒绝。<#0.5#>如果那时候他相信时代不一样了放弃了呢？<#0.8#>一九九五年搞互联网<#0.2#>所有人都说是骗局。<#0.5#>二零零零年泡沫破裂<#0.2#>公司差点死掉。<#0.5#>他哪一步赶上了好时候？<#0.8#>每次技术革命<#0.2#>都是旧的淘汰<#0.2#>新的出现。<#0.5#>关键是——<#0.3#>你在不在场。",
+      "director_notes": "两派观点尖锐对立。A派语气嘲讽无奈——但他说这话的时候他已经不用打工了要带刺。别拿他的故事骗自己说完后停顿。B派语气坚定——被二十四个人集体拒绝要有重量。他哪一步赶上了好时候是反问，语调上扬。最后你在不在场轻声但锋利，像问每一个人。"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "duration_sec": 9,
+      "emotion_arc": "留白",
+      "reference_prompt": "iPhone 15 snapshot, same elevated viewpoint now at full night, city lights spread across entire frame like a glowing grid, a single street lamp in foreground casting warm circle of light onto empty sidewalk, distant skyline glowing cold blue-white, solitary quiet atmosphere, no people visible, no text, casual framing, untouched, vertical 9:16",
+      "motion_prompt": "city lights pulse gently across skyline, warm street lamp glow steady in foreground, camera holds still",
+      "reference_file": "unemploy-celebrity-03/S06-留白.png",
+      "subtitle_text": "时代的问题 还是你自己的问题",
+      "voiceover_text": "马云被拒绝了二十几次，后来成了中国首富。但现在有人说：他的时代已经过去了。你觉得，是时代的问题，还是你自己的问题？",
+      "voiceover_pause_markers": "马云被拒绝了二十几次<#0.3#>后来成了中国首富。<#0.8#>但现在有人说：<#0.3#>他的时代已经过去了。<#1.0#>你觉得<#0.3#>是时代的问题<#0.2#>还是你自己的问题？",
+      "director_notes": "回归平静，中立项。先说事实（被拒+首富），然后引出对立观点。你觉得是时代的问题还是你自己的问题？两边都没偏向，让观众自己选。说完后留两秒空白。"
+    }
+  ]
+}

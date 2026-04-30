@@ -1,0 +1,220 @@
+{
+  "video_id": "sings-qingdao-argue",
+  "workflow": "sings",
+  "version": "1.0",
+  "created": "2026-04-30",
+  "status": "script_ready_for_review",
+  "series": "sings-argue",
+  "strategy_notes": "青岛吵架段位表对唱。用好汉歌风格原创旋律，歌词完全原创为青岛吵架10段位。男声豪迈挑衅+女声机灵反击。尖锐争议+城市荣誉感+大连终极对手。",
+
+  "city": "青岛",
+  "highlights": [
+    {"name": "哈啤酒不算吵架前提", "type": "controversy"},
+    {"name": "青岛话骂人（小嫚儿变武器）", "type": "controversy"},
+    {"name": "袋装啤酒被踩（侮辱灵魂）", "type": "controversy"},
+    {"name": "这个蛤蜊不新鲜（餐饮核武）", "type": "food_war"},
+    {"name": "青岛大虾38一只（2015天价虾）", "type": "controversy"},
+    {"name": "你说青岛是东北的？（地理核弹）", "type": "controversy"},
+    {"name": "青岛vs大连（终极限定赛）", "type": "controversy"},
+    {"name": "栈桥抢拍照位置", "type": "culture"},
+    {"name": "海鲜市场砍价", "type": "food"},
+    {"name": "袋装啤酒文化", "type": "culture"}
+  ],
+
+  "global": {
+    "target_duration_sec": 40,
+    "max_duration_sec": 60,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": null,
+    "style": "argue_duet",
+    "color_temperature": "warm_bright",
+    "accent_color": "#d4a853",
+    "bg_color": "#f0e6d0"
+  },
+
+  "lyrics": {
+    "bpm": 110,
+    "time_signature": "4/4",
+    "file": "docs/content/assets/cover/sings-qingdao-argue-lyrics.txt",
+    "suno_tags": "Duet (Alternating). Male lead sings in bold, powerful folk style like 好汉歌 with strong chest voice and dramatic phrasing. Female lead counters with playful, sharp, quick-witted comebacks. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 青岛人吵架分十段 你知道吗",
+          "[Female] 外地人扛不过三段 别来丢人了"
+        ],
+        "type": "intro",
+        "segment_ref": "S01"
+      },
+      {
+        "id": "B02",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 一段 哈啤酒上头 舌头开始打结了",
+          "[Female] 那不叫吵架 那叫酒后吐真言",
+          "[Male] 二段 蛤蜊不新鲜 这一嗓子老板脸都绿了",
+          "[Female] 三段 栈桥抢拍照位置 你拍完了没让让"
+        ],
+        "type": "body",
+        "segment_ref": "S02"
+      },
+      {
+        "id": "B03",
+        "beat_count": 4,
+        "lines": [
+          "[Both] 青岛人的嘴 一段比一段狠",
+          "[Both] 吵到最后都变成了城市荣誉战",
+          "[Male] 四段 你说青岛是东北的 脑子被门夹了蛮",
+          "[Female] 五段 小嫚儿翻脸了 比台风还猛你信不信",
+          "[Male] 六段 踩了袋装啤酒 你踩的是青岛的脸面",
+          "[Female] 你赔不起 这袋啤酒比你命都值钱"
+        ],
+        "type": "chorus",
+        "segment_ref": "S03"
+      },
+      {
+        "id": "B04",
+        "beat_count": 4,
+        "lines": [
+          "[Male] 七段 青岛大虾三十八 旧账翻出来全国看热闹",
+          "[Female] 八段 你说青岛不如大连 你再说一遍试试",
+          "[Both] 你们那里吵架什么段位 评论区见真章"
+        ],
+        "type": "outro",
+        "segment_ref": "S04"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "青岛吵架段位表 — 10级递进争议吐槽",
+    "source": "suno-original: 好汉歌风格原创",
+    "hook_type": "controversy_challenge",
+    "cta_action": "评论区说你家乡吵架什么段位",
+    "cta_keyword": "你们那里吵架什么段位",
+    "anti_ad_measures": [
+      "不提AI Agent、代运营、智能体等业务关键词",
+      "不引导私信、领取、关注",
+      "CTA用开放式问题，激发评论互动",
+      "聚焦争议话题和城市文化，不卖任何东西"
+    ]
+  },
+
+  "character_anchor": "yangmun",
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "intro",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "playful",
+      "visual_description": "杨梦在青岛栈桥，海风吹拂，俏皮豪迈开场，'你知道青岛人吵架分十个段位吗'",
+      "reference_prompt": "Casual travel snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a light windbreaker over a striped nautical tee and white jeans, standing on the Zhanqiao Pier in Qingdao with ocean and distant red-roofed buildings behind her, arms crossed with a bold confident smirk, sea breeze blowing hair across face, a few flyaway hairs, uneven skin tone, natural shine on nose from sea air, visible pores, slight asymmetry, candid moment, slightly imperfect framing, golden hour warm light reflecting off water, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "arms crossed confidently, sea breeze in hair, bold smirk looking at camera, slight head tilt, waves crashing in background",
+      "lyrics_refs": ["B01"],
+      "reference_file": "sings-qingdao-argue/S01-playful.png"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion": "exaggerated",
+      "visual_description": "杨梦在青岛海鲜市场，夸张砍价吵架表情，周围摆满蛤蜊和海鲜",
+      "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a casual denim jacket over a white top, standing in a bustling Qingdao seafood market with tanks of live clams and crabs around her, pointing at a vendor stall with an exaggerated bargaining expression, one hand on hip other hand gesturing, messy uncombed hair from the humid market air, wet spots on jacket sleeve from seafood splashing, uneven skin tone, fluorescent market lighting mixed with natural daylight, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "pointing at seafood stall, exaggerated bargaining gesture, animated hand movements, leaning forward aggressively then leaning back laughing",
+      "lyrics_refs": ["B02"],
+      "reference_file": "sings-qingdao-argue/S02-exaggerated.png"
+    },
+    {
+      "id": "S03",
+      "type": "chorus",
+      "duration_sec": 12,
+      "shot_type": "medium",
+      "emotion": "heated",
+      "visual_description": "杨梦在青岛啤酒街，手提袋装啤酒，激动地捍卫青岛荣誉，身后是啤酒屋霓虹灯",
+      "reference_prompt": "Casual snapshot, portrait orientation, a young Chinese woman, mid-twenties, round face, short black bob haircut, wearing a vintage beer festival t-shirt and shorts, holding a plastic bag of fresh Tsingtao draft beer with a straw, standing on Qingdao Beer Street with colorful neon beer signs and outdoor seating behind her, passionate defensive expression as if arguing for her city's honor, beer foam on her fingers, a few flyaway hairs, uneven skin tone, warm artificial lighting mixed with neon glow, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, vertical composition 9:16",
+      "motion_prompt": "holding up bagged beer triumphantly, passionate gestures defending honor, stomping foot for emphasis, neon lights flickering behind",
+      "lyrics_refs": ["B03"],
+      "reference_file": "sings-qingdao-argue/S03-heated.png"
+    },
+    {
+      "id": "S04",
+      "type": "outro",
+      "duration_sec": 6,
+      "shot_type": "close-up",
+      "emotion": "challenging",
+      "visual_description": "杨梦特写，直接对镜头挑衅，'你说青岛不如大连？来评论区比'",
+      "reference_prompt": "Casual snapshot, portrait orientation, close-up portrait of a young Chinese woman, mid-twenties, round face, short black bob haircut, looking directly into camera with a challenging competitive smirk, one eyebrow raised, index finger pointing at viewer, blurred Qingdao seaside background with red-roofed German architecture and ocean, soft golden evening light, a few flyaway hairs, uneven skin tone, natural shine on nose, visible pores, slight asymmetry, candid unposed moment, slightly imperfect framing, NOT retouched, NOT posed, upper body filling frame, vertical composition 9:16",
+      "motion_prompt": "pointing finger directly at camera, raising eyebrow, challenging smirk, leaning slightly forward, sea breeze catching hair",
+      "lyrics_refs": ["B04"],
+      "reference_file": "sings-qingdao-argue/S04-challenging.png"
+    }
+  ],
+
+  "audio": {
+    "engine": "suno",
+    "mode": "original",
+    "style_prompt": "Duet (Alternating). Male lead sings in bold, powerful folk style like 好汉歌 with strong chest voice and dramatic phrasing. Female lead counters with playful, sharp, quick-witted comebacks. Strong rhythmic drive, Chinese folk pop fusion, marching snare beat, brass accents, 110 bpm",
+    "audio_weight": 0.8,
+    "model": "V4_5",
+    "output_format": "mp3"
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "style_suffix": "vertical composition 9:16",
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, film grain, wrinkled clothes, fabric distortion, stiff pose, cropped, out of frame, tilted, cluttered, western face, non-Chinese, blue eyes, blonde hair, too perfect, wax figure, doll-like, plastic texture, symmetrical face, perfectly aligned features, professional photography, studio quality, perfectly composed, smooth skin, overly detailed, sharp focus everywhere, digital art, painting, rendering, CGI, unreal engine"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "fixed_seed": true,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "ai_labeling": {
+    "enabled": true,
+    "watermark_text": "AI生成内容",
+    "watermark_duration_sec": 3,
+    "watermark_position": "top_left",
+    "watermark_font_size": 28,
+    "watermark_opacity": 0.8,
+    "metadata_key": "comment",
+    "metadata_value": "本视频由AI生成合成，包含AI生成的图像和音乐"
+  },
+
+  "publishing": {
+    "platforms": ["xiaohongshu"],
+    "title_candidates": [
+      "青岛人吵架10个段位 你扛到几级",
+      "你说青岛不如大连 来评论区说清楚",
+      "青岛大虾38一只 这个伤疤还没好"
+    ],
+    "tags": ["青岛吵架", "青岛冷知识", "段位表", "青岛大虾", "袋装啤酒", "青岛话", "城市争议", "青岛vs大连"],
+    "xiaohongshu_tags": ["青岛攻略", "冷知识", "城市争议", "段位表", "青岛话", "青岛旅游"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "杨梦在栈桥+大字'青岛人吵架10个段位'+海风争议氛围"
+  }
+}
