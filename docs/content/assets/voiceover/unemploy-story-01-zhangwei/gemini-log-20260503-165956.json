@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-03T16:59:56.672701",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-story-01-zhangwei",
+  "total_duration_s": 87.48,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S01.mp3",
+      "duration_s": 21.36,
+      "status": "success",
+      "actual_duration_s": 21.36,
+      "voiceover_text": "38岁，建材行业干了12年。投了几十份简历，没人要。12年经验，在HR眼里就是一张废纸。",
+      "director_notes": "像回忆一件已经过去的事，不激动也不委屈。数字'38岁'、'15年'轻轻带过。'全没了'之后要有一个明显的停顿。HR那句话用稍微不同的语气模仿，然后'你太贵了'要轻，不要咬牙切齿，要轻得像刀子。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S02.mp3",
+      "duration_s": 25.52,
+      "status": "success",
+      "actual_duration_s": 25.52,
+      "voiceover_text": "失业第三个月，装修群里有人问瓷砖怎么选。我回了一大段，那人私信说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着，不是激动，是后悔。12年行业知识，我从来没想过主动拿出来。",
+      "director_notes": "语气从沉重自然变暖。老客户那句话'我找的是你，不是你们公司'要带着温暖和意外，像第一次听到时那种感动。翻通讯录那段微微上扬，'原来这些东西一直都在'要有发现宝藏的感觉。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S03.mp3",
+      "duration_s": 19.48,
+      "status": "success",
+      "actual_duration_s": 19.48,
+      "voiceover_text": "我花了三天把经验列成清单。建材避坑指南、报价单审查、全屋材料规划。闲鱼发了个帖子，第二周来了3个人，第二个月赚了4000多。没找到工作，但经验在帮我赚钱。",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S04.mp3",
+      "duration_s": 15.68,
+      "status": "success",
+      "actual_duration_s": 15.68,
+      "voiceover_text": "你这些年攒下来的东西，到底值多少钱。你做了10年的行业，门外汉花多少钱都买不到你的经验。你的经验不是废纸，是你还没包装过的产品。",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S05.mp3",
+      "duration_s": 5.44,
+      "status": "success",
+      "actual_duration_s": 5.44,
+      "voiceover_text": "你做什么行业？评论区告诉我，我帮你拆成能卖的经验。",
+      "director_notes": "从讲故事切换到直接对话。语气放松，像朋友问一句'你投了多少了？'。不要严肃，不要煽情，就一个自然的邀请。最后'评论区说说'要轻松，像随口一说。"
+    }
+  ]
+}

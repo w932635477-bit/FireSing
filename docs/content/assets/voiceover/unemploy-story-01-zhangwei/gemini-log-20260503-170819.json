@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-05-03T17:08:19.826465",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-story-01-zhangwei",
+  "total_duration_s": 34.08,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S01.mp3",
+      "duration_s": 34.08,
+      "status": "success",
+      "actual_duration_s": 34.08,
+      "voiceover_text": "38岁，建材行业干了12年。投了几十份简历，没人要。12年经验，在HR眼里就是一张废纸。",
+      "director_notes": "像回忆一件已经过去的事，不激动也不委屈。数字'38岁'、'15年'轻轻带过。'全没了'之后要有一个明显的停顿。HR那句话用稍微不同的语气模仿，然后'你太贵了'要轻，不要咬牙切齿，要轻得像刀子。"
+    }
+  ]
+}
