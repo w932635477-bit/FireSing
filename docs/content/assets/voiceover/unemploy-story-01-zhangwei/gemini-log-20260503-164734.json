@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-03T16:47:34.533347",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-story-01-zhangwei",
+  "total_duration_s": 130.52,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S01.mp3",
+      "duration_s": 33.84,
+      "status": "success",
+      "actual_duration_s": 33.84,
+      "voiceover_text": "38岁，建材行业干了12年。从仓库管理员干到区域经理，瓷砖地板卫浴五金，哪个牌子好、哪个是贴牌、哪个报价有水分，我闭着眼睛都知道。去年行业塌了，公司裁了一半人。我拿着N+1出来，投了几十份简历，没人要。38岁建材人，在新行业的HR眼里，就是一张废纸。",
+      "director_notes": "像回忆一件已经过去的事，不激动也不委屈。数字'38岁'、'15年'轻轻带过。'全没了'之后要有一个明显的停顿。HR那句话用稍微不同的语气模仿，然后'你太贵了'要轻，不要咬牙切齿，要轻得像刀子。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S02.mp3",
+      "duration_s": 32.84,
+      "status": "success",
+      "actual_duration_s": 32.84,
+      "voiceover_text": "失业第三个月，我在一个装修业主群里看到有人问：瓷砖怎么选，怕被建材城坑。我主动回了一大段，从品牌到报价到怎么避坑，写了快半小时。那人私信我说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着。不是激动，是后悔。12年的行业知识，我以前从来没想过主动拿出来。",
+      "director_notes": "语气从沉重自然变暖。老客户那句话'我找的是你，不是你们公司'要带着温暖和意外，像第一次听到时那种感动。翻通讯录那段微微上扬，'原来这些东西一直都在'要有发现宝藏的感觉。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S03.mp3",
+      "duration_s": 38.16,
+      "status": "success",
+      "actual_duration_s": 38.16,
+      "voiceover_text": "我花了三天做了一件事：把自己的经验列了个清单。建材避坑指南、报价单审查、全屋材料规划。每一条都是我12年踩过的坑、省过的钱。然后在闲鱼发了个帖子：10年建材人帮你审报价单。第一周没人问。第二周来了3个人。第三周，有人主动问我能不能全程陪同买材料。第二个月，我靠这个赚了4000多。没找到工作，但我的经验在帮我赚钱。",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S04.mp3",
+      "duration_s": 19.44,
+      "status": "success",
+      "actual_duration_s": 19.44,
+      "voiceover_text": "你觉得自己没用，可能只是你从来没认真想过，你这些年攒下来的东西，到底值多少钱。你做了10年的行业，门外汉花多少钱都买不到你的经验。你的经验不是废纸，是你还没包装过的产品。",
+      "director_notes": "安静笃定，不是说教，是确认。像一个已经走出来的人回头告诉你'你身上的东西比你以为的多'。不煽情，不反问，用陈述句传递力量。语速适中，每个短句之间有呼吸空间。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-01-zhangwei/S05.mp3",
+      "duration_s": 6.24,
+      "status": "success",
+      "actual_duration_s": 6.24,
+      "voiceover_text": "你做什么行业？评论区告诉我，我逐条回复，帮你看你的经验能怎么变现。",
+      "director_notes": "从讲故事切换到直接对话。语气放松，像朋友问一句'你投了多少了？'。不要严肃，不要煽情，就一个自然的邀请。最后'评论区说说'要轻松，像随口一说。"
+    }
+  ]
+}
