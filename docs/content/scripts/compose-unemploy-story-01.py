@@ -15,7 +15,14 @@ SS_DIR = BASE / "assets" / "screenshots" / "unemploy-story-01-zhangwei"
 AT_DIR = BASE / "assets" / "unsplash" / "unemploy-story-01-zhangwei"
 TC_DIR = BASE / "assets" / "textcards" / "unemploy-story-01-zhangwei"
 VO_DIR = BASE / "assets" / "voiceover" / "unemploy-story-01-zhangwei"
+BGM_DIR = BASE / "assets" / "bgm"
 OUT_DIR = BASE / "output" / "unemploy-story-01-zhangwei"
+
+# BGM config — replace the mp3 file to change music
+BGM_FILE = BGM_DIR / "synth-pad-placeholder.mp3"
+BGM_VOLUME = 0.08          # 8% under voiceover (-22dB)
+BGM_FADE_IN = 2.0          # seconds
+BGM_FADE_OUT = 3.0         # seconds
 
 TEMP = OUT_DIR / "temp_clips"
 TEMP.mkdir(parents=True, exist_ok=True)
@@ -229,16 +236,40 @@ def main() -> None:
     concat_video_audio(s05_visual, VO_DIR / "S05.mp3", s05_merged)
     clips.append(s05_merged)
 
-    # === Final concat ===
+    # === Final concat (video + voice, no BGM yet) ===
     concat_list = TEMP / "final_list.txt"
     concat_list.write_text("".join(f"file '{c}'\n" for c in clips))
+    no_bgm = TEMP / "no_bgm.mp4"
     run([
         "ffmpeg", "-y", "-f", "concat", "-safe", "0",
         "-i", str(concat_list),
         "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k",
         "-pix_fmt", "yuv420p", "-r", "24",
-        str(FINAL_OUTPUT)
-    ], "FINAL")
+        str(no_bgm)
+    ], "FINAL-concat")
+
+    # === Mix BGM under voiceover ===
+    video_dur = get_duration(no_bgm)
+    bgm_fade_out_start = max(0, video_dur - BGM_FADE_OUT)
+
+    if BGM_FILE.exists():
+        print(f"  Adding BGM: {BGM_FILE.name} at {BGM_VOLUME*100:.0f}% volume")
+        run([
+            "ffmpeg", "-y",
+            "-i", str(no_bgm),
+            "-stream_loop", "-1", "-i", str(BGM_FILE),
+            "-filter_complex",
+            f"[1:a]volume={BGM_VOLUME},afade=t=in:st=0:d={BGM_FADE_IN},"
+            f"afade=t=out:st={bgm_fade_out_start:.3f}:d={BGM_FADE_OUT}[bgm];"
+            f"[0:a][bgm]amix=inputs=2:duration=first:dropout_transition=3[aout]",
+            "-map", "0:v", "-map", "[aout]",
+            "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+            "-shortest",
+            str(FINAL_OUTPUT)
+        ], "FINAL+bgm")
+    else:
+        print(f"  No BGM file found ({BGM_FILE}), skipping BGM")
+        FINAL_OUTPUT.write_bytes(no_bgm.read_bytes())
 
     # Report
     dur = get_duration(FINAL_OUTPUT)
