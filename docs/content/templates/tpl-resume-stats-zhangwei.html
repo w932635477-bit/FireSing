@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #fafafa; width: 1080px; height: 1920px; overflow: hidden; }
+.header { background: #fff; padding: 40px 30px 20px; border-bottom: 1px solid #eee; }
+.page-title { font-size: 32px; font-weight: 600; color: #222; }
+.page-subtitle { font-size: 24px; color: #999; margin-top: 8px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 30px; }
+.stat-card { background: #fff; border-radius: 16px; padding: 30px; text-align: center; }
+.stat-number { font-size: 72px; font-weight: 700; }
+.stat-label { font-size: 24px; color: #999; margin-top: 8px; }
+.stat-card.total .stat-number { color: #222; }
+.stat-card.read .stat-number { color: #2f88ff; }
+.stat-card.reply .stat-number { color: #ff9800; }
+.stat-card.interview .stat-number { color: #ff4444; }
+.progress-section { background: #fff; border-radius: 16px; padding: 30px; margin: 0 30px 20px; }
+.progress-title { font-size: 28px; font-weight: 600; color: #222; margin-bottom: 20px; }
+.progress-item { margin-bottom: 20px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 24px; color: #666; margin-bottom: 8px; }
+.progress-bar { height: 16px; background: #f0f0f0; border-radius: 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 8px; }
+.fill-blue { background: #2f88ff; }
+.fill-orange { background: #ff9800; }
+.fill-red { background: #ff4444; }
+.summary { padding: 40px 30px; text-align: center; }
+.summary-text { font-size: 28px; color: #666; line-height: 1.8; }
+.summary-highlight { color: #ff4444; font-weight: 700; font-size: 36px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="page-title">求职数据</div>
+  <div class="page-subtitle">2024.09 - 2024.12</div>
+</div>
+<div class="stats-grid">
+  <div class="stat-card total"><div class="stat-number">47</div><div class="stat-label">投递总数</div></div>
+  <div class="stat-card read"><div class="stat-number">38</div><div class="stat-label">已读</div></div>
+  <div class="stat-card reply"><div class="stat-number">0</div><div class="stat-label">回复</div></div>
+  <div class="stat-card interview"><div class="stat-number">0</div><div class="stat-label">面试</div></div>
+</div>
+<div class="progress-section">
+  <div class="progress-title">转化漏斗</div>
+  <div class="progress-item">
+    <div class="progress-label"><span>已读率</span><span>81%</span></div>
+    <div class="progress-bar"><div class="progress-fill fill-blue" style="width:81%"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-label"><span>回复率</span><span>0%</span></div>
+    <div class="progress-bar"><div class="progress-fill fill-orange" style="width:1%"></div></div>
+  </div>
+  <div class="progress-item">
+    <div class="progress-label"><span>面试率</span><span>0%</span></div>
+    <div class="progress-bar"><div class="progress-fill fill-red" style="width:0.5%"></div></div>
+  </div>
+</div>
+<div class="summary">
+  <div class="summary-text">投了 <span class="summary-highlight">47</span> 份简历<br>面试次数 <span class="summary-highlight">0</span></div>
+</div>
+</body>
+</html>
