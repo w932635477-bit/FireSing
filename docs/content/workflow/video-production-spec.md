@@ -4,7 +4,7 @@
 > 工作流类型：**Medvi**（真实故事+情绪共振，旁白驱动）
 > 工具链：Seedream 4.5 + Kling 3.0 (Evolink) + Gemini 3.1 Flash TTS + FFmpeg + 剪映
 > 本文档是唯一权威标准，取代所有先前的工作流文档
-> 最后更新：2026-04-29
+> 最后更新：2026-05-03
 
 ---
 
@@ -57,6 +57,34 @@ Stage 7: 最终审核    →  人工 + 脚本检查，通过后上传
 **v2 成本：** 每条约 $0.33（3张 Seedream + 3个 Kling），比 v1 节省 70%。
 
 **杨梦素材库：** shock=`day5-yangmun/S01-shock.mp4`, tension=`day5-yangmun/S02-determined.mp4`, power=`day5-yangmun/S03-power.mp4`, contemplative=`day5-yangmun/S04-contemplative.mp4`, warm=`day5-yangmun/S05-warm.mp4`, Day6全套=`day6-yangmun/S01-S05.mp4`
+
+### Medvi v3 工作流（失业系列，一键生产）
+
+> v3 核心变更：用 Playwright UI 截图替代 Seedream AI 生图，用 Unsplash 图库照片替代 Kling AI 视频，FFmpeg 做完整结构合成（含开场+BGM+文字卡片），实现 config-driven 一键生产。
+
+**v3 适用标记：** JSON config 中 `workflow_mode` 为 `"unemploy"` 且 `version` 为 `"3.0"` 时按 v3 规则执行。
+
+**v3 一键命令：**
+
+```bash
+cd docs/content
+python3 scripts/medvi-produce.py --config config/{video_id}-v3.json
+```
+
+**v3 阶段映射：**
+
+| 阶段 | 工具 | 说明 |
+|------|------|------|
+| 截图 | `screenshot-renderer.py` | Playwright HTML→PNG，像素级真实 |
+| 空镜 | `unsplash-downloader.py` | Unsplash 图库下载，免费即时 |
+| 配音 | `gemini-tts-batch.py` | Gemini TTS Charon 男声第一人称 |
+| 文字卡片 | `text-card-renderer.py` | HTML/CSS→MP4 |
+| 合成 | `medvi-compose.py` | FFmpeg 完整合成（开场+clips+配音+BGM） |
+| 文案 | 内置模板 | 抖音上传文案自动生成 |
+
+**v3 成本：** 约 $0（Playwright 免费、Unsplash 免费、Gemini TTS 免费额度内），比 v2 节省 100%。
+
+**v3 Config JSON 示例：** `config/unemploy-story-01-zhangwei-v3.json`
 
 ---
 
@@ -169,6 +197,22 @@ python3 scripts/text-card-renderer.py --lines "文字1" "文字2" --style sings 
 | 数字钩子用暗色背景 + 冷蓝/暖金点缀（按视频色系） | MUST |
 | 不要慢速渐入，直接切入画面 | MUST |
 | 钩子镜头使用特写或极特写（不用远景） | SHOULD |
+
+### 2.5 统一开场钩子（v3 失业系列 MUST）
+
+> 详细设计见 `scripts/unemploy-story-opening-spec.md`
+
+每条失业系列视频前 1.5s 使用统一开场动画：
+
+| 规则 | 值 | 标记 |
+|------|----|------|
+| 时长 | 1.5s | MUST |
+| 动画 | 黑屏→bass hit→"你的经验"淡入→"比你想象的值钱"滑入（金色"值钱" #FFD700） | MUST |
+| 切换方式 | 硬切到 S01（不做淡出） | MUST |
+| 配置 | config 中 `global.opening_file` 指定 MP4 文件 | MUST |
+| 复用 | 每集使用同一个 opening MP4 | MUST |
+
+现有开场文件：`output/unemploy-story-opening/unemploy-story-opening-v1.mp4`（1.5s, 1080x1920）
 
 ---
 
@@ -745,6 +789,33 @@ even skin tone, poreless skin
 - [ ] Negative prompt 已配置，包含 v3.0 完整列表（原则 3 v3.0）
 - [ ] 200px 宽度下辨识度元素仍可识别（原则 5）
 
+### 6.5 Playwright UI 截图（v3 失业系列）
+
+v3 模式下，用 Playwright 渲染 HTML 模板替代 Seedream AI 生图。
+
+| 规则 | 值 | 标记 |
+|------|----|------|
+| 模板目录 | `templates/tpl-{name}.html` | MUST |
+| 渲染工具 | `screenshot-renderer.py` → 1080x1920 PNG | MUST |
+| 模板类型 | Boss 搜索、简历数据面板、微信聊天、钉钉退群等 | — |
+| 后处理 | 不做任何后处理，保持像素级真实 | MUST |
+| 配置 | config 中 `screenshots[]` 数组 | MUST |
+
+模板复用：通用模板（Boss 搜索、简历面板）可跨视频复用，只需替换文字内容。
+
+### 6.6 Unsplash 氛围空镜（v3 失业系列）
+
+v3 模式下，用 Unsplash 图库照片替代 Kling AI 视频。
+
+| 规则 | 值 | 标记 |
+|------|----|------|
+| 下载工具 | `unsplash-downloader.py` | MUST |
+| 搜索关键词 | config 中 `atmosphere[].query`（英文） | MUST |
+| 自动选图 | pick_best（按宽度+相关度打分） | SHOULD |
+| 输出 | 1080x1920 JPG | MUST |
+| FFmpeg 动画 | zoompan 效果（可选） | SHOULD |
+| 配置 | config 中 `atmosphere[]` 数组 | MUST |
+
 ---
 
 ## 7. Stage 3：视频生成（Kling 3.0 via Evolink API）
@@ -871,6 +942,8 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 
 **强制规则：** 所有 Medvi 视频统一使用 Aoede 女声配音，禁止使用男声（Charon、Orus 等）。声音一致性是品牌标识的一部分。
 
+**失业系列 override：** 当 `workflow_mode: "unemploy"` 时，使用 Charon 男声第一人称自述，覆盖 Aoede 女声规则。失业系列 narrator profile 见 `gemini-tts-batch.py` 中 `NARRATOR_PROFILE_UNEMPLOY`。
+
 **特点：** 支持 Director's Notes 精细控制情绪，音频标签（[amazed], [warmly]），质量最接近真人。
 
 ### 8.5 Edge TTS 参数（免费备选）
@@ -916,7 +989,7 @@ python3 docs/content/scripts/kling-gen-batch.py --config config/day6-yangmun.jso
 
 ### 9.0 核心原则：FFmpeg 只做拼接+音频合并
 
-> FFmpeg 不做剪映的活。拼接 + 音频合并用 FFmpeg（秒级完成），所有视觉处理用剪映（实时预览）。违反这个分工 = 无法批量生产。
+> FFmpeg 不做剪映的活。拼接 + 音频合并用 FFmpeg（秒级完成），所有视觉处理用剪映（实时预览）。违反这个分工 = 无法批量生产。v3 失业系列例外：FFmpeg 做结构合成（开场+文字卡片+空镜+截图+配音+BGM），字幕和视觉后期仍由剪映完成。
 
 ### 9.1 输入/输出
 
@@ -961,6 +1034,8 @@ ffmpeg -i concat_video.mp4 -i voiceover_full.mp3 \
 ### 9.4 剪映职责（所有视觉工作）
 
 在剪映里完成以下所有操作：
+
+> **v3 模式例外：** 失业系列（`workflow_mode: "unemploy"`）FFmpeg 做结构合成（开场+文字卡片+空镜+截图+配音+BGM）。字幕和视觉后期仍由剪映完成。
 
 | 任务 | 操作 |
 |------|------|
@@ -1044,7 +1119,47 @@ ffmpeg -i concat_video.mp4 -i voiceover_full.mp3 \
 - 不用打字机效果
 - 不用弹跳/缩放动画
 
-### 9.5 导出后的元数据标注
+### 9.5 v3 FFmpeg 合成管线（失业系列）
+
+v3 模式下，FFmpeg 做完整结构合成（不只是简单拼接）：
+
+| 步骤 | 操作 | 说明 |
+|------|------|------|
+| 1 | Prepend 开场钩子 | opening_file re-encode 到 24fps |
+| 2 | 逐 segment 构建 clips | 按 storyboard 配置分配时长 |
+| 3 | Concat segment clips | 硬切拼接 |
+| 4 | Merge voiceover | 配音对齐 |
+| 5 | BGM amix | 8% volume, fade in/out |
+| 6 | 输出粗剪 | `output/{video_id}/{video_id}-rough-cut.mp4` |
+
+**BGM 配置：**
+
+| 参数 | 默认值 | 说明 |
+|------|-------|------|
+| `bgm.file` | — | BGM MP3 文件名 |
+| `bgm.volume` | 0.08 | 8% 音量（-22dB，不盖旁白） |
+| `bgm.fade_in` | 2.0s | 渐入时长 |
+| `bgm.fade_out` | 3.0s | 渐出时长 |
+
+**工具：** `medvi-compose.py --config config/{video_id}-v3.json`
+
+剪映仍负责：字幕、色彩校正、去AI滤镜、AI标识水印、封面帧。
+
+### 9.6 上传文案模板（v3 失业系列）
+
+v3 模式下，config 中 `upload_copy` 字段驱动文案生成。
+
+**标题模板：** `{钩子反差句}？{转折结果句}`
+
+**正文结构：** S01 浓缩 → S02 浓缩 → S03 浓缩 → CTA
+
+**标签数量：** ≤ 10 个，优先 #失业 #经验变现 #{行业} #{年龄}
+
+**工具：** `medvi-produce.py --config config/{video_id}-v3.json --stage upload_copy`
+
+**完整文案示例：** `assets/upload-copy/unemploy-story-01-zhangwei-douyin.md`
+
+### 9.7 导出后的元数据标注
 
 剪映导出后，用 FFmpeg 一条命令写入 AI 声明（不重编码，秒级完成）：
 
