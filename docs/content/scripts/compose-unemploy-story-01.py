@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Rough-cut composer for unemploy-story-01-zhangwei.
-Combines UI screenshots + Unsplash atmosphere photos + Gemini TTS voiceover.
+Combines UI screenshots + Unsplash atmosphere photos + text cards + Gemini TTS voiceover.
 
 Output is a rough cut for preview. Final editing in JianYing.
 """
@@ -13,6 +13,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent
 SS_DIR = BASE / "assets" / "screenshots" / "unemploy-story-01-zhangwei"
 AT_DIR = BASE / "assets" / "unsplash" / "unemploy-story-01-zhangwei"
+TC_DIR = BASE / "assets" / "textcards" / "unemploy-story-01-zhangwei"
 VO_DIR = BASE / "assets" / "voiceover" / "unemploy-story-01-zhangwei"
 OUT_DIR = BASE / "output" / "unemploy-story-01-zhangwei"
 
@@ -20,6 +21,9 @@ TEMP = OUT_DIR / "temp_clips"
 TEMP.mkdir(parents=True, exist_ok=True)
 
 FINAL_OUTPUT = OUT_DIR / "unemploy-story-01-zhangwei-rough-cut.mp4"
+
+# Text card duration
+TC_DUR = 4.0
 
 
 def run(cmd: list[str], label: str = "") -> None:
@@ -33,7 +37,8 @@ def run(cmd: list[str], label: str = "") -> None:
 def image_to_video(image: Path, duration: float, output: Path, zoom: bool = False) -> None:
     vf = "scale=1080:1920"
     if zoom:
-        vf = "scale=1152:2048,crop=1080:1920:36:64,zoompan=z='min(zoom+0.0008,1.08)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={}:s=1080x1920".format(int(duration * 24))
+        frames = int(duration * 24)
+        vf = f"scale=1152:2048,crop=1080:1920:36:64,zoompan=z='min(zoom+0.0008,1.08)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={frames}:s=1080x1920"
     run([
         "ffmpeg", "-y", "-loop", "1",
         "-i", str(image),
@@ -71,24 +76,34 @@ def main() -> None:
     s04_dur = get_duration(VO_DIR / "S04.mp3")
     s05_dur = get_duration(VO_DIR / "S05.mp3")
 
-    print(f"Voiceover durations: S01={s01_dur:.1f}s S02={s02_dur:.1f}s "
+    print(f"Voiceover: S01={s01_dur:.1f}s S02={s02_dur:.1f}s "
           f"S03={s03_dur:.1f}s S04={s04_dur:.1f}s S05={s05_dur:.1f}s")
-    print(f"Total: {s01_dur + s02_dur + s03_dur + s04_dur + s05_dur:.1f}s")
+    print(f"Total VO: {s01_dur + s02_dur + s03_dur + s04_dur + s05_dur:.1f}s")
 
     clips: list[Path] = []
 
-    # === S01 Hook: Boss search → Resume stats ===
-    # Split: first 60% boss search, last 40% resume stats
-    s01_p1_dur = s01_dur * 0.6
-    s01_p2_dur = s01_dur - s01_p1_dur
+    # === S01 Hook: Boss search → Text card "12年经验=废纸" → Resume stats ===
+    # Boss search first half, text card 4s, resume stats rest
+    s01_visual_dur = s01_dur - TC_DUR  # leave room for text card
+    s01_p1_dur = s01_visual_dur * 0.55
+    s01_p2_dur = s01_visual_dur - s01_p1_dur
 
     s01_p1 = TEMP / "s01_p1.mp4"
     image_to_video(SS_DIR / "SS01-boss-search.png", s01_p1_dur, s01_p1)
     s01_p2 = TEMP / "s01_p2.mp4"
     image_to_video(SS_DIR / "SS02-resume-stats.png", s01_p2_dur, s01_p2, zoom=True)
 
+    tc01 = TEMP / "tc01.mp4"
+    # Re-encode text card to match resolution/fps
+    run([
+        "ffmpeg", "-y", "-i", str(TC_DIR / "TC01-waste-paper.mp4"),
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+        "-vf", "scale=1080:1920",
+        str(tc01)
+    ], "TC01-resize")
+
     s01_list = TEMP / "s01_list.txt"
-    s01_list.write_text(f"file '{s01_p1}'\nfile '{s01_p2}'\n")
+    s01_list.write_text(f"file '{s01_p1}'\nfile '{s01_p2}'\nfile '{tc01}'\n")
     s01_visual = TEMP / "s01_visual.mp4"
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
          "-i", str(s01_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
@@ -121,11 +136,13 @@ def main() -> None:
     concat_video_audio(s02_visual, VO_DIR / "S02.mp3", s02_merged)
     clips.append(s02_merged)
 
-    # === S03 Montage: Fast cuts — DingTalk → Resume stats → WeChat reject → Empty office ===
-    # Fast cuts: ~2.5s each for first 3, remaining time for empty office
-    montage_dur = s03_dur * 0.4  # first 40% is fast-cut montage
-    rest_dur = s03_dur - montage_dur
-    cut_dur = montage_dur / 4
+    # === S03 Montage: Fast cuts (2-3s each) → Rest beat (2s) → Laptop desk ===
+    montage_total = s03_dur * 0.35
+    rest_beat_dur = 2.0
+    rest_dur = s03_dur - montage_total - rest_beat_dur
+
+    # 4 fast cuts, 2-3s each
+    cut_dur = min(montage_total / 4, 3.0)
 
     m1 = TEMP / "m1.mp4"
     image_to_video(SS_DIR / "SS04-dingtalk-leave.png", cut_dur, m1)
@@ -135,11 +152,20 @@ def main() -> None:
     image_to_video(SS_DIR / "SS05-wechat-reject.png", cut_dur, m3)
     m4 = TEMP / "m4.mp4"
     image_to_video(AT_DIR / "AT03-empty-office.jpg", cut_dur, m4, zoom=True)
+
+    # Rest beat: fixed shot, 2s, no zoom
+    rb = TEMP / "rest_beat.mp4"
+    image_to_video(AT_DIR / "AT03-empty-office.jpg", rest_beat_dur, rb)
+
+    # Remaining: laptop desk with zoom
     m5 = TEMP / "m5.mp4"
     image_to_video(AT_DIR / "AT05-laptop-desk.jpg", rest_dur, m5, zoom=True)
 
     s03_list = TEMP / "s03_list.txt"
-    s03_list.write_text(f"file '{m1}'\nfile '{m2}'\nfile '{m3}'\nfile '{m4}'\nfile '{m5}'\n")
+    s03_list.write_text(
+        f"file '{m1}'\nfile '{m2}'\nfile '{m3}'\nfile '{m4}'\n"
+        f"file '{rb}'\nfile '{m5}'\n"
+    )
     s03_visual = TEMP / "s03_visual.mp4"
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
          "-i", str(s03_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
@@ -149,17 +175,27 @@ def main() -> None:
     concat_video_audio(s03_visual, VO_DIR / "S03.mp3", s03_merged)
     clips.append(s03_merged)
 
-    # === S04 Action: Phone light → Laptop desk ===
-    s04_p1_dur = s04_dur * 0.5
-    s04_p2_dur = s04_dur - s04_p1_dur
+    # === S04 Action: Phone light → Text card "经验=没包装过的产品" ===
+    s04_visual_dur = s04_dur - TC_DUR
+    s04_p1_dur = s04_visual_dur * 0.6
+    s04_p2_dur = s04_visual_dur - s04_p1_dur
 
     s04_p1 = TEMP / "s04_p1.mp4"
     image_to_video(AT_DIR / "AT04-phone-light.jpg", s04_p1_dur, s04_p1, zoom=True)
+
+    tc02 = TEMP / "tc02.mp4"
+    run([
+        "ffmpeg", "-y", "-i", str(TC_DIR / "TC02-product.mp4"),
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+        "-vf", "scale=1080:1920",
+        str(tc02)
+    ], "TC02-resize")
+
     s04_p2 = TEMP / "s04_p2.mp4"
     image_to_video(AT_DIR / "AT05-laptop-desk.jpg", s04_p2_dur, s04_p2, zoom=True)
 
     s04_list = TEMP / "s04_list.txt"
-    s04_list.write_text(f"file '{s04_p1}'\nfile '{s04_p2}'\n")
+    s04_list.write_text(f"file '{s04_p1}'\nfile '{tc02}'\nfile '{s04_p2}'\n")
     s04_visual = TEMP / "s04_visual.mp4"
     run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
          "-i", str(s04_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
@@ -169,12 +205,28 @@ def main() -> None:
     concat_video_audio(s04_visual, VO_DIR / "S04.mp3", s04_merged)
     clips.append(s04_merged)
 
-    # === S05 CTA: Coffee shop ===
+    # === S05 CTA: Coffee shop → Text card CTA ===
+    s05_visual_dur = s05_dur - TC_DUR
     s05_clip = TEMP / "s05.mp4"
-    image_to_video(AT_DIR / "AT06-coffee-shop.jpg", s05_dur, s05_clip, zoom=True)
+    image_to_video(AT_DIR / "AT06-coffee-shop.jpg", s05_visual_dur, s05_clip, zoom=True)
+
+    tc03 = TEMP / "tc03.mp4"
+    run([
+        "ffmpeg", "-y", "-i", str(TC_DIR / "TC03-cta.mp4"),
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+        "-vf", "scale=1080:1920",
+        str(tc03)
+    ], "TC03-resize")
+
+    s05_list = TEMP / "s05_list.txt"
+    s05_list.write_text(f"file '{s05_clip}'\nfile '{tc03}'\n")
+    s05_visual = TEMP / "s05_visual.mp4"
+    run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
+         "-i", str(s05_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+         str(s05_visual)], "S05-concat")
 
     s05_merged = TEMP / "s05_merged.mp4"
-    concat_video_audio(s05_clip, VO_DIR / "S05.mp3", s05_merged)
+    concat_video_audio(s05_visual, VO_DIR / "S05.mp3", s05_merged)
     clips.append(s05_merged)
 
     # === Final concat ===
@@ -196,6 +248,8 @@ def main() -> None:
     print(f"  Size: {size}MB")
     if dur > 90:
         print("  WARNING: Exceeds 90s target — trim in JianYing")
+    elif dur < 60:
+        print("  WARNING: Below 60s minimum!")
 
 
 if __name__ == "__main__":
