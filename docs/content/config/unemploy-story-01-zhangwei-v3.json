@@ -1,0 +1,111 @@
+{
+  "video_id": "unemploy-story-01-zhangwei",
+  "version": "3.0",
+  "series": "unemploy-story",
+  "workflow_mode": "unemploy",
+
+  "global": {
+    "target_duration_sec": 80,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon",
+    "opening_file": "unemploy-story-opening-v1.mp4"
+  },
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon",
+    "segments": [
+      {"id": "S01", "emotion": "代入", "text": "38岁，建材行业干了12年。投了几十份简历，没人要。12年经验，在HR眼里就是一张废纸。"},
+      {"id": "S02", "emotion": "希望", "text": "失业第三个月，装修群里有人问瓷砖怎么选。我回了一大段，那人私信说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着，不是激动，是后悔。12年行业知识，我从来没想过主动拿出来。"},
+      {"id": "S03", "emotion": "力量", "text": "我花了三天把经验列成清单。建材避坑指南、报价单审查、全屋材料规划。闲鱼发了个帖子，第二周来了3个人，第二个月赚了4000多。没找到工作，但经验在帮我赚钱。"},
+      {"id": "S04", "emotion": "力量", "text": "你这些年攒下来的东西，到底值多少钱。你做了10年的行业，门外汉花多少钱都买不到你的经验。你的经验不是废纸，是你还没包装过的产品。"},
+      {"id": "S05", "emotion": "参与", "text": "你做什么行业？评论区告诉我，我帮你拆成能卖的经验。"}
+    ]
+  },
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-boss-search-zhangwei.html", "output": "SS01-boss-search.png"},
+    {"id": "SS02", "template": "tpl-resume-stats-zhangwei.html", "output": "SS02-resume-stats.png"},
+    {"id": "SS03", "template": "tpl-wechat-positive-zhangwei.html", "output": "SS03-wechat-positive.png"},
+    {"id": "SS04", "template": "tpl-dingtalk-leave.html", "output": "SS04-dingtalk-leave.png"},
+    {"id": "SS05", "template": "tpl-wechat-reject.html", "output": "SS05-wechat-reject.png"}
+  ],
+
+  "atmosphere": [
+    {"id": "AT01", "query": "empty warehouse industrial", "output": "AT01-warehouse.jpg"},
+    {"id": "AT02", "query": "desk lamp night workspace dark", "output": "AT02-desk-lamp.jpg"},
+    {"id": "AT03", "query": "empty office night dark", "output": "AT03-empty-office.jpg"},
+    {"id": "AT04", "query": "phone light face dark room", "output": "AT04-phone-light.jpg"},
+    {"id": "AT05", "query": "laptop desk working late", "output": "AT05-laptop-desk.jpg"},
+    {"id": "AT06", "query": "coffee shop window natural light", "output": "AT06-coffee-shop.jpg"}
+  ],
+
+  "text_cards": [
+    {"id": "TC01", "lines": ["12年经验", "在HR眼里 就是一张废纸"], "style": "medvi", "bg_image": "AT02-desk-lamp.jpg", "duration": 4.0},
+    {"id": "TC02", "lines": ["你的经验 不是废纸", "是没包装过的产品"], "style": "medvi", "bg_image": "AT05-laptop-desk.jpg", "duration": 4.0},
+    {"id": "TC03", "lines": ["你做什么行业？", "评论区打出来 我帮你拆"], "style": "medvi", "bg_image": "AT06-coffee-shop.jpg", "duration": 4.0}
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [
+        {"type": "screenshot", "ref": "SS01", "zoom": false, "pct": 0.55},
+        {"type": "screenshot", "ref": "SS02", "zoom": true, "pct": 0.45},
+        {"type": "text_card", "ref": "TC01", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S02",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.3},
+        {"type": "screenshot", "ref": "SS03", "zoom": false, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.3}
+      ]
+    },
+    {
+      "segment": "S03",
+      "clips": [
+        {"type": "screenshot", "ref": "SS04", "zoom": false, "pct": 0.0875},
+        {"type": "screenshot", "ref": "SS02", "zoom": false, "pct": 0.0875},
+        {"type": "screenshot", "ref": "SS05", "zoom": false, "pct": 0.0875},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "pct": 0.0875},
+        {"type": "atmosphere", "ref": "AT03", "zoom": false, "pct": 0.05},
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "pct": 0.6}
+      ]
+    },
+    {
+      "segment": "S04",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT04", "zoom": true, "pct": 0.6},
+        {"type": "text_card", "ref": "TC02", "duration": 4.0},
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "pct": 0.4}
+      ]
+    },
+    {
+      "segment": "S05",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT06", "zoom": true, "pct": 0.6},
+        {"type": "text_card", "ref": "TC03", "duration": 4.0}
+      ]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "12年经验在HR眼里就是废纸？他失业后靠经验月赚4000",
+      "失业后被装修群一个红包点醒：12年经验不该是废纸",
+      "投几十份简历没人要，他反而靠经验月入4000，怎么做到的"
+    ],
+    "tags": ["#失业", "#经验变现", "#38岁", "#被裁员", "#中年危机", "#闲鱼赚钱", "#行业经验", "#失业逆袭", "#职场", "#建材"]
+  }
+}
