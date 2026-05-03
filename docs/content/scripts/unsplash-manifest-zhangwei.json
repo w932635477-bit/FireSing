@@ -1,0 +1,10 @@
+{
+  "downloads": [
+    {"query": "empty warehouse industrial", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT01-warehouse.jpg"},
+    {"query": "desk lamp night coffee paper", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT02-desk-lamp.jpg"},
+    {"query": "empty office night fluorescent lights", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT03-empty-office.jpg"},
+    {"query": "phone screen light dark room", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT04-phone-light.jpg"},
+    {"query": "laptop document desk working", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT05-laptop-desk.jpg"},
+    {"query": "coffee shop window phone", "output": "../assets/unsplash/unemploy-story-01-zhangwei/AT06-coffee-shop.jpg"}
+  ]
+}

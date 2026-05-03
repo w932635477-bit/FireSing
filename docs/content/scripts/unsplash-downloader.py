@@ -15,6 +15,7 @@ import sys
 import time
 from pathlib import Path
 
+import urllib.parse
 import urllib.request
 
 
@@ -25,9 +26,10 @@ def search_photos(
     orientation: str = "portrait",
 ) -> list[dict]:
     """Search Unsplash for photos matching query."""
+    encoded_query = urllib.parse.quote(query)
     url = (
         f"https://api.unsplash.com/search/photos?"
-        f"query={query}&per_page={per_page}&orientation={orientation}"
+        f"query={encoded_query}&per_page={per_page}&orientation={orientation}"
     )
     req = urllib.request.Request(url, headers={
         "Authorization": f"Client-ID {access_key}",
