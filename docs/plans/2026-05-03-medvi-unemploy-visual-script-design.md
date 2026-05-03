@@ -143,7 +143,7 @@ export UNSPLASH_SECRET_KEY="..."
 
 ### 6.1 引擎
 
-- **gemini-2.5-flash-preview-tts**（即 gemini-3.1-flash-tts）
+- **gemini-3.1-flash-tts**（带情感控制，效果优于 gemini-2.5-flash-preview-tts）
 - 声音：Charon（男声）
 - 视角：第一人称自述
 - 整体风格：低沉克制，像跟老朋友说话
@@ -192,7 +192,7 @@ Stage 1.7: UI截图生成（Playwright）
 Stage 1.8: 空镜素材下载（Unsplash API）  ← 新增
 Stage 2:   空镜兜底生成（Seedream，仅Unsplash找不到的场景）
 Stage 3:   空镜转视频（Kling，仅Unsplash素材需要加动效时）
-Stage 4:   配音（gemini-2.5-flash-preview-tts，Charon男声）
+Stage 4:   配音（gemini-3.1-flash-tts，Charon男声，带情感控制）
 Stage 5:   剪映混剪
 ```
 
@@ -241,4 +241,4 @@ Stage 5:   剪映混剪
 | 杨梦角色不使用 | 沿用已确认方案，Corecore风格不需固定角色 | 2026-05-03 |
 | 情绪温度分镜法 | McKee+Wind Comic温度系统，-10到+10映射6段节奏 | 2026-05-03 |
 | 三类停顿配音法 | 微停(0.3s)/情绪停(0.8s)/留白(1.5s)，配音驱动分镜 | 2026-05-03 |
-| gemini-2.5-flash-preview-tts 配音 | 用户确认使用 gemini-3.1-flash-tts（即 gemini-2.5-flash-preview-tts） | 2026-05-03 |
+| gemini-3.1-flash-tts 配音 | 带情感控制，效果优于 2.5-flash，支持语速+声调微调 | 2026-05-03 |
