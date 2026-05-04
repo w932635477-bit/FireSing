@@ -166,25 +166,25 @@ def build_segment_clips(
          "-i", str(seg_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
          str(seg_visual)], f"{segment_id}-concat")
 
-    # Pad visual if shorter than voiceover
+    # Pad visual if shorter than voiceover — freeze last frame
     visual_dur = get_duration(seg_visual)
     if visual_dur < vo_duration - 0.1:
         pad_dur = vo_duration - visual_dur
-        print(f"  Padding {pad_dur:.1f}s (visual {visual_dur:.1f}s < vo {vo_duration:.1f}s)")
-        black = temp_dir / f"{segment_id}_black.mp4"
+        print(f"  Freeze-pad {pad_dur:.1f}s (visual {visual_dur:.1f}s < vo {vo_duration:.1f}s)")
+        last_frame = temp_dir / f"{segment_id}_lastframe.png"
         run([
-            "ffmpeg", "-y", "-f", "lavfi", "-i",
-            f"color=c=black:s=1080x1920:d={pad_dur:.3f}:r=24",
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
-            str(black)
-        ], f"black-pad {segment_id}")
-        pad_list = temp_dir / f"{segment_id}_pad_list.txt"
-        pad_list.write_text(f"file '{seg_visual}'\nfile '{black}'\n")
-        seg_visual_padded = temp_dir / f"{segment_id}_visual_padded.mp4"
+            "ffmpeg", "-y", "-sseof", "-0.1", "-i", str(seg_visual),
+            "-frames:v", "1", "-q:v", "2", str(last_frame)
+        ], f"last-frame {segment_id}")
+        freeze = temp_dir / f"{segment_id}_freeze.mp4"
+        image_to_video(last_frame, pad_dur, freeze, zoom=False)
+        freeze_list = temp_dir / f"{segment_id}_freeze_list.txt"
+        freeze_list.write_text(f"file '{seg_visual}'\nfile '{freeze}'\n")
+        seg_visual_frozen = temp_dir / f"{segment_id}_visual_frozen.mp4"
         run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
-             "-i", str(pad_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
-             str(seg_visual_padded)], f"{segment_id}-pad-concat")
-        seg_visual = seg_visual_padded
+             "-i", str(freeze_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+             str(seg_visual_frozen)], f"{segment_id}-freeze-concat")
+        seg_visual = seg_visual_frozen
 
     # Merge voiceover (no -shortest, audio plays in full)
     vo_path = find_asset(segment_id, "voiceover", video_id)
