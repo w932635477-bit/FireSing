@@ -1,0 +1,106 @@
+{
+  "video_id": "unemploy-data-01-graduates",
+  "version": "1.0",
+  "series": "unemploy-data",
+  "workflow_mode": "unemploy",
+
+  "global": {
+    "target_duration_sec": 95,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon",
+    "opening_file": "unemploy-story-opening-v1.mp4"
+  },
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon",
+    "segments": [
+      {"id": "S01", "emotion": "empathy", "text": "2025年，中国有1170万大学毕业生。同一时间，35岁以上求职者平均投了432份简历。1170万新人往前挤，几千万老人往后退。这不是就业市场，这是俄罗斯方块——到顶了就消除。"},
+      {"id": "S02", "emotion": "对比", "text": "HR说：我们收到了5000份简历。潜台词：你的简历连垃圾桶都没进，直接进了碎纸机。招聘要求：3年经验，30岁以下。数学好的同学算一下，22岁毕业干3年才25，谁30岁以下还有3年经验？朋友圈流行一句话：35岁以后的人生，要么财务自由，要么自由职业。翻译一下就是：要么你有钱，要么你失业。"},
+      {"id": "S03", "emotion": "希望", "text": "但有一群人，他们不投简历。他们把自己的经验拆成服务，直接卖给需要的人。38岁建材人帮人审报价单，月入4000。42岁HR总监帮创业公司搭团队，一单1500。45岁销售老手帮小企业做客户开发，按效果收费。他们不是找到了工作，是发现了一个事实：你做了10年的事，外面有人愿意花钱请你做一遍。"},
+      {"id": "S04", "emotion": "力量", "text": "简历投了400多份没回音？别投了。先想想你这些年到底攒了什么，谁会为此付钱。你的经验不是废纸，是你还没拆开的包裹。"},
+      {"id": "S05", "emotion": "参与", "text": "你做什么行业？评论区告诉我，我帮你拆成能卖的服务。"}
+    ]
+  },
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-data-panel-1170w", "output": "SS01-data-1170w.png"},
+    {"id": "SS02", "template": "tpl-hr-email-5000", "output": "SS02-hr-email.png"},
+    {"id": "SS03", "template": "tpl-job-requirement-30", "output": "SS03-job-requirement.png"},
+    {"id": "SS04", "template": "tpl-case-study-3in1", "output": "SS04-case-study.png"}
+  ],
+
+  "atmosphere": [
+    {"id": "AT01", "query": "crowded subway station morning rush", "output": "AT01-subway-crowd.jpg"},
+    {"id": "AT02", "query": "empty office desks fluorescent lights", "output": "AT02-empty-office.jpg"},
+    {"id": "AT03", "query": "coffee shop window laptop working", "output": "AT03-coffee-shop.jpg"}
+  ],
+
+  "text_cards": [
+    {"id": "TC01", "lines": ["2025年 1170万大学毕业生", "35岁以上 平均投432份简历"], "style": "medvi", "bg_image": "AT01-subway-crowd.jpg", "duration": 4.0},
+    {"id": "TC02", "lines": ["俄罗斯方块", "到顶了就消除"], "style": "medvi", "bg_image": "AT01-subway-crowd.jpg", "duration": 3.5},
+    {"id": "TC03", "lines": ["5000份简历", "→ 碎纸机"], "style": "medvi", "bg_image": "AT02-empty-office.jpg", "duration": 3.5},
+    {"id": "TC04", "lines": ["做了10年的事", "有人愿意花钱请你做"], "style": "medvi", "bg_image": "AT03-coffee-shop.jpg", "duration": 4.0},
+    {"id": "TC05", "lines": ["你做什么行业？", "评论区打出来 我帮你拆"], "style": "medvi", "bg_image": "AT03-coffee-shop.jpg", "duration": 4.0}
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [
+        {"type": "screenshot", "ref": "SS01", "zoom": true, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.3},
+        {"type": "text_card", "ref": "TC02", "duration": 3.5}
+      ]
+    },
+    {
+      "segment": "S02",
+      "clips": [
+        {"type": "screenshot", "ref": "SS02", "zoom": false, "pct": 0.25},
+        {"type": "screenshot", "ref": "SS03", "zoom": false, "pct": 0.25},
+        {"type": "text_card", "ref": "TC03", "duration": 3.5},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.25}
+      ]
+    },
+    {
+      "segment": "S03",
+      "clips": [
+        {"type": "screenshot", "ref": "SS04", "zoom": false, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "pct": 0.3},
+        {"type": "text_card", "ref": "TC04", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S04",
+      "clips": [
+        {"type": "text_card", "ref": "TC04", "duration": 4.0},
+        {"type": "atmosphere", "ref": "AT03", "zoom": false, "pct": 0.4}
+      ]
+    },
+    {
+      "segment": "S05",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT03", "zoom": false, "pct": 0.4},
+        {"type": "text_card", "ref": "TC05", "duration": 4.0}
+      ]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "1170万毕业生进入职场，35岁以上的人该怎么办",
+      "HR收到5000份简历，你的连垃圾桶都没进",
+      "35岁以上平均投432份简历，但有人选择不投了"
+    ],
+    "tags": ["#失业", "#35岁", "#求职", "#毕业生", "#中年危机", "#经验变现", "#职场", "#裁员", "#俄罗斯方块", "#反转"]
+  }
+}

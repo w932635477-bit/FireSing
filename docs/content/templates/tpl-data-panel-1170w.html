@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #1a1a2e; width: 1080px; height: 1920px; overflow: hidden; color: #e0e0e0; }
+
+.header { padding: 60px 50px 30px; }
+.page-title { font-size: 48px; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
+.page-subtitle { font-size: 26px; color: #8888aa; margin-top: 12px; }
+
+.split-panel { display: flex; gap: 24px; padding: 30px 50px; }
+.panel-card { flex: 1; background: #16213e; border-radius: 20px; padding: 50px 40px; text-align: center; border: 1px solid #1a2d50; }
+.panel-label { font-size: 30px; color: #8888aa; margin-bottom: 20px; }
+.panel-number { font-size: 96px; font-weight: 700; line-height: 1.1; }
+.panel-unit { font-size: 36px; font-weight: 400; margin-left: 4px; }
+.panel-card.blue .panel-number { color: #2f88ff; }
+.panel-card.red .panel-number { color: #ff4444; }
+.panel-sub { font-size: 22px; color: #6666888; margin-top: 12px; }
+
+.comparison-section { padding: 30px 50px; }
+.comparison-title { font-size: 26px; color: #8888aa; margin-bottom: 20px; text-align: center; }
+.comparison-bar { display: flex; border-radius: 16px; overflow: hidden; height: 80px; font-size: 32px; font-weight: 600; }
+.bar-up { background: #2f88ff; color: #ffffff; flex: 55; display: flex; align-items: center; justify-content: center; }
+.bar-down { background: #ff4444; color: #ffffff; flex: 45; display: flex; align-items: center; justify-content: center; }
+
+.chart-placeholder { padding: 30px 50px; }
+.chart-box { background: #16213e; border-radius: 20px; padding: 40px; border: 1px solid #1a2d50; }
+.chart-row { display: flex; align-items: center; margin-bottom: 18px; }
+.chart-row:last-child { margin-bottom: 0; }
+.chart-year { font-size: 24px; color: #8888aa; width: 100px; flex-shrink: 0; }
+.chart-track { flex: 1; height: 24px; background: #0f1a30; border-radius: 12px; overflow: hidden; margin: 0 16px; }
+.chart-fill { height: 100%; border-radius: 12px; }
+.chart-fill.graduates { background: linear-gradient(90deg, #2f88ff, #5ea8ff); }
+.chart-fill.jobs { background: linear-gradient(90deg, #ff4444, #ff7777); }
+.chart-value { font-size: 22px; color: #aaaacc; width: 80px; text-align: right; flex-shrink: 0; }
+
+.warning-strip { position: absolute; bottom: 0; left: 0; right: 0; background: #e94560; padding: 36px 50px; }
+.warning-icon { font-size: 28px; margin-right: 12px; }
+.warning-text { font-size: 30px; color: #ffffff; font-weight: 600; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="page-title">2025 就业市场数据</div>
+  <div class="page-subtitle">数据来源：教育部 / 行业调查</div>
+</div>
+
+<div class="split-panel">
+  <div class="panel-card blue">
+    <div class="panel-label">大学毕业生</div>
+    <div class="panel-number">1,170<span class="panel-unit">万</span></div>
+    <div class="panel-sub">再创历史新高</div>
+  </div>
+  <div class="panel-card red">
+    <div class="panel-label">35岁+求职者</div>
+    <div class="panel-number">432<span class="panel-unit">份</span></div>
+    <div class="panel-sub">平均投递简历数</div>
+  </div>
+</div>
+
+<div class="comparison-section">
+  <div class="comparison-title">供需变化趋势</div>
+  <div class="comparison-bar">
+    <div class="bar-up">新人涌入 &#8593;17%</div>
+    <div class="bar-down">岗位缩减 &#8595;12%</div>
+  </div>
+</div>
+
+<div class="chart-placeholder">
+  <div class="chart-box">
+    <div class="chart-row">
+      <div class="chart-year">2021</div>
+      <div class="chart-track"><div class="chart-fill graduates" style="width:58%"></div></div>
+      <div class="chart-value">909万</div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-year">2022</div>
+      <div class="chart-track"><div class="chart-fill graduates" style="width:67%"></div></div>
+      <div class="chart-value">1076万</div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-year">2023</div>
+      <div class="chart-track"><div class="chart-fill graduates" style="width:72%"></div></div>
+      <div class="chart-value">1158万</div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-year">2024</div>
+      <div class="chart-track"><div class="chart-fill graduates" style="width:73%"></div></div>
+      <div class="chart-value">1179万</div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-year">2025</div>
+      <div class="chart-track"><div class="chart-fill graduates" style="width:73%"></div></div>
+      <div class="chart-value">1170万</div>
+    </div>
+  </div>
+</div>
+
+<div class="warning-strip">
+  <span class="warning-text">
+    <span class="warning-icon">&#9888;</span>
+    1170万新人 vs 几千万老手 — 俄罗斯方块，到顶了就消除
+  </span>
+</div>
+</body>
+</html>

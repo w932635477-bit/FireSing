@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #fafaf5; width: 1080px; height: 1920px; overflow: hidden; color: #333; }
+
+.page-header { padding: 70px 50px 30px; text-align: center; }
+.page-title { font-size: 52px; font-weight: 700; color: #222; letter-spacing: 4px; }
+.page-subtitle { font-size: 26px; color: #999; margin-top: 12px; }
+
+.cards-container { padding: 40px 50px; display: flex; flex-direction: column; gap: 28px; }
+
+.case-card { background: #ffffff; border-radius: 24px; padding: 44px 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 24px; border-left: 8px solid transparent; position: relative; overflow: hidden; }
+.case-card.warm { border-left-color: #FFA726; }
+.case-card.green { border-left-color: #4CAF50; }
+.case-card.blue { border-left-color: #2196F3; }
+
+.card-icon { width: 88px; height: 88px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; flex-shrink: 0; }
+.card-icon.warm-bg { background: #FFF3E0; }
+.card-icon.green-bg { background: #E8F5E9; }
+.card-icon.blue-bg { background: #E3F2FD; }
+
+.card-profile { flex: 1; }
+.card-age-role { font-size: 30px; font-weight: 600; color: #333; }
+.card-detail { font-size: 22px; color: #999; margin-top: 4px; }
+
+.card-arrow { font-size: 36px; color: #ccc; flex-shrink: 0; }
+
+.card-outcome { text-align: right; flex-shrink: 0; min-width: 180px; }
+.outcome-label { font-size: 22px; color: #999; margin-bottom: 4px; }
+.outcome-value { font-size: 34px; font-weight: 700; }
+.case-card.warm .outcome-value { color: #FFA726; }
+.case-card.green .outcome-value { color: #4CAF50; }
+.case-card.blue .outcome-value { color: #2196F3; }
+
+.quote-section { position: absolute; bottom: 0; left: 0; right: 0; padding: 50px; }
+.quote-box { background: #ffffff; border-radius: 24px; padding: 44px 48px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center; }
+.quote-mark { font-size: 48px; color: #ddd; line-height: 1; }
+.quote-text { font-size: 32px; color: #555; line-height: 1.8; font-weight: 500; margin-top: 12px; }
+.quote-author { font-size: 22px; color: #bbb; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="page-title">他们不投简历了</div>
+  <div class="page-subtitle">三个真实转型案例</div>
+</div>
+
+<div class="cards-container">
+  <div class="case-card warm">
+    <div class="card-icon warm-bg">&#128188;</div>
+    <div class="card-profile">
+      <div class="card-age-role">38岁 建材人</div>
+      <div class="card-detail">15年行业经验 &#183; 被裁后转型</div>
+    </div>
+    <div class="card-arrow">&#8594;</div>
+    <div class="card-outcome">
+      <div class="outcome-label">审报价单</div>
+      <div class="outcome-value">&#165;4,000+/月</div>
+    </div>
+  </div>
+
+  <div class="case-card green">
+    <div class="card-icon green-bg">&#128101;</div>
+    <div class="card-profile">
+      <div class="card-age-role">42岁 HR总监</div>
+      <div class="card-detail">12年人力资源 &#183; 主动离开</div>
+    </div>
+    <div class="card-arrow">&#8594;</div>
+    <div class="card-outcome">
+      <div class="outcome-label">搭招聘框架</div>
+      <div class="outcome-value">&#165;1,500/单</div>
+    </div>
+  </div>
+
+  <div class="case-card blue">
+    <div class="card-icon blue-bg">&#128200;</div>
+    <div class="card-profile">
+      <div class="card-age-role">45岁 销售老手</div>
+      <div class="card-detail">20年销售 &#183; 行业收缩</div>
+    </div>
+    <div class="card-arrow">&#8594;</div>
+    <div class="card-outcome">
+      <div class="outcome-label">客户开发</div>
+      <div class="outcome-value">按效果收费</div>
+    </div>
+  </div>
+</div>
+
+<div class="quote-section">
+  <div class="quote-box">
+    <div class="quote-mark">&#8220;</div>
+    <div class="quote-text">你做了10年的事，<br>外面有人愿意花钱请你做一遍</div>
+    <div class="quote-author">— 给每一个还在投简历的人</div>
+  </div>
+</div>
+</body>
+</html>

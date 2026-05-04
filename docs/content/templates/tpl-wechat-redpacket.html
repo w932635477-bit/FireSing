@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #ededed; width: 1080px; height: 1920px; overflow: hidden; }
+
+/* Status bar */
+.status-bar { background: #ededed; padding: 20px 30px 8px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; color: #222; }
+.status-time { font-weight: 600; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+
+/* Navigation header */
+.nav-header { background: #ededed; padding: 12px 30px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #d9d9d9; }
+.nav-back { font-size: 32px; color: #222; }
+.nav-title { font-size: 32px; font-weight: 600; color: #222; }
+.nav-actions { display: flex; gap: 16px; }
+.nav-icon { font-size: 32px; color: #222; }
+
+/* Chat area */
+.chat-area { padding: 30px; display: flex; flex-direction: column; gap: 24px; }
+.time-divider { text-align: center; color: #999; font-size: 22px; padding: 16px 0; }
+.msg-row { display: flex; align-items: flex-start; gap: 12px; }
+.msg-row.me { flex-direction: row-reverse; }
+.avatar { width: 64px; height: 64px; border-radius: 8px; flex-shrink: 0; }
+.bubble { max-width: 680px; padding: 20px 24px; border-radius: 12px; font-size: 28px; line-height: 1.6; }
+.bubble.other { background: #fff; color: #222; }
+.bubble.me { background: #95ec69; color: #222; }
+
+/* Red packet */
+.red-packet-row { display: flex; align-items: flex-start; gap: 12px; }
+.red-packet-card { max-width: 680px; background: #fa9d3b; border-radius: 12px; overflow: hidden; }
+.red-packet-body { padding: 24px; display: flex; align-items: center; gap: 20px; }
+.red-packet-icon { font-size: 56px; line-height: 1; }
+.red-packet-text { font-size: 28px; color: #fff; font-weight: 500; }
+.red-packet-footer { background: rgba(0,0,0,0.08); padding: 12px 24px; font-size: 20px; color: rgba(255,255,255,0.8); }
+</style>
+</head>
+<body>
+<div class="status-bar">
+  <span class="status-time">14:23</span>
+  <span class="status-icons">
+    <span>&#9679;&#9679;&#9679;</span>
+    <span>&#128267;</span>
+  </span>
+</div>
+<div class="nav-header">
+  <span class="nav-back">&lt;</span>
+  <span class="nav-title">装修业主</span>
+  <div class="nav-actions">
+    <span class="nav-icon">&#8942;</span>
+  </div>
+</div>
+<div class="chat-area">
+  <div class="time-divider">今天 14:23</div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">瓷砖怎么选？怕被建材城坑</div>
+  </div>
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">别去建材城一楼买，都是贴牌。东鹏、马可波罗这些牌子要看包装上的产地，广东佛山的才是正品。报价单上的辅材最容易被加价，你把报价单发我看看</div>
+  </div>
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">瓷砖选800x800的抛釉砖就够了，不用买全抛釉，差价一倍但效果差不多。美缝别让施工队做，自己买材料找人做能省一半</div>
+  </div>
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">另外地漏要买纯铜的，不锈钢的半年就生锈。角阀也是，全铜角阀一个才贵几块钱但能用十年</div>
+  </div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="bubble other">哥你太专业了！我给你发个红包吧</div>
+  </div>
+  <div class="red-packet-row">
+    <div class="avatar" style="background:#deb887"></div>
+    <div class="red-packet-card">
+      <div class="red-packet-body">
+        <span class="red-packet-icon">&#129511;</span>
+        <span class="red-packet-text">微信红包</span>
+      </div>
+      <div class="red-packet-footer">恭喜发财，大吉大利</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

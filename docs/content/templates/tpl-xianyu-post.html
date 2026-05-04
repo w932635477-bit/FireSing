@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f5f5; width: 1080px; height: 1920px; overflow: hidden; }
+
+/* Status bar */
+.status-bar { background: #fffde7; padding: 20px 30px 8px; display: flex; justify-content: space-between; align-items: center; font-size: 22px; color: #222; }
+.status-time { font-weight: 600; }
+.status-icons { display: flex; gap: 6px; align-items: center; }
+
+/* Header */
+.header { background: #fffde7; padding: 12px 30px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e0e0e0; }
+.header-back { font-size: 32px; color: #222; }
+.header-title { font-size: 32px; font-weight: 600; color: #ff6600; }
+.header-icon { font-size: 32px; color: #222; }
+
+/* Profile section */
+.profile-section { background: #fff; padding: 30px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #f0f0f0; }
+.profile-avatar { width: 80px; height: 80px; border-radius: 50%; background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+.profile-info { flex: 1; }
+.profile-name { font-size: 30px; font-weight: 600; color: #222; }
+.profile-bio { font-size: 24px; color: #999; margin-top: 4px; }
+.profile-follow { background: #ff6600; color: #fff; border: none; border-radius: 20px; padding: 10px 24px; font-size: 22px; font-weight: 500; }
+
+/* Content */
+.content { background: #fff; padding: 30px; }
+.post-title { font-size: 34px; font-weight: 700; color: #222; line-height: 1.5; }
+.post-price { margin-top: 20px; display: flex; align-items: baseline; gap: 8px; }
+.price-symbol { font-size: 28px; color: #ff4444; font-weight: 700; }
+.price-amount { font-size: 48px; color: #ff4444; font-weight: 700; }
+.price-unit { font-size: 24px; color: #999; }
+
+/* Tags */
+.tags { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 12px; }
+.tag { background: #fff3e0; color: #ff6600; font-size: 22px; padding: 8px 16px; border-radius: 6px; }
+
+/* Description */
+.description { margin-top: 30px; font-size: 28px; color: #444; line-height: 1.8; }
+.desc-highlight { color: #ff6600; font-weight: 600; }
+
+/* Location */
+.location { margin-top: 30px; font-size: 24px; color: #999; display: flex; align-items: center; gap: 8px; }
+
+/* Service features */
+.features { background: #fff; padding: 30px; margin-top: 16px; }
+.feature-title { font-size: 28px; font-weight: 600; color: #222; margin-bottom: 20px; }
+.feature-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.feature-check { color: #4caf50; font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.feature-text { font-size: 26px; color: #555; line-height: 1.5; }
+
+/* Bottom action bar */
+.bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; background: #fff; padding: 20px 30px; display: flex; align-items: center; gap: 20px; border-top: 1px solid #e0e0e0; }
+.action-btn { flex: 1; background: #ff6600; color: #fff; border: none; border-radius: 40px; padding: 24px 0; font-size: 32px; font-weight: 700; text-align: center; font-family: -apple-system, "PingFang SC", sans-serif; }
+.action-secondary { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 20px; color: #999; padding: 0 20px; }
+.action-icon { font-size: 36px; color: #666; }
+</style>
+</head>
+<body>
+<div class="status-bar">
+  <span class="status-time">10:45</span>
+  <span class="status-icons">
+    <span>&#9679;&#9679;&#9679;</span>
+    <span>&#128267;</span>
+  </span>
+</div>
+<div class="header">
+  <span class="header-back">&lt;</span>
+  <span class="header-title">闲鱼</span>
+  <span class="header-icon">&#8942;</span>
+</div>
+<div class="profile-section">
+  <div class="profile-avatar">&#128100;</div>
+  <div class="profile-info">
+    <div class="profile-name">建材老王</div>
+    <div class="profile-bio">10年建材行业经验</div>
+  </div>
+  <button class="profile-follow">关注</button>
+</div>
+<div class="content">
+  <div class="post-title">10年建材人帮你审报价单<br>避坑省钱</div>
+  <div class="post-price">
+    <span class="price-symbol">¥</span>
+    <span class="price-amount">99</span>
+    <span class="price-unit">/ 次</span>
+  </div>
+  <div class="tags">
+    <span class="tag">#建材避坑</span>
+    <span class="tag">#报价审查</span>
+    <span class="tag">#省心装修</span>
+  </div>
+  <div class="description">
+    装修被坑了几万块才发现，<span class="desc-highlight">报价单里全是水分</span>。<br><br>
+    我是干了10年建材的老王，从瓷砖到五金，从辅材到人工费，市场价我门儿清。<br><br>
+    你发报价单给我，我帮你逐项审查：<br>
+    1. 材料费是否虚高<br>
+    2. 辅材有没有重复计费<br>
+    3. 人工费是否合理<br>
+    4. 有没有隐藏增项<br><br>
+    一份报价单审查，平均帮你省 <span class="desc-highlight">3000-8000 元</span>。
+  </div>
+  <div class="location">&#128205; 浙江杭州</div>
+</div>
+<div class="features">
+  <div class="feature-title">服务保障</div>
+  <div class="feature-item">
+    <span class="feature-check">&#10003;</span>
+    <span class="feature-text">10年建材行业经验，熟悉各类材料市场价</span>
+  </div>
+  <div class="feature-item">
+    <span class="feature-check">&#10003;</span>
+    <span class="feature-text">逐项审查，出具详细避坑报告</span>
+  </div>
+  <div class="feature-item">
+    <span class="feature-check">&#10003;</span>
+    <span class="feature-text">不满意全额退款</span>
+  </div>
+</div>
+<div class="bottom-bar">
+  <div class="action-secondary">
+    <span class="action-icon">&#128172;</span>
+    <span>留言</span>
+  </div>
+  <div class="action-secondary">
+    <span class="action-icon">&#9734;</span>
+    <span>收藏</span>
+  </div>
+  <button class="action-btn">我想要</button>
+</div>
+</body>
+</html>

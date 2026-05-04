@@ -1,0 +1,108 @@
+{
+  "video_id": "unemploy-story-04-zhangwei-v2",
+  "version": "2.0",
+  "series": "unemploy-story",
+  "workflow_mode": "unemploy",
+
+  "global": {
+    "target_duration_sec": 95,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon",
+    "opening_file": "unemploy-story-opening-v1.mp4"
+  },
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon",
+    "segments": [
+      {"id": "S01", "emotion": "代入", "text": "投了847份简历。收到3个面试通知。0个offer。38岁，建材行业干了12年。从仓库管理员干到区域经理，瓷砖地板卫浴五金，哪个牌子好哪个是贴牌哪个报价有水分，我闭着眼睛都知道。但在HR眼里，38岁建材人，就是一张废纸。"},
+      {"id": "S02", "emotion": "希望", "text": "失业第三个月，我在一个装修业主群里看到有人问：瓷砖怎么选，怕被建材城坑。我回了一大段，从品牌到报价到怎么避坑，写了快半小时。那人私信说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着。不是激动，是后悔。12年的行业知识，我以前从来没想过主动拿出来。"},
+      {"id": "S03", "emotion": "力量", "text": "我花了三天把经验列了个清单。建材避坑指南、报价单审查、全屋材料规划。每一条都是我12年踩过的坑、省过的钱。然后在闲鱼发了个帖子：10年建材人帮你审报价单。第一周没人问。第二周来了3个人。第三周，有人主动问我能不能全程陪同买材料。第二个月，我靠这个赚了4000多。没找到工作，但我的经验在帮我赚钱。"},
+      {"id": "S04", "emotion": "力量", "text": "847份简历教会我一件事：你的经验不是废纸，是你还没包装过的产品。你做了10年的行业，门外汉花多少钱都买不到你的经验。"},
+      {"id": "S05", "emotion": "参与", "text": "你做的是什么行业？评论区告诉我，我帮你拆成能卖的经验。"}
+    ]
+  },
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-resume-stats-847", "output": "SS01-resume-847.png"},
+    {"id": "SS02", "template": "tpl-boss-search-zhangwei", "output": "SS02-boss-search.png"},
+    {"id": "SS03", "template": "tpl-wechat-redpacket", "output": "SS03-wechat-redpacket.png"},
+    {"id": "SS04", "template": "tpl-xianyu-post", "output": "SS04-xianyu-post.png"},
+    {"id": "SS05", "template": "tpl-income-4000", "output": "SS05-income-4000.png"}
+  ],
+
+  "atmosphere": [
+    {"id": "AT01", "query": "empty warehouse industrial golden light", "output": "AT01-warehouse.jpg"},
+    {"id": "AT02", "query": "desk lamp night workspace coffee phone", "output": "AT02-desk-night.jpg"},
+    {"id": "AT03", "query": "building materials market tiles samples", "output": "AT03-market.jpg"},
+    {"id": "AT04", "query": "coffee shop window phone typing natural light", "output": "AT04-coffee-shop.jpg"}
+  ],
+
+  "text_cards": [
+    {"id": "TC01", "lines": ["847份简历 3个面试 0个offer"], "style": "medvi", "bg_image": "AT02-desk-night.jpg", "duration": 4.0},
+    {"id": "TC02", "lines": ["12年经验", "在HR眼里 就是一张废纸"], "style": "medvi", "bg_image": "AT01-warehouse.jpg", "duration": 4.0},
+    {"id": "TC03", "lines": ["把经验列成清单 = 你的产品", "闲鱼发帖 审报价单99元 第二个月4000+"], "style": "medvi", "bg_image": "AT03-market.jpg", "duration": 4.0},
+    {"id": "TC04", "lines": ["你的经验不是废纸", "是没包装过的产品"], "style": "medvi", "bg_image": "AT04-coffee-shop.jpg", "duration": 4.0},
+    {"id": "TC05", "lines": ["你做什么行业？", "评论区打出来 我帮你拆"], "style": "medvi", "bg_image": "AT04-coffee-shop.jpg", "duration": 4.0}
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [
+        {"type": "screenshot", "ref": "SS01", "zoom": true, "pct": 0.35},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.35},
+        {"type": "text_card", "ref": "TC02", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S02",
+      "clips": [
+        {"type": "screenshot", "ref": "SS03", "zoom": false, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.35},
+        {"type": "text_card", "ref": "TC01", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S03",
+      "clips": [
+        {"type": "screenshot", "ref": "SS04", "zoom": false, "pct": 0.2},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "pct": 0.2},
+        {"type": "screenshot", "ref": "SS05", "zoom": false, "pct": 0.2},
+        {"type": "text_card", "ref": "TC03", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S04",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT04", "zoom": true, "pct": 0.5},
+        {"type": "text_card", "ref": "TC04", "duration": 4.0}
+      ]
+    },
+    {
+      "segment": "S05",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT04", "zoom": false, "pct": 0.5},
+        {"type": "text_card", "ref": "TC05", "duration": 4.0}
+      ]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "投了847份简历0个offer，38岁建材人靠经验月赚4000",
+      "847份简历教会我：你的经验不是废纸，是没包装过的产品",
+      "38岁失业投847份简历没人要，反靠经验月入4000，怎么做到的"
+    ],
+    "tags": ["#失业", "#经验变现", "#38岁", "#被裁员", "#中年危机", "#闲鱼赚钱", "#行业经验", "#失业逆袭", "#职场", "#建材"]
+  }
+}

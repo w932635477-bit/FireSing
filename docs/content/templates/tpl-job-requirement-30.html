@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #f5f5f5; width: 1080px; height: 1920px; overflow: hidden; color: #333; }
+
+.job-card { margin: 60px 50px; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+
+.card-header { padding: 36px 40px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 20px; }
+.company-logo { width: 72px; height: 72px; border-radius: 16px; background: #e8f0fe; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #2f88ff; flex-shrink: 0; }
+.company-info { flex: 1; }
+.company-name { font-size: 28px; font-weight: 600; color: #333; }
+.company-size { font-size: 22px; color: #999; margin-top: 4px; }
+.company-tag { background: #f0f0f0; border-radius: 8px; padding: 6px 16px; font-size: 20px; color: #888; }
+
+.job-body { padding: 40px; }
+.job-title { font-size: 44px; font-weight: 700; color: #222; margin-bottom: 16px; }
+.job-salary { font-size: 40px; font-weight: 700; color: #2f88ff; margin-bottom: 30px; }
+.job-salary span { font-size: 24px; color: #999; font-weight: 400; margin-left: 8px; }
+
+.section-title { font-size: 28px; font-weight: 600; color: #333; margin-bottom: 24px; }
+
+.requirement-list { margin-bottom: 30px; }
+.req-item { display: flex; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid #f5f5f5; gap: 16px; }
+.req-item:last-child { border-bottom: none; }
+.req-check { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.req-check.pass { background: #e8f5e9; color: #4caf50; }
+.req-check.fail { background: #ffebee; color: #ff4444; }
+.req-text { font-size: 26px; color: #333; line-height: 1.5; }
+.req-text.highlight { color: #ff4444; font-weight: 600; }
+.req-annotation { font-size: 20px; color: #ff4444; margin-top: 4px; }
+
+.apply-section { display: flex; align-items: center; gap: 20px; padding-top: 10px; }
+.apply-btn { background: #2f88ff; color: #ffffff; font-size: 30px; font-weight: 600; padding: 24px 80px; border-radius: 16px; border: none; text-align: center; }
+.apply-count { font-size: 22px; color: #999; }
+
+.annotation-box { margin: 0 50px 0; background: #fff5f5; border: 2px solid #ff4444; border-radius: 20px; padding: 36px 40px; }
+.annotation-label { font-size: 22px; color: #ff4444; font-weight: 600; margin-bottom: 12px; }
+.annotation-text { font-size: 28px; color: #cc0000; line-height: 1.8; font-weight: 500; }
+
+.bottom-screenshot-hint { padding: 40px 50px; text-align: center; }
+.hint-text { font-size: 22px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="job-card">
+  <div class="card-header">
+    <div class="company-logo">&#127970;</div>
+    <div class="company-info">
+      <div class="company-name">某科技有限公司</div>
+      <div class="company-size">500-1000人 &#183; 互联网 &#183; B轮</div>
+    </div>
+    <div class="company-tag">已认证</div>
+  </div>
+
+  <div class="job-body">
+    <div class="job-title">高级产品经理</div>
+    <div class="job-salary">25-40K<span>&#183;14薪</span></div>
+
+    <div class="section-title">任职要求</div>
+    <div class="requirement-list">
+      <div class="req-item">
+        <div class="req-check pass">&#10003;</div>
+        <div class="req-text">3年以上产品经理工作经验</div>
+      </div>
+      <div class="req-item">
+        <div class="req-check fail">&#10005;</div>
+        <div>
+          <div class="req-text highlight">30岁以下</div>
+          <div class="req-annotation">22+3=25, 那25-30的5年去哪了？</div>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-check pass">&#10003;</div>
+        <div class="req-text">本科及以上学历</div>
+      </div>
+      <div class="req-item">
+        <div class="req-check pass">&#10003;</div>
+        <div class="req-text">有从0到1的产品经验优先</div>
+      </div>
+      <div class="req-item">
+        <div class="req-check pass">&#10003;</div>
+        <div class="req-text">良好的沟通协调能力和抗压能力</div>
+      </div>
+    </div>
+
+    <div class="apply-section">
+      <div class="apply-btn">投递</div>
+      <div class="apply-count">已投递 2,847 人</div>
+    </div>
+  </div>
+</div>
+
+<div class="annotation-box">
+  <div class="annotation-label">&#9888; 数学题</div>
+  <div class="annotation-text">
+    22岁毕业 + 3年经验 = 25岁。<br>
+    谁30岁以下有3年经验？<br>
+    25到30之间那5年，你去哪了？
+  </div>
+</div>
+</body>
+</html>
