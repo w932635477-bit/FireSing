@@ -36,7 +36,13 @@
     {"id": "AT01", "query": "empty warehouse industrial golden light", "output": "AT01-warehouse.jpg"},
     {"id": "AT02", "query": "desk lamp night workspace coffee phone", "output": "AT02-desk-night.jpg"},
     {"id": "AT03", "query": "building materials market tiles samples", "output": "AT03-market.jpg"},
-    {"id": "AT04", "query": "coffee shop window phone typing natural light", "output": "AT04-coffee-shop.jpg"}
+    {"id": "AT04", "query": "coffee shop window phone typing natural light", "output": "AT04-coffee-shop.jpg"},
+    {"id": "AT05", "query": "resume papers scattered on desk", "output": "AT05-resume-papers.jpg"},
+    {"id": "AT06", "query": "empty office corridor fluorescent light", "output": "AT06-empty-office.jpg"},
+    {"id": "AT07", "query": "man walking alone city street night", "output": "AT07-lonely-walk.jpg"},
+    {"id": "AT08", "query": "smartphone screen glow dark room", "output": "AT08-phone-glow.jpg"},
+    {"id": "AT09", "query": "tiles samples building materials showroom", "output": "AT09-tiles-showroom.jpg"},
+    {"id": "AT10", "query": "sunrise through window hope morning", "output": "AT10-sunrise-hope.jpg"}
   ],
 
   "text_cards": [
@@ -49,42 +55,48 @@
     {
       "segment": "S01",
       "clips": [
-        {"type": "screenshot", "ref": "SS01", "duration": 3.0, "beat": "hook", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "curiosity→shock"},
-        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 4.0, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "shock→self_deprecating"},
+        {"type": "screenshot", "ref": "SS01", "duration": 3.5, "beat": "hook", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "curiosity→shock"},
+        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 5.5, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "shock→self_deprecating"},
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "resignation"},
         {"type": "text_card", "ref": "TC01", "duration": 3.0, "beat": "punchline", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "self_deprecating"}
       ]
     },
     {
       "segment": "S02",
       "clips": [
-        {"type": "video_clip", "ref": "面试/7844951-hd_1080_1920_30fps_副本", "duration": 6.0, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "resignation"},
-        {"type": "atmosphere", "ref": "AT01", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "loneliness"},
-        {"type": "screenshot", "ref": "SS02", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "frustration"},
-        {"type": "text_card", "ref": "TC02", "duration": 3.0, "beat": "dark_humor", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "self_deprecating"}
+        {"type": "video_clip", "ref": "面试/7844951-hd_1080_1920_30fps_副本", "duration": 8.0, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "resignation"},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "duration": 6.0, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "loneliness"},
+        {"type": "atmosphere", "ref": "AT06", "zoom": true, "duration": 6.0, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "isolation"},
+        {"type": "screenshot", "ref": "SS02", "duration": 4.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "frustration"},
+        {"type": "atmosphere", "ref": "AT07", "zoom": true, "duration": 6.0, "beat": "mood", "shot_type": "MS", "camera_move": "slow dolly in", "emotion_arc": "defeat"},
+        {"type": "text_card", "ref": "TC02", "duration": 4.0, "beat": "dark_humor", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "self_deprecating"}
       ]
     },
     {
       "segment": "S03",
       "clips": [
-        {"type": "screenshot", "ref": "SS03", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "surprise"},
-        {"type": "atmosphere", "ref": "AT02", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "MS", "camera_move": "slow dolly in", "emotion_arc": "contemplation"},
-        {"type": "video_clip", "ref": "面试/7644024-uhd_2160_4096_25fps_副本", "duration": 5.0, "beat": "turning_point", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "realization"},
-        {"type": "atmosphere", "ref": "AT03", "zoom": true, "duration": 4.0, "beat": "mood", "shot_type": "MS", "camera_move": "locked", "emotion_arc": "regret→hope"}
+        {"type": "screenshot", "ref": "SS03", "duration": 3.5, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "surprise"},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "duration": 7.0, "beat": "mood", "shot_type": "MS", "camera_move": "slow dolly in", "emotion_arc": "contemplation"},
+        {"type": "video_clip", "ref": "面试/7644024-uhd_2160_4096_25fps_副本", "duration": 8.0, "beat": "turning_point", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "realization"},
+        {"type": "atmosphere", "ref": "AT08", "zoom": true, "duration": 6.0, "beat": "mood", "shot_type": "CU", "camera_move": "slow dolly in", "emotion_arc": "reflection"},
+        {"type": "atmosphere", "ref": "AT09", "zoom": true, "duration": 6.0, "beat": "mood", "shot_type": "MS", "camera_move": "slow dolly in", "emotion_arc": "nostalgia"},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "MS", "camera_move": "locked", "emotion_arc": "regret→hope"},
+        {"type": "atmosphere", "ref": "AT10", "zoom": true, "duration": 3.5, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "hope"}
       ]
     },
     {
       "segment": "S04",
       "clips": [
-        {"type": "screenshot", "ref": "SS04", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "action"},
-        {"type": "video_clip", "ref": "面试/7643444-uhd_2160_4096_25fps_副本", "duration": 5.0, "beat": "resolve", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "confidence"},
-        {"type": "text_card", "ref": "TC03", "duration": 3.5, "beat": "punchline", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "conviction"}
+        {"type": "screenshot", "ref": "SS04", "duration": 3.5, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "action"},
+        {"type": "video_clip", "ref": "面试/7643444-uhd_2160_4096_25fps_副本", "duration": 7.5, "beat": "resolve", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "confidence"},
+        {"type": "text_card", "ref": "TC03", "duration": 3.8, "beat": "punchline", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "conviction"}
       ]
     },
     {
       "segment": "S05",
       "clips": [
-        {"type": "atmosphere", "ref": "AT04", "zoom": false, "duration": 4.0, "beat": "cta", "shot_type": "WS", "camera_move": "slow pull out", "emotion_arc": "warmth"},
-        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 3.0, "beat": "cta", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "invitation"}
+        {"type": "atmosphere", "ref": "AT04", "zoom": false, "duration": 3.0, "beat": "cta", "shot_type": "WS", "camera_move": "slow pull out", "emotion_arc": "warmth"},
+        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 2.0, "beat": "cta", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "invitation"}
       ]
     }
   ],
