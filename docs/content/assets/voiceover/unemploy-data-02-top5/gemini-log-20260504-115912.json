@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-05-04T11:59:12.795173",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-data-02-top5",
+  "total_duration_s": 72.79,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S01.mp3",
+      "duration_s": 9.72,
+      "status": "success",
+      "actual_duration_s": 9.72,
+      "voiceover_text": "2026裁员最狠的5个行业，看到最后你会庆幸自己不在里面",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S02.mp3",
+      "duration_s": 12.48,
+      "status": "success",
+      "actual_duration_s": 12.48,
+      "voiceover_text": "第5名，教育培训。双减之后60万人失业，机构倒闭率超过70%。新东方一口气裁了6万人。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S03.mp3",
+      "duration_s": 12.12,
+      "status": "success",
+      "actual_duration_s": 12.12,
+      "voiceover_text": "第4名，制造业。产业转移加自动化，沿海工厂一波接一波裁员，打工人的退路越来越窄。",
+      "director_notes": "Build tension steadily. Use [seriously] to state the iron law. List examples with quiet intensity, each one sharper than the last. Not angry, but firm. End with the punchline landing like a verdict."
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S04.mp3",
+      "duration_s": 9.96,
+      "status": "success",
+      "actual_duration_s": 9.96,
+      "voiceover_text": "第3名，新能源车。看着风光，产能已经严重过剩。头部车企裁员10%起步，供应商更惨。",
+      "engine": "doubao_fallback"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S05.mp3",
+      "duration_s": 8.904,
+      "status": "success",
+      "actual_duration_s": 8.904,
+      "voiceover_text": "第2名，房地产。三年寒冬没见底，百强房企裁员超过一半，上下游产业链全遭殃。",
+      "engine": "doubao_fallback"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S06.mp3",
+      "duration_s": 12.408,
+      "status": "success",
+      "actual_duration_s": 12.408,
+      "voiceover_text": "第1名，互联网。阿里一年砍了34%的人，百度裁了7%，而且现在流行静默裁员——不公开裁，逼你自己走，连赔偿金都省了。",
+      "engine": "doubao_fallback"
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-data-02-top5/S07.mp3",
+      "duration_s": 7.2,
+      "status": "success",
+      "actual_duration_s": 7.2,
+      "voiceover_text": "你在哪个行业？评论区说说，看看谁最难。关注我，下期告诉你被裁后怎么办。",
+      "engine": "doubao_fallback"
+    }
+  ]
+}
