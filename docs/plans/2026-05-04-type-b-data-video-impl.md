@@ -4,7 +4,19 @@
 
 **Goal:** Produce a 45-55s data shock video "2026裁员最狠行业TOP5" using v3 workflow (Playwright data cards + Unsplash atmosphere + FFmpeg compose), zero cost.
 
-**Architecture:** Config-driven v3 Medvi pipeline. A single JSON config (`unemploy-data-02-top5.json`) drives all stages: Playwright renders HTML data cards to PNG, Unsplash downloader fetches atmosphere photos, Gemini TTS generates Charon male voiceover, FFmpeg composes rough-cut with opening + clips + voiceover + BGM. Final polish in JianYing.
+**Architecture:** Config-driven v3 Medvi pipeline with breathing rhythm storyboard. A single JSON config (`unemploy-data-02-top5.json`) drives all stages. Storyboard uses slow→fast→slow pacing: #5 slowest (audience enters), #5→#2 accelerates (tension), 0.6s×3 fast-cut montage before #1 (burst), #1 longest (emotional release), CTA at ~88%.
+
+**Storyboard rhythm:**
+
+| Segment | ~Duration | Clips | Pace |
+|---------|-----------|-------|------|
+| S01 HOOK | 3s | Text card | Fast |
+| S02 #5 教育 | ~8s | Screenshot 60% + Atmosphere 40% | Slow |
+| S03 #4 制造 | ~8s | Screenshot 55% + Atmosphere 45% | Medium |
+| S04 #3 新能源 | ~7s | Screenshot 50% + Atmosphere 50% | Medium-fast |
+| S05 #2 房地产 | ~6s | Screenshot 50% + Atmosphere 50% | Fast |
+| S06 #1 互联网 | ~13s | 3×0.6s flash + Screenshot + 2 Atmosphere | Burst→Slowest |
+| S07 CTA | ~6s | Atmosphere + Text card | Slow |
 
 **Tech Stack:** Python 3, Playwright, Unsplash API, Gemini 3.1 Flash TTS, FFmpeg, JSON config
 
@@ -66,11 +78,6 @@
 
   "text_cards": [
     {"id": "TC01", "lines": ["2026裁员最狠", "5个行业"], "style": "medvi", "bg_image": "AT05-empty-office-night.jpg", "duration": 3.0},
-    {"id": "TC02", "lines": ["第5名", "教育培训", "60万人失业"], "style": "medvi", "bg_image": "AT01-empty-classroom.jpg", "duration": 3.5},
-    {"id": "TC03", "lines": ["第4名", "制造业", "沿海工厂裁员潮"], "style": "medvi", "bg_image": "AT02-idle-factory.jpg", "duration": 3.5},
-    {"id": "TC04", "lines": ["第3名", "新能源车", "头部裁员10%+"], "style": "medvi", "bg_image": "AT03-empty-showroom.jpg", "duration": 3.5},
-    {"id": "TC05", "lines": ["第2名", "房地产", "百强裁员超50%"], "style": "medvi", "bg_image": "AT04-unfinished-buildings.jpg", "duration": 3.5},
-    {"id": "TC06", "lines": ["第1名", "互联网科技", "阿里裁员34%"], "style": "medvi", "bg_image": "AT06-night-office.jpg", "duration": 3.5},
     {"id": "TC07", "lines": ["你在哪个行业？", "评论区说说"], "style": "medvi", "bg_image": "AT05-empty-office-night.jpg", "duration": 4.0}
   ],
 
@@ -84,15 +91,15 @@
     {
       "segment": "S02",
       "clips": [
-        {"type": "screenshot", "ref": "SS02", "zoom": true, "pct": 0.5},
-        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.5}
+        {"type": "screenshot", "ref": "SS02", "zoom": true, "pct": 0.6},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.4}
       ]
     },
     {
       "segment": "S03",
       "clips": [
-        {"type": "screenshot", "ref": "SS03", "zoom": true, "pct": 0.5},
-        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.5}
+        {"type": "screenshot", "ref": "SS03", "zoom": true, "pct": 0.55},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.45}
       ]
     },
     {
@@ -112,8 +119,12 @@
     {
       "segment": "S06",
       "clips": [
-        {"type": "screenshot", "ref": "SS06", "zoom": true, "pct": 0.5},
-        {"type": "atmosphere", "ref": "AT06", "zoom": true, "pct": 0.5}
+        {"type": "screenshot", "ref": "SS02", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS04", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS05", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS06", "zoom": true, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT06", "zoom": true, "pct": 0.3},
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "pct": 0.3}
       ]
     },
     {
