@@ -1,0 +1,124 @@
+{
+  "video_id": "unemploy-data-02-top5",
+  "version": "3.0",
+  "series": "unemploy-data",
+  "workflow_mode": "unemploy",
+
+  "global": {
+    "target_duration_sec": 55,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon",
+    "opening_file": "unemploy-story-opening-v1.mp4"
+  },
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon",
+    "segments": [
+      {"id": "S01", "emotion": "shock", "text": "2026裁员最狠的5个行业，看到最后你会庆幸自己不在里面"},
+      {"id": "S02", "emotion": "tension", "text": "第5名，教育培训。双减之后60万人失业，机构倒闭率超过70%。新东方一口气裁了6万人。"},
+      {"id": "S03", "emotion": "tension", "text": "第4名，制造业。产业转移加自动化，沿海工厂一波接一波裁员，打工人的退路越来越窄。"},
+      {"id": "S04", "emotion": "tension", "text": "第3名，新能源车。看着风光，产能已经严重过剩。头部车企裁员10%起步，供应商更惨。"},
+      {"id": "S05", "emotion": "fear", "text": "第2名，房地产。三年寒冬没见底，百强房企裁员超过一半，上下游产业链全遭殃。"},
+      {"id": "S06", "emotion": "shock", "text": "第1名，互联网。阿里一年砍了34%的人，百度裁了7%，而且现在流行静默裁员——不公开裁，逼你自己走，连赔偿金都省了。"},
+      {"id": "S07", "emotion": "engagement", "text": "你在哪个行业？评论区说说，看看谁最难。关注我，下期告诉你被裁后怎么办。"}
+    ]
+  },
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-top5-ranking", "output": "SS01-top5-ranking.png"},
+    {"id": "SS02", "template": "tpl-layoff-data-edu", "output": "SS02-edu-60w.png"},
+    {"id": "SS03", "template": "tpl-layoff-data-mfg", "output": "SS03-mfg.png"},
+    {"id": "SS04", "template": "tpl-layoff-data-ev", "output": "SS04-ev-10pct.png"},
+    {"id": "SS05", "template": "tpl-layoff-data-realestate", "output": "SS05-realestate.png"},
+    {"id": "SS06", "template": "tpl-layoff-data-tech", "output": "SS06-tech-34pct.png"}
+  ],
+
+  "atmosphere": [
+    {"id": "AT01", "query": "empty classroom school desks abandoned", "output": "AT01-empty-classroom.jpg"},
+    {"id": "AT02", "query": "abandoned factory production line idle", "output": "AT02-idle-factory.jpg"},
+    {"id": "AT03", "query": "car dealership showroom empty vehicles", "output": "AT03-empty-showroom.jpg"},
+    {"id": "AT04", "query": "abandoned construction site unfinished buildings", "output": "AT04-unfinished-buildings.jpg"},
+    {"id": "AT05", "query": "empty office desks night city lights", "output": "AT05-empty-office-night.jpg"},
+    {"id": "AT06", "query": "late night office building windows illuminated", "output": "AT06-night-office.jpg"}
+  ],
+
+  "text_cards": [
+    {"id": "TC01", "lines": ["2026裁员最狠", "5个行业"], "style": "medvi", "bg_image": "AT05-empty-office-night.jpg", "duration": 3.0},
+    {"id": "TC07", "lines": ["你在哪个行业？", "评论区说说"], "style": "medvi", "bg_image": "AT05-empty-office-night.jpg", "duration": 4.0}
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [
+        {"type": "text_card", "ref": "TC01", "duration": 3.0}
+      ]
+    },
+    {
+      "segment": "S02",
+      "clips": [
+        {"type": "screenshot", "ref": "SS02", "zoom": true, "pct": 0.6},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "pct": 0.4}
+      ]
+    },
+    {
+      "segment": "S03",
+      "clips": [
+        {"type": "screenshot", "ref": "SS03", "zoom": true, "pct": 0.55},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "pct": 0.45}
+      ]
+    },
+    {
+      "segment": "S04",
+      "clips": [
+        {"type": "screenshot", "ref": "SS04", "zoom": true, "pct": 0.5},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "pct": 0.5}
+      ]
+    },
+    {
+      "segment": "S05",
+      "clips": [
+        {"type": "screenshot", "ref": "SS05", "zoom": true, "pct": 0.5},
+        {"type": "atmosphere", "ref": "AT04", "zoom": true, "pct": 0.5}
+      ]
+    },
+    {
+      "segment": "S06",
+      "clips": [
+        {"type": "screenshot", "ref": "SS02", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS04", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS05", "zoom": false, "pct": 0.0, "duration": 0.6},
+        {"type": "screenshot", "ref": "SS06", "zoom": true, "pct": 0.4},
+        {"type": "atmosphere", "ref": "AT06", "zoom": true, "pct": 0.3},
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "pct": 0.3}
+      ]
+    },
+    {
+      "segment": "S07",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT05", "zoom": true, "pct": 0.5},
+        {"type": "text_card", "ref": "TC07", "duration": 4.0}
+      ]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "2026裁员最狠的5个行业，第1名裁掉了三分之一",
+      "这5个行业正在疯狂裁员，你在里面吗",
+      "2026裁员排行榜：第5名就开始心慌了"
+    ],
+    "tags": ["#裁员", "#失业", "#2026", "#行业分析", "#互联网", "#房地产", "#制造业", "#中年危机", "#求职", "#职场"],
+    "comment_trigger": "互联网人集合了，你们公司今年裁了多少人？"
+  }
+}

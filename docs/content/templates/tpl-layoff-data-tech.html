@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #1a1a2e; width: 1080px; height: 1920px; overflow: hidden; color: #e0e0e0; }
+.header { padding: 80px 60px 30px; display: flex; align-items: center; gap: 20px; }
+.rank-badge { font-size: 72px; font-weight: 800; color: #ff4444; }
+.industry-name { font-size: 52px; font-weight: 700; color: #ffffff; }
+.split-panel { display: flex; gap: 24px; padding: 40px 60px; }
+.panel-card { flex: 1; background: #2a1020; border-radius: 20px; padding: 50px 40px; text-align: center; border: 1px solid #4a1530; }
+.panel-label { font-size: 30px; color: #ff8888; margin-bottom: 20px; }
+.panel-number { font-size: 96px; font-weight: 700; color: #ff4444; line-height: 1.1; }
+.panel-unit { font-size: 36px; font-weight: 400; margin-left: 4px; }
+.panel-sub { font-size: 22px; color: #aa6666; margin-top: 12px; }
+.alert-section { padding: 30px 60px; }
+.alert-box { background: #2a1020; border: 2px solid #ff4444; border-radius: 20px; padding: 40px; text-align: center; }
+.alert-title { font-size: 36px; color: #ff4444; font-weight: 700; margin-bottom: 16px; }
+.alert-text { font-size: 28px; color: #e0e0e0; line-height: 1.6; }
+.footer-strip { position: absolute; bottom: 0; left: 0; right: 0; background: #ff4444; padding: 40px 60px; }
+.footer-text { font-size: 32px; color: #ffffff; font-weight: 600; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="rank-badge">NO.1</div>
+  <div class="industry-name">互联网科技</div>
+</div>
+<div class="split-panel">
+  <div class="panel-card">
+    <div class="panel-label">阿里巴巴</div>
+    <div class="panel-number">34<span class="panel-unit">%</span></div>
+    <div class="panel-sub">一年裁员比例</div>
+  </div>
+  <div class="panel-card">
+    <div class="panel-label">百度</div>
+    <div class="panel-number">7<span class="panel-unit">%</span></div>
+    <div class="panel-sub">裁员比例</div>
+  </div>
+</div>
+<div class="alert-section">
+  <div class="alert-box">
+    <div class="alert-title">静默裁员</div>
+    <div class="alert-text">不公开裁，逼你自己走<br/>连赔偿金都省了</div>
+  </div>
+</div>
+<div class="footer-strip">
+  <div class="footer-text">互联网寒冬，静默裁员成常态</div>
+</div>
+</body>
+</html>
