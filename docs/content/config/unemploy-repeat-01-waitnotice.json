@@ -1,0 +1,79 @@
+{
+  "video_id": "unemploy-repeat-01-waitnotice",
+  "version": "3.0",
+  "series": "unemploy-repeat",
+  "workflow_mode": "repeat-blast",
+  "global": {
+    "target_duration_sec": 50,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon"
+  },
+  "repeated_phrase": "回去等通知吧",
+  "segments": [
+      {"id": "LINE01", "emotion": "calm_corporate", "voiceover_text": "回去等通知吧。"},
+      {"id": "LINE02", "emotion": "polite_dismissive", "voiceover_text": "嗯，你的情况我们了解了。回去等通知吧。"},
+      {"id": "LINE03", "emotion": "impatient_dismissive", "voiceover_text": "我们还有其他候选人，你先回去等通知吧。"},
+      {"id": "LINE04", "emotion": "warm_then_cold", "voiceover_text": "其实你条件不错，不过...回去等通知吧。"},
+      {"id": "LINE05", "emotion": "rushed_muttering", "voiceover_text": "好，就这样，回去等通知吧。"},
+      {"id": "LINE06", "emotion": "whisper_haunting", "voiceover_text": "回去等通知吧"},
+      {"id": "LINE07", "emotion": "flat_robotic", "voiceover_text": "回去等通知吧"},
+      {"id": "LINE08", "emotion": "bitter_laugh_resigned", "voiceover_text": "回去等通知吧"},
+      {"id": "LINE09", "emotion": "slow_defeated", "voiceover_text": "回去...等通知吧"},
+      {"id": "LINE10", "emotion": "intense_rapid_shout", "voiceover_text": "回去等通知吧回去等通知吧回去等通知吧回去等通知吧"},
+      {"id": "LINE11", "emotion": "screaming_inside", "voiceover_text": "回去等通知吧！！"},
+      {"id": "LINE12", "emotion": "very_slow_heavy", "voiceover_text": "半年了。"},
+      {"id": "LINE13", "emotion": "vulnerable_trailing", "voiceover_text": "你..."},
+      {"id": "LINE14", "emotion": "quiet_trembling", "voiceover_text": "还在等吗？"},
+      {"id": "LINE15", "emotion": "warm_encouraging", "voiceover_text": "你等了多久？"}
+  ],
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon"
+  },
+  "stock_clips": {
+    "clip1": {"file": "interview-clip-01.mp4", "duration": 24.7},
+    "clip2": {"file": "interview-clip-02.mp4", "duration": 16.6},
+    "clip3": {"file": "interview-clip-03.mp4", "duration": 8.3},
+    "clip4": {"file": "interview-clip-04.mp4", "duration": 12.1}
+  },
+  "storyboard": [
+    {"shot": 1,  "time": "0-0.8s",    "type": "text_card", "ref": "TC01-hook", "duration": 0.8},
+    {"shot": 2,  "time": "0.8-1.5s",  "type": "text_card", "ref": "TC01-hook", "duration": 0.7},
+    {"shot": 3,  "time": "1.5-3s",    "type": "video_clip", "clip": "clip1", "seek": 0, "len": 1.5, "vo": "LINE01"},
+    {"shot": 4,  "time": "3-7s",      "type": "video_clip", "clip": "clip1", "seek": 1.5, "len": 4.0, "overlay": "第1次", "vo": "LINE02"},
+    {"shot": 5,  "time": "7-11s",     "type": "video_clip", "clip": "clip2", "seek": 0, "len": 4.0, "overlay": "第7次", "vo": "LINE03"},
+    {"shot": 6,  "time": "11-14s",    "type": "video_clip", "clip": "clip3", "seek": 0, "len": 3.0, "overlay": "第23次", "vo": "LINE04"},
+    {"shot": 7,  "time": "14-18s",    "type": "video_clip", "clip": "clip4", "seek": 0, "len": 4.0, "overlay": "第47次", "vo": "LINE05"},
+    {"shot": 8,  "time": "18-20s",    "type": "text_card", "ref": "TC02-flash", "duration": 2.0},
+    {"shot": 9,  "time": "20-22s",    "type": "video_clip", "clip": "clip1", "seek": 5.5, "len": 2.0, "text_center": "回去等通知吧", "vo": "LINE06"},
+    {"shot": 10, "time": "22-24s",    "type": "video_clip", "clip": "clip2", "seek": 4.0, "len": 2.0, "text_center": "回去等通知吧", "vo": "LINE07"},
+    {"shot": 11, "time": "24-26s",    "type": "video_clip", "clip": "clip4", "seek": 4.0, "len": 2.0, "text_center": "回去等通知吧", "vo": "LINE08"},
+    {"shot": 12, "time": "26-28s",    "type": "video_clip", "clip": "clip3", "seek": 3.0, "len": 2.0, "text_center": "回去等通知吧", "vo": "LINE09"},
+    {"shot": 13, "time": "28-31s",    "type": "video_clip", "clip": "clip1", "seek": 7.5, "len": 3.0, "text_rain": true, "vo": "LINE10"},
+    {"shot": 14, "time": "31-33s",    "type": "video_clip", "clip": "clip2", "seek": 6.0, "len": 2.0, "text_rain": true, "vo": "LINE11"},
+    {"shot": 15, "time": "33-35s",    "type": "text_card", "ref": "TC04-silence", "duration": 2.0},
+    {"shot": 16, "time": "35-37s",    "type": "text_card", "ref": "TC04-dark", "duration": 2.0, "vo": "LINE12"},
+    {"shot": 17, "time": "37-39s",    "type": "video_clip", "clip": "clip1", "seek": 10.5, "len": 2.0, "vo": "LINE13"},
+    {"shot": 18, "time": "39-41s",    "type": "video_clip", "clip": "clip1", "seek": 12.5, "len": 1.5, "vo": "LINE14"},
+    {"shot": 19, "time": "41-43s",    "type": "text_card", "ref": "TC04-full", "duration": 2.0},
+    {"shot": 20, "time": "43-47s",    "type": "video_clip", "clip": "clip2", "seek": 8.0, "len": 2.0, "text_fade": "评论区说说", "vo": "LINE15"},
+    {"shot": 21, "time": "47-50s",    "type": "text_card", "ref": "TC05-cta", "duration": 3.0}
+  ],
+  "bgm": {
+    "heartbeat_60": {"file": "heartbeat-60bpm.mp3", "volume": 0.15},
+    "heartbeat_120": {"file": "heartbeat-120bpm.mp3", "volume": 0.20},
+    "heartbeat_140": {"file": "heartbeat-140bpm.mp3", "volume": 0.25},
+    "heartbeat_160": {"file": "heartbeat-160bpm.mp3", "volume": 0.30},
+    "piano_c": {"file": "piano-c-note.mp3", "volume": 0.10}
+  },
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "你已经听过这句话多少次了？",
+      "回去等通知吧...半年了",
+      "面试47次后我听懂了这句话"
+    ],
+    "tags": ["失业", "面试", "找工作", "裁员", "职场", "中年危机"]
+  }
+}

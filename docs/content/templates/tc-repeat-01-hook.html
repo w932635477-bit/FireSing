@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; background: #000; display: flex;
+       align-items: center; justify-content: center; flex-direction: column;
+       font-family: "PingFang SC", "Noto Sans SC", sans-serif; overflow: hidden; }
+.text1 { color: #fff; font-size: 48px; font-weight: 300; letter-spacing: 4px;
+         opacity: 0; animation: fadeIn 0.3s ease-out 0.1s forwards; }
+.text2 { color: #FF2D2D; font-size: 64px; font-weight: 700; letter-spacing: 8px;
+         opacity: 0; animation: blink 0.1s step-end 3 0.9s forwards; margin-top: 20px; }
+@keyframes fadeIn { to { opacity: 1; } }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+</style></head>
+<body>
+<div class="text1">你已经听过这句话</div>
+<div class="text2">____次了</div>
+</body></html>

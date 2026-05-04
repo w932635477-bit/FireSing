@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { width: 1080px; height: 1920px; background: #000; display: flex;
+       align-items: center; justify-content: center; flex-direction: column; gap: 24px;
+       font-family: "PingFang SC", "Noto Sans SC", sans-serif; overflow: hidden; }
+.main { font-size: 72px; font-weight: 600; color: #fff; letter-spacing: 4px;
+        opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+.sub { font-size: 32px; font-weight: 300; color: #888; letter-spacing: 2px;
+       opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+</style></head>
+<body>
+<div class="main">你等了多久？</div>
+<div class="sub">评论区</div>
+</body></html>

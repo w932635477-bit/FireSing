@@ -164,6 +164,82 @@ EMOTION_PROMPTS = {
         "scene": "放下故事，直接问听众。",
         "director": "从讲故事切换到直接对话。语气放松，像朋友问一句'你投了多少了？'。不要严肃，不要煽情，就一个自然的邀请。最后'评论区说说'要轻松，像随口一说。",
     },
+    # B+ Repeat Blast emotions (Episode 01: 回去等通知吧)
+    "calm_corporate": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "HR说'回去等通知吧'，像读一句标准话术。",
+        "director": "短促、官方、不带感情。越是客气越刺痛。像公司前台念一条通知，不是跟人说话。语速正常，句尾不要拖。",
+    },
+    "polite_dismissive": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "HR客套地拒绝你，先说'了解情况'再说不合适。",
+        "director": "礼貌但敷衍。'你的情况我们了解了'是废话铺垫，说完赶紧进正题。句尾'回去等通知吧'说得特别顺，像说了一万遍。",
+    },
+    "impatient_dismissive": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "HR开始不耐烦，暗示你只是备胎。",
+        "director": "语速比上一句快。'其他候选人'说得很自然，'先'字稍微加重，潜台词是'你排后面'。结尾'回去等通知吧'说得更快，像赶人。",
+    },
+    "warm_then_cold": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "HR先夸你再拒绝，给你希望再拿走。",
+        "director": "前半句'其实你条件不错'说得真诚，像真的在夸你。'不过'之后语速突然加快，草草收尾。'回去等通知吧'像附赠的，不是重点。重点在'不过'的转折。",
+    },
+    "rushed_muttering": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "HR连客套都不演了，赶紧结束面试。",
+        "director": "含糊、匆忙、自言自语的感觉。'好就这样'说很快，像在划掉一个待办事项。'回去等通知吧'说得特别轻特别快，像已经在看手机了。",
+    },
+    "whisper_haunting": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "这句话在你脑子里回响，不是别人在说，是你自己在想。",
+        "director": "气声，贴近话筒，像耳语。非常轻但每个字都清楚。不是在跟谁说，是这句话自己冒出来的。句尾不要完全消失，留一点余音。",
+    },
+    "flat_robotic": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "机械式重复，像自动回复短信。",
+        "director": "平直，无感情，每个字等间隔。不是人在说话，是系统在播报。去掉所有语气词和呼吸。像TTS默认输出。",
+    },
+    "bitter_laugh_resigned": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "先苦笑一声，再说出来。已经麻木了。",
+        "director": "开头先轻轻'哼'一声苦笑，不是大笑，是从鼻子里出气的笑。然后说这句话的时候嘴角是歪的。不是愤怒，是那种'得了吧'的无奈。",
+    },
+    "slow_defeated": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "最后一次了，没力气了，像在说给自己听。",
+        "director": "极慢，比所有前面都慢。每个字之间有明显停顿。'回去'和'等'之间停一下，'等'和'通知吧'之间再停一下。句尾声音往下走，像叹气。",
+    },
+    "intense_rapid_shout": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "四句话叠在一起，越来越快越来越响。",
+        "director": "开头正常语速，每重复一遍加快一点加大声一点。最后一句几乎是喊出来的但不是真喊，是压抑到极限突然爆发。中间不要停。",
+    },
+    "screaming_inside": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "内心在尖叫，咬牙切齿地说出来。",
+        "director": "压抑的嘶吼，不是真的喊。咬牙切齿，像牙齿咬着说出来。'回去等通知吧'五个字每个都带着恨意。最后'吧'字要爆破出来。",
+    },
+    "very_slow_heavy": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "所有噪音消失后，唯一的一句话。半年了。",
+        "director": "极慢，几乎听不见。像对自己说，不是对别人说。'半年了'三个字每个字之间有一秒停顿。声音很沉很重，像一个很大的石头慢慢放下来。",
+    },
+    "vulnerable_trailing": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "最脆弱的一个字，不敢问完。",
+        "director": "'你'字拖长，像在犹豫要不要说。后面停顿0.5秒，像鼓起勇气但没鼓够。声音在句尾消散，不是说完是没力气说完。",
+    },
+    "quiet_trembling": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "问题终于问完，不需要回答。",
+        "director": "轻微颤抖，像嘴唇在抖。'还在等吗'四个字说得轻但清楚。句尾'吗'字往上走但很微弱，不是疑问，是自问。说完后留一秒呼吸声。",
+    },
+    "warm_encouraging": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "从黑暗中拉出来，像朋友在问你。",
+        "director": "语气突然转变，从压抑变成温暖。像朋友拍拍你肩膀问一句'你等了多久'。不是同情，是关心。语速正常，声音明亮，跟前面形成强烈反差。",
+    },
 }
 
 AUDIO_TAGS = {
@@ -187,6 +263,21 @@ AUDIO_TAGS = {
     "希望": ["[warmly]", "[gently]"],
     "力量": ["[confidently]", "[warmly]"],
     "参与": ["[cheerfully]", "[warmly]"],
+    "calm_corporate": ["[calm]", "[detached]"],
+    "polite_dismissive": ["[calm]", "[rushed]"],
+    "impatient_dismissive": ["[firmly]", "[quickly]"],
+    "warm_then_cold": ["[warmly]", "[coldly]"],
+    "rushed_muttering": ["[quickly]", "[muttering]"],
+    "whisper_haunting": ["[whisper]", "[haunting]"],
+    "flat_robotic": ["[monotone]", "[flat]"],
+    "bitter_laugh_resigned": ["[laughing]", "[resigned]"],
+    "slow_defeated": ["[slowly]", "[defeated]"],
+    "intense_rapid_shout": ["[intensely]", "[shouting]"],
+    "screaming_inside": ["[angrily]", "[clenched]"],
+    "very_slow_heavy": ["[slowly]", "[heavily]"],
+    "vulnerable_trailing": ["[softly]", "[vulnerable]"],
+    "quiet_trembling": ["[trembling]", "[quietly]"],
+    "warm_encouraging": ["[warmly]", "[encouraging]"],
 }
 
 
