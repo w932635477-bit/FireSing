@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-04T09:02:35.578786",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-story-04-zhangwei-v2",
+  "total_duration_s": 133.12,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-04-zhangwei-v2/S01.mp3",
+      "duration_s": 29.08,
+      "status": "success",
+      "actual_duration_s": 29.08,
+      "voiceover_text": "投了847份简历。收到3个面试通知。0个offer。38岁，建材行业干了12年。从仓库管理员干到区域经理，瓷砖地板卫浴五金，哪个牌子好哪个是贴牌哪个报价有水分，我闭着眼睛都知道。但在HR眼里，38岁建材人，就是一张废纸。",
+      "director_notes": "像回忆一件已经过去的事，不激动也不委屈。数字'38岁'、'15年'轻轻带过。'全没了'之后要有一个明显的停顿。HR那句话用稍微不同的语气模仿，然后'你太贵了'要轻，不要咬牙切齿，要轻得像刀子。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-04-zhangwei-v2/S02.mp3",
+      "duration_s": 48.44,
+      "status": "success",
+      "actual_duration_s": 48.44,
+      "voiceover_text": "失业第三个月，我在一个装修业主群里看到有人问：瓷砖怎么选，怕被建材城坑。我回了一大段，从品牌到报价到怎么避坑，写了快半小时。那人私信说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着。不是激动，是后悔。12年的行业知识，我以前从来没想过主动拿出来。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-04-zhangwei-v2/S03.mp3",
+      "duration_s": 37.08,
+      "status": "success",
+      "actual_duration_s": 37.08,
+      "voiceover_text": "我花了三天把经验列了个清单。建材避坑指南、报价单审查、全屋材料规划。每一条都是我12年踩过的坑、省过的钱。然后在闲鱼发了个帖子：10年建材人帮你审报价单。第一周没人问。第二周来了3个人。第三周，有人主动问我能不能全程陪同买材料。第二个月，我靠这个赚了4000多。没找到工作，但我的经验在帮我赚钱。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-04-zhangwei-v2/S04.mp3",
+      "duration_s": 13.2,
+      "status": "success",
+      "actual_duration_s": 13.2,
+      "voiceover_text": "847份简历教会我一件事：你的经验不是废纸，是你还没包装过的产品。你做了10年的行业，门外汉花多少钱都买不到你的经验。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-story-04-zhangwei-v2/S05.mp3",
+      "duration_s": 5.32,
+      "status": "success",
+      "actual_duration_s": 5.32,
+      "voiceover_text": "你做的是什么行业？评论区告诉我，我帮你拆成能卖的经验。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}
