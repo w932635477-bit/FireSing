@@ -5,60 +5,63 @@
 <meta name="viewport" content="width=1080">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, "PingFang SC", sans-serif; background: #1a1a2e; width: 1080px; height: 1920px; overflow: hidden; color: #e0e0e0; }
-.header { padding: 80px 60px 40px; }
-.page-title { font-size: 56px; font-weight: 700; color: #ffffff; letter-spacing: 2px; }
-.page-subtitle { font-size: 28px; color: #8888aa; margin-top: 16px; }
-.ranking { padding: 20px 60px; }
-.rank-row { display: flex; align-items: center; padding: 32px 40px; margin-bottom: 16px; background: #16213e; border-radius: 20px; border: 1px solid #1a2d50; }
-.rank-row.top { background: #2a1020; border-color: #4a1530; }
-.rank-num { font-size: 60px; font-weight: 800; width: 100px; flex-shrink: 0; color: #8888cc; }
-.rank-row.top .rank-num { color: #ff4444; }
-.rank-info { flex: 1; }
-.rank-industry { font-size: 36px; font-weight: 600; color: #ffffff; }
-.rank-data { font-size: 24px; color: #8888aa; margin-top: 6px; }
-.rank-row.top .rank-data { color: #ff8888; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #0a0a0a; width: 1080px; height: 1920px; overflow: hidden; color: #ffffff; }
+.title { position: absolute; top: 120px; left: 60px; right: 60px; }
+.title-main { font-size: 72px; font-weight: 900; color: #ffffff; line-height: 1.2; }
+.title-main .red { color: #ff3333; }
+.title-sub { font-size: 28px; color: #666666; margin-top: 20px; }
+.list { position: absolute; top: 420px; left: 60px; right: 60px; }
+.item { display: flex; align-items: center; padding: 44px 0; border-bottom: 2px solid #1a1a1a; }
+.item-num { font-size: 64px; font-weight: 900; width: 100px; color: #ff3333; flex-shrink: 0; }
+.item-num.dim { color: #333333; }
+.item-info { flex: 1; }
+.item-name { font-size: 48px; font-weight: 700; color: #ffffff; }
+.item-data { font-size: 24px; color: #666666; margin-top: 8px; }
+.item.final { border-bottom: none; }
+.item.final .item-num { color: #ff0000; font-size: 80px; }
+.item.final .item-name { font-size: 56px; color: #ff3333; }
+.item.final .item-data { font-size: 28px; color: #ff6666; }
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="page-title">2026 裁员最狠行业 TOP5</div>
-  <div class="page-subtitle">数据来源：Rest of World / Metaintro</div>
+<div class="title">
+  <div class="title-main"><span class="red">2026</span> 裁员最狠<br/>行业 TOP5</div>
+  <div class="title-sub">数据来源：Rest of World / 国家统计局</div>
 </div>
-<div class="ranking">
-  <div class="rank-row">
-    <div class="rank-num">5</div>
-    <div class="rank-info">
-      <div class="rank-industry">教育培训</div>
-      <div class="rank-data">60万人失业 · 机构倒闭率超70%</div>
+<div class="list">
+  <div class="item">
+    <div class="item-num dim">5</div>
+    <div class="item-info">
+      <div class="item-name">教育培训</div>
+      <div class="item-data">60万人失业 · 机构倒闭率>70%</div>
     </div>
   </div>
-  <div class="rank-row">
-    <div class="rank-num">4</div>
-    <div class="rank-info">
-      <div class="rank-industry">制造业</div>
-      <div class="rank-data">产业转移+自动化 · 沿海裁员潮</div>
+  <div class="item">
+    <div class="item-num dim">4</div>
+    <div class="item-info">
+      <div class="item-name">制造业</div>
+      <div class="item-data">产业转移+自动化 · 沿海裁员潮</div>
     </div>
   </div>
-  <div class="rank-row">
-    <div class="rank-num">3</div>
-    <div class="rank-info">
-      <div class="rank-industry">新能源汽车</div>
-      <div class="rank-data">产能过剩 · 头部裁员10%+</div>
+  <div class="item">
+    <div class="item-num dim">3</div>
+    <div class="item-info">
+      <div class="item-name">新能源汽车</div>
+      <div class="item-data">产能过剩 · 头部裁员10%+</div>
     </div>
   </div>
-  <div class="rank-row">
-    <div class="rank-num">2</div>
-    <div class="rank-info">
-      <div class="rank-industry">房地产</div>
-      <div class="rank-data">三年寒冬 · 百强房企裁员超50%</div>
+  <div class="item">
+    <div class="item-num">2</div>
+    <div class="item-info">
+      <div class="item-name">房地产</div>
+      <div class="item-data">三年寒冬 · 百强房企裁员超50%</div>
     </div>
   </div>
-  <div class="rank-row top">
-    <div class="rank-num">1</div>
-    <div class="rank-info">
-      <div class="rank-industry">互联网科技</div>
-      <div class="rank-data">阿里裁员34% · 静默裁员成常态</div>
+  <div class="item final">
+    <div class="item-num">1</div>
+    <div class="item-info">
+      <div class="item-name">互联网科技</div>
+      <div class="item-data">阿里裁员34% · 静默裁员成常态</div>
     </div>
   </div>
 </div>

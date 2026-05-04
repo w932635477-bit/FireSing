@@ -69,7 +69,7 @@ def concat_video_audio(video: Path, audio: Path, output: Path) -> None:
     run([
         "ffmpeg", "-y",
         "-i", str(video), "-i", str(audio),
-        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
         str(output)
     ], f"merge {output.name}")
 

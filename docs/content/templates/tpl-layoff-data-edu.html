@@ -5,45 +5,44 @@
 <meta name="viewport" content="width=1080">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, "PingFang SC", sans-serif; background: #1a1a2e; width: 1080px; height: 1920px; overflow: hidden; color: #e0e0e0; }
-.header { padding: 80px 60px 30px; display: flex; align-items: center; gap: 20px; }
-.rank-badge { font-size: 72px; font-weight: 800; color: #8888cc; }
-.industry-name { font-size: 52px; font-weight: 700; color: #ffffff; }
-.hero-stat { text-align: center; padding: 60px 60px 40px; }
-.big-number { font-size: 180px; font-weight: 800; color: #ff4444; line-height: 1; }
-.big-unit { font-size: 60px; color: #ff8888; margin-top: 10px; }
-.detail-cards { padding: 20px 60px; display: flex; gap: 24px; }
-.detail-card { flex: 1; background: #16213e; border-radius: 20px; padding: 40px 30px; text-align: center; border: 1px solid #1a2d50; }
-.detail-label { font-size: 28px; color: #8888aa; margin-bottom: 16px; }
-.detail-value { font-size: 56px; font-weight: 700; color: #ffffff; }
-.detail-sub { font-size: 22px; color: #666688; margin-top: 10px; }
-.footer-strip { position: absolute; bottom: 0; left: 0; right: 0; background: #16213e; padding: 40px 60px; border-top: 1px solid #1a2d50; }
-.footer-text { font-size: 30px; color: #8888aa; line-height: 1.6; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #0a0a0a; width: 1080px; height: 1920px; overflow: hidden; color: #ffffff; }
+.rank { position: absolute; top: 80px; left: 60px; font-size: 200px; font-weight: 900; color: #ff3333; opacity: 0.15; line-height: 1; }
+.industry { position: absolute; top: 260px; left: 60px; right: 60px; }
+.industry-label { font-size: 28px; color: #888888; letter-spacing: 4px; text-transform: uppercase; }
+.industry-name { font-size: 72px; font-weight: 800; color: #ffffff; margin-top: 8px; }
+.stat-block { position: absolute; top: 520px; left: 60px; right: 60px; text-align: center; }
+.big-number { font-size: 240px; font-weight: 900; color: #ff3333; line-height: 1; letter-spacing: -4px; }
+.big-unit { font-size: 64px; color: #ff6666; margin-top: 16px; }
+.sub-stats { position: absolute; top: 1050px; left: 60px; right: 60px; }
+.sub-item { margin-bottom: 40px; }
+.sub-value { font-size: 56px; font-weight: 700; color: #ffffff; }
+.sub-desc { font-size: 28px; color: #666666; margin-top: 8px; }
+.divider { width: 80px; height: 4px; background: #ff3333; margin: 20px 0; }
+.source { position: absolute; bottom: 60px; left: 60px; font-size: 22px; color: #444444; }
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="rank-badge">NO.5</div>
+<div class="rank">5</div>
+<div class="industry">
+  <div class="industry-label">NO.5</div>
   <div class="industry-name">教育培训</div>
 </div>
-<div class="hero-stat">
+<div class="stat-block">
   <div class="big-number">60万</div>
   <div class="big-unit">双减后失业人数</div>
 </div>
-<div class="detail-cards">
-  <div class="detail-card">
-    <div class="detail-label">机构倒闭率</div>
-    <div class="detail-value">>70%</div>
-    <div class="detail-sub">中小机构大面积关门</div>
+<div class="sub-stats">
+  <div class="sub-item">
+    <div class="divider"></div>
+    <div class="sub-value">机构倒闭率 >70%</div>
+    <div class="sub-desc">中小机构大面积关门</div>
   </div>
-  <div class="detail-card">
-    <div class="detail-label">新东方裁员</div>
-    <div class="detail-value">6万人</div>
-    <div class="detail-sub">一刀切清退</div>
+  <div class="sub-item">
+    <div class="divider"></div>
+    <div class="sub-value">新东方裁员 6万人</div>
+    <div class="sub-desc">一刀切清退</div>
   </div>
 </div>
-<div class="footer-strip">
-  <div class="footer-text">双减政策后，教培行业从巅峰跌入谷底</div>
-</div>
+<div class="source">数据来源：教育部</div>
 </body>
 </html>

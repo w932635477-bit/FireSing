@@ -5,45 +5,44 @@
 <meta name="viewport" content="width=1080">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, "PingFang SC", sans-serif; background: #1a1a2e; width: 1080px; height: 1920px; overflow: hidden; color: #e0e0e0; }
-.header { padding: 80px 60px 30px; display: flex; align-items: center; gap: 20px; }
-.rank-badge { font-size: 72px; font-weight: 800; color: #8888cc; }
-.industry-name { font-size: 52px; font-weight: 700; color: #ffffff; }
-.hero-stat { text-align: center; padding: 60px 60px 40px; }
-.big-number { font-size: 180px; font-weight: 800; color: #ff4444; line-height: 1; }
-.big-unit { font-size: 60px; color: #ff8888; margin-top: 10px; }
-.detail-cards { padding: 20px 60px; display: flex; gap: 24px; }
-.detail-card { flex: 1; background: #16213e; border-radius: 20px; padding: 40px 30px; text-align: center; border: 1px solid #1a2d50; }
-.detail-label { font-size: 28px; color: #8888aa; margin-bottom: 16px; }
-.detail-value { font-size: 56px; font-weight: 700; color: #ffffff; }
-.detail-sub { font-size: 22px; color: #666688; margin-top: 10px; }
-.footer-strip { position: absolute; bottom: 0; left: 0; right: 0; background: #16213e; padding: 40px 60px; border-top: 1px solid #1a2d50; }
-.footer-text { font-size: 30px; color: #8888aa; line-height: 1.6; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #0a0a0a; width: 1080px; height: 1920px; overflow: hidden; color: #ffffff; }
+.rank { position: absolute; top: 80px; left: 60px; font-size: 200px; font-weight: 900; color: #ff3333; opacity: 0.15; line-height: 1; }
+.industry { position: absolute; top: 260px; left: 60px; right: 60px; }
+.industry-label { font-size: 28px; color: #888888; letter-spacing: 4px; text-transform: uppercase; }
+.industry-name { font-size: 72px; font-weight: 800; color: #ffffff; margin-top: 8px; }
+.stat-block { position: absolute; top: 520px; left: 60px; right: 60px; text-align: center; }
+.big-number { font-size: 240px; font-weight: 900; color: #ff3333; line-height: 1; letter-spacing: -4px; }
+.big-unit { font-size: 64px; color: #ff6666; margin-top: 16px; }
+.sub-stats { position: absolute; top: 1050px; left: 60px; right: 60px; }
+.sub-item { margin-bottom: 40px; }
+.sub-value { font-size: 56px; font-weight: 700; color: #ffffff; }
+.sub-desc { font-size: 28px; color: #666666; margin-top: 8px; }
+.divider { width: 80px; height: 4px; background: #ff3333; margin: 20px 0; }
+.source { position: absolute; bottom: 60px; left: 60px; font-size: 22px; color: #444444; }
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="rank-badge">NO.2</div>
+<div class="rank">2</div>
+<div class="industry">
+  <div class="industry-label">NO.2</div>
   <div class="industry-name">房地产</div>
 </div>
-<div class="hero-stat">
+<div class="stat-block">
   <div class="big-number">50%+</div>
   <div class="big-unit">百强房企裁员比例</div>
 </div>
-<div class="detail-cards">
-  <div class="detail-card">
-    <div class="detail-label">寒冬持续</div>
-    <div class="detail-value">3年</div>
-    <div class="detail-sub">仍未触底</div>
+<div class="sub-stats">
+  <div class="sub-item">
+    <div class="divider"></div>
+    <div class="sub-value">寒冬持续 3年未触底</div>
+    <div class="sub-desc">百强房企过半在裁员</div>
   </div>
-  <div class="detail-card">
-    <div class="detail-label">产业链</div>
-    <div class="detail-value">全遭殃</div>
-    <div class="detail-sub">建材/装修/中介</div>
+  <div class="sub-item">
+    <div class="divider"></div>
+    <div class="sub-value">建材/装修/中介全遭殃</div>
+    <div class="sub-desc">上下游产业链崩塌</div>
   </div>
 </div>
-<div class="footer-strip">
-  <div class="footer-text">三年寒冬没见底，上下游全遭殃</div>
-</div>
+<div class="source">数据来源：国家统计局</div>
 </body>
 </html>
