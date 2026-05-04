@@ -1,0 +1,108 @@
+{
+  "video_id": "unemploy-story-04-zhangwei-v3",
+  "version": "3.0",
+  "series": "unemploy-story",
+  "workflow_mode": "unemploy",
+
+  "global": {
+    "target_duration_sec": 90,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "voice": "Charon",
+    "opening_file": "unemploy-story-opening-v1.mp4"
+  },
+
+  "voiceover": {
+    "engine": "gemini-3.1-flash-tts",
+    "voice": "Charon",
+    "segments": [
+      {"id": "S01", "emotion": "代入", "text": "你知道我这三个月投了多少简历吗？847份。我自己都数了，不是编的。收到3个面试，0个offer。你说我是不是该去买彩票？"},
+      {"id": "S02", "emotion": "共鸣", "text": "38岁，建材行业干了12年。从仓库管理员干到区域经理。瓷砖地板卫浴五金，哪个牌子好哪个是贴牌哪个报价有水分，我闭着眼睛都知道。但在HR眼里呢？38岁建材人，就是一张废纸。嗯...说实话，废纸好歹还能卖五毛钱一斤。我连这个价都没有。"},
+      {"id": "S03", "emotion": "希望", "text": "失业第三个月，装修业主群里有人问：瓷砖怎么选？怕被建材城坑。我回了一大段，从品牌到报价到怎么避坑，写了快半小时。那人私信我说：哥你太专业了，我给你发个红包吧。那天晚上我睡不着。不是激动。是后悔。12年的行业知识，我以前从来没想过，这玩意儿还能卖钱。"},
+      {"id": "S04", "emotion": "力量", "text": "后来我花了三天把经验列了个清单。闲鱼发了个帖子，第二个月赚了4000多。847份简历教会我一件事：你的经验不是废纸，是你还没包装过的产品。"},
+      {"id": "S05", "emotion": "参与", "text": "你做什么行业？评论区打出来，我帮你拆成能卖的经验。"}
+    ]
+  },
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-resume-stats-847", "output": "SS01-resume-847.png"},
+    {"id": "SS02", "template": "tpl-boss-search-zhangwei", "output": "SS02-boss-search.png"},
+    {"id": "SS03", "template": "tpl-wechat-redpacket", "output": "SS03-wechat-redpacket.png"},
+    {"id": "SS04", "template": "tpl-xianyu-post", "output": "SS04-xianyu-post.png"},
+    {"id": "SS05", "template": "tpl-income-4000", "output": "SS05-income-4000.png"}
+  ],
+
+  "atmosphere": [
+    {"id": "AT01", "query": "empty warehouse industrial golden light", "output": "AT01-warehouse.jpg"},
+    {"id": "AT02", "query": "desk lamp night workspace coffee phone", "output": "AT02-desk-night.jpg"},
+    {"id": "AT03", "query": "building materials market tiles samples", "output": "AT03-market.jpg"},
+    {"id": "AT04", "query": "coffee shop window phone typing natural light", "output": "AT04-coffee-shop.jpg"}
+  ],
+
+  "text_cards": [
+    {"id": "TC01", "lines": ["你说我是不是", "该去买彩票？"], "style": "medvi", "bg_image": "AT01-warehouse.jpg", "duration": 3.0},
+    {"id": "TC02", "lines": ["废纸好歹能卖五毛一斤", "我连这个价都没有"], "style": "medvi", "bg_image": "AT01-warehouse.jpg", "duration": 3.0},
+    {"id": "TC03", "lines": ["你的经验不是废纸", "是没包装过的产品"], "style": "medvi", "bg_image": "AT04-coffee-shop.jpg", "duration": 3.5}
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [
+        {"type": "screenshot", "ref": "SS01", "duration": 3.0, "beat": "hook", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "curiosity→shock"},
+        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 4.0, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "shock→self_deprecating"},
+        {"type": "text_card", "ref": "TC01", "duration": 3.0, "beat": "punchline", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "self_deprecating"}
+      ]
+    },
+    {
+      "segment": "S02",
+      "clips": [
+        {"type": "video_clip", "ref": "面试/7844951-hd_1080_1920_30fps_副本", "duration": 6.0, "beat": "context", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "resignation"},
+        {"type": "atmosphere", "ref": "AT01", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "WS", "camera_move": "slow dolly in", "emotion_arc": "loneliness"},
+        {"type": "screenshot", "ref": "SS02", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "frustration"},
+        {"type": "text_card", "ref": "TC02", "duration": 3.0, "beat": "dark_humor", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "self_deprecating"}
+      ]
+    },
+    {
+      "segment": "S03",
+      "clips": [
+        {"type": "screenshot", "ref": "SS03", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "surprise"},
+        {"type": "atmosphere", "ref": "AT02", "zoom": true, "duration": 5.0, "beat": "mood", "shot_type": "MS", "camera_move": "slow dolly in", "emotion_arc": "contemplation"},
+        {"type": "video_clip", "ref": "面试/7644024-uhd_2160_4096_25fps_副本", "duration": 5.0, "beat": "turning_point", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "realization"},
+        {"type": "atmosphere", "ref": "AT03", "zoom": true, "duration": 4.0, "beat": "mood", "shot_type": "MS", "camera_move": "locked", "emotion_arc": "regret→hope"}
+      ]
+    },
+    {
+      "segment": "S04",
+      "clips": [
+        {"type": "screenshot", "ref": "SS04", "duration": 3.0, "beat": "evidence", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "action"},
+        {"type": "video_clip", "ref": "面试/7643444-uhd_2160_4096_25fps_副本", "duration": 5.0, "beat": "resolve", "shot_type": "MS", "camera_move": "handheld", "emotion_arc": "confidence"},
+        {"type": "text_card", "ref": "TC03", "duration": 3.5, "beat": "punchline", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "conviction"}
+      ]
+    },
+    {
+      "segment": "S05",
+      "clips": [
+        {"type": "atmosphere", "ref": "AT04", "zoom": false, "duration": 4.0, "beat": "cta", "shot_type": "WS", "camera_move": "slow pull out", "emotion_arc": "warmth"},
+        {"type": "video_clip", "ref": "面试/7844862-hd_1080_1920_30fps_副本", "duration": 3.0, "beat": "cta", "shot_type": "CU", "camera_move": "locked", "emotion_arc": "invitation"}
+      ]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "投了847份简历0个offer，38岁建材人靠经验月赚4000",
+      "847份简历教会我：你的经验不是废纸，是没包装过的产品",
+      "废纸好歹能卖五毛一斤，我连这个价都没有"
+    ],
+    "tags": ["#失业", "#经验变现", "#38岁", "#被裁员", "#中年危机", "#闲鱼赚钱", "#行业经验", "#失业逆袭", "#职场", "#建材"]
+  }
+}

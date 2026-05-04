@@ -23,6 +23,7 @@ ASSET_DIRS = {
     "voiceover": BASE / "assets" / "voiceover",
     "bgm": BASE / "assets" / "bgm",
     "opening": BASE / "output" / "unemploy-story-opening",
+    "video_clip": BASE / "output",
 }
 
 
@@ -75,18 +76,36 @@ def concat_video_audio(video: Path, audio: Path, output: Path) -> None:
 
 def find_asset(ref: str, asset_type: str, video_id: str) -> Path:
     """Find asset file by ref ID and type."""
+    if asset_type == "video_clip":
+        base_dir = ASSET_DIRS["video_clip"]
+        for ext in [".mp4", ".mov"]:
+            p = base_dir / f"{ref}{ext}"
+            if p.exists():
+                return p
+        print(f"  ERROR: video_clip asset not found: {ref}")
+        sys.exit(1)
     dir_path = ASSET_DIRS[asset_type] / video_id
-    # Try exact filename patterns
     for ext in [".png", ".jpg", ".jpeg", ".mp4", ".mp3"]:
         p = dir_path / f"{ref}{ext}"
         if p.exists():
             return p
-    # Try prefix match (e.g., TC01-waste-paper.mp4)
     for f in dir_path.iterdir():
         if f.name.startswith(ref + "-") or f.name.startswith(ref + "."):
             return f
     print(f"  ERROR: {asset_type} asset not found: {ref} in {dir_path}")
     sys.exit(1)
+
+
+def trim_video_clip(source: Path, duration: float, output: Path) -> None:
+    """Trim a video file to exact duration, scale to 1080x1920."""
+    run([
+        "ffmpeg", "-y", "-i", str(source),
+        "-t", f"{duration:.3f}",
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:black",
+        "-an",
+        str(output)
+    ], f"video-clip {output.name}")
 
 
 def build_segment_clips(
@@ -97,40 +116,45 @@ def build_segment_clips(
     temp_dir: Path,
 ) -> Path:
     """Build all clips for one segment, concat them, merge voiceover."""
-    # Separate text cards (fixed duration) from flexible clips
-    text_card_clips = [c for c in clips_config if c["type"] == "text_card"]
-    flexible_clips = [c for c in clips_config if c["type"] != "text_card"]
+    pct_clips = [c for c in clips_config if "duration" not in c and c["type"] not in ("text_card",)]
+    pct_total = len(pct_clips)
 
-    fixed_time = sum(c.get("duration", 4.0) for c in text_card_clips)
+    fixed_time = sum(c["duration"] for c in clips_config if "duration" in c)
     remaining = max(0.1, vo_duration - fixed_time)
 
     clip_files: list[Path] = []
     clip_idx = 0
 
-    # Process flexible clips (screenshot / atmosphere)
-    for clip_cfg in flexible_clips:
-        pct = clip_cfg.get("pct", 1.0 / max(len(flexible_clips), 1))
-        dur = remaining * pct
-        zoom = clip_cfg.get("zoom", False)
-        asset_type = clip_cfg["type"]  # "screenshot" or "atmosphere"
+    for clip_cfg in clips_config:
+        clip_type = clip_cfg["type"]
         ref = clip_cfg["ref"]
-        asset_path = find_asset(ref, asset_type, video_id)
         out = temp_dir / f"{segment_id}_clip{clip_idx}.mp4"
-        image_to_video(asset_path, dur, out, zoom=zoom)
-        clip_files.append(out)
-        clip_idx += 1
 
-    # Process text cards
-    for tc_cfg in text_card_clips:
-        ref = tc_cfg["ref"]
-        tc_src = find_asset(ref, "text_card", video_id)
-        out = temp_dir / f"{segment_id}_tc{clip_idx}.mp4"
-        run([
-            "ffmpeg", "-y", "-i", str(tc_src),
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
-            "-vf", "scale=1080:1920",
-            str(out)
-        ], f"TC-resize {ref}")
+        if "duration" in clip_cfg:
+            dur = clip_cfg["duration"]
+        elif clip_type in ("screenshot", "atmosphere", "video_clip"):
+            pct = clip_cfg.get("pct", 1.0 / max(pct_total, 1))
+            dur = remaining * pct
+        else:
+            dur = 4.0
+
+        if clip_type == "video_clip":
+            asset_path = find_asset(ref, "video_clip", video_id)
+            trim_video_clip(asset_path, dur, out)
+        elif clip_type in ("screenshot", "atmosphere"):
+            asset_path = find_asset(ref, clip_type, video_id)
+            zoom = clip_cfg.get("zoom", False)
+            image_to_video(asset_path, dur, out, zoom=zoom)
+        elif clip_type == "text_card":
+            tc_src = find_asset(ref, "text_card", video_id)
+            run([
+                "ffmpeg", "-y", "-i", str(tc_src),
+                "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+                "-vf", "scale=1080:1920",
+                "-t", f"{dur:.3f}",
+                str(out)
+            ], f"TC-resize {ref}")
+
         clip_files.append(out)
         clip_idx += 1
 
@@ -142,7 +166,27 @@ def build_segment_clips(
          "-i", str(seg_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
          str(seg_visual)], f"{segment_id}-concat")
 
-    # Merge voiceover
+    # Pad visual if shorter than voiceover
+    visual_dur = get_duration(seg_visual)
+    if visual_dur < vo_duration - 0.1:
+        pad_dur = vo_duration - visual_dur
+        print(f"  Padding {pad_dur:.1f}s (visual {visual_dur:.1f}s < vo {vo_duration:.1f}s)")
+        black = temp_dir / f"{segment_id}_black.mp4"
+        run([
+            "ffmpeg", "-y", "-f", "lavfi", "-i",
+            f"color=c=black:s=1080x1920:d={pad_dur:.3f}:r=24",
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+            str(black)
+        ], f"black-pad {segment_id}")
+        pad_list = temp_dir / f"{segment_id}_pad_list.txt"
+        pad_list.write_text(f"file '{seg_visual}'\nfile '{black}'\n")
+        seg_visual_padded = temp_dir / f"{segment_id}_visual_padded.mp4"
+        run(["ffmpeg", "-y", "-f", "concat", "-safe", "0",
+             "-i", str(pad_list), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+             str(seg_visual_padded)], f"{segment_id}-pad-concat")
+        seg_visual = seg_visual_padded
+
+    # Merge voiceover (no -shortest, audio plays in full)
     vo_path = find_asset(segment_id, "voiceover", video_id)
     seg_merged = temp_dir / f"{segment_id}_merged.mp4"
     concat_video_audio(seg_visual, vo_path, seg_merged)
