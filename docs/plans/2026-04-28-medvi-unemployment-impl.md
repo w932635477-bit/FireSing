@@ -687,4 +687,3 @@ grep -n "名人叙事" docs/content/workflow/video-production-spec.md
 ```bash
 git add docs/content/workflow/video-production-spec.md
 git commit -m "docs(spec): v4.0 — unemployment series methodology complete"
-```

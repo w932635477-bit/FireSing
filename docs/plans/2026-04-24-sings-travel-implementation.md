@@ -330,7 +330,6 @@ Add a new helper function before `main()`:
 ```python
 OFFICIAL_FOOTAGE_DIR_NAME = "footage"
 
-
 def find_official_footage(seg_id: str, video_dir: Path) -> Path | None:
     """Find official tourism footage for a segment in output/{video_id}/footage/."""
     footage_dir = video_dir / OFFICIAL_FOOTAGE_DIR_NAME
@@ -1018,4 +1017,3 @@ Append to the design doc:
 ```bash
 git add docs/plans/2026-04-24-sings-travel-duet-design.md
 git commit -m "docs: add city-chongqing pilot results"
-```

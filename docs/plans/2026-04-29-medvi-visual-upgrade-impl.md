@@ -264,4 +264,3 @@ grep -n "2026-04-28" docs/content/workflow/video-production-spec.md
 ```bash
 git add docs/content/workflow/video-production-spec.md
 git commit -m "docs(spec): v4.2 — visual upgrade based on overseas research (post-processing, rhythm, safe zones, text style)"
-```

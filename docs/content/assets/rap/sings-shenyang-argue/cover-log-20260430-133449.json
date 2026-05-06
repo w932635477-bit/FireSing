@@ -1,0 +1,11 @@
+{
+  "video_id": "sings-shenyang-argue",
+  "timestamp": "2026-04-30T13:34:49.395075",
+  "method": "suno-cover",
+  "model": "V4_5",
+  "style": "Chinese folk pop, duet alternating, bold male folk voice, playful female voice, marching snare, brass, 110 bpm",
+  "audio_weight": 0.85,
+  "task_id": "66956cb958a4a0e950f3fd481b151f06",
+  "reference_audio": "docs/content/assets/references/好汉歌-刘欢.mp3",
+  "output_dir": "docs/content/assets/rap/sings-shenyang-argue"
+}

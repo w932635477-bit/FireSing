@@ -1,0 +1,146 @@
+{
+  "video_id": "unemploy-repeat-01-waitnotice-ai",
+  "version": "4.0",
+  "series": "unemploy-repeat",
+  "workflow_mode": "ai-blast",
+  "target_duration": 55,
+  "resolution": [1080, 1920],
+  "fps": 24,
+  "voice": "Charon",
+  "character_anchor": "A middle-aged Chinese man, 40s, round face with slight double chin, small eyes, tired bureaucratic expression, cheap grey suit, short black hair receding at temples. Apply this exact description for S06-S09 escalation segments to maintain visual coherence. S01-S05 intentionally show different HR managers.",
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "calm_corporate",
+      "emotion_arc": "hidden-cam",
+      "reference_prompt": "iPhone 6 hidden on desk surface, low angle POV looking up, secretly recording, slight tilt. A middle-aged Chinese HR manager, 40s, round face with slight double chin, small eyes, tired bureaucratic expression, cheap grey suit, sitting behind office desk with stacked papers. The HR manager is looking down at a resume, reading it carefully. Harsh fluorescent lighting from above. Bottom of frame shows job seeker's hands nervously holding a resume. Office plants visible in background. ISO 1600 grain, slight autofocus hunting, rolling-shutter wobble, blurry edges, NOT cinematic, vertical 9:16, Kodak Gold 200 film",
+      "motion_prompt": "The HR manager reads a document on the desk, then slowly looks up toward the camera with a flat expression. Very subtle movement. Static hidden camera, slight grain flicker. The job seeker's hands at the bottom of frame shift nervously.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S01-hidden-cam.png",
+      "voiceover_text": "回去等通知吧。"
+    },
+    {
+      "id": "S02",
+      "type": "hook",
+      "emotion": "polite_dismissive",
+      "emotion_arc": "hidden-cam-polite",
+      "reference_prompt": "iPhone 6 hidden on desk surface, low angle POV looking up, secretly recording. The HR manager is looking directly at camera with a polite but dismissive smile, mouth slightly open as if speaking. Resume is on the table between them. Bottom of frame shows job seeker's hands gripping a pen. Harsh fluorescent lighting, ISO 1600 grain, slight tilt, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "The HR manager gives a polite nod, then speaks while gesturing dismissively with one hand. Job seeker's hands tighten on the pen at bottom of frame. Subtle head movement.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S02-hidden-cam-polite.png",
+      "voiceover_text": "嗯，你的情况我们了解了。回去等通知吧。"
+    },
+    {
+      "id": "S03",
+      "type": "pattern",
+      "emotion": "impatient_dismissive",
+      "emotion_arc": "hidden-cam-impatient",
+      "reference_prompt": "iPhone 6 hidden on desk, phone now on the left side, angle shifted. Low angle POV looking up at HR manager who looks impatient, eyebrows furrowed, checking watch. Different office, slightly different desk. Bottom of frame shows job seeker's hands fidgeting. Harsh fluorescent lighting, ISO 1600 grain, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "The HR manager checks their watch impatiently, then speaks quickly with a dismissive wave. The phone angle shifts slightly as if bumped on the desk.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S03-hidden-cam-impatient.png",
+      "voiceover_text": "我们还有其他候选人，你先回去等通知吧。"
+    },
+    {
+      "id": "S04",
+      "type": "pattern",
+      "emotion": "warm_then_cold",
+      "emotion_arc": "hidden-cam-bored",
+      "reference_prompt": "iPhone 6 half-hidden under papers on desk, only top half of frame visible. Low angle POV. The HR manager is looking at their own phone, not at the candidate, looking bored and distracted. Papers partially block the camera lens. Harsh fluorescent lighting, ISO 1600 grain, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "The HR manager scrolls on their phone, not paying attention, then waves without looking up. Papers shift slightly on the desk surface.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S04-hidden-cam-bored.png",
+      "voiceover_text": "其实你条件不错，不过...回去等通知吧。"
+    },
+    {
+      "id": "S05",
+      "type": "pattern",
+      "emotion": "rushed_muttering",
+      "emotion_arc": "hidden-cam-rushed",
+      "reference_prompt": "iPhone 6 knocked slightly on desk, frame tilted 15 degrees. Low angle POV. The HR manager is standing up, gesturing toward the door with an impatient expression. The tilted frame creates an unsettling composition. Bottom of frame shows job seeker's hands gripping table edge. Harsh fluorescent lighting, ISO 1600 grain, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "The HR manager stands up abruptly, making a shooing gesture toward the door. The phone rocks from the table vibration. Frame becomes more tilted.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S05-hidden-cam-rushed.png",
+      "voiceover_text": "好，就这样，回去等通知吧。"
+    },
+    {
+      "id": "S06",
+      "type": "escalation",
+      "emotion": "whisper_to_bitter",
+      "emotion_arc": "mouth-closeup",
+      "reference_prompt": "Extreme close-up of a middle-aged Chinese man's mouth and chin, round face with slight double chin, small eyes, cheap grey suit collar visible. Shot from below at desk level. Harsh fluorescent lighting casting deep shadows. Greenish tint starting to appear. Grainy phone footage quality, ISO 1600, NOT cinematic, vertical 9:16",
+      "motion_prompt": "The mouth opens and closes slowly, repetitively, like a broken record. Lighting flickers slightly between white and green tint. Camera is very close and static. Eerie feeling.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S06-mouth-closeup.png",
+      "voiceover_text": "escalation montage"
+    },
+    {
+      "id": "S07",
+      "type": "escalation",
+      "emotion": "slow_defeated",
+      "emotion_arc": "dutch-angle",
+      "reference_prompt": "iPhone 6 tilted at extreme angle on desk, Dutch angle composition. Low angle POV looking up at a middle-aged Chinese man, 40s, round face with slight double chin, small eyes, tired bureaucratic expression, cheap grey suit, who looks down with cold empty eyes. Lighting has shifted to sickly green fluorescent. High contrast shadows on face. The extreme tilt makes the scene feel wrong. ISO 1600 grain, NOT cinematic, vertical 9:16",
+      "motion_prompt": "The lighting flickers between white and green. The HR manager's face is half in shadow. Camera shakes increasingly. Unsettling atmosphere.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S07-dutch-angle.png",
+      "voiceover_text": "escalation continued"
+    },
+    {
+      "id": "S08",
+      "type": "escalation",
+      "emotion": "intense_rapid_shout",
+      "emotion_arc": "heavy-shake",
+      "reference_prompt": "Frame is heavily blurred from motion shake, a middle-aged Chinese man's face (round face, small eyes, cheap grey suit) barely visible through the distortion. Very high contrast, overexposed highlights blowing out. Red and green tint mixing. Phone has been bumped repeatedly. ISO 1600 grain, heavy distortion, NOT cinematic, vertical 9:16, worst quality phone footage",
+      "motion_prompt": "Violent camera shake, like the phone is being bumped repeatedly. Brief flashes of the HR manager's face between shakes. Overexposed highlights blow out. Chaotic and disorienting.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S08-heavy-shake.png",
+      "voiceover_text": "escalation peak"
+    },
+    {
+      "id": "S09",
+      "type": "escalation",
+      "emotion": "screaming_inside",
+      "emotion_arc": "phone-falls",
+      "reference_prompt": "View from a phone that has fallen on its side on a desk. We see the desk surface edge, scattered papers, and a blurry sliver of a middle-aged Chinese man in cheap grey suit standing up. Dark, mostly black frame with a narrow strip of fluorescent light from above. The phone lens is partially blocked by the desk surface. ISO 1600 grain, NOT cinematic, vertical 9:16",
+      "motion_prompt": "The phone slides and falls on the desk, the frame rotates and goes dark. Last glimpse of the HR manager's shoes under the desk. Then darkness takes over.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S09-phone-falls.png",
+      "voiceover_text": "phone falls black screen"
+    },
+    {
+      "id": "S10",
+      "type": "break",
+      "emotion": "very_slow_heavy",
+      "emotion_arc": "selfie-night",
+      "reference_prompt": "iPhone 6 selfie angle, held at chest height, handheld, slight sway. A tired young Chinese man, mid-twenties, round face, short black hair, dark circles under eyes, wrinkled white shirt, NOT a model, ordinary looking, slight stubble. He is walking through glass office building lobby doors at night. His face shows exhaustion. Behind him, fluorescent-lit office lobby. Outside is dark. Reflections on glass doors. Lit by phone screen. ISO 1600 grain, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "Selfie walking through glass doors into the dark street. Face lit by phone screen. Occasionally the camera points down at feet walking on concrete. Gentle swaying handheld movement.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S10-selfie-night.png",
+      "voiceover_text": "半年了。"
+    },
+    {
+      "id": "S11",
+      "type": "break",
+      "emotion": "quiet_trembling",
+      "emotion_arc": "selfie-dark-room",
+      "reference_prompt": "iPhone 6 selfie angle, propped on surface pointing at face. A tired young Chinese man sitting on the edge of a small bed in a tiny rented room. Room is completely dark except for phone screen light illuminating his face. Bare walls, a small window with curtains drawn. His eyes look hollow and empty. NOT a model, ordinary looking. ISO 1600 grain, phone screen light only, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "He sits motionless on the bed, staring at nothing. Phone screen flickers slightly. Very still. Occasional slow blink. The only movement is his chest breathing slowly.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S11-selfie-dark-room.png",
+      "voiceover_text": "你...还在等吗？"
+    },
+    {
+      "id": "S12",
+      "type": "cta",
+      "emotion": "warm_encouraging",
+      "emotion_arc": "morning-light",
+      "reference_prompt": "Phone propped up on a surface, pointing at a small window with closed curtains. Early morning blue light leaking through curtain gaps. A hand reaches into frame from the right side. Warm, gentle atmosphere. The room is otherwise dark and simple. ISO 1600 grain, NOT cinematic, vertical 9:16, Kodak Gold 200",
+      "motion_prompt": "The hand slowly pulls the curtain open. Warm golden morning light floods in, filling the frame. Lens flare from the sunlight. Peaceful and hopeful feeling.",
+      "reference_file": "unemploy-repeat-01-waitnotice-ai/S12-morning-light.png",
+      "voiceover_text": "你等了多久？"
+    }
+  ],
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "api": "evolink",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 2,
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, model, handsome, retouched, cinematic, 4K, professional photography, beautiful lighting, studio lighting, HDR, sharp focus, bokeh, professional camera, DSLR, flawless complexion, porcelain skin, magazine cover, fashion photography, red carpet, celebrity, influencer, tiktok aesthetic, instagram filter, beauty filter, smooth jawline, chiseled features, perfect teeth, sparkling eyes, glossy, polished"
+  },
+  "video_generation": {
+    "engine": "kling_v3",
+    "resolution": "1080x1920",
+    "duration_sec": 5,
+    "candidates_per_segment": 1
+  }
+}

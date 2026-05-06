@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-05-05T21:14:40.504138",
+  "model": "doubao-seedream-4.5",
+  "shots": 12,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S01-hidden-cam.png",
+      "task_id": "task-unified-1777985841-7aiywyjb",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S02-hidden-cam-polite.png",
+      "task_id": "task-unified-1777985905-19d7czef",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S03-hidden-cam-impatient.png",
+      "task_id": "task-unified-1777985978-ub2l53oi",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S04-hidden-cam-bored.png",
+      "task_id": "task-unified-1777986090-aklsivd6",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S05-hidden-cam-rushed.png",
+      "task_id": "task-unified-1777986181-ae2gg53s",
+      "status": "success"
+    },
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S06-mouth-closeup.png",
+      "task_id": "task-unified-1777986262-zlzudsox",
+      "status": "success"
+    },
+    {
+      "shot": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S07-dutch-angle.png",
+      "task_id": "task-unified-1777986393-nyutjt17",
+      "status": "success"
+    },
+    {
+      "shot": "S08",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S08-heavy-shake.png",
+      "task_id": "task-unified-1777986488-epmq3yem",
+      "status": "success"
+    },
+    {
+      "shot": "S09",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S09-phone-falls.png",
+      "task_id": "task-unified-1777986584-3yt7usie",
+      "status": "success"
+    },
+    {
+      "shot": "S10",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S10-selfie-night.png",
+      "task_id": "task-unified-1777986632-v0b4u4ns",
+      "status": "success"
+    },
+    {
+      "shot": "S11",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S11-selfie-dark-room.png",
+      "task_id": "task-unified-1777986714-yqz4cet6",
+      "status": "success"
+    },
+    {
+      "shot": "S12",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S12-morning-light.png",
+      "task_id": "task-unified-1777986793-dfbcbi6i",
+      "status": "success"
+    }
+  ]
+}

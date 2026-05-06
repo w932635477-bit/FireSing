@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-05T20:44:03.999907",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S01-hidden-cam.png",
+      "task_id": "task-unified-1777985017-0j2p6936",
+      "status": "success"
+    }
+  ]
+}

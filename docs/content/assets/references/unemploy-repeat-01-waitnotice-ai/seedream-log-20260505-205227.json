@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-05-05T20:52:27.878461",
+  "model": "doubao-seedream-4.5",
+  "shots": 12,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S01-hidden-cam.png",
+      "task_id": "task-unified-1777985387-ogvgnurj",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/unemploy-repeat-01-waitnotice-ai/S02-hidden-cam-polite.png",
+      "task_id": "task-unified-1777985453-n695069b",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S04",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S05",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S06",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S07",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S08",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S09",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S10",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S11",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    },
+    {
+      "shot": "S12",
+      "status": "error",
+      "error": "HTTP Error 402: Payment Required"
+    }
+  ]
+}

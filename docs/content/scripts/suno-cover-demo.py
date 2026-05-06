@@ -75,11 +75,11 @@ def load_env() -> None:
 
 
 def get_api_key() -> str:
-    """Get Suno API key from environment."""
-    key = os.environ.get("SUNO_API_KEY", "")
+    """Get SunoAPI.org API key from environment."""
+    key = os.environ.get("SUNOAPI_ORG_KEY", "") or os.environ.get("SUNO_API_KEY", "")
     if not key:
-        print("ERROR: SUNO_API_KEY not set")
-        print("  export SUNO_API_KEY=your-key")
+        print("ERROR: SUNOAPI_ORG_KEY or SUNO_API_KEY not set")
+        print("  export SUNOAPI_ORG_KEY=your-key")
         print("  Or source docs/content/.env")
         sys.exit(1)
     return key
@@ -215,8 +215,17 @@ def poll_task(api_key: str, task_id: str, max_wait: int = 600) -> dict:
             continue
 
         status = result.get("data", {}).get("status", "")
-        if status in ("SUCCESS", "FAILED"):
-            return result
+        if status in ("SUCCESS", "FAILED", "TEXT_SUCCESS"):
+            # For TEXT_SUCCESS, check if sunoData has audioUrl
+            if status == "TEXT_SUCCESS":
+                suno_data = result.get("data", {}).get("sunoData", [])
+                response_data = result.get("data", {}).get("response", {}).get("sunoData", [])
+                all_audio = suno_data or response_data
+                if all_audio and all(item.get("audioUrl") for item in all_audio):
+                    return result
+                # Still generating audio, keep polling
+            else:
+                return result
 
         # Also check sunoData for completion
         suno_data = result.get("data", {}).get("sunoData", [])
@@ -287,6 +296,24 @@ def main() -> None:
         help="How much input audio influences output (0.0-1.0)",
     )
     parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Output directory (default: docs/content/assets/cover)",
+    )
+    parser.add_argument(
+        "--vocal-gender",
+        type=str,
+        default="m",
+        choices=["m", "f"],
+        help="Vocal gender (m or f)",
+    )
+    parser.add_argument(
+        "--video-id",
+        type=str,
+        default="sings01",
+        help="Video ID for output naming",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Preview without generating",
@@ -310,7 +337,7 @@ def main() -> None:
     # Load env and get API key
     load_env()
 
-    print("Suno Cover Demo — 上弦月改编")
+    print(f"Suno Cover Demo — {args.video_id}")
     print("=" * 50)
     print(f"Audio: {args.audio}")
     print(f"Model: {args.model}")
@@ -349,6 +376,7 @@ def main() -> None:
         style=args.style,
         model=args.model,
         audio_weight=args.audio_weight,
+        vocal_gender=args.vocal_gender,
     )
     print(f"  Task ID: {task_id}")
     print()
@@ -364,14 +392,18 @@ def main() -> None:
         sys.exit(1)
 
     # Step 4: Download results
-    suno_data = result.get("data", {}).get("sunoData", [])
+    suno_data = (
+        result.get("data", {}).get("sunoData", [])
+        or result.get("data", {}).get("response", {}).get("sunoData", [])
+    )
     if not suno_data:
         print("ERROR: No audio data in response")
         print(f"  Full response: {json.dumps(result, indent=2)[:1000]}")
         sys.exit(1)
 
-    output_dir = DEFAULT_OUTPUT_DIR
+    output_dir = args.output_dir or DEFAULT_OUTPUT_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
+    video_id = args.video_id
 
     for i, item in enumerate(suno_data):
         audio_url = item.get("audioUrl", "")
@@ -379,7 +411,7 @@ def main() -> None:
             print(f"  Version {i + 1}: No audio URL")
             continue
 
-        output_name = f"sings-shanghai-cover_v{i + 1}.mp3"
+        output_name = f"{video_id}_cover_v{i + 1}.mp3"
         output_path = output_dir / output_name
         print(f"  Downloading v{i + 1} → {output_name}...")
 
@@ -392,7 +424,7 @@ def main() -> None:
 
     # Save log
     log_entry = {
-        "video_id": "sings01",
+        "video_id": args.video_id,
         "timestamp": datetime.now().isoformat(),
         "method": "suno-cover",
         "model": args.model,

@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
+OPENING_DIR = BASE / "output" / "unemploy-story-opening"
 SS_DIR = BASE / "assets" / "screenshots" / "unemploy-story-01-zhangwei"
 AT_DIR = BASE / "assets" / "unsplash" / "unemploy-story-01-zhangwei"
 TC_DIR = BASE / "assets" / "textcards" / "unemploy-story-01-zhangwei"
@@ -88,6 +89,17 @@ def main() -> None:
     print(f"Total VO: {s01_dur + s02_dur + s03_dur + s04_dur + s05_dur:.1f}s")
 
     clips: list[Path] = []
+
+    # === Opening hook: 1.5s "你的经验 / 比你想象的值钱" ===
+    opening_src = OPENING_DIR / "unemploy-story-opening-v1.mp4"
+    opening_24 = TEMP / "opening_24fps.mp4"
+    run([
+        "ffmpeg", "-y", "-i", str(opening_src),
+        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
+        "-vf", "scale=1080:1920",
+        str(opening_24)
+    ], "opening-24fps")
+    clips.append(opening_24)
 
     # === S01 Hook: Boss search → Text card "12年经验=废纸" → Resume stats ===
     # Boss search first half, text card 4s, resume stats rest

@@ -1,0 +1,40 @@
+{
+  "video_id": "unemploy-data-02-top5",
+  "segments": [
+    {
+      "id": "S01",
+      "emotion": "shock",
+      "voiceover_text": "2026裁员最狠的5个行业，看到最后你会庆幸自己不在里面"
+    },
+    {
+      "id": "S02",
+      "emotion": "tension",
+      "voiceover_text": "第5名，教育培训。双减之后60万人失业，机构倒闭率超过70%。新东方一口气裁了6万人。"
+    },
+    {
+      "id": "S03",
+      "emotion": "tension",
+      "voiceover_text": "第4名，制造业。产业转移加自动化，沿海工厂一波接一波裁员，打工人的退路越来越窄。"
+    },
+    {
+      "id": "S04",
+      "emotion": "tension",
+      "voiceover_text": "第3名，新能源车。看着风光，产能已经严重过剩。头部车企裁员10%起步，供应商更惨。"
+    },
+    {
+      "id": "S05",
+      "emotion": "fear",
+      "voiceover_text": "第2名，房地产。三年寒冬没见底，百强房企裁员超过一半，上下游产业链全遭殃。"
+    },
+    {
+      "id": "S06",
+      "emotion": "shock",
+      "voiceover_text": "第1名，互联网。阿里一年砍了34%的人，百度裁了7%，而且现在流行静默裁员——不公开裁，逼你自己走，连赔偿金都省了。"
+    },
+    {
+      "id": "S07",
+      "emotion": "engagement",
+      "voiceover_text": "你在哪个行业？评论区说说，看看谁最难。关注我，下期告诉你被裁后怎么办。"
+    }
+  ]
+}

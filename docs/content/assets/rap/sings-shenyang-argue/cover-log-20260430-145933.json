@@ -1,0 +1,11 @@
+{
+  "video_id": "sings-shenyang-argue",
+  "timestamp": "2026-04-30T14:59:33.056651",
+  "method": "suno-cover",
+  "model": "V4_5",
+  "style": "Chinese folk pop, duet alternating, bold male folk voice, playful female voice, marching snare, brass, 110 bpm",
+  "audio_weight": 0.7,
+  "task_id": "98efd136a47f553abd58ddf15f15e1c4",
+  "reference_audio": "docs/content/assets/references/我的家在东北-庞龙.mp3",
+  "output_dir": "docs/content/assets/rap/sings-shenyang-argue"
+}

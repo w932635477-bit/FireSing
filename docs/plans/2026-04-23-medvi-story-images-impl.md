@@ -505,4 +505,3 @@ Expected: Lists all segments with emotion prompts
 ```bash
 git add -A
 git commit -m "fix: final adjustments for story images pipeline"
-```

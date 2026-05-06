@@ -23,6 +23,25 @@ VO_DIR = BASE / "assets" / "voiceover"
 BGM_DIR = BASE / "assets" / "bgm"
 OUTPUT_DIR = BASE / "output"
 
+# Per-segment volume targets (dB) per Codex review
+SEGMENT_VOLUME = {
+    "LINE01": -4, "LINE02": -4,          # HOOK
+    "LINE03": -5, "LINE04": -5, "LINE05": -5,  # PATTERN
+    "LINE06": -17, "LINE07": -13, "LINE08": -9,  # ESCALATION (linear ramp)
+    "LINE09": -5, "LINE10": -3, "LINE11": -1,
+    "LINE12": -20, "LINE13": -20, "LINE14": -20,  # BREAK (sudden silence)
+    "LINE15": -5,                            # CTA
+}
+
+# Target durations per shot (to reach ~50s total)
+SHOT_TARGET_DUR = {
+    3: 3.5, 4: 4.6, 5: 4.0, 6: 3.0, 7: 4.0,   # HOOK+PATTERN
+    9: 2.2, 10: 2.0, 11: 2.0, 12: 2.0,           # ESCALATION
+    13: 3.0, 14: 2.0,                             # RAPID
+    16: 2.0, 17: 2.0, 18: 1.5,                    # BREAK
+    20: 2.0,                                       # CTA
+}
+
 
 def run(cmd: list[str], label: str = "") -> None:
     print(f"  [{label}] {' '.join(cmd[:5])}...")
@@ -64,26 +83,114 @@ def overlay_badge(video: Path, badge: Path, output: Path) -> None:
     ], f"badge {output.name}")
 
 
-def overlay_center_text(video: Path, text: str, output: Path) -> None:
-    escaped = text.replace("'", "'\\''").replace(":", "\\:")
+def overlay_center_text(video: Path, text: str, output: Path, temp_dir: Path) -> None:
+    """Generate text PNG via Playwright and overlay on video."""
+    text_png = temp_dir / f"text_{hash(text)}.png"
+    if not text_png.exists():
+        html = (
+            '<!DOCTYPE html><html><head><style>'
+            '* { margin: 0; padding: 0; } '
+            f'body {{ width: 1080px; height: 1920px; display: flex; '
+            f'align-items: center; justify-content: center; '
+            f'font-family: "Hiragino Sans GB", "STHeiti", sans-serif; }} '
+            f'.text {{ font-size: 72px; font-weight: 700; color: #fff; '
+            f'text-shadow: 2px 0 #FF2D2D, -2px 0 #FF2D2D, 0 2px #FF2D2D, 0 -2px #FF2D2D; '
+            f'letter-spacing: 4px; }}'
+            '</style></head><body>'
+            f'<div class="text">{text}</div>'
+            '</body></html>'
+        )
+        html_path = temp_dir / f"text_{hash(text)}.html"
+        html_path.write_text(html)
+        subprocess.run([
+            "python3", "-c",
+            "from playwright.sync_api import sync_playwright; "
+            "from pathlib import Path; "
+            "p = sync_playwright().start(); "
+            "b = p.chromium.launch(); "
+            f"pg = b.new_page(viewport={{'width': 1080, 'height': 1920}}); "
+            f"pg.goto('file://{html_path.resolve()}'); "
+            "pg.wait_for_timeout(300); "
+            f"pg.screenshot(path='{text_png}'); "
+            "b.close(); p.stop()",
+        ], capture_output=True, timeout=30)
     run([
-        "ffmpeg", "-y", "-i", str(video),
-        "-vf",
-        f"drawtext=text='{escaped}':fontsize=72:fontcolor=white:"
-        f"borderw=2:bordercolor=0xFF2D2D@0.8:"
-        f"x=(w-text_w)/2:y=(h-text_h)/2:"
-        f"fontfile=/System/Library/Fonts/PingFang.ttc",
+        "ffmpeg", "-y", "-i", str(video), "-i", str(text_png),
+        "-filter_complex", "[0:v][1:v]overlay=(W-w)/2:(H-h)/2",
         "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
         "-an", str(output),
     ], f"text {output.name}")
+
+
+def prepare_vo(vo_ref: str, vo_file: Path, target_dur: float, temp_dir: Path) -> Path:
+    """Normalize volume + compress duration of a VO file. Returns processed path."""
+    vol_db = SEGMENT_VOLUME.get(vo_ref, -5)
+    out = temp_dir / f"vo_{vo_ref}_processed.mp3"
+
+    vo_dur = get_duration(vo_file)
+    filters = [f"volume={vol_db}dB"]
+
+    # Apply atempo if VO is significantly longer than target
+    if target_dur > 0 and vo_dur > target_dur * 1.1:
+        ratio = vo_dur / target_dur
+        # atempo supports 0.5-2.0 per filter; chain for >2x
+        if ratio <= 2.0:
+            filters.append(f"atempo={ratio:.3f}")
+        elif ratio <= 4.0:
+            r1 = 2.0
+            r2 = ratio / r1
+            filters.append(f"atempo={r1:.3f},atempo={r2:.3f}")
+        else:
+            r1 = 2.0
+            r2 = 2.0
+            r3 = ratio / (r1 * r2)
+            filters.append(f"atempo={r1:.3f},atempo={r2:.3f},atempo={r3:.3f}")
+
+    filter_str = ",".join(filters)
+    run([
+        "ffmpeg", "-y", "-i", str(vo_file),
+        "-af", filter_str,
+        "-c:a", "libmp3lame", "-b:a", "192k",
+        str(out),
+    ], f"vo-process {vo_ref}")
+
+    return out
+
+
+def add_silent_audio(video: Path, output: Path, duration: float) -> None:
+    """Add a silent audio track to a video-only file."""
+    run([
+        "ffmpeg", "-y",
+        "-i", str(video),
+        "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=stereo",
+        "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
+        "-t", f"{duration:.3f}", "-shortest",
+        str(output),
+    ], f"silent-audio {output.name}")
 
 
 def merge_vo(video: Path, vo: Path, output: Path) -> None:
     run([
         "ffmpeg", "-y", "-i", str(video), "-i", str(vo),
         "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "44100",
+        "-map", "0:v", "-map", "1:a",
+        "-shortest",
         str(output),
     ], f"vo {output.name}")
+
+
+def ensure_audio(path: Path, duration: float, temp_dir: Path) -> Path:
+    """Ensure the video file has an audio stream. Add silent if missing."""
+    r = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type",
+         "-of", "csv=p=0", str(path)],
+        capture_output=True, text=True,
+    )
+    if "audio" in r.stdout:
+        return path
+    out = temp_dir / f"{path.stem}_withaudio.mp4"
+    add_silent_audio(path, out, duration)
+    return out
 
 
 def build_shot(
@@ -92,33 +199,35 @@ def build_shot(
     shot_num = shot["shot"]
     out = temp_dir / f"shot_{shot_num:02d}.mp4"
     shot_type = shot["type"]
+    target_dur = SHOT_TARGET_DUR.get(shot_num, shot.get("duration", 2.0))
 
     if shot_type == "text_card":
         tc_ref = shot["ref"]
         tc_dir = TC_DIR / video_id
         tc_file = tc_dir / f"{tc_ref}.mp4"
+        dur = shot["duration"]
         if tc_file.exists():
             run([
                 "ffmpeg", "-y", "-i", str(tc_file),
                 "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
-                "-vf", "scale=1080:1920", "-t", f"{shot['duration']:.3f}",
-                str(out),
+                "-vf", "scale=1080:1920", "-t", f"{dur:.3f}",
+                "-an", str(out),
             ], f"tc {tc_ref}")
         else:
             tc_png = tc_dir / f"{tc_ref}.png"
             if tc_png.exists():
                 run([
                     "ffmpeg", "-y", "-loop", "1", "-i", str(tc_png),
-                    "-c:v", "libx264", "-t", f"{shot['duration']:.3f}",
+                    "-c:v", "libx264", "-t", f"{dur:.3f}",
                     "-pix_fmt", "yuv420p", "-r", "24",
-                    "-vf", "scale=1080:1920", str(out),
+                    "-an", str(out),
                 ], f"tc-png {tc_ref}")
             else:
                 run([
                     "ffmpeg", "-y", "-f", "lavfi",
-                    "-i", f"color=c=black:s=1080x1920:d={shot['duration']:.3f}",
+                    "-i", f"color=c=black:s=1080x1920:d={dur:.3f}",
                     "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", "24",
-                    str(out),
+                    "-an", str(out),
                 ], f"black {shot_num}")
 
     elif shot_type == "video_clip":
@@ -144,19 +253,27 @@ def build_shot(
 
         if "text_center" in shot:
             texted = temp_dir / f"shot_{shot_num:02d}_text.mp4"
-            overlay_center_text(current, shot["text_center"], texted)
+            overlay_center_text(current, shot["text_center"], texted, temp_dir)
             current = texted
 
+        # Merge VO with volume normalization + duration compression
         if "vo" in shot:
             vo_ref = shot["vo"]
             vo_file = VO_DIR / video_id / f"{vo_ref}.mp3"
             if vo_file.exists():
+                processed_vo = prepare_vo(vo_ref, vo_file, target_dur, temp_dir)
                 voiced = temp_dir / f"shot_{shot_num:02d}_vo.mp4"
-                merge_vo(current, vo_file, voiced)
+                merge_vo(current, processed_vo, voiced)
                 current = voiced
 
         if current != out:
             shutil.move(str(current), str(out))
+
+    # Ensure every final shot has audio (add silent track if missing)
+    dur = shot.get("duration", 2.0)
+    final = ensure_audio(out, dur, temp_dir)
+    if final != out:
+        shutil.move(str(final), str(out))
 
     return out
 
@@ -186,7 +303,8 @@ def main() -> None:
         for s in storyboard:
             extras = []
             if "vo" in s:
-                extras.append(f"vo={s['vo']}")
+                vol = SEGMENT_VOLUME.get(s["vo"], -5)
+                extras.append(f"vo={s['vo']} ({vol}dB)")
             if "overlay" in s:
                 extras.append(f"overlay={s['overlay']}")
             if "text_center" in s:
@@ -202,6 +320,20 @@ def main() -> None:
         sf = build_shot(shot, config, temp_dir, video_id)
         shot_files.append(sf)
 
+    # Verify all shots have both streams before concat
+    print("\n--- Pre-concat stream check ---")
+    for sf in shot_files:
+        r = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type",
+             "-of", "csv=p=0", str(sf)],
+            capture_output=True, text=True,
+        )
+        streams = r.stdout.strip().replace("\n", ",")
+        dur = get_duration(sf)
+        print(f"  {sf.name}: [{streams}] {dur:.2f}s")
+        if "audio" not in streams:
+            print(f"  WARNING: {sf.name} missing audio!")
+
     concat_list = temp_dir / "shot_list.txt"
     concat_list.write_text("".join(f"file '{sf}'\n" for sf in shot_files))
     no_bgm = out_dir / f"{video_id}-no-bgm.mp4"
@@ -214,7 +346,7 @@ def main() -> None:
     ], "CONCAT all shots")
 
     final = out_dir / f"{video_id}-rough-cut.mp4"
-    heartbeat = BGM_DIR / "heartbeat-60bpm.mp3"
+    heartbeat = BGM_DIR / "heartbeat-60bpm.m4a"
     if heartbeat.exists():
         video_dur = get_duration(no_bgm)
         fade_out_start = max(0, video_dur - 3)
@@ -235,9 +367,17 @@ def main() -> None:
 
     dur = get_duration(final)
     size = final.stat().st_size // (1024 * 1024)
+
+    # Final stream check
+    r = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,codec_name",
+         "-of", "csv=p=0", str(final)],
+        capture_output=True, text=True,
+    )
     print(f"\nDONE: {final}")
     print(f"  Duration: {dur:.1f}s (target: 50s)")
     print(f"  Size: {size}MB")
+    print(f"  Streams: {r.stdout.strip().replace(chr(10), ', ')}")
 
 
 if __name__ == "__main__":

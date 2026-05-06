@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-05-05T18:59:31.406313",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-repeat-01-waitnotice",
+  "total_duration_s": 59.04,
+  "results": [
+    {
+      "segment": "LINE01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE01.mp3",
+      "duration_s": 1.68,
+      "status": "success",
+      "actual_duration_s": 1.68,
+      "voiceover_text": "回去等通知吧。",
+      "director_notes": "短促、官方、不带感情。越是客气越刺痛。像公司前台念一条通知，不是跟人说话。语速正常，句尾不要拖。"
+    },
+    {
+      "segment": "LINE02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE02.mp3",
+      "duration_s": 4.6,
+      "status": "success",
+      "actual_duration_s": 4.6,
+      "voiceover_text": "嗯，你的情况我们了解了。回去等通知吧。",
+      "director_notes": "礼貌但敷衍。'你的情况我们了解了'是废话铺垫，说完赶紧进正题。句尾'回去等通知吧'说得特别顺，像说了一万遍。"
+    },
+    {
+      "segment": "LINE03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE03.mp3",
+      "duration_s": 3.68,
+      "status": "success",
+      "actual_duration_s": 3.68,
+      "voiceover_text": "我们还有其他候选人，你先回去等通知吧。",
+      "director_notes": "语速比上一句快。'其他候选人'说得很自然，'先'字稍微加重，潜台词是'你排后面'。结尾'回去等通知吧'说得更快，像赶人。"
+    },
+    {
+      "segment": "LINE04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE04.mp3",
+      "duration_s": 6.36,
+      "status": "success",
+      "actual_duration_s": 6.36,
+      "voiceover_text": "其实你条件不错，不过...回去等通知吧。",
+      "director_notes": "前半句'其实你条件不错'说得真诚，像真的在夸你。'不过'之后语速突然加快，草草收尾。'回去等通知吧'像附赠的，不是重点。重点在'不过'的转折。"
+    },
+    {
+      "segment": "LINE05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE05.mp3",
+      "duration_s": 2.52,
+      "status": "success",
+      "actual_duration_s": 2.52,
+      "voiceover_text": "好，就这样，回去等通知吧。",
+      "director_notes": "含糊、匆忙、自言自语的感觉。'好就这样'说很快，像在划掉一个待办事项。'回去等通知吧'说得特别轻特别快，像已经在看手机了。"
+    },
+    {
+      "segment": "LINE06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE06.mp3",
+      "duration_s": 2.24,
+      "status": "success",
+      "actual_duration_s": 2.24,
+      "voiceover_text": "回去等通知吧",
+      "director_notes": "气声，贴近话筒，像耳语。非常轻但每个字都清楚。不是在跟谁说，是这句话自己冒出来的。句尾不要完全消失，留一点余音。"
+    },
+    {
+      "segment": "LINE07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE07.mp3",
+      "duration_s": 2.68,
+      "status": "success",
+      "actual_duration_s": 2.68,
+      "voiceover_text": "回去等通知吧",
+      "director_notes": "平直，无感情，每个字等间隔。不是人在说话，是系统在播报。去掉所有语气词和呼吸。像TTS默认输出。"
+    },
+    {
+      "segment": "LINE08",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE08.mp3",
+      "duration_s": 3.36,
+      "status": "success",
+      "actual_duration_s": 3.36,
+      "voiceover_text": "回去等通知吧",
+      "director_notes": "开头先轻轻'哼'一声苦笑，不是大笑，是从鼻子里出气的笑。然后说这句话的时候嘴角是歪的。不是愤怒，是那种'得了吧'的无奈。"
+    },
+    {
+      "segment": "LINE09",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE09.mp3",
+      "duration_s": 5.88,
+      "status": "success",
+      "actual_duration_s": 5.88,
+      "voiceover_text": "回去...等通知吧",
+      "director_notes": "极慢，比所有前面都慢。每个字之间有明显停顿。'回去'和'等'之间停一下，'等'和'通知吧'之间再停一下。句尾声音往下走，像叹气。"
+    },
+    {
+      "segment": "LINE10",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE10.mp3",
+      "duration_s": 7.04,
+      "status": "success",
+      "actual_duration_s": 7.04,
+      "voiceover_text": "回去等通知吧回去等通知吧回去等通知吧回去等通知吧",
+      "director_notes": "开头正常语速，每重复一遍加快一点加大声一点。最后一句几乎是喊出来的但不是真喊，是压抑到极限突然爆发。中间不要停。"
+    },
+    {
+      "segment": "LINE11",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE11.mp3",
+      "duration_s": 2.76,
+      "status": "success",
+      "actual_duration_s": 2.76,
+      "voiceover_text": "回去等通知吧！！",
+      "director_notes": "压抑的嘶吼，不是真的喊。咬牙切齿，像牙齿咬着说出来。'回去等通知吧'五个字每个都带着恨意。最后'吧'字要爆破出来。"
+    },
+    {
+      "segment": "LINE12",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE12.mp3",
+      "duration_s": 7.44,
+      "status": "success",
+      "actual_duration_s": 7.44,
+      "voiceover_text": "半年了。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "LINE13",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE13.mp3",
+      "duration_s": 3.56,
+      "status": "success",
+      "actual_duration_s": 3.56,
+      "voiceover_text": "你...",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "LINE14",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE14.mp3",
+      "duration_s": 1.92,
+      "status": "success",
+      "actual_duration_s": 1.92,
+      "voiceover_text": "还在等吗？",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "LINE15",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-repeat-01-waitnotice/LINE15.mp3",
+      "duration_s": 3.32,
+      "status": "success",
+      "actual_duration_s": 3.32,
+      "voiceover_text": "你等了多久？",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}
