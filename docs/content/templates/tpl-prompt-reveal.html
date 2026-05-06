@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #0a0a0a; width: 1080px; height: 1920px; overflow: hidden; }
+
+/* Radial glow */
+.bg-glow { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 50% 40%, rgba(40,80,120,0.15) 0%, transparent 70%); }
+
+/* Top bar */
+.top-bar { position: relative; z-index: 1; padding: 80px 50px 30px; display: flex; justify-content: space-between; align-items: center; }
+.top-label { font-size: 24px; color: #666; letter-spacing: 2px; }
+.top-model { font-size: 22px; color: #555; font-family: 'SF Mono', 'Fira Code', monospace; }
+
+/* Prompt container */
+.prompt-area { position: relative; z-index: 1; padding: 40px 50px; }
+
+.prompt-label { font-size: 26px; color: #555; margin-bottom: 30px; letter-spacing: 1px; }
+.prompt-label span { color: #888; }
+
+/* Code block */
+.code-block { background: #111; border: 1px solid #333; border-radius: 16px; padding: 40px; position: relative; }
+.code-block::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: #4caf50; border-radius: 16px 0 0 16px; }
+
+.prompt-line { font-family: 'SF Mono', 'Fira Code', 'PingFang SC', monospace; font-size: 36px; color: #a8d8a8; line-height: 1.8; padding-left: 20px; }
+.prompt-line .keyword { color: #c792ea; }
+.prompt-line .string { color: #c3e88d; }
+.prompt-line .number { color: #f78c6c; }
+.prompt-line .operator { color: #89ddff; }
+
+.cursor { display: inline-block; width: 3px; height: 42px; background: #4caf50; vertical-align: middle; margin-left: 4px; }
+
+/* Status bar */
+.status-bar { position: relative; z-index: 1; margin: 50px 50px 0; background: #111; border: 1px solid #333; border-radius: 12px; padding: 24px 30px; display: flex; justify-content: space-between; align-items: center; }
+.status-left { display: flex; align-items: center; gap: 12px; }
+.status-dot { width: 12px; height: 12px; border-radius: 50%; background: #4caf50; }
+.status-dot.loading { background: #ff9800; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+.status-text { font-family: 'SF Mono', monospace; font-size: 24px; color: #888; }
+.status-right { font-family: 'SF Mono', monospace; font-size: 22px; color: #555; }
+
+/* Result preview area */
+.result-area { position: relative; z-index: 1; margin: 50px; padding: 30px; text-align: center; }
+.result-placeholder { width: 600px; height: 600px; margin: 0 auto; background: #151515; border: 2px dashed #333; border-radius: 20px; display: flex; align-items: center; justify-content: center; }
+.result-placeholder-text { font-size: 28px; color: #444; }
+
+/* Bottom info */
+.bottom-info { position: absolute; bottom: 80px; left: 50px; right: 50px; z-index: 1; }
+.info-row { display: flex; justify-content: space-between; padding: 10px 0; }
+.info-label { font-size: 22px; color: #555; }
+.info-value { font-size: 22px; color: #777; font-family: 'SF Mono', monospace; }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div class="top-bar">
+  <div class="top-label">PROMPT</div>
+  <div class="top-model">DALL-E 3</div>
+</div>
+
+<div class="prompt-area">
+  <div class="prompt-label"><span>></span> Generate Image</div>
+  <div class="code-block">
+    <div class="prompt-line"><span class="string">一只橘猫</span></div>
+    <div class="prompt-line"><span class="operator">,</span> <span class="string">穿宇航服</span></div>
+    <div class="prompt-line"><span class="operator">,</span> <span class="string">站在月球表面</span></div>
+    <div class="prompt-line"><span class="operator">,</span> <span class="string">背景是地球</span></div>
+    <div class="prompt-line"><span class="operator">,</span> <span class="string">皮克斯风格</span></div>
+    <div class="prompt-line"><span class="operator">,</span> <span class="number">4K</span><span class="cursor"></span></div>
+  </div>
+</div>
+
+<div class="status-bar">
+  <div class="status-left">
+    <div class="status-dot loading"></div>
+    <span class="status-text">Generating...</span>
+  </div>
+  <div class="status-right">Style: Pixar</div>
+</div>
+
+<div class="result-area">
+  <div class="result-placeholder">
+    <div class="result-placeholder-text">AI 生成中...</div>
+  </div>
+</div>
+
+<div class="bottom-info">
+  <div class="info-row">
+    <span class="info-label">Model</span>
+    <span class="info-value">dall-e-3</span>
+  </div>
+  <div class="info-row">
+    <span class="info-label">Size</span>
+    <span class="info-value">1024 × 1792</span>
+  </div>
+  <div class="info-row">
+    <span class="info-label">Cost</span>
+    <span class="info-value">$0.040</span>
+  </div>
+</div>
+</body>
+</html>

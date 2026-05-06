@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #ededed; width: 1080px; height: 1920px; overflow: hidden; }
+
+/* WeChat header */
+.header { background: #ededed; padding: 50px 30px 20px; display: flex; align-items: center; border-bottom: 1px solid #d9d9d9; }
+.header-back { font-size: 32px; color: #222; margin-right: 20px; }
+.header-title { font-size: 32px; font-weight: 600; color: #222; }
+
+/* Timer overlay */
+.timer-overlay { position: absolute; top: 52px; right: 30px; background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 8px; z-index: 10; }
+.timer-text { font-family: 'SF Mono', monospace; font-size: 24px; color: #ff4444; font-weight: 700; }
+
+/* Feed */
+.feed { padding: 20px 0; }
+
+.post { background: #fff; padding: 28px 30px; margin-bottom: 1px; }
+.post-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+.post-avatar { width: 60px; height: 60px; border-radius: 8px; }
+.post-name { font-size: 28px; color: #576b95; font-weight: 500; }
+
+.post-content { font-size: 28px; color: #222; line-height: 1.6; margin-bottom: 16px; padding-left: 76px; }
+
+.post-image { width: 400px; height: 400px; background: #f0f0f0; border-radius: 8px; margin-left: 76px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
+.post-image-text { font-size: 24px; color: #999; }
+
+.post-footer { display: flex; justify-content: space-between; align-items: center; padding-left: 76px; }
+.post-time { font-size: 22px; color: #999; }
+.post-stats { display: flex; gap: 20px; }
+.stat-badge { display: flex; align-items: center; gap: 6px; }
+.stat-icon { font-size: 22px; color: #999; }
+.stat-count { font-size: 26px; font-weight: 700; }
+
+/* Red zero effect */
+.zero { color: #ff4444; font-size: 36px; }
+
+/* Big red timer display */
+.big-timer { text-align: center; padding: 60px 0 40px; }
+.big-timer-value { font-family: 'SF Mono', monospace; font-size: 72px; color: #ff4444; font-weight: 700; }
+.big-timer-label { font-size: 28px; color: #999; margin-top: 12px; }
+
+/* Summary */
+.summary { background: #fff; margin-top: 1px; padding: 30px; text-align: center; }
+.summary-row { display: flex; justify-content: center; gap: 60px; margin-bottom: 20px; }
+.summary-item { text-align: center; }
+.summary-num { font-size: 48px; font-weight: 700; color: #ff4444; }
+.summary-label { font-size: 24px; color: #999; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="header-back">&lt;</span>
+  <span class="header-title">朋友圈</span>
+</div>
+<div class="timer-overlay">
+  <span class="timer-text">2:00:00</span>
+</div>
+
+<div class="feed">
+  <!-- Post 1 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="post-avatar" style="background:#b0c4de"></div>
+      <span class="post-name">我</span>
+    </div>
+    <div class="post-content">AI画头像，9块9一张。零成本副业，当天出图。需要的私信。</div>
+    <div class="post-footer">
+      <span class="post-time">2小时前</span>
+      <div class="post-stats">
+        <div class="stat-badge">
+          <span class="stat-icon">&#9825;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-icon">&#128172;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post 2 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="post-avatar" style="background:#b0c4de"></div>
+      <span class="post-name">我</span>
+    </div>
+    <div class="post-content">AI画头像，9块9一张。你的宠物、你的家人，都可以画。</div>
+    <div class="post-image">
+      <span class="post-image-text">AI头像示例</span>
+    </div>
+    <div class="post-footer">
+      <span class="post-time">1小时前</span>
+      <div class="post-stats">
+        <div class="stat-badge">
+          <span class="stat-icon">&#9825;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-icon">&#128172;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post 3 -->
+  <div class="post">
+    <div class="post-header">
+      <div class="post-avatar" style="background:#b0c4de"></div>
+      <span class="post-name">我</span>
+    </div>
+    <div class="post-content">第三条。AI头像定制，从9块9起。</div>
+    <div class="post-footer">
+      <span class="post-time">30分钟前</span>
+      <div class="post-stats">
+        <div class="stat-badge">
+          <span class="stat-icon">&#9825;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-icon">&#128172;</span>
+          <span class="stat-count zero">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Big timer display -->
+  <div class="big-timer">
+    <div class="big-timer-value">0 / 0 / 0</div>
+    <div class="big-timer-label">评论 / 点赞 / 转账</div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-row">
+      <div class="summary-item">
+        <div class="summary-num">3</div>
+        <div class="summary-label">条朋友圈</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-num">2:00</div>
+        <div class="summary-label">小时</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-num">0</div>
+        <div class="summary-label">成交</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

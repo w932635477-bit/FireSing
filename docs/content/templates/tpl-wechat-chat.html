@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", sans-serif; background: #ededed; width: 1080px; height: 1920px; overflow: hidden; }
+.header { background: #ededed; padding: 40px 30px 16px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #d9d9d9; }
+.header-title { font-size: 32px; font-weight: 600; color: #222; }
+.chat-area { padding: 30px; display: flex; flex-direction: column; gap: 24px; }
+.time-divider { text-align: center; color: #999; font-size: 22px; padding: 16px 0; }
+.msg-row { display: flex; align-items: flex-start; gap: 12px; }
+.msg-row.me { flex-direction: row-reverse; }
+.avatar { width: 64px; height: 64px; border-radius: 8px; flex-shrink: 0; }
+.bubble { max-width: 680px; padding: 20px 24px; border-radius: 12px; font-size: 28px; line-height: 1.6; }
+.bubble.other { background: #fff; color: #222; }
+.bubble.me { background: #95ec69; color: #222; }
+
+/* Transfer card */
+.transfer-card { max-width: 500px; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e8e8e8; }
+.transfer-header { background: #fa9d3b; padding: 20px 24px; display: flex; align-items: center; gap: 12px; }
+.transfer-icon { font-size: 36px; }
+.transfer-label { font-size: 24px; color: #fff; }
+.transfer-body { padding: 24px; text-align: center; }
+.transfer-amount { font-size: 48px; font-weight: 700; color: #222; }
+.transfer-amount .yen { font-size: 28px; }
+.transfer-status { font-size: 22px; color: #999; margin-top: 8px; }
+
+/* Exclamation bubbles */
+.excl { font-size: 48px; font-weight: 900; }
+
+/* Highlight box */
+.highlight-box { background: #fff3e0; border: 2px solid #ff9800; border-radius: 16px; margin: 30px; padding: 30px; text-align: center; }
+.highlight-text { font-size: 32px; color: #e65100; font-weight: 600; }
+.highlight-sub { font-size: 24px; color: #999; margin-top: 8px; }
+
+/* Summary card at bottom */
+.summary-card { background: #fff; border-radius: 16px; margin: 30px; padding: 30px; text-align: center; }
+.summary-title { font-size: 26px; color: #999; margin-bottom: 16px; }
+.summary-row { display: flex; justify-content: center; gap: 40px; }
+.summary-item { text-align: center; }
+.summary-num { font-size: 42px; font-weight: 700; }
+.summary-num.green { color: #4caf50; }
+.summary-label { font-size: 22px; color: #999; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="header-title">猫主人-小王</span>
+</div>
+<div class="chat-area">
+  <div class="time-divider">今天 14:23</div>
+
+  <!-- Customer asks -->
+  <div class="msg-row">
+    <div class="avatar" style="background:#e9967a"></div>
+    <div class="bubble other">能把我家猫画成宇航员吗？</div>
+  </div>
+
+  <!-- Narrator responds -->
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">可以！发照片过来</div>
+  </div>
+
+  <!-- Customer sends photo -->
+  <div class="msg-row">
+    <div class="avatar" style="background:#e9967a"></div>
+    <div class="bubble other" style="background:#f0f0f0; text-align:center;">
+      [橘猫照片]
+    </div>
+  </div>
+
+  <!-- Price -->
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me">10块，两分钟出图</div>
+  </div>
+
+  <!-- Transfer -->
+  <div class="msg-row">
+    <div class="avatar" style="background:#e9967a"></div>
+    <div class="transfer-card">
+      <div class="transfer-header">
+        <span class="transfer-icon">&#128176;</span>
+        <span class="transfer-label">微信转账</span>
+      </div>
+      <div class="transfer-body">
+        <div class="transfer-amount"><span class="yen">¥</span>10.00</div>
+        <div class="transfer-status">已收款</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-divider">今天 14:25</div>
+
+  <!-- Narrator sends result -->
+  <div class="msg-row me">
+    <div class="avatar" style="background:#b0c4de"></div>
+    <div class="bubble me" style="background:#f0f0f0; text-align:center; color:#999;">
+      [AI生成的猫咪宇航员图]
+    </div>
+  </div>
+
+  <!-- Customer excited -->
+  <div class="msg-row">
+    <div class="avatar" style="background:#e9967a"></div>
+    <div class="bubble other excl">！！！</div>
+  </div>
+  <div class="msg-row">
+    <div class="avatar" style="background:#e9967a"></div>
+    <div class="bubble other">这也太好看了吧！！</div>
+  </div>
+</div>
+
+<div class="highlight-box">
+  <div class="highlight-text">2分钟 / ¥10 / 零成本</div>
+  <div class="highlight-sub">AI生成 → 即时交付</div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-title">第一单成交</div>
+  <div class="summary-row">
+    <div class="summary-item">
+      <div class="summary-num green">¥10</div>
+      <div class="summary-label">收入</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num">2min</div>
+      <div class="summary-label">出图时间</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-num green">¥0</div>
+      <div class="summary-label">成本</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

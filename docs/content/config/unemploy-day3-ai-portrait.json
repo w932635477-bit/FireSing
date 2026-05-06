@@ -1,0 +1,214 @@
+{
+  "video_id": "unemploy-day3-ai-portrait",
+  "version": "3.0",
+  "created": "2026-05-06",
+  "format": "prompt_reveals",
+  "note": "Prompt Reveals格式v3：GPT-4o+DALL-E+Gemini TTS+FFmpeg全自动管线",
+
+  "global": {
+    "target_duration_sec": 35,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16"
+  },
+
+  "script": {
+    "topic": "用AI画头像卖10块钱，有人买单吗？",
+    "hook_type": "ai_experiment_debate",
+    "target_duration_sec": 38,
+    "narrative_structure": "challenge→fail→prompt_reveal→result→comparison→debate",
+    "algorithm_optimization": {
+      "completion_rate_target": "70%+",
+      "pattern_interrupt_interval_sec": 3.5,
+      "rewatch_signal": "comparison card + debate ending",
+      "share_signal": "prompt reveal moment"
+    }
+  },
+
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "unemploy",
+    "director_notes": "语速偏快，像一个正在做实验的人在实时解说。关键数字加重。争议部分语气放慢，留思考空间。",
+    "segments": [
+      {"id": "S01", "emotion": "bitter", "text": "用AI画头像，标价九块九。有人买单吗？"},
+      {"id": "S02", "emotion": "shock", "text": "发了三条朋友圈。两小时，零回复。零点赞。"},
+      {"id": "S03", "emotion": "pivot_attempt", "text": "我换了个思路。不发成品，发提示词。"},
+      {"id": "S04", "emotion": "hopeful", "text": "这条提示词是：一只橘猫，穿宇航服，站在月球表面，背景是地球，皮克斯风格，4K。两秒后——"},
+      {"id": "S05", "emotion": "hopeful", "text": "第一条消息来了：能把我家猫画成这样吗？十块，成交。"},
+      {"id": "S06", "emotion": "hopeful", "text": "真人猫照片在这边，AI生成的在这边。你觉得像不像？"},
+      {"id": "S07", "emotion": "warm_unemploy", "text": "第一天，三单，收入三十。成本，零。"},
+      {"id": "S08", "emotion": "warm_unemploy", "text": "AI两分钟画的头像卖十块钱。你觉得值不值？"}
+    ]
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "bitter",
+      "duration_sec": 3,
+      "voiceover_text": "用AI画头像，标价九块九。有人买单吗？",
+      "visual_note": "黑底白字大号标题:'AI头像 ¥9.9'，数字跳动动画。突然切入AI生图界面截图。",
+      "pattern_interrupt": "text_card → screen_capture, 1.5秒切换",
+      "capcut_search": "数字 跳动 黑底 科技"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "shock",
+      "duration_sec": 4,
+      "voiceover_text": "发了三条朋友圈。两小时，零回复。零点赞。",
+      "visual_note": "模拟微信朋友圈：3条消息悬浮在屏幕上，0评论0点赞的红色数字放大闪烁。倒计时器2:00:00跳动。",
+      "pattern_interrupt": "朋友圈截图 → 红色'0'数字放大 → 倒计时跳动",
+      "capcut_search": "微信 朋友圈 截图 红色数字"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "pivot_attempt",
+      "duration_sec": 4,
+      "voiceover_text": "我换了个思路。不发成品，发提示词。",
+      "visual_note": "分屏：左边是成品图（无人问津），右边是打字界面正在输入prompt。箭头指向右边，文字'换个玩法'弹出。",
+      "pattern_interrupt": "静态图 → 打字动画 → 弹出文字标签",
+      "capcut_search": "打字机效果 分屏 对比 箭头"
+    },
+    {
+      "id": "S04",
+      "type": "prompt_reveal",
+      "emotion": "hopeful",
+      "duration_sec": 6,
+      "voiceover_text": "这条提示词是：一只橘猫，穿宇航服，站在月球表面，背景是地球，皮克斯风格，4K。两秒后——",
+      "visual_note": "【核心Prompt Reveal画面】全屏显示prompt文字（逐字打出），然后黑屏加载动画（AI生成中），最后图片淡入。",
+      "pattern_interrupt": "打字动画 → 加载进度条 → 图片揭晓，每2秒一个视觉变化",
+      "capcut_search": "打字机 文字特效 加载 生成 图片展示"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "emotion": "hopeful",
+      "duration_sec": 4,
+      "voiceover_text": "第一条消息来了：能把我家猫画成这样吗？十块，成交。",
+      "visual_note": "微信聊天气泡弹出：'能把我家猫画成这样吗？' → '10块' → 💰转账截图。气泡动画逐条出现。",
+      "pattern_interrupt": "聊天气泡逐条弹出 → 转账成功动画",
+      "capcut_search": "微信 聊天气泡 转账 动画"
+    },
+    {
+      "id": "S06",
+      "type": "comparison",
+      "emotion": "hopeful",
+      "duration_sec": 5,
+      "voiceover_text": "真人猫照片在这边，AI生成的在这边。你觉得像不像？",
+      "visual_note": "【Before/After对比卡】左：真实猫咪照片（模拟），右：AI生成的宇航猫。中间竖线可滑动对比。底部弹幕式文字：'像！' '不像' '这也行？'",
+      "pattern_interrupt": "左右分屏 → 滑动对比线 → 弹幕文字飘过",
+      "capcut_search": "前后对比 滑动 分屏 弹幕"
+    },
+    {
+      "id": "S07",
+      "type": "data_card",
+      "emotion": "warm_unemploy",
+      "duration_sec": 4,
+      "voiceover_text": "第一天，三单，收入三十。成本，零。",
+      "visual_note": "数据卡片动画：黑色背景，绿色'¥30'大数字跳动出现，'3单'从左滑入，'成本¥0'红色划线。数字有弹性动画。",
+      "pattern_interrupt": "数字弹跳 → 滑入文字 → 划线效果",
+      "capcut_search": "数据统计 数字跳动 绿色收入 弹性动画"
+    },
+    {
+      "id": "S08",
+      "type": "debate",
+      "emotion": "warm_unemploy",
+      "duration_sec": 5,
+      "voiceover_text": "AI两分钟画的头像卖十块钱。你觉得值不值？",
+      "visual_note": "投票卡片：'AI头像¥10'居中，左边👍'值'，右边👎'不值'。数字实时跳动（模拟），底部'评论区吵起来了'文字闪烁。",
+      "pattern_interrupt": "投票卡片 → 数字跳动 → 评论区提示闪烁，制造未完感引导评论",
+      "capcut_search": "投票 争议 评论区 互动 数字"
+    }
+  ],
+
+  "screenshots": [
+    {"id": "SS01", "template": "tpl-prompt-reveal", "output": "SS01-prompt-reveal.png"},
+    {"id": "SS02", "template": "tpl-wechat-moments", "output": "SS02-wechat-moments.png"},
+    {"id": "SS03", "template": "tpl-wechat-chat", "output": "SS03-wechat-chat.png"},
+    {"id": "SS04", "template": "tpl-vote-card", "output": "SS04-vote-card.png"},
+    {"id": "SS05", "template": "tpl-income-4000", "output": "SS05-data-card.png"}
+  ],
+
+  "images": [
+    {
+      "id": "IMG01",
+      "prompt": "An adorable orange tabby cat wearing a detailed white spacesuit with NASA-style patches, standing proudly on the gray lunar surface. Earth is visible in the dark sky above. Pixar 3D animation style, soft warm lighting, highly detailed fur texture, 4K resolution, vertical composition",
+      "output_file": "IMG01-cat-astronaut.png"
+    },
+    {
+      "id": "IMG02",
+      "prompt": "A photorealistic orange tabby cat sitting on a windowsill at home, soft natural afternoon sunlight, casual smartphone photo quality, slightly blurred background, warm tones, vertical composition",
+      "output_file": "IMG02-cat-real.png"
+    }
+  ],
+
+  "storyboard": [
+    {
+      "segment": "S01",
+      "clips": [{"type": "screenshot", "ref": "SS01", "zoom": false, "pct": 1.0}]
+    },
+    {
+      "segment": "S02",
+      "clips": [{"type": "screenshot", "ref": "SS02", "zoom": true, "pct": 1.0}]
+    },
+    {
+      "segment": "S03",
+      "clips": [{"type": "screenshot", "ref": "SS02", "zoom": false, "pct": 0.5}, {"type": "screenshot", "ref": "SS01", "zoom": false, "pct": 0.5}]
+    },
+    {
+      "segment": "S04",
+      "clips": [{"type": "screenshot", "ref": "SS01", "zoom": false, "pct": 0.5}, {"type": "image", "ref": "IMG01", "zoom": true, "pct": 0.5}]
+    },
+    {
+      "segment": "S05",
+      "clips": [{"type": "screenshot", "ref": "SS03", "zoom": true, "pct": 1.0}]
+    },
+    {
+      "segment": "S06",
+      "clips": [{"type": "image", "ref": "IMG02", "zoom": true, "pct": 0.5}, {"type": "image", "ref": "IMG01", "zoom": true, "pct": 0.5}]
+    },
+    {
+      "segment": "S07",
+      "clips": [{"type": "screenshot", "ref": "SS05", "zoom": true, "pct": 1.0}]
+    },
+    {
+      "segment": "S08",
+      "clips": [{"type": "screenshot", "ref": "SS04", "zoom": true, "pct": 1.0}]
+    }
+  ],
+
+  "bgm": {
+    "file": "synth-pad-placeholder.mp3",
+    "volume": 0.08,
+    "fade_in": 2.0,
+    "fade_out": 3.0
+  },
+
+  "upload_copy": {
+    "platform": "douyin",
+    "title_candidates": [
+      "AI两分钟画的头像，我卖了10块钱",
+      "用AI画头像接单，第一天的真实收入",
+      "AI画的猫vs真猫，你能分出来吗？"
+    ],
+    "tags": ["AI画头像", "AI赚钱", "零成本副业", "AI副业", "Prompt技巧", "30天挑战"],
+    "upload_copy": "用AI画头像标价9.9，前两小时0单。换了一个玩法后当天成交3单。AI两分钟出的图卖10块，你觉得值不值？"
+  },
+
+  "publishing": {
+    "cover_text": "AI头像 ¥10 / 值不值？",
+    "cover_strategy": "首帧用AI生成的猫咪宇航员图片，视觉冲击力最强"
+  },
+
+  "pattern_interrupt_plan": {
+    "total_duration_sec": 35,
+    "interrupt_count": 16,
+    "avg_interval_sec": 2.2,
+    "notes": "每个segment至少2个视觉变化。S04(Prompt Reveal)是核心传播点，必须最有视觉冲击力。"
+  }
+}
