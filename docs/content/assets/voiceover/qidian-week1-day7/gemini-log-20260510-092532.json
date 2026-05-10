@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-10T09:25:32.702817",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day7",
+  "total_duration_s": 53.36,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S01.mp3",
+      "duration_s": 6.92,
+      "status": "success",
+      "actual_duration_s": 6.92,
+      "voiceover_text": "朋友刚装完103平，花了10万。你知道实际成本多少吗？大概4万。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S02.mp3",
+      "duration_s": 8.28,
+      "status": "success",
+      "actual_duration_s": 8.28,
+      "voiceover_text": "另外6万去哪了？被3个环节赚走了：设计费1万，渠道费2万，信息差3万。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S03.mp3",
+      "duration_s": 11.24,
+      "status": "success",
+      "actual_duration_s": 11.24,
+      "voiceover_text": "干了15年的装修工头，看一眼报价单就知道哪里有水分。三万块瓷砖，工厂1.2万就出。全屋定制标价8万，出厂价不到3万。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S04.mp3",
+      "duration_s": 4.16,
+      "status": "success",
+      "actual_duration_s": 4.16,
+      "voiceover_text": "你以为你在买材料，其实你在为信息差买单。",
+      "director_notes": "笃定有力，不犹豫。像在跟朋友约好明天见面一样自然。'从明天开始'要有节奏感，不是命令是邀请。结尾'变成自己的收入'说得稳，像已经看到结果了。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S05.mp3",
+      "duration_s": 22.76,
+      "status": "success",
+      "actual_duration_s": 22.76,
+      "voiceover_text": "转给准备装修的朋友，收藏这条。装修的时候对照着看。你被坑了多少？评论区比比看。",
+      "director_notes": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。"
+    }
+  ]
+}

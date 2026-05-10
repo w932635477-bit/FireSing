@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-10T09:28:49.105772",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day6",
+  "total_duration_s": 51.24,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S01.mp3",
+      "duration_s": 10.12,
+      "status": "success",
+      "actual_duration_s": 10.12,
+      "voiceover_text": "说一个房产中介不会告诉你的事。同一个小区，挂牌价和真实成交价，能差20%。",
+      "director_notes": "压低声音，像凑近说的秘密。不是神秘，是认真。每个字都清楚但比正常说话轻。说完关键信息后停顿，让听众消化。结尾自然收束。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S02.mp3",
+      "duration_s": 11.44,
+      "status": "success",
+      "actual_duration_s": 11.44,
+      "voiceover_text": "干了10年的中介，看一眼就知道——这套房业主急卖，砍15%没问题。那套房学区是坑，别碰。这个户型以后转手没人要。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S03.mp3",
+      "duration_s": 6.0,
+      "status": "success",
+      "actual_duration_s": 6.0,
+      "voiceover_text": "你在APP上刷三个月，不如一个干了10年的人带你看一次。",
+      "director_notes": "笃定有力，不犹豫。像在跟朋友约好明天见面一样自然。'从明天开始'要有节奏感，不是命令是邀请。结尾'变成自己的收入'说得稳，像已经看到结果了。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S04.mp3",
+      "duration_s": 16.040249,
+      "status": "success",
+      "actual_duration_s": 16.040249,
+      "voiceover_text": "但中介按成交价抽佣，他不会告诉你底价。只有被裁了的那个中介，才敢说真话。",
+      "director_notes": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S05.mp3",
+      "duration_s": 7.64,
+      "status": "success",
+      "actual_duration_s": 7.64,
+      "voiceover_text": "收藏这条，买房前拿出来看看。你觉得买房最大的坑是什么？评论区聊聊。",
+      "director_notes": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。"
+    }
+  ]
+}

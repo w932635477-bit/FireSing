@@ -43,27 +43,28 @@ CHART_CACHE = Path("/tmp/qidian-day7-chart.png")
 ACCENT_CACHE = Path("/tmp/qidian-day7-accent.png")
 
 TIMELINE = [
-    {"id": "S01", "start": 0.0, "end": 6.33},
-    {"id": "S02", "start": 6.33, "end": 14.31},
-    {"id": "S03", "start": 14.31, "end": 23.77},
-    {"id": "S04", "start": 23.77, "end": 27.93},
-    {"id": "S05", "start": 27.93, "end": 34.73},
+    {"id": "S01", "start": 0.0, "end": 6.92},
+    {"id": "S02", "start": 6.92, "end": 15.20},
+    {"id": "S03", "start": 15.20, "end": 26.44},
+    {"id": "S04", "start": 26.44, "end": 30.60},
+    {"id": "S05", "start": 30.60, "end": 53.36},
 ]
-TOTAL_DURATION = 34.73
+TOTAL_DURATION = 53.36
 COVER_DURATION = 1.0
 
 SUBTITLES = [
-    {"start": 0.0, "end": 6.33, "text": "朋友刚装完103平，花了10万。你知道实际成本多少吗？大概4万。"},
-    {"start": 6.33, "end": 14.31, "text": "另外6万去哪了？被3个环节赚走了：设计费1万，渠道费2万，信息差3万。"},
-    {"start": 14.31, "end": 23.77, "text": "三万块瓷砖，工厂1.2万就出。全屋定制标价8万，出厂价不到3万。"},
-    {"start": 23.77, "end": 27.93, "text": "你以为你在买材料，其实你在为信息差买单。"},
-    {"start": 27.93, "end": 34.73, "text": "装过修的朋友，你觉得你被坑了多少？评论区说说，让没装的人长个心眼。"},
+    {"start": 0.0, "end": 6.92, "text": "朋友刚装完103平，花了10万。你知道实际成本多少吗？大概4万。"},
+    {"start": 6.92, "end": 15.20, "text": "另外6万去哪了？被3个环节赚走了：设计费1万，渠道费2万，信息差3万。"},
+    {"start": 15.20, "end": 26.44, "text": "干了15年的装修工头，看一眼报价单就知道哪里有水分。三万块瓷砖，工厂1.2万就出。"},
+    {"start": 26.44, "end": 30.60, "text": "你以为你在买材料，其实你在为信息差买单。"},
+    {"start": 30.60, "end": 53.36, "text": "转给准备装修的朋友，收藏这条。装修的时候对照着看。你被坑了多少？评论区比比看。"},
 ]
 
 DANMAKU = [
     "装修太坑了", "10万成本4万", "信息差3万",
     "瓷砖差1.8万", "全屋定制差5万", "买材料=买信息差",
-    "我装修被坑了", "工厂价才是真实价", "评论区长心眼",
+    "转给要装修的人", "收藏了", "评论区比比看谁亏得多",
+    "工厂价才是真实价", "装修公司别打我", "信息差太可怕了",
 ]
 
 
@@ -394,14 +395,19 @@ def build() -> None:
     s05_dur = TIMELINE[4]["end"] - TIMELINE[4]["start"]
 
     s05_cta = make_text_clip(
-        "你被坑了多少？", 52, YELLOW,
-        s05_start + 0.2, s05_dur - 0.2,
-        ("center", 700), fade_in=0.3,
+        "转给要装修的朋友", 48, GREEN,
+        s05_start + 0.2, min(8.0, s05_dur),
+        ("center", 600), fade_in=0.3,
+    )
+    s05_save = make_text_clip(
+        "收藏这条 装修对照着看", 44, YELLOW,
+        s05_start + 1.5, min(8.0, s05_dur - 1.5),
+        ("center", 750), fade_in=0.3,
     )
     s05_prompt = make_text_clip(
-        "评论区说说 让没装的人长个心眼", 32, SILVER,
-        s05_start + 1.2, max(0, s05_dur - 1.2),
-        ("center", 850),
+        "你被坑了多少？评论区比比看", 40, WHITE,
+        s05_start + 3.0, max(0, s05_dur - 3.0),
+        ("center", 900), fade_in=0.3,
     )
 
     # Compose
@@ -412,7 +418,7 @@ def build() -> None:
         s02_label, s02_item1, s02_item2, s02_item3,
         s03_tile_label, s03_chart, s03_tile, s03_custom, s03_source,
         s04_line1, s04_not, s04_line2,
-        s05_cta, s05_prompt,
+        s05_cta, s05_save, s05_prompt,
     ]
     all_clips.extend(danmaku_clips)
     all_clips.extend(subtitle_clips)

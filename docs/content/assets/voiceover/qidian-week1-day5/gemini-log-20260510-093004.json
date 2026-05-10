@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-10T09:30:04.894801",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day5",
+  "total_duration_s": 44.08,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day5/S01.mp3",
+      "duration_s": 4.520249,
+      "status": "success",
+      "actual_duration_s": 4.520249,
+      "voiceover_text": "每个行业都有这种人——工资配不上脑子里的东西。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day5/S02.mp3",
+      "duration_s": 7.4,
+      "status": "success",
+      "actual_duration_s": 7.4,
+      "voiceover_text": "14年外贸老炮，年入18万，但他帮客户省的钱，一年300万起步。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day5/S03.mp3",
+      "duration_s": 8.4,
+      "status": "success",
+      "actual_duration_s": 8.4,
+      "voiceover_text": "你的工资不是你的价值。你的工资，是你老板愿意付你的最低价。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day5/S04.mp3",
+      "duration_s": 17.88,
+      "status": "success",
+      "actual_duration_s": 17.88,
+      "voiceover_text": "人才市场给你标的价，是500块一小时。你真正的客户不是HR，是那些需要你经验的人。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day5/S05.mp3",
+      "duration_s": 5.88,
+      "status": "success",
+      "actual_duration_s": 5.88,
+      "voiceover_text": "@一个被低估的朋友。评论区说说他有多懂行。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

@@ -55,30 +55,29 @@ ACCENT_CACHE = Path("/tmp/qidian-day4-accent.png")
 
 # Audio-anchored timeline
 TIMELINE = [
-    {"id": "S01", "start": 0.0, "end": 5.99},
-    {"id": "S02", "start": 5.99, "end": 11.50},
-    {"id": "S03", "start": 11.50, "end": 15.32},
-    {"id": "S04", "start": 15.32, "end": 23.80},
-    {"id": "S05", "start": 23.80, "end": 29.78},
-    {"id": "S06", "start": 29.78, "end": 33.76},
+    {"id": "S01", "start": 0.0, "end": 5.00},
+    {"id": "S02", "start": 5.00, "end": 11.16},
+    {"id": "S03", "start": 11.16, "end": 15.44},
+    {"id": "S04", "start": 15.44, "end": 35.88},
+    {"id": "S05", "start": 35.88, "end": 44.28},
 ]
-TOTAL_DURATION = 33.76
+TOTAL_DURATION = 44.28
 COVER_DURATION = 1.0
 
 # Subtitle data (synced to audio segments)
 SUBTITLES = [
-    {"start": 0.0, "end": 5.99, "text": "公司里最被低估的人是谁？不是清洁工，不是实习生，是那个帮公司省过钱的人。"},
-    {"start": 5.99, "end": 11.50, "text": "29万够提一辆Model Y。年终奖？连四个轮子都买不起。"},
-    {"start": 11.50, "end": 15.32, "text": "给老板省钱，不等于给自己赚钱。"},
-    {"start": 15.32, "end": 23.80, "text": "砍价砍掉30%，避开2个坑，锁住1个好渠道——换个地方叫咨询服务。"},
-    {"start": 23.80, "end": 29.78, "text": "从明天开始，怎么把帮老板省钱的本事，变成自己的收入。"},
-    {"start": 29.78, "end": 33.76, "text": "你帮公司省过钱吗？评论区说说你省了多少。"},
+    {"start": 0.0, "end": 5.00, "text": "你帮公司省过钱吗？省下来的那些钱，够不够买一辆特斯拉？"},
+    {"start": 5.00, "end": 11.16, "text": "有个做采购的，一年给公司省了29万。他的年终奖？3000块。"},
+    {"start": 11.16, "end": 15.44, "text": "给老板省钱，不等于给自己赚钱。"},
+    {"start": 15.44, "end": 35.88, "text": "砍价砍掉30%，避开2个坑，锁住1个渠道——这些东西叫咨询服务，别人按小时收费。"},
+    {"start": 35.88, "end": 44.28, "text": "收藏这条，哪天想通了拿出来对照。你帮公司省过多少？评论区比比看。"},
 ]
 
 DANMAKU = [
-    "真实", "说得太对了", "我就是这样", "29万啊",
-    "3000也好意思", "还有年终奖为0的", "我省了50万老板说应该的",
-    "同采购路过", "这不是我吗", "换个老板确实是真理",
+    "真实", "说得太对了", "29万 vs 3000",
+    "省了29万年终奖3000", "采购人哭了", "咨询按小时收费",
+    "收藏了", "评论区比比看", "我帮公司省过50万",
+    "这不是我吗", "咨询服务才值钱", "经验就是产品",
 ]
 
 
@@ -421,15 +420,15 @@ def build_cover_clip(duration: float) -> list:
     """Cover frame: large title + red 290,000 for thumbnail."""
     clips = []
     cover_title = make_text_clip(
-        "公司里最被低估的人", 64, WHITE,
+        "你帮公司省过钱吗", 64, WHITE,
         0.0, duration, ("center", 550), fade_out=0.3,
     )
     cover_number = make_text_clip(
-        "290,000", 140, RED,
+        "29万", 140, RED,
         0.0, duration, ("center", 750), fade_out=0.3,
     )
     cover_sub = make_text_clip(
-        "是那个帮公司省过钱的人", 40, SILVER,
+        "够不够买一辆特斯拉？", 40, SILVER,
         0.0, duration, ("center", 950), fade_out=0.3,
     )
     clips.extend([cover_title, cover_number, cover_sub])
@@ -480,13 +479,13 @@ def build() -> None:
     counter_clip = build_counter_clip(s01_start, s01_duration)
 
     s01_title = make_text_clip(
-        "公司里最被低估的人", 56, WHITE,
+        "你帮公司省过钱吗？", 56, WHITE,
         s01_start + 0.3, s01_duration - 0.3,
         ("center", 450), fade_in=0.3,
     )
     s01_subtitle = make_text_clip(
-        "是那个帮公司省过钱的人", 44, SILVER,
-        s01_start + 2.5, max(0, s01_duration - 2.5),
+        "够不够买一辆特斯拉？", 44, SILVER,
+        s01_start + 1.5, max(0, s01_duration - 1.5),
         ("center", 900), fade_in=0.3,
     )
 
@@ -495,12 +494,12 @@ def build() -> None:
     s02_start = TIMELINE[1]["start"]
 
     s02_big_number = make_text_clip(
-        "290,000", 120, RED,
+        "29万", 120, RED,
         s02_start + 0.2, min(2.3, s02_duration),
         ("center", 500), fade_in=0.3,
     )
     s02_yuan = make_text_clip(
-        "替老板省下 29 万", 40, WHITE,
+        "做采购 一年省了29万", 40, WHITE,
         s02_start + 0.2, min(2.3, s02_duration),
         ("center", 630), fade_in=0.2,
     )
@@ -529,7 +528,7 @@ def build() -> None:
         ("center", 650),
     )
     s02_wheels = make_text_clip(
-        "连四个轮子都买不起", 36, WHITE,
+        "做采购的 一年省29万 年终奖3000", 32, WHITE,
         cut_time + 0.8, max(0, remaining - 0.8),
         ("center", 780), fade_in=0.2,
     )
@@ -579,7 +578,7 @@ def build() -> None:
         ("center", 860), fade_in=0.4,
     )
     s04_label = make_text_clip(
-        '换个地方，叫"咨询服务"', 36, WHITE,
+        '叫"咨询服务"，别人按小时收费', 36, WHITE,
         s04_start + 5.5, max(0, s04_duration - 5.5),
         ("center", 1080), fade_in=0.3,
     )
@@ -588,45 +587,29 @@ def build() -> None:
         DANMAKU, s04_start + 2.0, TIMELINE[3]["end"],
     )
 
-    # Scene 5: Transition (23.80s-29.78s)
+    # Scene 5: CTA (35.88s-44.28s) — combined save + comment CTA
     s05_duration = TIMELINE[4]["end"] - TIMELINE[4]["start"]
     s05_start = TIMELINE[4]["start"]
 
-    s05_overlay = (
-        ColorClip((W, H), color=(0, 0, 0))
-        .with_duration(s05_duration)
-        .with_start(s05_start)
-        .with_opacity(0.3)
+    s05_save = make_text_clip(
+        "收藏这条", 56, GREEN,
+        s05_start + 0.3, min(4.0, s05_duration),
+        ("center", 650), fade_in=0.4,
     )
-    s05_text = make_text_clip(
-        "从明天开始", 72, WHITE,
-        s05_start + 0.3, s05_duration - 0.3,
-        ("center", 700), fade_in=0.4,
+    s05_hint = make_text_clip(
+        "哪天想通了 拿出来对照", 40, SILVER,
+        s05_start + 1.5, min(4.0, s05_duration - 1.5),
+        ("center", 780), fade_in=0.3,
     )
-    s05_sub = make_text_clip(
-        "怎么把帮老板省钱的本事", 36, SILVER,
-        s05_start + 1.8, max(0, s05_duration - 1.8),
-        ("center", 880), fade_in=0.3,
+    s05_cta = make_text_clip(
+        "你帮公司省过多少？", 52, YELLOW,
+        s05_start + 3.5, max(0, s05_duration - 3.5),
+        ("center", 900), fade_in=0.3,
     )
-    s05_sub2 = make_text_clip(
-        "变成自己的收入", 48, GREEN,
-        s05_start + 3.0, max(0, s05_duration - 3.0),
-        ("center", 980), fade_in=0.3,
-    )
-
-    # Scene 6: CTA (29.78s-33.76s)
-    s06_duration = TIMELINE[5]["end"] - TIMELINE[5]["start"]
-    s06_start = TIMELINE[5]["start"]
-
-    s06_cta = make_text_clip(
-        "你帮公司省过钱吗？", 56, WHITE,
-        s06_start + 0.2, s06_duration - 0.2,
-        ("center", 750), fade_in=0.3,
-    )
-    s06_prompt = make_text_clip(
-        "评论区说说你省了多少", 36, SILVER,
-        s06_start + 1.0, max(0, s06_duration - 1.0),
-        ("center", 900),
+    s05_prompt = make_text_clip(
+        "评论区比比看", 40, WHITE,
+        s05_start + 5.0, max(0, s05_duration - 5.0),
+        ("center", 1050), fade_in=0.3,
     )
 
     # Compose all clips
@@ -645,10 +628,8 @@ def build() -> None:
         s03_attitude, s03_not_equal, s03_make_money,
         # Scene 4
         s04_rehook, s04_item1, s04_item2, s04_item3, s04_label,
-        # Scene 5
-        s05_overlay, s05_text, s05_sub, s05_sub2,
-        # Scene 6
-        s06_cta, s06_prompt,
+        # Scene 5 (CTA)
+        s05_save, s05_hint, s05_cta, s05_prompt,
     ]
     all_clips.extend(danmaku_clips)
     all_clips.extend(subtitle_clips)

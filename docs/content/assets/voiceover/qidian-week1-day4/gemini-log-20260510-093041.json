@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-10T09:30:41.706247",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day4",
+  "total_duration_s": 44.28,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S01.mp3",
+      "duration_s": 5.0,
+      "status": "success",
+      "actual_duration_s": 5.0,
+      "voiceover_text": "你帮公司省过钱吗？省下来的那些钱，够不够买一辆特斯拉？",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S02.mp3",
+      "duration_s": 6.16,
+      "status": "success",
+      "actual_duration_s": 6.16,
+      "voiceover_text": "有个做采购的，一年给公司省了29万。他的年终奖？3000块。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S03.mp3",
+      "duration_s": 4.28,
+      "status": "success",
+      "actual_duration_s": 4.28,
+      "voiceover_text": "给老板省钱，不等于给自己赚钱。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S04.mp3",
+      "duration_s": 20.44,
+      "status": "success",
+      "actual_duration_s": 20.44,
+      "voiceover_text": "砍价砍掉30%，避开2个坑，锁住1个渠道——这些东西，叫咨询服务，别人按小时收费。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S05.mp3",
+      "duration_s": 8.4,
+      "status": "success",
+      "actual_duration_s": 8.4,
+      "voiceover_text": "收藏这条，哪天想通了拿出来对照。你帮公司省过多少？评论区比比看。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}
