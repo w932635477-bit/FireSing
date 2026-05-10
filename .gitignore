@@ -75,3 +75,13 @@ diagnose_*.py
 test_batch_e2e.py
 test_e2e_gpu.py
 test_phase2_*.py
+
+# Codex session temp files
+.context/
+
+# macOS text clipping artifacts
+*.textClipping
+
+# Generated video output
+docs/content/assets/output/
+docs/content/.context/

@@ -1,12 +1,12 @@
 {
   "video_id": "qidian-week1-day6",
-  "version": "4.1",
-  "created": "2026-05-08",
-  "note": "Day6 房产中介知道的秘密 — v4.1 破圈版",
+  "version": "4.2",
+  "created": "2026-05-10",
+  "note": "Day6 房产中介知道的秘密 — v4.2 冷启动优化版（加收藏引导）",
   "script": {
     "topic": "房产中介知道的秘密",
     "hook_type": "insider_secrets",
-    "target_duration_sec": 35
+    "target_duration_sec": 25
   },
   "voiceover": {
     "engine": "gemini_3.1_flash_tts",
@@ -46,8 +46,8 @@
       "id": "S05",
       "type": "cta",
       "emotion": "simply_qidian",
-      "duration_sec": 4,
-      "voiceover_text": "你觉得买房最大的坑是什么？评论区聊聊。"
+      "duration_sec": 5,
+      "voiceover_text": "收藏这条，买房前拿出来看看。你觉得买房最大的坑是什么？评论区聊聊。"
     }
   ]
 }
