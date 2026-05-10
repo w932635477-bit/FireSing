@@ -1,0 +1,70 @@
+{
+  "video_id": "unemploy-day1-v5",
+  "version": "5.0",
+  "created": "2026-05-06",
+  "note": "破圈重写版：闲鱼定价实验，30秒短条，信息差+争议",
+  "script": {
+    "topic": "失业47天，我把经验挂闲鱼标了5000",
+    "hook_type": "absurd_experiment",
+    "target_duration_sec": 32
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "unemploy"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "bitter",
+      "duration_sec": 5,
+      "voiceover_text": "失业四十七天，零收入。我把十五年踩坑经验，按五十块一分钟挂了闲鱼。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "shock",
+      "duration_sec": 5,
+      "voiceover_text": "评论炸了。这也卖？太便宜了吧？有人直接拍。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "hopeful",
+      "duration_sec": 5,
+      "voiceover_text": "三小时成交。他问我，XX项目踩过哪些坑？"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "hopeful",
+      "duration_sec": 5,
+      "voiceover_text": "我打了四十分钟电话。他直接转了第二单。"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "emotion": "warm_unemploy",
+      "duration_sec": 3,
+      "voiceover_text": "原来踩过的坑，比简历值钱。"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "emotion": "warm_unemploy",
+      "duration_sec": 4,
+      "voiceover_text": "你觉得十五年经验值多少？评论区报个数。"
+    }
+  ],
+  "publishing": {
+    "title_candidates": [
+      "失业47天，我把经验挂闲鱼标了5000块",
+      "被裁后把经验挂闲鱼，3小时成交了",
+      "HR不要的简历，闲鱼上有人花5000买"
+    ],
+    "cover_text": "经验挂闲鱼 标价5000",
+    "tags": ["失业", "被裁", "闲鱼", "经验变现", "35岁", "中年危机"],
+    "upload_copy": "失业47天，把15年经验挂闲鱼标了5000。3小时有人拍了，打了个电话直接复购。原来踩过的坑比简历值钱。你觉得你的经验值多少？"
+  }
+}

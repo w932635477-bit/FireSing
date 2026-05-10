@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-05-06T17:29:56.575524",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-day3-ai-portrait",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S02",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S03",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S04",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S05",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S06",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S07",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    },
+    {
+      "segment": "S08",
+      "status": "error",
+      "error": "'NoneType' object has no attribute 'models'"
+    }
+  ]
+}

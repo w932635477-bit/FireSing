@@ -1,0 +1,11 @@
+{
+  "video_id": "sings-xiangqin-duet",
+  "timestamp": "2026-05-08T15:05:51.237906",
+  "method": "suno-cover",
+  "model": "V4_5",
+  "style": "Chinese Mandarin pop, playful, confrontational, catchy",
+  "audio_weight": 0.85,
+  "task_id": "e836cdb25f2d1cc0675dcbb6dc36f7fb",
+  "reference_audio": "docs/content/assets/cover/今天你要嫁给我_45s.mp3",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/cover"
+}

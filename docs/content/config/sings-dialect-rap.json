@@ -1,0 +1,99 @@
+{
+  "video_id": "sings-dialect-rap",
+  "workflow": "sings-dialect-rap",
+  "version": "1.0",
+  "created": "2026-05-09",
+  "status": "template",
+  "series": "sings-dialect-rap",
+  "strategy_notes": "阿建欢乐多模式：固定BGM + 东北话半说半唱 + 搞笑/讽刺/对立歌词。每集50-70秒，同一首BGM，只换歌词和画面。",
+
+  "bgm": {
+    "file": "docs/content/assets/bgm/精彩01_副本.mp3",
+    "title": "Primetime-Sexcrime",
+    "artist": "Earphones",
+    "bpm": 117,
+    "key": "A#",
+    "duration_s": 114,
+    "usage": "取前50-70秒作为视频BGM，方言说唱叠在上面",
+    "volume": 0.35,
+    "fade_out_s": 3
+  },
+
+  "global": {
+    "target_duration_sec": 60,
+    "max_duration_sec": 70,
+    "min_duration_sec": 45,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "style": "dialect_rap_comedy"
+  },
+
+  "voice": {
+    "engine": "doubao_tts",
+    "model": "volcano_tts",
+    "voice_type": "BV704_streaming",
+    "language": "zh_dongbei",
+    "style": "半说半唱，节奏感强，东北口音浓重，语气夸张搞笑",
+    "speed": 1.1,
+    "pitch": 0,
+    "volume": 1.2
+  },
+
+  "lyrics_template": {
+    "structure": "intro_hook + verse_4bar + bridge + verse_4bar + outro_hook",
+    "bars_per_verse": 4,
+    "chars_per_bar": "10-16",
+    "rhyme_scheme": "AABB per verse",
+    "tone": "搞笑/讽刺/对立，用东北话俚语，夸张比喻，自嘲+吐槽",
+    "tempo_note": "每小节约2秒（117 BPM 4/4拍），说唱节奏跟随BGM鼓点"
+  },
+
+  "visual": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "style": "动态舞台/演出画面（跟阿建欢乐多一样用非版权素材或AI生成舞台画面）",
+    "segments_per_video": 3,
+    "segment_duration_sec": 5,
+    "resolution": "720x1280",
+    "fps": 24
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "steps": [
+      "1. 截取BGM前60秒（或根据歌词长度调整）",
+      "2. 生成东北话配音（豆包TTS BV704 zh_dongbei）",
+      "3. FFmpeg合并：BGM音量0.35 + 配音音量1.0 + 淡出3秒",
+      "4. 拼接视觉素材（Kling视频或静态图）",
+      "5. 输出无字幕版本 → 剪映加字幕+特效"
+    ],
+    "bgm_volume": 0.35,
+    "voice_volume": 1.0,
+    "fade_out_s": 3,
+    "subtitle": "剪映手动添加（花字/弹幕风格）"
+  },
+
+  "post_production": {
+    "tool": "剪映",
+    "steps": [
+      "1. 导入FFmpeg输出的基础视频",
+      "2. 添加花字字幕（东北话原文）",
+      "3. 关键词加粗/变色（搞笑词高亮）",
+      "4. 添加音效（笑声、鼓点加重等）",
+      "5. AI滤镜去AI味（如有真人素材则不需要）"
+    ]
+  },
+
+  "publishing": {
+    "platforms": ["douyin"],
+    "account": "Sings",
+    "series_title": "杨梦东北话说唱",
+    "cover_description": "舞台画面 + 大字标题'东北话XXX'",
+    "tags": ["东北话", "方言说唱", "半说半唱", "搞笑", "杨梦"],
+    "publish_time": "18:00",
+    "frequency": "日更或隔日更",
+    "collection": "合集连载（跟阿建欢乐多一样）"
+  }
+}

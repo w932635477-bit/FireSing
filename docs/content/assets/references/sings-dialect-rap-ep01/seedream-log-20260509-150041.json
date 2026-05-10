@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-09T15:00:41.658799",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S06-effort.png",
+      "task_id": "task-unified-1778309967-gritjlj7",
+      "status": "success"
+    }
+  ]
+}

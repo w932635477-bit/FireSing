@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-05-09T10:35:19.430905",
+  "engine": "doubao-dialect-tts",
+  "voice_type": "BV704_streaming",
+  "language": "zh_dongbei",
+  "video_id": "sings-dialect-rap-ep01",
+  "dialect": "dongbei",
+  "total_duration_s": 0.0,
+  "results": [
+    {
+      "segment": "S01",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"42640167-5c97-4f37-8121-71b8eb9c8037\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S02",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"a8e812ca-5726-4e4c-97ff-86e095502a80\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S03",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"508dcbc0-8631-4e29-986d-8d3e87134821\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S04",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"b28107d6-9dd4-4cd1-b9f4-56f432406b57\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S05",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"1219855c-fc02-4de5-99ef-5cd449885e5f\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S06",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"4d08a083-9d0a-4c9d-89df-0fe7878b1446\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    },
+    {
+      "segment": "S07",
+      "status": "error",
+      "error": "API error 400: {\"reqid\":\"d1654d05-fcce-4a0b-ad2b-4e887eadd0a2\",\"code\":3001,\"message\":\"pushing data to async workflow: unable to unmarshal request: Missing required: app.appid\"}"
+    }
+  ]
+}

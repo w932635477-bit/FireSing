@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-09T14:23:34.300452",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S01-energy.png",
+      "task_id": "task-unified-1778307727-847qz21m",
+      "status": "success"
+    }
+  ]
+}

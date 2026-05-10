@@ -1,0 +1,53 @@
+{
+  "video_id": "qidian-week1-day6",
+  "version": "4.1",
+  "created": "2026-05-08",
+  "note": "Day6 房产中介知道的秘密 — v4.1 破圈版",
+  "script": {
+    "topic": "房产中介知道的秘密",
+    "hook_type": "insider_secrets",
+    "target_duration_sec": 35
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "qidian"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "quietly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "说一个房产中介不会告诉你的事。同一个小区，挂牌价和真实成交价，能差20%。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "干了10年的中介，看一眼就知道——这套房业主急卖，砍15%没问题。那套房学区是坑，别碰。这个户型以后转手没人要。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "confidently_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "你在APP上刷三个月，不如一个干了10年的人带你看一次。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "simply_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "但中介按成交价抽佣，他不会告诉你底价。只有被裁了的那个中介，才敢说真话。"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "emotion": "simply_qidian",
+      "duration_sec": 4,
+      "voiceover_text": "你觉得买房最大的坑是什么？评论区聊聊。"
+    }
+  ]
+}

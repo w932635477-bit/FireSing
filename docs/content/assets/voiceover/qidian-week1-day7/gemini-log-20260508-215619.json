@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-08T21:56:19.963086",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day7",
+  "total_duration_s": 40.24,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S01.mp3",
+      "duration_s": 7.12,
+      "status": "success",
+      "actual_duration_s": 7.12,
+      "voiceover_text": "朋友刚装完103平，花了10万。你知道实际成本多少吗？大概4万。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S02.mp3",
+      "duration_s": 9.36,
+      "status": "success",
+      "actual_duration_s": 9.36,
+      "voiceover_text": "另外6万去哪了？被3个环节赚走了：设计费1万，渠道费2万，信息差3万。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S03.mp3",
+      "duration_s": 11.4,
+      "status": "success",
+      "actual_duration_s": 11.4,
+      "voiceover_text": "干了15年的装修工头，看一眼报价单就知道哪里有水分。三万块瓷砖，工厂1.2万就出。全屋定制标价8万，出厂价不到3万。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S04.mp3",
+      "duration_s": 4.48,
+      "status": "success",
+      "actual_duration_s": 4.48,
+      "voiceover_text": "你以为你在买材料，其实你在为信息差买单。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day7/S05.mp3",
+      "duration_s": 7.88,
+      "status": "success",
+      "actual_duration_s": 7.88,
+      "voiceover_text": "装过修的朋友，你觉得你被坑了多少？评论区说说，让没装的人长个心眼。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

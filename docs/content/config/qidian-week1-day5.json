@@ -1,0 +1,53 @@
+{
+  "video_id": "qidian-week1-day5",
+  "version": "4.1",
+  "created": "2026-05-08",
+  "note": "Day5 你工资配不上你脑子里的东西 — v4.1 破圈版",
+  "script": {
+    "topic": "你工资配不上你脑子里的东西",
+    "hook_type": "universal_empathy",
+    "target_duration_sec": 35
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "qidian"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "每个行业都有这种人——工资配不上脑子里的东西。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "14年外贸老炮，年入18万，但他帮客户省的钱，一年300万起步。做了10年的装修工头，日薪400，但他知道的避坑门道，准备装修的人愿意花2000听他讲半天。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "simply_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "你的工资不是你的价值。你的工资，是你老板愿意付你的最低价。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "confidently_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "人才市场给你标的价，是500块一小时。你真正的客户不是HR，是那些需要你经验的人。"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "emotion": "simply_qidian",
+      "duration_sec": 4,
+      "voiceover_text": "@一个被低估的朋友。评论区说说他有多懂行。"
+    }
+  ]
+}

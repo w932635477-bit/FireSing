@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-05-08T20:57:30.395387",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day4",
+  "total_duration_s": 6.44,
+  "results": [
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S02.mp3",
+      "duration_s": 6.44,
+      "status": "success",
+      "actual_duration_s": 6.44,
+      "voiceover_text": "29万够提一辆Model Y。年终奖？连四个轮子都买不起。",
+      "director_notes": "语速要快，5秒内说完。两个数字做对比，不要停顿，一句接一句。前一个大数字说得干脆，后一个小数字说得轻快。整体节奏紧凑，像机关枪报数。"
+    }
+  ]
+}

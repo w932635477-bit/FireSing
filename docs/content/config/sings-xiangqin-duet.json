@@ -1,0 +1,185 @@
+{
+  "video_id": "sings-xiangqin-duet",
+  "workflow": "sings",
+  "version": "3.0",
+  "created": "2026-05-08",
+  "status": "ready",
+  "series": "sings-xiangqin",
+  "strategy_notes": "破圈对唱：男女相亲标准大战。尖锐对立，评论区站队裂变。改编《今天你要嫁给我》",
+
+  "song": "相亲标准大战",
+  "original_artists": [],
+  "theme": "男女相亲标准对立",
+  "hook_type": "gender_war_standpoint",
+  "cta_action": "站男扣一 站女扣二",
+
+  "global": {
+    "target_duration_sec": 40,
+    "max_duration_sec": 50,
+    "min_duration_sec": 30,
+    "resolution": "1080x1920",
+    "fps": 24,
+    "codec": "h264",
+    "aspect_ratio": "9:16",
+    "kling_seed": null,
+    "style": "confrontational_duet",
+    "color_temperature": "warm_cafe",
+    "accent_color": "#d4564e",
+    "bg_color": "#2c2c2c"
+  },
+
+  "lyrics": {
+    "bpm": 128,
+    "time_signature": "4/4",
+    "suno_tags": "Duet(Alternating), confrontational pop, playful battle, male vs female, Chinese Mandarin, catchy hook, electronic beat, 128 bpm, TikTok viral",
+    "bars": [
+      {
+        "id": "B01",
+        "beat_count": 8,
+        "lines": ["[Male] 我相亲要求 就三条真的不多", "[Male] 不能超过一百一 脾气好就行"],
+        "rhyme": "a",
+        "segment_ref": "S01",
+        "type": "hook"
+      },
+      {
+        "id": "B02",
+        "beat_count": 8,
+        "lines": ["[Male] 不能比我赚得多 我说了算", "[Male] 会做饭就更好了 行不行"],
+        "rhyme": "a",
+        "segment_ref": "S02",
+        "type": "body"
+      },
+      {
+        "id": "B03",
+        "beat_count": 8,
+        "lines": ["[Female] 等一下先生 你月薪有多少", "[Female] 月薪八千块 敢提这种条件"],
+        "rhyme": "a",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B04",
+        "beat_count": 8,
+        "lines": ["[Female] 你的算盘 比工资还要响", "[Female] 找老婆还是 找第二个妈"],
+        "rhyme": "a",
+        "segment_ref": "S03",
+        "type": "body"
+      },
+      {
+        "id": "B05",
+        "beat_count": 8,
+        "lines": ["[Male] 你说说", "[Female] 我听听", "[Both] 谁要求更离谱", "[Both] 相亲相亲 到底谁在挑谁"],
+        "rhyme": "u",
+        "segment_ref": "S04",
+        "type": "chorus"
+      },
+      {
+        "id": "B06",
+        "beat_count": 8,
+        "lines": ["[Both] 站男扣一 站女扣二 说说你站谁"],
+        "rhyme": "ei",
+        "segment_ref": "S04",
+        "type": "cta"
+      }
+    ]
+  },
+
+  "script": {
+    "topic": "男女相亲标准对立对唱",
+    "source": "社会热点+原创",
+    "hook_type": "gender_war_standpoint",
+    "cta_action": "评论区站队"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "confident",
+      "visual_description": "咖啡厅相亲现场，男方自信展示标准",
+      "reference_prompt": "Casual snapshot of a modern Chinese coffee shop, portrait orientation, young Chinese man mid-twenties wearing a slightly oversized cheap suit, sitting at a small round table, leaning forward with confident smug smile, two lattes on the table, warm amber cafe lighting, slightly tilted composition, natural iPhone photo feel, visible napkin dispenser on table, slight motion blur on background customers",
+      "motion_prompt": "man leaning forward confidently, gesturing with hands while talking, warm cafe ambiance",
+      "lyrics_refs": ["B01"]
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "duration_sec": 8,
+      "shot_type": "medium",
+      "emotion": "daydreaming",
+      "visual_description": "男方幻想展示理想型清单",
+      "reference_prompt": "Casual snapshot portrait orientation, close-up of a young Chinese man mid-twenties in a cafe, dreamy self-satisfied expression with eyes half closed, holding up a coffee napkin with imaginary handwritten list, soft warm golden light from window behind, shallow depth of field, natural skin texture, slight uneven stubble, shot on iPhone, authentic moment",
+      "motion_prompt": "man waving napkin like a checklist, daydreaming expression, soft light changing",
+      "lyrics_refs": ["B02"]
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "duration_sec": 10,
+      "shot_type": "medium",
+      "emotion": "defiant",
+      "visual_description": "女方反击，亮出实力",
+      "reference_prompt": "Casual snapshot portrait orientation, young Chinese woman mid-twenties in a fitted blazer, sitting in a cafe, one eyebrow raised with a smirk, holding up her phone screen towards camera confidently, strong side lighting from window creating dramatic half-shadow on face, sharp focus on her defiant expression, natural skin texture, visible pores, shot on iPhone, raw authentic feel",
+      "motion_prompt": "woman raising phone screen, defiant smirk, one eyebrow raised, confident head tilt",
+      "lyrics_refs": ["B03", "B04"]
+    },
+    {
+      "id": "S04",
+      "type": "cta",
+      "duration_sec": 6,
+      "shot_type": "wide",
+      "emotion": "tension",
+      "visual_description": "两人同时站起来对峙，中间大字CTA",
+      "reference_prompt": "Casual snapshot portrait orientation, a young Chinese man and woman both standing up from a small cafe table simultaneously, body language showing awkward tension, the man looking startled and the woman looking unimpressed, warm cafe interior, two half-empty coffee cups on table, natural motion blur on arms, wide angle, shot on iPhone, documentary style, authentic imperfect framing",
+      "motion_prompt": "both standing up suddenly, awkward tension, arms crossing, cafe chairs scraping",
+      "lyrics_refs": ["B05", "B06"]
+    }
+  ],
+
+  "audio": {
+    "engine": "suno_ai",
+    "mode": "custom",
+    "style_prompt": "Duet(Alternating), confrontational pop, playful battle, male vs female, Chinese Mandarin, catchy hook, electronic beat, 128 bpm, TikTok viral, call and response",
+    "negative_tags": "rap, hip hop, EDM, aggressive, heavy metal, slow ballad, sad, dramatic, rock, dark, moody, autotune",
+    "output_format": "mp3",
+    "generation": {
+      "model": "V4_5ALL",
+      "custom_mode": true
+    }
+  },
+
+  "reference_images": {
+    "engine": "seedream_4.5",
+    "resolution": "1440x2560",
+    "candidates_per_segment": 1,
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark moody, western face, non-Chinese, blue eyes, blonde hair, wax figure, doll-like, professional photography studio quality, perfectly composed"
+  },
+
+  "video_generation": {
+    "engine": "kling_v3",
+    "mode": "image_to_video",
+    "resolution": "720x1280",
+    "duration_sec": 5,
+    "fps": 24,
+    "candidates_per_segment": 1,
+    "motion_intensity": 4
+  },
+
+  "compositing": {
+    "engine": "ffmpeg",
+    "transitions": "hard_cut",
+    "subtitle_source": "auto_from_lyrics",
+    "subtitle_style": "ktv_dynamic"
+  },
+
+  "publishing": {
+    "platforms": ["douyin", "xiaohongshu"],
+    "douyin_title": "相亲时男女的标准差距有多大 对唱笑死我了",
+    "xiaohongshu_title": "相亲局上的男女标准大战 对唱版 笑到停不下来",
+    "tags": ["相亲", "男女对立", "对唱", "搞笑", "恋爱观"],
+    "publish_times": ["12:00", "18:00"],
+    "cover_description": "咖啡厅相亲场景，女方挑眉表情最抓眼"
+  }
+}

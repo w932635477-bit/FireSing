@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-05-06T18:00:19.841196",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-day3-ai-portrait",
+  "total_duration_s": 59.84,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S01.mp3",
+      "duration_s": 7.8,
+      "status": "success",
+      "actual_duration_s": 7.8,
+      "voiceover_text": "用AI画头像，标价九块九。有人买单吗？",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S02.mp3",
+      "duration_s": 7.64,
+      "status": "success",
+      "actual_duration_s": 7.64,
+      "voiceover_text": "发了三条朋友圈。两小时，零回复。零点赞。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S03.mp3",
+      "duration_s": 3.8,
+      "status": "success",
+      "actual_duration_s": 3.8,
+      "voiceover_text": "我换了个思路。不发成品，发提示词。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S04.mp3",
+      "duration_s": 11.36,
+      "status": "success",
+      "actual_duration_s": 11.36,
+      "voiceover_text": "这条提示词是：一只橘猫，穿宇航服，站在月球表面，背景是地球，皮克斯风格，4K。两秒后——",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S05.mp3",
+      "duration_s": 7.24,
+      "status": "success",
+      "actual_duration_s": 7.24,
+      "voiceover_text": "第一条消息来了：能把我家猫画成这样吗？十块，成交。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S06.mp3",
+      "duration_s": 7.04,
+      "status": "success",
+      "actual_duration_s": 7.04,
+      "voiceover_text": "真人猫照片在这边，AI生成的在这边。你觉得像不像？",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S07",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S07.mp3",
+      "duration_s": 7.6,
+      "status": "success",
+      "actual_duration_s": 7.6,
+      "voiceover_text": "第一天，三单，收入三十。成本，零。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S08",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day3-ai-portrait/S08.mp3",
+      "duration_s": 7.36,
+      "status": "success",
+      "actual_duration_s": 7.36,
+      "voiceover_text": "AI两分钟画的头像卖十块钱。你觉得值不值？",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

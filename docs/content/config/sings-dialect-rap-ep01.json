@@ -1,0 +1,123 @@
+{
+  "video_id": "sings-dialect-rap-ep01",
+  "workflow": "sings-dialect-rap",
+  "version": "3.0",
+  "created": "2026-05-09",
+  "status": "ready",
+  "series": "sings-dialect-rap",
+  "episode": 1,
+  "episode_title": "打工人的自我修养",
+
+  "bgm": {
+    "file": "docs/content/assets/bgm/杨梦.bgm_副本.mp3",
+    "title": "Fraelis (trimmed)",
+    "artist": "Frankie T",
+    "bpm": 128,
+    "start_sec": 0,
+    "end_sec": 95,
+    "volume": 0.35,
+    "fade_out_s": 3
+  },
+
+  "suno": {
+    "model": "V4_5PLUS",
+    "vocal_gender": "f",
+    "style_tags": "comedic spoken-word rap, Chinese Northeast dialect, half-spoken half-sung, 128 bpm, tech house beat, tongue-in-cheek, comedic timing",
+    "negative_tags": "slow ballad, sad, dramatic, rock, heavy metal, autotune, R&B, jazz, country",
+    "title": "杨梦东北话说唱-打工人"
+  },
+
+  "lyrics": {
+    "suno_format": "[Intro]\n哎！\n姐妹们！听我说！\n拖拉机！走起！\n\n[Verse 1]\n城里月薪一万八\n房租一交剩不下\n老板画饼比天大\n咱可别听他废话\n\n加班加到大天亮\n他说趁年轻要闯\n我说你儿先上场\n九九六你自己扛\n\n[Hook]\n开拖拉机！嘿！\n柴油味儿！嘿！\n东北话儿！嘿！\n打工人！嘿！\n\n[Break]\n然后呢...\n你猜怎么着...\n领导找我谈话了...\n\n[Drop]\n\n[Chorus]\n干活最多我最强\n功劳归他锅我扛\n上班就是上刑场\n不如回村晒太阳\n\n[Verse 2]\n二狗子开拖拉机\n一天三百笑嘻嘻\n城里花销费力气\n回村躺平美滋滋\n\n[Hook]\n开拖拉机！嘿！\n柴油味儿！嘿！\n东北话儿！嘿！\n打工人！嘿！\n\n[Outro]\n打工人 打工魂\n人上人 人下人\n柴油是实在的"
+  },
+
+  "video_generation": {
+    "model": "kling-v3-image-to-video",
+    "duration_sec": 5,
+    "quality": "720p",
+    "aspect_ratio": "9:16",
+    "sound": false
+  },
+
+  "reference_images": {
+    "candidates_per_segment": 2,
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, static pose, stiff, frozen, blur face, distorted hands, extra fingers, missing fingers"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "energy",
+      "reference_file": "sings-dialect-rap-ep01/S01-energy.png",
+      "motion_prompt": "Tractor driving fast along a bumpy rural dirt road, hair and shirt blowing wildly in the wind, dust kicking up behind the rear wheels, body bouncing slightly from the bumps, laughing out loud with mouth open, camera tracking alongside at the same speed",
+      "reference_prompt": "Candid action photograph shot on Canon 5D Mark IV, a young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar and blue denim jeans, sitting sideways on the driver seat of a classic red Dongfanghong tractor with yellow wheels and black iron frame speeding along a rural dirt road, one hand casually resting on the large metal steering wheel, other arm hanging loose off the side of the tractor, head tilted back laughing out loud with mouth wide open showing teeth, hair and shirt blowing wildly in the wind, dust kicking up behind the rear wheels, body bouncing slightly from the bumpy road, one leg propped up on the tractor fender in a carefree pose, golden late afternoon sunlight from the right casting warm light on her face, motion blur on the background suggesting speed, 35mm lens, full body visible from a three-quarter front angle, vertical composition 9:16"
+    },
+    {
+      "id": "S02",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "joy",
+      "reference_file": "sings-dialect-rap-ep01/S02-joy.png",
+      "motion_prompt": "Tractor moving smoothly down a tree-lined country lane, wind blowing her bangs to the side, she winks playfully at the camera with a smirk, dappled sunlight flickering through tree leaves, gentle camera tracking alongside",
+      "reference_prompt": "Candid photograph shot on Sony A7III, a young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar and blue denim jeans, driving a classic red Dongfanghong tractor with yellow wheels and black iron frame down a tree-lined country lane, sitting tall and proud in the driver seat with perfect posture, one hand on the large metal steering wheel holding it loosely like a boss, other hand resting on her hip, looking directly at the camera with a playful wink and a cool smirk, one eyebrow slightly raised, wind blowing her bangs to the side, dappled sunlight filtering through tree leaves creating patterned light on her and the tractor, green farmland stretching out on both sides, 50mm lens, three-quarter side angle, waist-up framing, vertical composition 9:16"
+    },
+    {
+      "id": "S03",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "confidence",
+      "reference_file": "sings-dialect-rap-ep01/S03-confidence.png",
+      "motion_prompt": "Tractor moving forward along a rural dirt road, she looks back over her shoulder at the camera with a proud smirk, wind gently blowing her bangs, golden sunlight casting warm shadows, camera slowly panning to follow",
+      "reference_prompt": "Candid photograph shot on Canon 5D Mark IV, a young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar and blue denim jeans, sitting confidently in the drivers seat of a classic red Dongfanghong tractor with yellow wheels and black iron frame, one hand on the large metal steering wheel, other hand resting casually on the tractor hood behind her, looking back over her shoulder at the camera with a proud mischievous smirk, wind blowing her bangs slightly to the side, rural dirt road stretching into the distance behind the tractor, late afternoon golden sunlight from the right side, warm shadows, one dimple slightly visible on her left cheek, 85mm portrait lens, shallow depth of field blurring the background fields, waist-up framing, vertical composition 9:16"
+    },
+    {
+      "id": "S04",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "freedom",
+      "reference_file": "sings-dialect-rap-ep01/S04-freedom.png",
+      "motion_prompt": "Tractor driving along a bumpy rural dirt path, both hands on the steering wheel, hair and shirt blowing in the wind, smiling carefreely, dust kicking up from the rear wheels, open farmland and distant hills in the background, camera tracking from the side",
+      "reference_prompt": "Candid photograph shot on Sony A7III, a young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar and blue denim jeans, driving a classic red Dongfanghong tractor with yellow wheels and black iron frame along a bumpy rural dirt path, both hands on the large metal steering wheel, hair and shirt blowing in the wind, looking forward with a carefree wide smile showing teeth, slight unevenness in her smile making it look genuine and unposed, open farmland and distant hills visible around her, bright midday sunlight creating strong shadows under the tractor, dust kicking up from the rear wheels, 50mm lens, three-quarter angle from the side showing tractor moving forward, full body visible, vertical composition 9:16"
+    },
+    {
+      "id": "S05",
+      "type": "dance-on-tractor",
+      "duration_sec": 5,
+      "emotion": "power",
+      "reference_file": "sings-dialect-rap-ep01/S05-power.png",
+      "motion_prompt": "Woman dancing on top of the tractor hood with arms raised high, body twisting with energy, hair flying from the movement, mouth open in a joyful shout, low angle looking up at her, golden sunset light creating silhouette glow around her",
+      "reference_prompt": "Candid action photograph shot on Canon 5D Mark IV, a young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a simple cream-colored linen shirt with a small collar and blue denim jeans, standing on top of the hood of a classic red Dongfanghong tractor with yellow wheels and black iron frame, dancing with arms raised high above her head in a victory pose, body mid-twist with hips turned slightly, one foot forward on tiptoes, mouth wide open in a joyful shout, hair flying from the movement, slight asymmetry in her raised arms giving natural energy, rural landscape with vast sky behind her, dramatic low-angle shot looking up at her from ground level, golden sunset light from behind creating a silhouette edge glow, scattered clouds in orange sky, 24mm wide-angle lens, full body visible, vertical composition 9:16"
+    },
+    {
+      "id": "S06",
+      "type": "handcrank-tractor",
+      "duration_sec": 5,
+      "emotion": "effort",
+      "reference_file": "sings-dialect-rap-ep01/S06-effort.png",
+      "motion_prompt": "Woman bent forward at the front of a stationary tractor, right hand gripping a metal crank handle inserted into the engine flywheel housing, pushing it through a short diagonal arc downward, left hand braced against the tractor frame for leverage, body leaning 45 degrees into the effort, face grimacing with exertion, dust kicking up from her feet, golden afternoon light",
+      "reference_prompt": "Candid documentary photograph shot on Canon 5D Mark IV from the left side. A young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a cream-colored linen shirt with a small collar and blue denim jeans, standing on bare dirt ground at the FRONT of a parked classic red Dongfanghong tractor with yellow wheels and black iron frame. She is NOT in the driver seat — she stands facing the tractor engine, bent about 45 degrees forward at the waist with knees slightly bent, leaning her body weight toward the machine. A thick metal crank handle is inserted horizontally into a round socket on the front of the tractor's engine flywheel housing at about waist height. Her RIGHT hand firmly grips the end of the crank handle, pushing it through a short diagonal arc — the crank sweeps downward at roughly 30 to 45 degrees from horizontal, NOT in vertical circles. Her LEFT hand is pressed flat against the tractor's front frame as a stabilizing brace, fingers splayed on the metal surface. Her front foot is planted firmly forward, back foot angled outward for balance, body weight shifted toward the tractor. Slight motion blur on her right forearm and the crank handle suggesting the quick push-through motion. Face contorted with effort, brows furrowed, jaw clenched, sweat visible on her temple. The tractor has a single-cylinder diesel engine with a large exposed flywheel, an upright exhaust pipe, and faded red paint with patches of rust. Late afternoon golden sunlight from the right side, dust in the air around her feet, rural farmland stretching behind her, 50mm lens, three-quarter side angle showing full body and tractor front, vertical composition 9:16"
+    },
+    {
+      "id": "S07",
+      "type": "handcrank-tractor",
+      "duration_sec": 5,
+      "emotion": "determination",
+      "reference_file": "sings-dialect-rap-ep01/S07-determination.png",
+      "motion_prompt": "Close-up low angle of woman leaning forward in front of tractor engine, right hand pushing crank handle through a short downward arc into the flywheel housing, left hand gripping the tractor frame, fierce determined expression locked on the engine, sweat on her face, dust particles catching sunlight",
+      "reference_prompt": "Raw documentary photograph shot on Sony A7III, close-up from a low front angle. A young Chinese woman in her late 20s with round face, short black bob haircut with straight bangs just above eyebrows, wearing a cream-colored linen shirt with sleeves rolled up to the elbows and blue denim jeans, leaning forward about 45 degrees directly in front of a stationary classic red Dongfanghong tractor with yellow wheels and black iron frame. She is NOT in the driver seat — she faces the tractor engine up close. A thick metal crank handle is inserted into a round socket on the front engine flywheel housing at about waist height. Her RIGHT hand grips the crank handle tightly, frozen mid-push through a short diagonal arc sweeping downward at roughly 30 degrees from horizontal — the crank moves in a controlled push-pull motion, NOT spinning in vertical circles. Her LEFT hand grips the top edge of the tractor's front frame for leverage, knuckles white from the tight grip. Her shoulders are hunched forward, body weight leaning into the crank, elbows slightly bent. The tractor's single-cylinder diesel engine details are sharp and visible — cooling fins on the cylinder head, a large flywheel behind the crank socket, and a soot-blackened exhaust pipe rising vertically. Motion blur only on her right forearm and the crank handle suggesting quick forceful motion. Fierce determined face, eyes locked on the engine with laser focus, jaw clenched tight, a bead of sweat on her cheek, hair slightly disheveled. Bright harsh sunlight casting strong shadows, dust particles floating in the golden light, 35mm lens, low angle looking up at her from ground level, waist-up framing, vertical composition 9:16"
+    }
+  ],
+
+  "publishing": {
+    "title_candidates": [
+      "打工人灵魂暴击！东北话版",
+      "上班上到怀疑人生 东北话吐槽",
+      "996的真相 东北话说出来太扎心了"
+    ],
+    "tags": ["东北话", "打工人", "搞笑", "职场吐槽", "方言说唱"],
+    "cover_text": "打工人的自我修养",
+    "collection": "杨梦东北话说唱"
+  }
+}

@@ -55,6 +55,16 @@ NARRATOR_PROFILE_UNEMPLOY = (
     "语气自然，像跟老朋友聊天，不要播音腔。声音沉稳但带着真实情感。"
 )
 
+NARRATOR_PROFILE_QIDIAN = (
+    "你是一个见过世面的中年男人，40多岁。"
+    "你不是来安慰人的，你是来说实话的。"
+    "你的语气像饭局上那个最敢说话的人——"
+    "别人都客气，你直接掀桌子看底牌。"
+    "不愤怒，不煽情，就是平实地把真相摆出来。"
+    "语速适中偏快，30秒内必须出现第一个信息爆点。"
+    "每条至少一句态度句——有立场、能截图、能当朋友圈文案的话。"
+)
+
 NARRATOR_PROFILE = NARRATOR_PROFILE_UNEMPLOY
 
 NARRATOR_SCENE = "第一人称讲述被裁47天后靠翻通讯录赚到第一个5000块的经历。"
@@ -240,6 +250,65 @@ EMOTION_PROMPTS = {
         "scene": "从黑暗中拉出来，像朋友在问你。",
         "director": "语气突然转变，从压抑变成温暖。像朋友拍拍你肩膀问一句'你等了多久'。不是同情，是关心。语速正常，声音明亮，跟前面形成强烈反差。",
     },
+    # Day1 v4 emotions: 40岁失业，我值几块钱？
+    "anxious": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "失业第47天，每天醒来就数日子。",
+        "director": "开口就带焦虑。'47天'三个字说得不快不慢，像在确认一个让人不安的事实。声音微微发紧，不是恐惧，是不安。结尾不要收太干净，留一点悬着的感觉。",
+    },
+    "bitter": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "投了两百封简历，石沉大海。",
+        "director": "苦涩的自嘲。数字'两百'说得平淡，像在说别人的事。但语气底下是苦的，不是愤怒，是那种'我还能怎么办'的无奈。语速稍慢，每个字都带着疲惫。",
+    },
+    "desperate": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "零回复。所有的努力像被黑洞吞了。",
+        "director": "声音要轻，像在说一个让自己绝望的事实。'零'字可以稍微拖一点，带着不敢相信。不是崩溃，是那种已经绝望到麻木的感觉。结尾声音往下走，像叹气。",
+    },
+    "hopeful": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "转机出现了。经验居然能变现。",
+        "director": "语气从低谷开始往上走。开头还是平淡的叙述，到关键句时声音明显亮起来。不是兴奋，是那种'等等，这有可能？'的谨慎希望。语速比前面稍快，带着一丝急切。",
+    },
+    # Day3 AI portrait challenge emotions
+    "pivot_attempt": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "第一次尝试失败，换了个方法再试。",
+        "director": "语气从低落突然转成'等等，我换个思路'的感觉。不是兴奋，是冷静分析后的调整。说得干脆，像在说给自己听。语速稍快，句尾不要拖。",
+    },
+    # Override warm for Day1 unemployment context
+    "warm_unemploy": {
+        "profile": NARRATOR_PROFILE_UNEMPLOY,
+        "scene": "发现经验有市场价值，从绝望中走出来。",
+        "director": "像跟朋友说'你知道吗，原来我还有点用'。语气温暖但不煽情。'原来我值钱'五个字说得不快，每个字带着一种释然。不是得意，是松了一口气的感觉。结尾自然，不要刻意收束。",
+    },
+    # Qidian 启点系列 emotions (40+ 中年男人说实话)
+    "calmly_qidian": {
+        "profile": NARRATOR_PROFILE_QIDIAN,
+        "scene": "饭局上那个最敢说话的人，平静地把真相摆出来。",
+        "director": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。",
+    },
+    "shock_qidian": {
+        "profile": NARRATOR_PROFILE_QIDIAN,
+        "scene": "抛出对比数字，让观众自己感受差距。",
+        "director": "语速要快，5秒内说完。两个数字做对比，不要停顿，一句接一句。前一个大数字说得干脆，后一个小数字说得轻快。整体节奏紧凑，像机关枪报数。",
+    },
+    "simply_qidian": {
+        "profile": NARRATOR_PROFILE_QIDIAN,
+        "scene": "一句话点破真相，态度句。",
+        "director": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。",
+    },
+    "confidently_qidian": {
+        "profile": NARRATOR_PROFILE_QIDIAN,
+        "scene": "笃定地给出承诺，从明天开始。",
+        "director": "笃定有力，不犹豫。像在跟朋友约好明天见面一样自然。'从明天开始'要有节奏感，不是命令是邀请。结尾'变成自己的收入'说得稳，像已经看到结果了。",
+    },
+    "quietly_qidian": {
+        "profile": NARRATOR_PROFILE_QIDIAN,
+        "scene": "凑近说秘密，压低声音揭底。",
+        "director": "压低声音，像凑近说的秘密。不是神秘，是认真。每个字都清楚但比正常说话轻。说完关键信息后停顿，让听众消化。结尾自然收束。",
+    },
 }
 
 AUDIO_TAGS = {
@@ -278,6 +347,17 @@ AUDIO_TAGS = {
     "vulnerable_trailing": ["[softly]", "[vulnerable]"],
     "quiet_trembling": ["[trembling]", "[quietly]"],
     "warm_encouraging": ["[warmly]", "[encouraging]"],
+    "anxious": ["[nervously]", "[tense]"],
+    "bitter": ["[resigned]", "[bitter]"],
+    "desperate": ["[softly]", "[defeated]"],
+    "hopeful": ["[warmly]", "[hopefully]"],
+    "warm_unemploy": ["[warmly]", "[relieved]"],
+    "pivot_attempt": ["[calmly]", "[analytical]"],
+    "calmly_qidian": ["[calmly]", "[steadily]"],
+    "shock_qidian": ["[calmly]", "[firmly]"],
+    "simply_qidian": ["[simply]", "[directly]"],
+    "confidently_qidian": ["[confidently]", "[warmly]"],
+    "quietly_qidian": ["[quietly]", "[intimately]"],
 }
 
 
@@ -406,6 +486,8 @@ def main():
                         help="Delay between requests in seconds (free tier: 25s)")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--female", action="store_true", help="Use female narrator profile")
+    parser.add_argument("--yunwu-only", action="store_true", help="Skip Google, use yunwu.ai directly")
+    parser.add_argument("--no-doubao", action="store_true", help="Disable Doubao fallback (fail instead)")
     args = parser.parse_args()
 
     config_path = Path(args.config)
@@ -469,13 +551,13 @@ def main():
         print("Get Google key: https://aistudio.google.com/apikey")
         sys.exit(1)
 
-    google_client = genai.Client(api_key=google_key) if google_key else None
+    google_client = None if args.yunwu_only else (genai.Client(api_key=google_key) if google_key else None)
     yunwu_client = (
         genai.Client(api_key=yunwu_key, http_options={"base_url": yunwu_base})
         if yunwu_key else None
     )
-    client = google_client or yunwu_client
-    active_channel = "google"
+    client = yunwu_client if args.yunwu_only else (google_client or yunwu_client)
+    active_channel = "yunwu" if args.yunwu_only else "google"
     print(f"Channel: Google (direct) → 云雾AI (fallback) → Doubao (last resort)")
     if yunwu_client:
         print(f"  云雾AI ready: {yunwu_base}")
@@ -485,6 +567,8 @@ def main():
     def _is_quota_error(error: Exception) -> bool:
         msg = str(error).lower()
         return any(kw in msg for kw in ["429", "quota", "resource_exhausted", "403", "permission", "503", "unavailable", "high demand"])
+
+    no_doubao = args.no_doubao
 
     def _synthesize_doubao(seg: dict, dest: Path) -> dict:
         """Fallback: synthesize via Doubao TTS. Returns {duration_s, file_size}."""
@@ -513,7 +597,7 @@ def main():
         return dtb.synthesize_segment(doubao_key, raw_text, voice_id, emotion, dest, ref_audio_b64=ref_audio_b64)
 
     use_doubao = False
-    use_yunwu = False
+    use_yunwu = args.yunwu_only
     results = []
     total_duration = 0.0
 
@@ -565,6 +649,24 @@ def main():
             except Exception as e:
                 if _is_quota_error(e) or "503" in str(e):
                     print(f"云雾AI failed: {e}")
+                    if no_doubao:
+                        print("  Doubao disabled (--no-doubao). Waiting 60s and retrying yunwu...")
+                        time.sleep(60)
+                        try:
+                            info = synthesize(yunwu_client, prompt, voice, dest)
+                            total_duration += info["duration_s"]
+                            print(f"  Retry done ({info['duration_s']:.1f}s)")
+                            results.append({
+                                "segment": seg["id"], "file": str(dest),
+                                "duration_s": info["duration_s"], "status": "success",
+                                "actual_duration_s": info["duration_s"],
+                                "voiceover_text": text, "engine": "yunwu_gemini_retry",
+                            })
+                            continue
+                        except Exception as e_retry:
+                            print(f"  Retry also failed: {e_retry}")
+                            results.append({"segment": seg["id"], "status": "error", "error": str(e_retry)})
+                            continue
                     print(f"  Falling back to Doubao TTS")
                     use_doubao = True
                     try:
@@ -618,6 +720,23 @@ def main():
                         })
                     except Exception as e2:
                         print(f"云雾AI failed: {e2}")
+                        if no_doubao:
+                            print("  Doubao disabled (--no-doubao). Waiting 60s and retrying yunwu...")
+                            time.sleep(60)
+                            try:
+                                info = synthesize(yunwu_client, prompt, voice, dest)
+                                total_duration += info["duration_s"]
+                                print(f"  Retry done ({info['duration_s']:.1f}s)")
+                                results.append({
+                                    "segment": seg["id"], "file": str(dest),
+                                    "duration_s": info["duration_s"], "status": "success",
+                                    "actual_duration_s": info["duration_s"],
+                                    "voiceover_text": text, "engine": "yunwu_gemini_retry",
+                                })
+                            except Exception as e_retry:
+                                print(f"  Retry also failed: {e_retry}")
+                                results.append({"segment": seg["id"], "status": "error", "error": str(e_retry)})
+                            continue
                         print(f"  Falling back to Doubao TTS")
                         use_doubao = True
                         try:
@@ -634,6 +753,10 @@ def main():
                             print(f"  Doubao also failed: {e3}")
                             results.append({"segment": seg["id"], "status": "error", "error": str(e3)})
                 else:
+                    if no_doubao:
+                        print("  No 云雾AI configured and Doubao disabled. Giving up.")
+                        results.append({"segment": seg["id"], "status": "error", "error": "No Gemini channel available"})
+                        continue
                     print(f"  No 云雾AI configured, falling back to Doubao TTS")
                     use_doubao = True
                     try:

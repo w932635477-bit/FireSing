@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-05-06T16:02:35.812985",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "unemploy-day1-v5",
+  "total_duration_s": 44.24,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S01.mp3",
+      "duration_s": 9.92,
+      "status": "success",
+      "actual_duration_s": 9.92,
+      "voiceover_text": "失业四十七天，零收入。我把十五年踩坑经验，按五十块一分钟挂了闲鱼。",
+      "director_notes": "苦涩的自嘲。数字'两百'说得平淡，像在说别人的事。但语气底下是苦的，不是愤怒，是那种'我还能怎么办'的无奈。语速稍慢，每个字都带着疲惫。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S02.mp3",
+      "duration_s": 8.08,
+      "status": "success",
+      "actual_duration_s": 8.08,
+      "voiceover_text": "评论炸了。这也卖？太便宜了吧？有人直接拍。",
+      "director_notes": "Deliver the financial data with controlled impact. Use [confidently] for the numbers. Not shouting — let the data speak. A slight pause before each key figure adds weight."
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S03.mp3",
+      "duration_s": 7.52,
+      "status": "success",
+      "actual_duration_s": 7.52,
+      "voiceover_text": "三小时成交。他问我，XX项目踩过哪些坑？",
+      "director_notes": "语气从低谷开始往上走。开头还是平淡的叙述，到关键句时声音明显亮起来。不是兴奋，是那种'等等，这有可能？'的谨慎希望。语速比前面稍快，带着一丝急切。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S04.mp3",
+      "duration_s": 5.96,
+      "status": "success",
+      "actual_duration_s": 5.96,
+      "voiceover_text": "我打了四十分钟电话。他直接转了第二单。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S05.mp3",
+      "duration_s": 6.8,
+      "status": "success",
+      "actual_duration_s": 6.8,
+      "voiceover_text": "原来踩过的坑，比简历值钱。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/unemploy-day1-v5/S06.mp3",
+      "duration_s": 5.96,
+      "status": "success",
+      "actual_duration_s": 5.96,
+      "voiceover_text": "你觉得十五年经验值多少？评论区报个数。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

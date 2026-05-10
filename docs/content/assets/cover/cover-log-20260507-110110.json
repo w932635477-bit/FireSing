@@ -1,0 +1,11 @@
+{
+  "video_id": "sings-xiaopingguo-duet",
+  "timestamp": "2026-05-07T11:01:10.740612",
+  "method": "suno-cover",
+  "model": "V4_5",
+  "style": "upbeat Chinese pop, duet, comedic, energetic, 120 bpm",
+  "audio_weight": 0.85,
+  "task_id": "109c2a1cc5800bc4adacdf60626aa8e3",
+  "reference_audio": "docs/content/assets/cover/xiaopingguo-45s.mp3",
+  "output_dir": "/Users/weilei/FireSing/docs/content/assets/cover"
+}

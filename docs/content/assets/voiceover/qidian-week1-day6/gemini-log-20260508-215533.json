@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-05-08T21:55:33.827954",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day6",
+  "total_duration_s": 49.24,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S01.mp3",
+      "duration_s": 9.8,
+      "status": "success",
+      "actual_duration_s": 9.8,
+      "voiceover_text": "说一个房产中介不会告诉你的事。同一个小区，挂牌价和真实成交价，能差20%。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S02.mp3",
+      "duration_s": 12.08,
+      "status": "success",
+      "actual_duration_s": 12.08,
+      "voiceover_text": "干了10年的中介，看一眼就知道——这套房业主急卖，砍15%没问题。那套房学区是坑，别碰。这个户型以后转手没人要。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S03.mp3",
+      "duration_s": 14.36,
+      "status": "success",
+      "actual_duration_s": 14.36,
+      "voiceover_text": "你在APP上刷三个月，不如一个干了10年的人带你看一次。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S04.mp3",
+      "duration_s": 8.68,
+      "status": "success",
+      "actual_duration_s": 8.68,
+      "voiceover_text": "但中介按成交价抽佣，他不会告诉你底价。只有被裁了的那个中介，才敢说真话。",
+      "engine": "yunwu_gemini"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day6/S05.mp3",
+      "duration_s": 4.32,
+      "status": "success",
+      "actual_duration_s": 4.32,
+      "voiceover_text": "你觉得买房最大的坑是什么？评论区聊聊。",
+      "engine": "yunwu_gemini"
+    }
+  ]
+}

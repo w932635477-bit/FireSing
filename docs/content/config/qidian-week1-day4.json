@@ -1,0 +1,60 @@
+{
+  "video_id": "qidian-week1-day4",
+  "version": "4.1",
+  "created": "2026-05-08",
+  "note": "Day4 你帮公司省过钱吗 — v4.1 破圈版",
+  "script": {
+    "topic": "你帮公司省过钱吗",
+    "hook_type": "universal_empathy",
+    "target_duration_sec": 30
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "qidian"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "公司里最被低估的人是谁？不是清洁工，不是实习生，是那个帮公司省过钱的人。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "shock_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "29万够提一辆Model Y。年终奖？连四个轮子都买不起。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "simply_qidian",
+      "duration_sec": 4,
+      "voiceover_text": "给老板省钱，不等于给自己赚钱。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "你做的那些事——砍价砍掉30%，避开2个坑，锁住1个好渠道——换个地方，叫咨询服务，按小时收费。"
+    },
+    {
+      "id": "S05",
+      "type": "cta_intro",
+      "emotion": "confidently_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "从明天开始，我跟大家聊聊，怎么把帮老板省钱的本事，变成自己的收入。"
+    },
+    {
+      "id": "S06",
+      "type": "cta",
+      "emotion": "simply_qidian",
+      "duration_sec": 4,
+      "voiceover_text": "你帮公司省过钱吗？评论区说说你省了多少。"
+    }
+  ]
+}

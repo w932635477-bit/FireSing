@@ -1,0 +1,77 @@
+{
+  "video_id": "unemploy-day1",
+  "version": "4.0",
+  "created": "2026-05-06",
+  "script": {
+    "topic": "40岁失业，我值几块钱？",
+    "hook_type": "first_person_story",
+    "target_duration_sec": 75
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "unemploy"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "anxious",
+      "voiceover_text": "失业四十七天。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "bitter",
+      "voiceover_text": "投简历两百封。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "desperate",
+      "voiceover_text": "回信仍是零。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "shock",
+      "voiceover_text": "老客户来电。"
+    },
+    {
+      "id": "S05",
+      "type": "body",
+      "emotion": "hopeful",
+      "voiceover_text": "他要付费问事。"
+    },
+    {
+      "id": "S06",
+      "type": "body",
+      "emotion": "hopeful",
+      "voiceover_text": "群里弹出报价。"
+    },
+    {
+      "id": "S07",
+      "type": "body",
+      "emotion": "hopeful",
+      "voiceover_text": "数字超预期。"
+    },
+    {
+      "id": "S08",
+      "type": "body",
+      "emotion": "warm_unemploy",
+      "voiceover_text": "原来我值钱。"
+    },
+    {
+      "id": "S09",
+      "type": "cta",
+      "emotion": "warm_unemploy",
+      "voiceover_text": "你也想知道？"
+    },
+    {
+      "id": "S10",
+      "type": "cta",
+      "emotion": "warm_unemploy",
+      "voiceover_text": "主页蓝链等你。"
+    }
+  ]
+}

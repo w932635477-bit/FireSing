@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-09T14:06:39.383495",
+  "model": "doubao-seedream-4.5",
+  "shots": 1,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S02-joy.png",
+      "task_id": "task-unified-1778306718-gllc0pub",
+      "status": "success"
+    }
+  ]
+}

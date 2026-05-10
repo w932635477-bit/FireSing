@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-05-08T20:44:16.131718",
+  "engine": "gemini-3.1-flash-tts-preview",
+  "voice_id": "Charon",
+  "video_id": "qidian-week1-day4",
+  "total_duration_s": 52.8,
+  "results": [
+    {
+      "segment": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S01.mp3",
+      "duration_s": 7.72,
+      "status": "success",
+      "actual_duration_s": 7.72,
+      "voiceover_text": "公司里最被低估的人是谁？不是清洁工，不是实习生，是那个帮公司省过钱的人。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S02.mp3",
+      "duration_s": 18.08,
+      "status": "success",
+      "actual_duration_s": 18.08,
+      "voiceover_text": "你替老板省下的29万，能直接提一辆Model Y。但你的年终奖，连四个轮子都买不起。",
+      "director_notes": "两个数字做对比，前一个大数字说得稳，后一个小数字说得轻。不震惊，是那种'你自己看吧'的坦然。对比要让听众自己感受差距，不是你在强调。"
+    },
+    {
+      "segment": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S03.mp3",
+      "duration_s": 4.2,
+      "status": "success",
+      "actual_duration_s": 4.2,
+      "voiceover_text": "给老板省钱，不等于给自己赚钱。",
+      "director_notes": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。"
+    },
+    {
+      "segment": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S04.mp3",
+      "duration_s": 11.36,
+      "status": "success",
+      "actual_duration_s": 11.36,
+      "voiceover_text": "你做的那些事——砍价砍掉30%，避开2个坑，锁住1个好渠道——换个地方，叫咨询服务，按小时收费。",
+      "director_notes": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。"
+    },
+    {
+      "segment": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S05.mp3",
+      "duration_s": 7.4,
+      "status": "success",
+      "actual_duration_s": 7.4,
+      "voiceover_text": "从明天开始，我跟大家聊聊，怎么把帮老板省钱的本事，变成自己的收入。",
+      "director_notes": "笃定有力，不犹豫。像在跟朋友约好明天见面一样自然。'从明天开始'要有节奏感，不是命令是邀请。结尾'变成自己的收入'说得稳，像已经看到结果了。"
+    },
+    {
+      "segment": "S06",
+      "file": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-week1-day4/S06.mp3",
+      "duration_s": 4.04,
+      "status": "success",
+      "actual_duration_s": 4.04,
+      "voiceover_text": "你帮公司省过钱吗？评论区说说你省了多少。",
+      "director_notes": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。"
+    }
+  ]
+}

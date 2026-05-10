@@ -1,0 +1,53 @@
+{
+  "video_id": "qidian-week1-day7",
+  "version": "4.1",
+  "created": "2026-05-08",
+  "note": "Day7 装修行业的信息差有多大 — v4.1 破圈版",
+  "script": {
+    "topic": "装修行业的信息差有多大",
+    "hook_type": "universal_empathy",
+    "target_duration_sec": 35
+  },
+  "voiceover": {
+    "engine": "gemini_3.1_flash_tts",
+    "voice": "Charon",
+    "narrator_profile": "qidian"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "type": "hook",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "朋友刚装完103平，花了10万。你知道实际成本多少吗？大概4万。"
+    },
+    {
+      "id": "S02",
+      "type": "body",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "另外6万去哪了？被3个环节赚走了：设计费1万，渠道费2万，信息差3万。"
+    },
+    {
+      "id": "S03",
+      "type": "body",
+      "emotion": "calmly_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "干了15年的装修工头，看一眼报价单就知道哪里有水分。三万块瓷砖，工厂1.2万就出。全屋定制标价8万，出厂价不到3万。"
+    },
+    {
+      "id": "S04",
+      "type": "body",
+      "emotion": "confidently_qidian",
+      "duration_sec": 5,
+      "voiceover_text": "你以为你在买材料，其实你在为信息差买单。"
+    },
+    {
+      "id": "S05",
+      "type": "cta",
+      "emotion": "simply_qidian",
+      "duration_sec": 4,
+      "voiceover_text": "装过修的朋友，你觉得你被坑了多少？评论区说说，让没装的人长个心眼。"
+    }
+  ]
+}

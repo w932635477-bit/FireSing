@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-05-09T13:56:14.002714",
+  "model": "doubao-seedream-4.5",
+  "shots": 5,
+  "candidates_per_shot": 2,
+  "results": [
+    {
+      "shot": "S01",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S01-energy.png",
+      "task_id": "task-unified-1778305623-kouzcosn",
+      "status": "success"
+    },
+    {
+      "shot": "S02",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S02-joy.png",
+      "task_id": "task-unified-1778305723-d7beiacw",
+      "status": "success"
+    },
+    {
+      "shot": "S03",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S03-confidence.png",
+      "task_id": "task-unified-1778305831-gkux2zi9",
+      "status": "success"
+    },
+    {
+      "shot": "S04",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S04-freedom.png",
+      "task_id": "task-unified-1778305910-s5h5lpiy",
+      "status": "success"
+    },
+    {
+      "shot": "S05",
+      "file": "/Users/weilei/FireSing/docs/content/assets/references/sings-dialect-rap-ep01/S05-power.png",
+      "task_id": "task-unified-1778306036-d5d6edep",
+      "status": "success"
+    }
+  ]
+}

@@ -731,3 +731,280 @@ docs/content/
 |------|------|------|
 | 2026-04-18 | 1.0 | Sings 工作流初始版本（说唱科普） |
 | 2026-04-22 | 2.0 | 全面改为穿搭对比对唱模式，小红书专发 |
+| 2026-05-09 | 3.0 | 新增方言说唱模式（Section 16），固定BGM+冲突对立歌词+摇拖拉机视觉 |
+
+---
+
+## 16. 方言说唱模式（v3.0 新增）
+
+> 适用范围：90-100 秒东北方言半说半唱短视频，抖音竖版
+> 工具链：Suno Add Vocals API + Seedream 4.5 + Kling 3.0 + FFmpeg + 剪映
+> BGM：**固定使用 Fraelis by Frankie T（用户剪辑版 95s, 128 BPM Tech House）**
+> 本节是方言说唱模式的唯一权威标准
+
+### 16.0 核心理念
+
+**固定公式：固定BGM + 固定视觉(杨梦摇拖拉机) + 旋转歌词(冲突对立主题)**
+
+每集只换歌词和文案，BGM和视觉风格完全复用。高效率批量生产。
+
+### 16.1 BGM 结构分析
+
+Fraelis (128 BPM Tech House, 95s) 能量分布：
+
+```
+0s──────15s──────30s──37s──45s─47s──────60s──────75s──────90s─95s
+│ A段(主拍)  │ A段续    │ 过渡段  │DROP│ B段(主拍)  │ B段续    │ B段续    │尾│
+│ HIGH ENERGY │ HIGH    │ BREAK   │ !! │ HIGH ENERGY│ HIGH     │ HIGH     │FADE│
+└─────────────┴─────────┴─────────┴────┴────────────┴──────────┴──────────┴───┘
+```
+
+| 区段 | 时间 | 小节数 | 能量 | 用途 |
+|------|------|--------|------|------|
+| A段 | 0-30s | 16 bars | HIGH | 主说唱段 |
+| 过渡段 | 30-45s | 8 bars | LOW→BUILD | 铺垫悬念 |
+| DROP | 45-47s | 1-2 bars | SILENCE→EXPLOSION | 金句爆发点 |
+| B段 | 47-90s | 23 bars | HIGH | 高潮说唱 |
+| 尾声 | 90-95s | 2 bars | FADE | 收尾反转 |
+
+### 16.2 歌词+BGM 融合规则（MANDATORY）
+
+歌词的 `[Section]` 标记必须对齐 BGM 能量变化：
+
+```
+[Intro]       → 0-4s    短感叹，1-2句
+[Verse 1]     → 4-30s   主说唱，半说半唱，紧跟鼓点
+[Break]       → 30-45s  放慢，留白，铺垫悬念
+[Chorus]      → 47-65s  DROP后爆发，全曲最密集最扎心
+[Verse 2]     → 65-85s  延续高潮
+[Outro]       → 85-95s  金句收尾+反转
+```
+
+#### 音节密度规则（128 BPM）
+
+| Section | 每小节音节 | 每段总音节 | 说明 |
+|---------|-----------|-----------|------|
+| Intro | 2-4 | 4-8 | 短促东北口语 |
+| Verse | 6-8 | 80-110 | 节奏紧凑，句尾上扬 |
+| Break | 3-5 | 24-40 | 放慢留白，戏剧性 |
+| Chorus | 8-10 | 80-100 | 最密集，能量最高 |
+| Outro | 4-6 | 10-15 | 简洁反转收尾 |
+
+#### 歌词写作原则
+
+1. **每句必须有一个"刺"** — 听众觉得"说到我心里了"
+2. **Break段必须有悬念** — 让人期待接下来是什么
+3. **Chorus必须对齐DROP后的高能量区** — 这是完播率决定性段落
+4. **Outro必须反转** — 让人想听第二遍
+5. **东北方言点缀** — 哎呀妈呀、咋整、嘎哈呢、整挺好、寻思，不过度
+
+#### 歌词模板（MANDATORY 格式）
+
+```
+[Intro]
+{1-2句开场感叹，东北口语}
+
+[Verse 1]
+{4-6句，每句7-10字，押韵}
+{内容：冲突对立主题的前半段}
+
+[Break]
+{2-3句，放慢节奏}
+{内容：转折/铺垫/悬念}
+{语气：自言自语或反问}
+
+[Chorus]
+{4-6句，最密集最有力}
+{内容：核心冲突/最大包袱}
+{节奏：加速，句尾下压}
+
+[Verse 2]
+{3-5句，延续高潮}
+{内容：反转或补充}
+
+[Outro]
+{1-2句，金句收尾}
+{节奏：拖长最后一个字}
+```
+
+### 16.3 冲突对立选题库
+
+每集选一个对立主题：
+
+| 对立维度 | 示例主题 | Chorus 包袱方向 |
+|---------|---------|----------------|
+| 职场 | 老板画饼 vs 打工人真相 | "你太优秀了，项目交给小李" |
+| 爱情 | 相亲期望 vs 现实 | "条件挺好，就是差点感觉" |
+| 金钱 | 月光族 vs 所谓理财 | "基金定投三年，赚了八十块" |
+| 社交 | 朋友圈 vs 真实生活 | "滤镜一关，自己都认不出" |
+| 消费 | 双11剁手 vs 退货 | "买的时候是投资，退的时候是断舍离" |
+| 年龄 | 90后vs00后 | "领导比我还小三岁" |
+| 婚姻 | 婆媳相处 vs 理论 | "妈只有一个，媳妇可以再找（婆婆原话）" |
+| 学历 | 文凭 vs 能力 | "硕士毕业，月薪五千，还嫌我眼高手低" |
+
+### 16.4 音频管线：Suno Add Vocals API
+
+**与旧模式的核心区别：不上传歌词让 Suno 生成歌曲，而是上传固定 BGM 让 Suno 在上面加人声。**
+
+#### API 流程
+
+1. 上传 BGM → `POST https://sunoapiorg.redpandaai.co/api/file-stream-upload`
+2. 创建任务 → `POST https://api.sunoapi.org/api/v1/generate/add-vocals`
+3. 轮询状态 → `GET https://api.sunoapi.org/api/v1/generate/record-info?taskId=`
+4. 下载结果 → `response.sunoData[].audioUrl`
+
+#### API 参数
+
+| 参数 | 值 | 说明 |
+|------|----|------|
+| uploadUrl | BGM 上传后的 URL | 必须用用户剪辑版 |
+| prompt | 见下方模板 | 包含歌词+演唱指令 |
+| model | V4_5PLUS | chirp-bluejay |
+| vocalGender | f | 女声 |
+| styleWeight | 0.70 | |
+| weirdnessConstraint | 0.60 | |
+| audioWeight | 0.65 | BGM 和人声的混合比例 |
+
+#### Prompt 模板（MANDATORY）
+
+```
+东北方言半说半唱喜剧说唱，配合128BPM Tech House节拍。歌词如下：
+{lyrics}
+
+演唱要求：
+- [Intro]和[Break]段：放慢节奏，像日常聊天，留白给音乐
+- [Verse]段：紧跟鼓点，每句落在拍子上，半说半唱
+- [Chorus]段：全曲最高能量，加快语速，收尾冲击力强
+- [Outro]：拖腔收尾，最后一句反转
+整体风格：东北方言韵律，句尾上扬，像朋友之间吐槽不是表演。
+节奏停顿明显，语气变化丰富。
+```
+
+#### API Key
+
+`SUNOAPI_ORG_KEY` in `docs/content/.env`
+
+#### 批量脚本
+
+```bash
+source docs/content/.env
+python docs/content/scripts/suno-add-vocals-test.py
+```
+
+### 16.5 视觉风格：杨梦摇拖拉机
+
+#### 参考视频
+
+抖音 鸿燊 摇拖拉机卡点（202.2万赞）— 有节奏的身体抖动，双臂像发动拖拉机的动作，与节拍同步的夸张动作。
+
+#### 角色锚定
+
+每张图必须使用完全相同的角色描述：
+
+```
+a young Chinese woman in her late 20s, round face, short black bob haircut
+with straight bangs just above eyebrows, wearing a simple cream-colored
+linen shirt with a small collar
+```
+
+#### 摇拖拉机视觉要素
+
+| 要素 | 描述 |
+|------|------|
+| 主体动作 | 有节奏的身体前后抖动，双臂像手摇拖拉机 |
+| 表情 | 夸张的开心/搞笑表情，嘴巴张开 |
+| 景别 | 全身或膝上，展示身体动作 |
+| 背景 | 简洁明亮的室内/户外，不抢主体 |
+| 运动感 | 画面要有动感模糊，不是静态摆拍 |
+
+#### Seedream Prompt 结构（v4.0）
+
+```
+{角色锚定},
+{摄影声明: Canon 5D Mark IV / Sony A7III},
+{动作: doing rhythmic body-shaking dance move, arms cranking like starting a tractor, energetic and exaggerated movement, wide smile, laughing},
+{背景: simple bright background},
+{光影: natural daylight from left side, hard warm shadows},
+vertical composition 9:16
+```
+
+#### Negative Prompt
+
+```
+airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed,
+studio lighting, stock photo, 3D render, illustration, cartoon, anime,
+watermark, text, logo, oversaturated, mannequin, flawless, magazine cover,
+retouched, poreless skin, dark, moody, cinematic, film grain,
+static pose, stiff, frozen, blur face
+```
+
+### 16.6 方言说唱配置文件格式
+
+```json
+{
+  "video_id": "sings-dialect-rap-ep{NN}",
+  "workflow": "sings-dialect-rap",
+  "version": "3.0",
+  "series": "sings-dialect-rap",
+  "episode": NN,
+  "episode_title": "{冲突对立主题}",
+
+  "bgm": {
+    "file": "docs/content/assets/bgm/杨梦.bgm_副本.mp3",
+    "title": "Fraelis (trimmed)",
+    "artist": "Frankie T",
+    "bpm": 128,
+    "duration_s": 95,
+    "structure": {
+      "intro": {"start": 0, "end": 4},
+      "verse1": {"start": 4, "end": 30},
+      "break": {"start": 30, "end": 45},
+      "drop": {"start": 45, "end": 47},
+      "chorus": {"start": 47, "end": 65},
+      "verse2": {"start": 65, "end": 85},
+      "outro": {"start": 85, "end": 95}
+    }
+  },
+
+  "suno": {
+    "model": "V4_5PLUS",
+    "vocal_gender": "f",
+    "style_tags": "comedic spoken-word rap, Chinese Northeast dialect, half-spoken half-sung, 128 bpm, tech house beat, tongue-in-cheek, comedic timing",
+    "negative_tags": "slow ballad, sad, dramatic, rock, heavy metal, autotune, R&B, jazz, country"
+  },
+
+  "lyrics": {
+    "suno_format": "[Intro]\n...\n[Verse 1]\n...\n[Break]\n...\n[Chorus]\n...\n[Verse 2]\n...\n[Outro]\n..."
+  },
+
+  "publishing": {
+    "title_candidates": ["..."],
+    "tags": ["东北话", "搞笑", "方言说唱", "..."],
+    "collection": "杨梦东北话说唱"
+  }
+}
+```
+
+### 16.7 生产流程
+
+```
+1. 选冲突对立主题 → 写歌词（按 Section 16.2 模板）
+2. 填入 config JSON
+3. 上传 BGM → 调用 Suno Add Vocals → 下载合成音频
+4. 用 Seedream 生成 5-6 张杨梦摇拖拉机参考图
+5. 用 Kling 将参考图生成 5 秒视频片段
+6. FFmpeg 拼接视频 + 合并音频
+7. 剪映加字幕+特效+去AI化
+8. Stage 7 审核门控
+```
+
+### 16.8 质量检查（方言说唱专用）
+
+- [ ] 歌词 Section 标记对齐 BGM 能量变化（MUST）
+- [ ] Break 段在 30-45s 低能量区（MUST）
+- [ ] Chorus 段在 47s DROP 后爆发（MUST）
+- [ ] 东北方言自然不生硬（MUST）
+- [ ] 半说半唱风格，不是纯说唱也不是纯唱歌（MUST）
+- [ ] BGM 和人声融合自然，不互相打架（MUST）
+- [ ] 每句有"刺"，能引起共鸣（SHOULD）
+- [ ] Outro 有反转/意外（SHOULD）
