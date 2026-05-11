@@ -85,3 +85,11 @@ test_phase2_*.py
 # Generated video output
 docs/content/assets/output/
 docs/content/.context/
+
+# TTS generated output (audio, logs, subtitles)
+docs/content/assets/voiceover/**/S*.mp3
+docs/content/assets/voiceover/**/processed/
+docs/content/assets/voiceover/**/*-full-*.mp3
+docs/content/assets/voiceover/**/*-subtitles-*.srt
+docs/content/assets/voiceover/**/*_notags.wav
+docs/content/assets/voiceover/**/gemini-log-*.json

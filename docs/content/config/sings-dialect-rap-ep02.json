@@ -1,0 +1,116 @@
+{
+  "video_id": "sings-dialect-rap-ep02",
+  "workflow": "sings-dialect-rap",
+  "version": "3.0",
+  "created": "2026-05-10",
+  "status": "ready",
+  "series": "sings-dialect-rap",
+  "episode": 2,
+  "episode_title": "彩礼到底该不该要",
+
+  "bgm": {
+    "file": "docs/content/assets/bgm/杨梦.bgm_副本.mp3",
+    "title": "Fraelis (trimmed)",
+    "artist": "Frankie T",
+    "bpm": 128,
+    "start_sec": 0,
+    "end_sec": 95,
+    "volume": 0.35,
+    "fade_out_s": 3
+  },
+
+  "suno": {
+    "model": "suno-v4.5",
+    "vocal_gender": "f",
+    "style_tags": "comedic spoken-word rap, Chinese Northeast dialect, half-spoken half-sung, 128 bpm, tech house beat, tongue-in-cheek, comedic timing",
+    "negative_tags": "slow ballad, sad, dramatic, rock, heavy metal, autotune, R&B, jazz, country",
+    "title": "杨梦东北话说唱-彩礼"
+  },
+
+  "lyrics": {
+    "suno_format": "[Intro]\n哎！\n姐妹们！听我说！\n拖拉机！走起！\n\n[Verse 1]\n彩礼开口吓一跳\n全掏家底还嫌少\n三代积蓄凑不齐\n没钱你说别来提\n\n闺女养大也费心\n可你不能往死拼\n男的说这是买卖\n女的说你不懂爱\n\n感情到底值多钱\n人家说别扯闲篇\n\n[Hook]\n开拖拉机！嘿！\n不收彩礼！嘿！\n东北话儿！嘿！\n彩礼啊！嘿！\n\n[Break]\n然后呢...\n你猜怎么着...\n丈母娘说话了...\n\n[Drop]\n\n[Chorus]\n要钱说是为你好\n不给就说瞎胡搞\n男方穷得响叮当\n女方要得比天狂\n\n别光伸手往回拿\n嫁妆你到底出啥\n谁也别装多有理\n到底谁占谁便宜\n\n[Verse 2]\n二狗没彩礼也欢\n要天价三天就完\n彩礼谈崩就拉倒\n谁离了谁活不了\n\n谁赚谁赔说说看\n\n[Hook]\n开拖拉机！嘿！\n不收彩礼！嘿！\n东北话儿！嘿！\n彩礼啊！嘿！\n\n[Outro]\n彩礼吵了一千年\n千年没个所以然\n拖拉机不问你要债\n不收彩礼不搞怪"
+  },
+
+  "video_generation": {
+    "model": "kling-v3-image-to-video",
+    "duration_sec": 5,
+    "quality": "720p",
+    "aspect_ratio": "9:16",
+    "sound": false
+  },
+
+  "reference_images": {
+    "candidates_per_segment": 2,
+    "negative_prompt": "airbrushed, smooth plastic skin, perfect symmetry, HDR, overprocessed, studio lighting, stock photo, 3D render, illustration, cartoon, anime, watermark, text, logo, oversaturated, mannequin, flawless, magazine cover, retouched, poreless skin, dark, moody, cinematic, film grain, static pose, stiff, frozen, blur face, distorted hands, extra fingers, missing fingers"
+  },
+
+  "segments": [
+    {
+      "id": "S01",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "energy",
+      "reference_file": "sings-dialect-rap-ep01/S01-energy.png",
+      "motion_prompt": "Tractor driving fast along a bumpy rural dirt road, hair and shirt blowing wildly in the wind, dust kicking up behind the rear wheels, body bouncing slightly from the bumps, laughing out loud with mouth open, camera tracking alongside at the same speed"
+    },
+    {
+      "id": "S02",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "joy",
+      "reference_file": "sings-dialect-rap-ep01/S02-joy.png",
+      "motion_prompt": "Tractor moving smoothly down a tree-lined country lane, wind blowing her bangs to the side, she winks playfully at the camera with a smirk, dappled sunlight flickering through tree leaves, gentle camera tracking alongside"
+    },
+    {
+      "id": "S03",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "confidence",
+      "reference_file": "sings-dialect-rap-ep01/S03-confidence.png",
+      "motion_prompt": "Tractor moving forward along a rural dirt road, she looks back over her shoulder at the camera with a proud smirk, wind gently blowing her bangs, golden sunlight casting warm shadows, camera slowly panning to follow"
+    },
+    {
+      "id": "S04",
+      "type": "drive-tractor",
+      "duration_sec": 5,
+      "emotion": "freedom",
+      "reference_file": "sings-dialect-rap-ep01/S04-freedom.png",
+      "motion_prompt": "Tractor driving along a bumpy rural dirt path, both hands on the steering wheel, hair and shirt blowing in the wind, smiling carefreely, dust kicking up from the rear wheels, open farmland and distant hills in the background, camera tracking from the side"
+    },
+    {
+      "id": "S05",
+      "type": "dance-on-tractor",
+      "duration_sec": 5,
+      "emotion": "power",
+      "reference_file": "sings-dialect-rap-ep01/S05-power.png",
+      "motion_prompt": "Woman dancing on top of the tractor hood with arms raised high, body twisting with energy, hair flying from the movement, mouth open in a joyful shout, low angle looking up at her, golden sunset light creating silhouette glow around her"
+    },
+    {
+      "id": "S06",
+      "type": "handcrank-tractor",
+      "duration_sec": 5,
+      "emotion": "effort",
+      "reference_file": "sings-dialect-rap-ep01/S06-effort.png",
+      "motion_prompt": "Woman bent forward at the front of a stationary tractor, right hand gripping a metal crank handle inserted into the engine flywheel housing, pushing it through a short diagonal arc downward, left hand braced against the tractor frame for leverage, body leaning 45 degrees into the effort, face grimacing with exertion, dust kicking up from her feet, golden afternoon light"
+    },
+    {
+      "id": "S07",
+      "type": "handcrank-tractor",
+      "duration_sec": 5,
+      "emotion": "determination",
+      "reference_file": "sings-dialect-rap-ep01/S07-determination.png",
+      "motion_prompt": "Close-up low angle of woman leaning forward in front of tractor engine, right hand pushing crank handle through a short downward arc into the flywheel housing, left hand gripping the tractor frame, fierce determined expression locked on the engine, sweat on her face, dust particles catching sunlight"
+    }
+  ],
+
+  "publishing": {
+    "title_candidates": [
+      "彩礼到底该不该要 东北话版",
+      "男女双方吵翻了 东北话说唱",
+      "彩礼吵了一千年 东北话吐槽"
+    ],
+    "tags": ["东北话", "彩礼", "搞笑", "方言说唱", "男女对立", "顺口溜"],
+    "cover_text": "彩礼到底该不该要",
+    "collection": "杨梦东北话说唱"
+  }
+}

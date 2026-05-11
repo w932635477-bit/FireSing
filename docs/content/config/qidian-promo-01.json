@@ -1,0 +1,50 @@
+{
+  "video_id": "qidian-promo-01",
+  "title": "40岁失业别急着找工作",
+  "format": "图文卡+旁白",
+  "duration_target_s": 45,
+  "global": {
+    "workflow_version": "2.0"
+  },
+  "voiceover": {
+    "engine": "gemini",
+    "voice": "Aoede"
+  },
+  "segments": [
+    {
+      "id": "S01",
+      "label": "钩子",
+      "emotion": "calmly_qidian",
+      "voiceover_text": "40岁失业？经验不会等你。",
+      "duration_target_s": 3
+    },
+    {
+      "id": "S02",
+      "label": "冲击",
+      "emotion": "calmly_qidian",
+      "voiceover_text": "干了20年，以为经验是铁饭碗。但市场不认你的工龄。只认你能不能把经验用出去。",
+      "duration_target_s": 6
+    },
+    {
+      "id": "S03",
+      "label": "主体",
+      "emotion": "simply_qidian",
+      "voiceover_text": "区别不在能力，在方法。上海有个做了20年仓储的师傅，失业后没去送外卖。他在短视频上教社区团购怎么管库存。怎么定损耗标准。别人嫌细，但这正是没人能替代他的地方。来找他咨询的人排到了下个月。",
+      "duration_target_s": 23
+    },
+    {
+      "id": "S04",
+      "label": "转折",
+      "emotion": "quietly_qidian",
+      "voiceover_text": "你可能也有这种经验。但不知道怎么把它变成别人愿意买单的东西。大部分人就卡在这一步。",
+      "duration_target_s": 7
+    },
+    {
+      "id": "S05",
+      "label": "CTA",
+      "emotion": "calmly_qidian",
+      "voiceover_text": "关注我，帮你找到经验的变现方向。评论区打方向，发你一份经验变现诊断清单。",
+      "duration_target_s": 6
+    }
+  ]
+}
