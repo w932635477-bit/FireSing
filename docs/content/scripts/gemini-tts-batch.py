@@ -287,7 +287,7 @@ EMOTION_PROMPTS = {
     "calmly_qidian": {
         "profile": NARRATOR_PROFILE_QIDIAN,
         "scene": "饭局上那个最敢说话的人，平静地把真相摆出来。",
-        "director": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。",
+        "director": "平静陈述事实，不煽情不愤怒。像在饭局上随手翻开底牌。语速适中偏快，每句话都是确认不是疑问。关键数字说完稍微停顿，让数字自己说话。保持自然换气节奏，在逗号和句号处正常呼吸，不要憋气读完一整段。像真人说话一样有呼吸间隔。",
     },
     "shock_qidian": {
         "profile": NARRATOR_PROFILE_QIDIAN,
@@ -297,7 +297,7 @@ EMOTION_PROMPTS = {
     "simply_qidian": {
         "profile": NARRATOR_PROFILE_QIDIAN,
         "scene": "一句话点破真相，态度句。",
-        "director": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。",
+        "director": "简单直接，不加修饰。这句话要说得像真理，不是观点。语速稍慢，每个字清楚。说完不要急，让这句话在空气里停一下。这句话要能截图、能当朋友圈文案。保持自然换气节奏，在逗号和句号处正常呼吸，不要憋气读完一整段。像真人说话一样有呼吸间隔。",
     },
     "confidently_qidian": {
         "profile": NARRATOR_PROFILE_QIDIAN,
@@ -307,7 +307,7 @@ EMOTION_PROMPTS = {
     "quietly_qidian": {
         "profile": NARRATOR_PROFILE_QIDIAN,
         "scene": "凑近说秘密，压低声音揭底。",
-        "director": "压低声音，像凑近说的秘密。不是神秘，是认真。每个字都清楚但比正常说话轻。说完关键信息后停顿，让听众消化。结尾自然收束。",
+        "director": "压低声音，像凑近说的秘密。不是神秘，是认真。每个字都清楚但比正常说话轻。说完关键信息后停顿，让听众消化。结尾自然收束。保持自然换气节奏，在逗号和句号处正常呼吸，不要憋气读完一整段。像真人说话一样有呼吸间隔。",
     },
 }
 
@@ -441,7 +441,7 @@ def synthesize(client: genai.Client, text_prompt: str, voice: str,
          "-ac", "1", "-b:a", "192k", str(mp3_path)],
         capture_output=True, timeout=30,
     )
-    wav_path.unlink(missing_ok=True)
+    # Keep WAV source file (don't delete)
 
     duration_s = get_audio_duration(mp3_path)
     return {"duration_s": duration_s, "file_size": mp3_path.stat().st_size}

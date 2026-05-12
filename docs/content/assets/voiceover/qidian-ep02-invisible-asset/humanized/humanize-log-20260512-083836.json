@@ -1,0 +1,310 @@
+{
+  "timestamp": "2026-05-12T08:38:41.506771",
+  "intensity": "medium",
+  "preset": {
+    "noise_db": -46,
+    "pitch_cents": 18,
+    "jitter_ms": 10,
+    "volume_db": 2.0,
+    "reverb_size": 0.1,
+    "reverb_decay": 0.2,
+    "saturation_drive": 0.3,
+    "dither_bits": 13
+  },
+  "reports": [
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S01.wav",
+      "sr": 24000,
+      "samples": 679680,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.85546875,
+          "peak_after": 0.8571473956108093
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8571473956108093,
+          "peak_after": 0.8565298914909363
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8565298914909363,
+          "peak_after": 0.8565298914909363
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8565298914909363,
+          "peak_after": 0.8698899149894714
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8698899149894714,
+          "peak_after": 0.9558585286140442
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9558585286140442,
+          "peak_after": 1.044867992401123
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.044867992401123,
+          "peak_after": 1.0483187437057495
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0483187437057495,
+          "peak_after": 1.0484063625335693
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S01.wav",
+      "output_size": 1359404
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S02.wav",
+      "sr": 24000,
+      "samples": 491520,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.672698974609375,
+          "peak_after": 0.6730461716651917
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.6730461716651917,
+          "peak_after": 0.6727296113967896
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.6727296113967896,
+          "peak_after": 0.6727296113967896
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.6727296113967896,
+          "peak_after": 0.7306804656982422
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.7306804656982422,
+          "peak_after": 0.7839066982269287
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.7839066982269287,
+          "peak_after": 0.8674750328063965
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.8674750328063965,
+          "peak_after": 0.8921926617622375
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.8921926617622375,
+          "peak_after": 0.8922709822654724
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S02.wav",
+      "output_size": 983084
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S03.wav",
+      "sr": 24000,
+      "samples": 1036800,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.716766357421875,
+          "peak_after": 0.7160727977752686
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.7160727977752686,
+          "peak_after": 0.7132061123847961
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.7132061123847961,
+          "peak_after": 0.7132061123847961
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.7132061123847961,
+          "peak_after": 0.701119601726532
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.701119601726532,
+          "peak_after": 0.7539435029029846
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.7539435029029846,
+          "peak_after": 0.8283450603485107
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.8283450603485107,
+          "peak_after": 0.8572067022323608
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.8572067022323608,
+          "peak_after": 0.8572098016738892
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S03.wav",
+      "output_size": 2073644
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S04.wav",
+      "sr": 24000,
+      "samples": 1214400,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.81231689453125,
+          "peak_after": 0.812129020690918
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.812129020690918,
+          "peak_after": 0.8088485598564148
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8088485598564148,
+          "peak_after": 0.8088485598564148
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8088485598564148,
+          "peak_after": 0.8879449367523193
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8879449367523193,
+          "peak_after": 0.9573903679847717
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9573903679847717,
+          "peak_after": 1.038739562034607
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.038739562034607,
+          "peak_after": 1.0429779291152954
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0429779291152954,
+          "peak_after": 1.042994499206543
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S04.wav",
+      "output_size": 2428844
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S05.wav",
+      "sr": 24000,
+      "samples": 274560,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.69122314453125,
+          "peak_after": 0.6904087662696838
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.6904087662696838,
+          "peak_after": 0.6843315958976746
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.6843315958976746,
+          "peak_after": 0.6843315958976746
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.6843315958976746,
+          "peak_after": 0.7534047365188599
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.7534047365188599,
+          "peak_after": 0.7647639513015747
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.7647639513015747,
+          "peak_after": 0.8528363704681396
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.8528363704681396,
+          "peak_after": 0.8791327476501465
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.8791327476501465,
+          "peak_after": 0.8792303204536438
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S05.wav",
+      "output_size": 549164
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/S06.wav",
+      "sr": 24000,
+      "samples": 352320,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.78369140625,
+          "peak_after": 0.7853619456291199
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.7853619456291199,
+          "peak_after": 0.7853084206581116
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.7853084206581116,
+          "peak_after": 0.7853084206581116
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.7853084206581116,
+          "peak_after": 0.7483026385307312
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.7483026385307312,
+          "peak_after": 0.7803940176963806
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.7803940176963806,
+          "peak_after": 0.8586764931678772
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.8586764931678772,
+          "peak_after": 0.8843469619750977
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.8843469619750977,
+          "peak_after": 0.8843082785606384
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep02-invisible-asset/humanized/S06.wav",
+      "output_size": 704684
+    }
+  ]
+}
