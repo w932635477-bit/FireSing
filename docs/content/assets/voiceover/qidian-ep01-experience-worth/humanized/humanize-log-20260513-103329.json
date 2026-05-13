@@ -1,0 +1,310 @@
+{
+  "timestamp": "2026-05-13T10:33:33.774744",
+  "intensity": "medium",
+  "preset": {
+    "noise_db": -46,
+    "pitch_cents": 18,
+    "jitter_ms": 10,
+    "volume_db": 2.0,
+    "reverb_size": 0.1,
+    "reverb_decay": 0.2,
+    "saturation_drive": 0.3,
+    "dither_bits": 13
+  },
+  "reports": [
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S01.wav",
+      "sr": 24000,
+      "samples": 652800,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.656524658203125,
+          "peak_after": 0.6564849019050598
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.6564849019050598,
+          "peak_after": 0.6563469767570496
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.6563469767570496,
+          "peak_after": 0.6563469767570496
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.6563469767570496,
+          "peak_after": 0.6658428907394409
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.6658428907394409,
+          "peak_after": 0.6907618641853333
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.6907618641853333,
+          "peak_after": 0.7639678716659546
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.7639678716659546,
+          "peak_after": 0.7990624904632568
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.7990624904632568,
+          "peak_after": 0.7991501688957214
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S01.wav",
+      "output_size": 1305644
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S02.wav",
+      "sr": 24000,
+      "samples": 577920,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.8150634765625,
+          "peak_after": 0.8159294128417969
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8159294128417969,
+          "peak_after": 0.8143805861473083
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8143805861473083,
+          "peak_after": 0.8143805861473083
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8143805861473083,
+          "peak_after": 0.9135879278182983
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9135879278182983,
+          "peak_after": 0.9397940039634705
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9397940039634705,
+          "peak_after": 1.0319052934646606
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.0319052934646606,
+          "peak_after": 1.0370182991027832
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0370182991027832,
+          "peak_after": 1.0369750261306763
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S02.wav",
+      "output_size": 1155884
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S03.wav",
+      "sr": 24000,
+      "samples": 940800,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.8582763671875,
+          "peak_after": 0.857330858707428
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.857330858707428,
+          "peak_after": 0.8563140630722046
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8563140630722046,
+          "peak_after": 0.8563140630722046
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8563140630722046,
+          "peak_after": 0.8847452402114868
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8847452402114868,
+          "peak_after": 0.9405622482299805
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9405622482299805,
+          "peak_after": 1.036329746246338
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.036329746246338,
+          "peak_after": 1.040876865386963
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.040876865386963,
+          "peak_after": 1.040912389755249
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S03.wav",
+      "output_size": 1881644
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S04.wav",
+      "sr": 24000,
+      "samples": 1025280,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.831817626953125,
+          "peak_after": 0.8316001892089844
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8316001892089844,
+          "peak_after": 0.8308126926422119
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8308126926422119,
+          "peak_after": 0.8308126926422119
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8308126926422119,
+          "peak_after": 0.9390001893043518
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9390001893043518,
+          "peak_after": 0.9430240988731384
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9430240988731384,
+          "peak_after": 1.0422444343566895
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.0422444343566895,
+          "peak_after": 1.0460326671600342
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0460326671600342,
+          "peak_after": 1.0460799932479858
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S04.wav",
+      "output_size": 2050604
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S05.wav",
+      "sr": 24000,
+      "samples": 374400,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.7734375,
+          "peak_after": 0.7741330862045288
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.7741330862045288,
+          "peak_after": 0.7736994028091431
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.7736994028091431,
+          "peak_after": 0.7736994028091431
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.7736994028091431,
+          "peak_after": 0.7502157688140869
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.7502157688140869,
+          "peak_after": 0.803549587726593
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.803549587726593,
+          "peak_after": 0.8698394894599915
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.8698394894599915,
+          "peak_after": 0.8942990899085999
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.8942990899085999,
+          "peak_after": 0.8942510485649109
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S05.wav",
+      "output_size": 748844
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/S06.wav",
+      "sr": 24000,
+      "samples": 284160,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.876556396484375,
+          "peak_after": 0.875514030456543
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.875514030456543,
+          "peak_after": 0.8731668591499329
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8731668591499329,
+          "peak_after": 0.8731668591499329
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8731668591499329,
+          "peak_after": 0.9429178237915039
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9429178237915039,
+          "peak_after": 0.9659425616264343
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9659425616264343,
+          "peak_after": 1.058454155921936
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.058454155921936,
+          "peak_after": 1.0601481199264526
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0601481199264526,
+          "peak_after": 1.0601128339767456
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep01-experience-worth/humanized/S06.wav",
+      "output_size": 568364
+    }
+  ]
+}
