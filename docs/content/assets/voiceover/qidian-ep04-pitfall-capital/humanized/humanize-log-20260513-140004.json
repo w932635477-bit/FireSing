@@ -1,0 +1,310 @@
+{
+  "timestamp": "2026-05-13T14:00:15.625688",
+  "intensity": "medium",
+  "preset": {
+    "noise_db": -46,
+    "pitch_cents": 18,
+    "jitter_ms": 10,
+    "volume_db": 2.0,
+    "reverb_size": 0.1,
+    "reverb_decay": 0.2,
+    "saturation_drive": 0.3,
+    "dither_bits": 13
+  },
+  "reports": [
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S01.wav",
+      "sr": 24000,
+      "samples": 1512960,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.836822509765625,
+          "peak_after": 0.838508665561676
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.838508665561676,
+          "peak_after": 0.836803138256073
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.836803138256073,
+          "peak_after": 0.836803138256073
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.836803138256073,
+          "peak_after": 0.9676723480224609
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9676723480224609,
+          "peak_after": 0.9741853475570679
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9741853475570679,
+          "peak_after": 1.082844614982605
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.082844614982605,
+          "peak_after": 1.0813502073287964
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0813502073287964,
+          "peak_after": 1.0813813209533691
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S01.wav",
+      "output_size": 3025964
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S02.wav",
+      "sr": 24000,
+      "samples": 1875840,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.908660888671875,
+          "peak_after": 0.9072129130363464
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.9072129130363464,
+          "peak_after": 0.9066687226295471
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.9066687226295471,
+          "peak_after": 0.9066687226295471
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.9066687226295471,
+          "peak_after": 0.9824756979942322
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9824756979942322,
+          "peak_after": 1.1026359796524048
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.1026359796524048,
+          "peak_after": 1.21131432056427
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.21131432056427,
+          "peak_after": 1.192419171333313
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.192419171333313,
+          "peak_after": 1.192439317703247
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S02.wav",
+      "output_size": 3751724
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S03.wav",
+      "sr": 24000,
+      "samples": 2108160,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.8560791015625,
+          "peak_after": 0.8562354445457458
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8562354445457458,
+          "peak_after": 0.8531129956245422
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8531129956245422,
+          "peak_after": 0.8531129956245422
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8531129956245422,
+          "peak_after": 1.0127875804901123
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 1.0127875804901123,
+          "peak_after": 1.139851450920105
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.139851450920105,
+          "peak_after": 1.2344592809677124
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.2344592809677124,
+          "peak_after": 1.2123421430587769
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.2123421430587769,
+          "peak_after": 1.2123661041259766
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S03.wav",
+      "output_size": 4216364
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S04.wav",
+      "sr": 24000,
+      "samples": 2760960,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.82440185546875,
+          "peak_after": 0.8230453729629517
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8230453729629517,
+          "peak_after": 0.8226595520973206
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8226595520973206,
+          "peak_after": 0.8226595520973206
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8226595520973206,
+          "peak_after": 0.9095178246498108
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9095178246498108,
+          "peak_after": 0.9614521265029907
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9614521265029907,
+          "peak_after": 1.0630329847335815
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.0630329847335815,
+          "peak_after": 1.064131736755371
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.064131736755371,
+          "peak_after": 1.0641742944717407
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S04.wav",
+      "output_size": 5521964
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S05.wav",
+      "sr": 24000,
+      "samples": 1469760,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.86431884765625,
+          "peak_after": 0.8636884093284607
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8636884093284607,
+          "peak_after": 0.7889661192893982
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.7889661192893982,
+          "peak_after": 0.7889661192893982
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.7889661192893982,
+          "peak_after": 0.8663182258605957
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8663182258605957,
+          "peak_after": 0.8944535255432129
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.8944535255432129,
+          "peak_after": 0.9845706224441528
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.9845706224441528,
+          "peak_after": 0.9956286549568176
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.9956286549568176,
+          "peak_after": 0.9956682920455933
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S05.wav",
+      "output_size": 2939564
+    },
+    {
+      "input": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/S06.wav",
+      "sr": 24000,
+      "samples": 327360,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.81341552734375,
+          "peak_after": 0.8156270384788513
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8156270384788513,
+          "peak_after": 0.8146450519561768
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8146450519561768,
+          "peak_after": 0.8146450519561768
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8146450519561768,
+          "peak_after": 0.8938725590705872
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8938725590705872,
+          "peak_after": 0.9735680222511292
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.9735680222511292,
+          "peak_after": 1.0711524486541748
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.0711524486541748,
+          "peak_after": 1.0711919069290161
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0711919069290161,
+          "peak_after": 1.0711696147918701
+        }
+      ],
+      "output": "/Users/weilei/FireSing/docs/content/assets/voiceover/qidian-ep04-pitfall-capital/humanized/S06.wav",
+      "output_size": 654764
+    }
+  ]
+}
