@@ -93,3 +93,5 @@ docs/content/assets/voiceover/**/*-full-*.mp3
 docs/content/assets/voiceover/**/*-subtitles-*.srt
 docs/content/assets/voiceover/**/*_notags.wav
 docs/content/assets/voiceover/**/gemini-log-*.json
+docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/*.wav
+docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/*.mp3
