@@ -1,0 +1,6 @@
+file 'S01.mp3'
+file 'S02.mp3'
+file 'S03.mp3'
+file 'S04.mp3'
+file 'S05.mp3'
+file 'S06.mp3'

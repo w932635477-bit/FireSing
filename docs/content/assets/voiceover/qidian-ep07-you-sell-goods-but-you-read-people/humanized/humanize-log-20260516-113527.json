@@ -1,0 +1,310 @@
+{
+  "timestamp": "2026-05-16T11:35:44.676065",
+  "intensity": "medium",
+  "preset": {
+    "noise_db": -46,
+    "pitch_cents": 18,
+    "jitter_ms": 10,
+    "volume_db": 2.0,
+    "reverb_size": 0.1,
+    "reverb_decay": 0.2,
+    "saturation_drive": 0.3,
+    "dither_bits": 13
+  },
+  "reports": [
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S01.wav",
+      "sr": 24000,
+      "samples": 3278400,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.892547607421875,
+          "peak_after": 0.8933886885643005
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8933886885643005,
+          "peak_after": 0.893138587474823
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.893138587474823,
+          "peak_after": 0.893138587474823
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.893138587474823,
+          "peak_after": 1.0163946151733398
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 1.0163946151733398,
+          "peak_after": 1.1038992404937744
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.1038992404937744,
+          "peak_after": 1.2151671648025513
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.2151671648025513,
+          "peak_after": 1.1957371234893799
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.1957371234893799,
+          "peak_after": 1.195793628692627
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S01.wav",
+      "output_size": 6556844
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S02.wav",
+      "sr": 24000,
+      "samples": 1728960,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.823211669921875,
+          "peak_after": 0.8234782218933105
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8234782218933105,
+          "peak_after": 0.8230283856391907
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8230283856391907,
+          "peak_after": 0.8230283856391907
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8230283856391907,
+          "peak_after": 0.9430803060531616
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9430803060531616,
+          "peak_after": 1.0581313371658325
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.0581313371658325,
+          "peak_after": 1.1788171529769897
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.1788171529769897,
+          "peak_after": 1.164406418800354
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.164406418800354,
+          "peak_after": 1.1644002199172974
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S02.wav",
+      "output_size": 3457964
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S03.wav",
+      "sr": 24000,
+      "samples": 4248960,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.999969482421875,
+          "peak_after": 1.0022114515304565
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 1.0022114515304565,
+          "peak_after": 1.001659631729126
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 1.001659631729126,
+          "peak_after": 1.001659631729126
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 1.001659631729126,
+          "peak_after": 1.1726499795913696
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 1.1726499795913696,
+          "peak_after": 1.2259159088134766
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.2259159088134766,
+          "peak_after": 1.3442597389221191
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.3442597389221191,
+          "peak_after": 1.3065966367721558
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.3065966367721558,
+          "peak_after": 1.3066293001174927
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S03.wav",
+      "output_size": 8497964
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S04.wav",
+      "sr": 24000,
+      "samples": 4767360,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.8453369140625,
+          "peak_after": 0.8445069193840027
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8445069193840027,
+          "peak_after": 0.8433409333229065
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8433409333229065,
+          "peak_after": 0.8433409333229065
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8433409333229065,
+          "peak_after": 0.9869039058685303
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.9869039058685303,
+          "peak_after": 1.1014759540557861
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 1.1014759540557861,
+          "peak_after": 1.2217352390289307
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.2217352390289307,
+          "peak_after": 1.2013921737670898
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.2013921737670898,
+          "peak_after": 1.2013808488845825
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S04.wav",
+      "output_size": 9534764
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S05.wav",
+      "sr": 24000,
+      "samples": 1296960,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.806793212890625,
+          "peak_after": 0.8079982399940491
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.8079982399940491,
+          "peak_after": 0.8057358264923096
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.8057358264923096,
+          "peak_after": 0.8057358264923096
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.8057358264923096,
+          "peak_after": 0.8865272998809814
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.8865272998809814,
+          "peak_after": 0.949130117893219
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.949130117893219,
+          "peak_after": 1.0487333536148071
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 1.0487333536148071,
+          "peak_after": 1.0516858100891113
+        },
+        {
+          "name": "dither",
+          "peak_before": 1.0516858100891113,
+          "peak_after": 1.0516570806503296
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S05.wav",
+      "output_size": 2593964
+    },
+    {
+      "input": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/S06.wav",
+      "sr": 24000,
+      "samples": 467520,
+      "steps": [
+        {
+          "name": "pink_noise",
+          "peak_before": 0.748382568359375,
+          "peak_after": 0.7468926906585693
+        },
+        {
+          "name": "pitch_drift",
+          "peak_before": 0.7468926906585693,
+          "peak_after": 0.7455421090126038
+        },
+        {
+          "name": "timing_jitter",
+          "peak_before": 0.7455421090126038,
+          "peak_after": 0.7455421090126038
+        },
+        {
+          "name": "volume_envelope",
+          "peak_before": 0.7455421090126038,
+          "peak_after": 0.7446305155754089
+        },
+        {
+          "name": "warm_eq",
+          "peak_before": 0.7446305155754089,
+          "peak_after": 0.812650740146637
+        },
+        {
+          "name": "room_reverb",
+          "peak_before": 0.812650740146637,
+          "peak_after": 0.9094100594520569
+        },
+        {
+          "name": "tape_saturation",
+          "peak_before": 0.9094100594520569,
+          "peak_after": 0.9294329285621643
+        },
+        {
+          "name": "dither",
+          "peak_before": 0.9294329285621643,
+          "peak_after": 0.9293659329414368
+        }
+      ],
+      "output": "docs/content/assets/voiceover/qidian-ep07-you-sell-goods-but-you-read-people/humanized/S06.wav",
+      "output_size": 935084
+    }
+  ]
+}
